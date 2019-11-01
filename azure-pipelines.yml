@@ -24,7 +24,7 @@ steps:
 #Copy the solution files to the build artifacts directory.
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './bin/Debug/'
+    SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Debug/'
     Contents: 'ControlPicker.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
