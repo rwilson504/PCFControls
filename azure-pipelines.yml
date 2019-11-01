@@ -10,6 +10,11 @@ pool:
   vmImage: 'vs2017-win2016'
 
 steps:
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: '/ColorPicker/'
+
 - task: MSBuild@1
   inputs:
     solution: '**/*.cdsproj'
