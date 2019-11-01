@@ -10,11 +10,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.cdsproj'
+    msbuildArguments: '/t:build /restore'
 #- task: NodeTool@0
 #  inputs:
 #    versionSpec: '10.x'
 #  displayName: 'Install Node.js'
+
+
 
 #- task: Npm@1
 #  workingDir: /ColorPicker/
