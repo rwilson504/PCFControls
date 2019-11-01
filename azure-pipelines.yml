@@ -1,6 +1,4 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
+# Build the ColorPicker project utilizing npm and MSBuild
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
@@ -10,16 +8,29 @@ pool:
   vmImage: 'vs2017-win2016'
 
 steps:
+#Run npm install to get all required resources for the projectl
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: './ColorPicker/'
 
+#PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
+#The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
   inputs:
     solution: '**/*.cdsproj'
     msbuildArguments: '/t:build /restore'
 
+#Copy the solution files to the build artifacts directory.
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './bin/Debug/'
+    Contents: 'ControlPicker.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-
-
+#Publish the build artifacts.
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
