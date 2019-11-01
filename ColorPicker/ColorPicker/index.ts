@@ -41,6 +41,10 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 		this._defaultColor = context.parameters.defaultColor.raw || "#ffffff"
 		this._value = context.parameters.inputValue.raw || this._defaultColor;
 
+		if (!context.parameters.inputValue.raw){
+			this.colorOnChange(this._value);
+		}
+
 		this.props = {
 			inputValue : this._value,
 			onColorChange: this.colorOnChange.bind(this)			

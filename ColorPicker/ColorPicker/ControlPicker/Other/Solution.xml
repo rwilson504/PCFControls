@@ -8,7 +8,7 @@
       <LocalizedName description="ControlPicker" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.15</Version>
+    <Version>1.0.17</Version>
     <!-- Solution Package Type: Unmanaged(0)/Managed(1)/Both(2)-->
     <Managed>2</Managed>
     <Publisher>
