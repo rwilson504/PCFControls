@@ -1,0 +1,78 @@
+.booleanOptionset {
+    background: transparent;
+    border-style: none;
+    color: #000000;
+    font-size: 1.0rem;
+    font-weight: 600;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    outline: 0 !important;
+}
+
+.booleanOptionset:focus {
+    background: transparent;
+    color: #000000;
+    font-size: 1.0rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    outline: 0 !important;
+}
+
+.booleanOptionset:hover:disabled{
+    background-color: #e2e2e2;
+    border: #e2e2e2 1px solid;
+}
+
+.select-wrapper:focus-within,
+.select-wrapper:hover:not([disabled]){
+    position: relative;    
+    background-color: #ffffff;
+    border: #666 1px solid;
+}
+
+.select-wrapper:focus-within:after{    
+    border-left: 1px solid #000;
+    /*left line */
+}
+
+.select-wrapper:hover:not([disabled]):after{
+    content: '\E70D';
+    /* font: 2em "Consolas", monospace; */
+    /* font: normal normal 600 normal 14px / 35px SegoeUI, "Segoe UI"; */
+    font-size: 14px;
+    font-family: 'Dyn CRM Symbol';
+    color: #666;
+    right: 5px;
+    /*Adjust for position however you want*/
+    
+    top: 10px;
+    padding: 0 0 0 4px;
+
+    position: absolute;
+    pointer-events: none;
+}
+
+.select-wrapper {
+    position: relative;
+    background-color: #ffffff;
+}
+
+select::-ms-expand {
+    display: none;
+}
