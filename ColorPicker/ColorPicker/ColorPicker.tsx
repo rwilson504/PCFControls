@@ -8,7 +8,9 @@ import { Stack, IStackTokens } from 'office-ui-fabric-react/lib/Stack';
 import { getTheme, ITheme, IStyle } from "@uifabric/styling";
 
 export interface IColorPickerCompProps {
-    inputValue: string,    
+    inputValue: string,
+    isDisabled: boolean,
+    isVisible: boolean,
     onColorChange: (color: string) => void,
 }
 
@@ -34,6 +36,8 @@ export class ColorPickerComp extends React.Component<IColorPickerCompProps, ICol
         //sets the initial state of the component
         this.state = {
             inputValue: props.inputValue,
+            isDisabled: props.isDisabled,
+            isVisible: props.isVisible,
             onColorChange: props.onColorChange,
             displayColorPicker: false,            
             colorPickerButtonRef: React.createRef()
@@ -60,14 +64,18 @@ export class ColorPickerComp extends React.Component<IColorPickerCompProps, ICol
         //css styles for the color picker button
         const colorButtonStyles: IButtonStyles = {            
             root: colorButtonStyle,
-            rootHovered: colorButtonStyle
+            rootHovered: colorButtonStyle,
+            rootDisabled: colorButtonStyle
         };
 
-        return (
-            <div>            
+        return(
+            <div style={{display: this.props.isVisible ? 'inherit' : 'none'}}>            
             <Stack horizontal tokens={stackTokens}>                                      
                         <div ref={this.state.colorPickerButtonRef} style={colorButtonContainerSytles}>
-                            <DefaultButton ariaDescription="Select Color" styles={colorButtonStyles} onClick={this._onShowColorPickerClicked}/>
+                            <DefaultButton ariaDescription="Select Color" 
+                            styles={colorButtonStyles} 
+                            onClick={this._onShowColorPickerClicked}
+                            disabled={this.props.isDisabled}/>
                         </div>
                         <Callout
                             gapSpace={0}

@@ -47,9 +47,11 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 
 		this.props = {
 			inputValue : this._value,
+			isDisabled : this._context.mode.isControlDisabled,
+			isVisible : this._context.mode.isVisible,
 			onColorChange: this.colorOnChange.bind(this)			
 		}					
-	}
+	}	
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -58,7 +60,8 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{		
 		this.props.inputValue = this._value;
-		
+		this.props.isDisabled = this._context.mode.isControlDisabled;
+		this.props.isVisible = this._context.mode.isVisible,
 		ReactDOM.render(
 			React.createElement(
 				ColorPickerComp, this.props
@@ -92,4 +95,13 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 		// clean up the react control
 		ReactDOM.unmountComponentAtNode(this._container);
 	}
+
+	// getProps(): boolean
+	// {
+	// 	this.props
+	// 	if (this._context.parameters.inputValue.security) {
+	// 		readOnly = readOnly || !this._context.parameters.picklistField.security.editable;
+	// 		masked = !this._context.parameters.picklistField.security.readable;
+	// 	  }
+	// }
 }
