@@ -21,6 +21,11 @@ steps:
     command: 'install'
     workingDir: './BooleanOptionset/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './BingMapsGrid/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -39,6 +44,12 @@ steps:
   inputs:
     SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Debug/'
     Contents: 'BooleanOptionsetControl.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
+    Contents: 'BingMapsGrid.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
