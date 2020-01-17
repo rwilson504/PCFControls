@@ -46,7 +46,13 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._context = context;
 		this._container = container;
 		
-		this._loadingSpinner = new Spinner({length: 0, color: '#004080',radius: 30, scale: 1.5}).spin(this._container);
+		this._loadingSpinner = new Spinner({
+			length: 0, 
+			color: '#004080',
+			radius: 30, 
+			scale: 1.5,
+			className: 'bing-maps-spinner'
+		}).spin(this._container);
 
 		this.addBingMapsScriptToHeader(this._context);
 		

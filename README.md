@@ -9,6 +9,14 @@ Reusable PowerApps Control Framework (PCF) controls.
 This color picker control utilizes React and the Office-UI-Fabric controls.
 ![Color Picker Control](https://1.bp.blogspot.com/-DRZqFJPS1e8/XbtAv9zhLZI/AAAAAAABN1Y/Qt5eoWhmTBcW3tplwsLL2plE1bAOmQDGwCLcBGAsYHQ/s1600/PCFColorPicker.gif)
 
+## Bing Maps Control
+Connect to bing maps and display information from a Dynamics View.
+
+![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bing-maps-control.gif?raw=true)
+
+## Boolean Optionset
+Allows you to utilize a drop down for Boolean fields on the Business Process Flow forms.
+
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Control Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
 
