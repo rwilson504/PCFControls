@@ -7,12 +7,19 @@ trigger:
 pool:
   vmImage: 'vs2017-win2016'
 
+#COLOR PICKER
+
 steps:
 #Run npm install to get all required resources for the projectl
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: './ColorPicker/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './BooleanOptionset/'
 
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
@@ -26,6 +33,12 @@ steps:
   inputs:
     SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Debug/'
     Contents: 'ControlPicker.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Debug/'
+    Contents: 'BooleanOptionsetControl.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
