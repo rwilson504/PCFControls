@@ -1,5 +1,6 @@
 # Build the ColorPicker project utilizing npm and MSBuild
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+name: $(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionPatch).$(BuildVersionRevision)
 
 trigger:
 - master
@@ -76,6 +77,7 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(BuildVersionMajor).(BuildVersionMinor).(BuildVersionPatch).(BuildVersionRevision)'
+    tag: '$(Build.BuildNumber)'
+    title: '$(Build.BuildNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
