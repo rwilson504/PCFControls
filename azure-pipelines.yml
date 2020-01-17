@@ -4,6 +4,15 @@
 trigger:
 - master
 
+variables:
+  #BUILD VERSION INFORMATION
+  BuildVersionMajor: 1
+  BuildVersionMinor: 1
+  BuildVersionPatch: 0
+  #sets a counter for the version number changing the Major or Minor version will reset this counter
+  #back to it's seed value  
+  BuildVersionRevision: $[counter(format('{0}.{1}.{2}', variables['BuildVersionMajor'], variables['BuildVersionMinor'],variables['BuildVersionPatch']), 1)]
+
 pool:
   vmImage: 'vs2017-win2016'
 
@@ -67,5 +76,6 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
+    tagPattern: 'v$(BuildVersionMajor).(BuildVersionMinor).(BuildVersionPatch).(BuildVersionRevision)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
