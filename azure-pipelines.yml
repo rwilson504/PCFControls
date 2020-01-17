@@ -58,3 +58,14 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+#GitHub Release
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_rwilson504'
+    repositoryName: 'rwilson504/PCFControls'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
