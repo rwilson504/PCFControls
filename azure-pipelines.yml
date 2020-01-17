@@ -58,7 +58,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
-    Contents: 'BingMapsGrid.zip'
+    Contents: 'BingMapsGridControl.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
@@ -75,7 +75,7 @@ steps:
     repositoryName: 'rwilson504/PCFControls'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
-    tagPattern: 'v$(BuildVersionMajor).(BuildVersionMinor).(BuildVersionPatch).(BuildVersionRevision)'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(BuildVersionMajor).(BuildVersionMinor).(BuildVersionPatch).(BuildVersionRevision)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
