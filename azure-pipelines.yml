@@ -1,8 +1,18 @@
 # Build the ColorPicker project utilizing npm and MSBuild
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+name: $(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionPatch).$(BuildVersionRevision)
 
 trigger:
 - master
+
+variables:
+  #BUILD VERSION INFORMATION
+  BuildVersionMajor: 1
+  BuildVersionMinor: 1
+  BuildVersionPatch: 0
+  #sets a counter for the version number changing the Major or Minor version will reset this counter
+  #back to it's seed value  
+  BuildVersionRevision: $[counter(format('{0}.{1}.{2}', variables['BuildVersionMajor'], variables['BuildVersionMinor'],variables['BuildVersionPatch']), 1)]
 
 pool:
   vmImage: 'vs2017-win2016'
@@ -20,6 +30,11 @@ steps:
   inputs:
     command: 'install'
     workingDir: './BooleanOptionset/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './BingMapsGrid/'
 
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
@@ -41,9 +56,28 @@ steps:
     Contents: 'BooleanOptionsetControl.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
+    Contents: 'BingMapsGridControl.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 #Publish the build artifacts.
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+#GitHub Release
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_rwilson504'
+    repositoryName: 'rwilson504/PCFControls'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'userSpecifiedTag'
+    tag: '$(Build.BuildNumber)'
+    title: '$(Build.BuildNumber)'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
