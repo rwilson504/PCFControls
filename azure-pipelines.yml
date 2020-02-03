@@ -36,6 +36,11 @@ steps:
     command: 'install'
     workingDir: './BingMapsGrid/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './DetailListGrid/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -47,19 +52,25 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Debug/'
-    Contents: 'ControlPicker.zip'
+    Contents: 'ControlPicker_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Debug/'
-    Contents: 'BooleanOptionsetControl.zip'
+    Contents: 'BooleanOptionsetControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
-    Contents: 'BingMapsGridControl.zip'
+    Contents: 'BingMapsGridControl_managed.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Debug/'
+    Contents: 'DetailListGridControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.

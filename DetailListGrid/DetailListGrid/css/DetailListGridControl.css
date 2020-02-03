@@ -1,0 +1,38 @@
+#detailList {
+    max-height: 100%;
+    overflow: auto;
+}
+
+/* #detailList .ms-Viewport, 
+#detailList .ms-DetailsList,
+#detailList .ms-DetailsList-contentWrapper,
+#detailList .ms-DetailsList.list,
+#detailList .ms-DetailsList.list > div:first-child {
+    height: 100%;
+} */
+
+#detailList .ms-DetailsHeader {
+    padding-top: 0px;
+}
+
+#detailList .ms-DetailsHeader-cellName {
+    color: #6E6F77;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+#detailList .detailList-cell {
+    font-size: 15px;
+    color: #333;
+}
+
+.detailList-footer {
+    display: inline-block;
+    padding: 10px;
+}
+
+.detailList-gridLabels {
+      color: #6E6F77;
+      font-size: 12px;
+      font-weight: normal;
+}
