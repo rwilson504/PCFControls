@@ -85,7 +85,11 @@ export class ColorPickerComp extends React.Component<IColorPickerCompProps, ICol
                             hidden={!this.state.displayColorPicker}
                             directionalHint={DirectionalHint.rightCenter}
                             >
-                            <ColorPicker color={this.state.inputValue} onChange={this._onChangeColorPicker} />
+                            <ColorPicker 
+                            color={this.state.inputValue} 
+                            onChange={this._onChangeColorPicker} 
+                            alphaSliderHidden={true}                            
+                            />
                         </Callout>             
                         <TextField disabled value={`${this.state.inputValue}`}  />
                 </Stack>
