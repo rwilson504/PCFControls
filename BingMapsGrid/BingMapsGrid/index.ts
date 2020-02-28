@@ -3,6 +3,7 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {Spinner} from 'spin.js'
+import { isNumber, isString } from "util";
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -65,7 +66,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	public initMap(){
 		this._bMapPushpinDefaultColor = this._context.parameters.defaultPushpinColor.raw || ""
 		this._bMapOptions = {			
-			zoom: 10,			
+			zoom: 0,			
 			center: new Microsoft.Maps.Location(0,0),
 			mapTypeId: Microsoft.Maps.MapTypeId.aerial			
 		};
@@ -146,8 +147,10 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			
 			var lat = record.getValue(keys.lat);
 			var long = record.getValue(keys.long);
-			//if no lat or long information continue to the next record.
-			if (!lat || !long) continue;
+
+			//if incorrect lat or long values are in the data then continue;
+			if (!this.checkLatitude(lat) || !this.checkLongitude(long)) continue;
+
 			var pushpinLatLong = new Microsoft.Maps.Location(lat, long);
 			locationResults.push(pushpinLatLong);
 
@@ -253,6 +256,26 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		var linkedFieldParts = fieldName.split('.');
 		linkedFieldParts[0] = dataSet.linking.getLinkedEntities().find(e => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
 		return linkedFieldParts.join('.');
+	}
+
+	private checkLatitude(lat: any): boolean 
+	{
+		//check for null or undefined
+		if (!lat) return false;
+		
+		lat = isNumber(lat) ? lat.toString() : lat;
+		let latExpression: RegExp = /^\-?([0-8]?[0-9](\.\d+)?|90(.[0]+))$/;
+		return latExpression.test(lat);		
+	}
+
+	private checkLongitude(long: any): boolean
+	{
+		//check for null or undefined
+		if (!long) return false;
+		
+		long = isNumber(long) ? long.toString() : long;
+		let longExpression: RegExp = /^\-?([1]?[0-7]?[0-9](\.\d+)?|180((.[0]+)?))$/;	
+		return longExpression.test(long);		
 	}
 
 	/** 
