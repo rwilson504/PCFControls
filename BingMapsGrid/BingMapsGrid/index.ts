@@ -12,12 +12,14 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	//contains all the elements for the control
 	private _container: HTMLDivElement;
 	private _mapDiv: HTMLDivElement;
+	private _mapInfoDiv: HTMLDivElement;
 
 	//map parameters
 	private _bMap: Microsoft.Maps.Map;
 	private _bMapOptions: Microsoft.Maps.IViewOptions;
 	private _bMapPushpinDefaultColor: string;
 	private _bMapInfoBox: Microsoft.Maps.Infobox;
+	private _bMapInfoBoxInvalidRecords: Microsoft.Maps.Infobox; 
 	private _loadingSpinner: Spinner;
 
 	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
@@ -57,10 +59,17 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		this.addBingMapsScriptToHeader(this._context);
 		
-		// window.setTimeout(() => {}, 1000);
+		let mainDiv = document.createElement("div");
+		mainDiv.setAttribute("id", "mainDiv");
+
 		this._mapDiv = document.createElement("div");
-        this._mapDiv.setAttribute("id", "mapDiv");        
-		this._container.appendChild(this._mapDiv);
+		this._mapDiv.setAttribute("id", "mapDiv");
+		this._mapInfoDiv = document.createElement("div");
+		this._mapInfoDiv.setAttribute("id", "mapInfoDiv");
+		mainDiv.appendChild(this._mapDiv);
+		mainDiv.appendChild(this._mapInfoDiv);
+
+		this._container.appendChild(mainDiv);
 	}
 
 	public initMap(){
@@ -73,7 +82,9 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		
 		this._bMap = new Microsoft.Maps.Map(this._mapDiv, this._bMapOptions);
 		this._bMapInfoBox = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {visible: false});
-		this._bMapInfoBox.setMap(this._bMap);	
+		this._bMapInfoBoxInvalidRecords = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {title: 'Invalid Locations', visible: false, showPointer: true});
+		this._bMapInfoBox.setMap(this._bMap);
+		this._bMapInfoBoxInvalidRecords.setMap(this._bMap);	
 	}
 
 	public addBingMapsScriptToHeader(context: any): void {
@@ -139,27 +150,35 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		
 		//store location results so that we can utilize them later to get the bounding box for the map
 		let locationResults : Microsoft.Maps.Location[] = [];
+		let totalRecordCount = dataSet.sortedRecordIds.length;
+		let invalidRecords: string[] = [];
 
 		//loop through all the records to create the pushpins
-		for (let i = 0; i < dataSet.sortedRecordIds.length; i++) {
+		for (let i = 0; i < totalRecordCount; i++) {
 			var recordId = dataSet.sortedRecordIds[i];
 			var record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
 			
 			var lat = record.getValue(keys.lat);
 			var long = record.getValue(keys.long);
+			var name = record.getValue(keys.name);
 
 			//if incorrect lat or long values are in the data then continue;
-			if (!this.checkLatitude(lat) || !this.checkLongitude(long)) continue;
+			if (!this.checkLatitude(lat) || !this.checkLongitude(long)) 
+			{ 	
+				//add the invalid/empty record to a string array so we can show it in an info box.		
+				invalidRecords.push(`Name: ${name}, Lat: ${lat ? lat.toString() : ''}, Long: ${long ? long.toString() : ''}`);
+				continue;
+			}
 
 			var pushpinLatLong = new Microsoft.Maps.Location(lat, long);
 			locationResults.push(pushpinLatLong);
 
 			//create new pushpin
-			var pushPin = new Microsoft.Maps.Pushpin(pushpinLatLong, {title: record.getValue(keys.name).toString()});
+			var pushPin = new Microsoft.Maps.Pushpin(pushpinLatLong, {title: name.toString()});
 			
 			//set metadata for push pin
 			pushPin.metadata = {
-				title: record.getValue(keys.name),
+				title: name,
 				description: keys.description && record.getValue(keys.description) ? record.getValue(keys.description) : "",
 				entityId: recordId, 
 				entityName: dataSet.getTargetEntityType()
@@ -181,8 +200,16 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		}
 		
 		//generate the bounding box for the map to allow user to quickly see the area in which the pins are located.
-		this.generateBoundingBox(locationResults);
-
+		this.generateBoundingBox(locationResults);		
+		
+		//set the invalid record info box description with the list of our invalid records.
+		this._bMapInfoBoxInvalidRecords.setOptions({description: invalidRecords.join('<br />')});
+		
+		//add record information to the footer
+		this._mapInfoDiv.innerHTML = `Total Records (${totalRecordCount.toString()}) Valid Locations (${locationResults.length.toString()}) Invalid/Empty Locations (<span title="Click to View Invalid/Empty record data." id="invalidSpan">${invalidRecords.length.toString()}</span>)`;
+		document.getElementById('invalidSpan')?.addEventListener("click", this.showInvalidRecordInfoBox.bind(this));
+		
+		//stop the loading spinner
 		this._loadingSpinner.stop();
 	}
 
@@ -264,7 +291,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!lat) return false;
 		
 		lat = isNumber(lat) ? lat.toString() : lat;
-		let latExpression: RegExp = /^\-?([0-8]?[0-9](\.\d+)?|90(.[0]+))$/;
+		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/;
 		return latExpression.test(lat);		
 	}
 
@@ -274,8 +301,19 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!long) return false;
 		
 		long = isNumber(long) ? long.toString() : long;
-		let longExpression: RegExp = /^\-?([1]?[0-7]?[0-9](\.\d+)?|180((.[0]+)?))$/;	
+		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/;
 		return longExpression.test(long);		
+	}
+
+	public showInvalidRecordInfoBox(e: Event): void {
+		let boundingBox = this._bMap.getBounds();
+
+		let infoboxOptions: Microsoft.Maps.IInfoboxOptions = {visible: true, 
+			location: new Microsoft.Maps.Location(boundingBox.getSouth(), this._bMap.getCenter().longitude),
+			maxHeight: this._bMap.getHeight() - 20,
+			maxWidth: this._bMap.getWidth() - 20};
+
+		this._bMapInfoBoxInvalidRecords.setOptions(infoboxOptions);
 	}
 
 	/** 
