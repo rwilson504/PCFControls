@@ -9,7 +9,7 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@types/node": "^10.12.18",
+    "@types/node": "^10.17.17",
     "@types/powerapps-component-framework": "^1.2.0",
     "spin.js": "^4.1.0"
   },

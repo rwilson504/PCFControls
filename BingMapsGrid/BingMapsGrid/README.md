@@ -9,6 +9,7 @@ A PCF Control that allows you to display view information containing latitude an
 # Additional Features
 * Map will default to a bounding box defined by the location data being shown.
 * Will work with dataset that are 5k+ in size.
+* Info bar with Record Count and List of Invalid/Empty Location
 
 # Configuration Options
 

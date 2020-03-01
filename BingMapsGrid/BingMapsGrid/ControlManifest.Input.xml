@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.53" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard">
+  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.80" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard" preview-image="preview.png">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="mapDataSet" display-name-key="Map Data Set">
     </data-set>
