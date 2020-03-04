@@ -291,7 +291,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!lat) return false;
 		
 		lat = isNumber(lat) ? lat.toString() : lat;
-		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/;
+		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 		return latExpression.test(lat);		
 	}
 
@@ -301,7 +301,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!long) return false;
 		
 		long = isNumber(long) ? long.toString() : long;
-		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/;
+		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 		return longExpression.test(long);		
 	}
 
