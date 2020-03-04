@@ -5,6 +5,8 @@ name: $(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionPatch).$(BuildVers
 trigger:
 - master
 
+pr: none
+
 variables:
   #BUILD VERSION INFORMATION
   BuildVersionMajor: 1
