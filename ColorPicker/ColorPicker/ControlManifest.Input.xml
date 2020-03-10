@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.ColorPicker" constructor="ColorPicker" version="0.0.60" display-name-key="Color Picker" description-key="Color Picker control using React" control-type="standard">
+  <control namespace="RAW.ColorPicker" constructor="ColorPicker" version="0.0.73" display-name-key="Color Picker" description-key="Color Picker control using React" control-type="standard" preview-image="preview.png">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="inputValue" display-name-key="Input Text" description-key="Select the input text for the control" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="defaultColor" display-name-key="Default Color" description-key="Default color for the picker, must be in hex format (eg: #ffffff)." of-type="SingleLine.Text" usage="input" required="true" default-value="#ffffff" />

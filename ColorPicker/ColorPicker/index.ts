@@ -6,8 +6,8 @@ import {IColorPickerCompProps, ColorPickerComp} from './ColorPicker';
 export class ColorPicker implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	// Value of the field is stored and used inside the control 
 	private _value: string;	
-	// Value for the default color;
-	private _defaultColor: string;
+	// Value the field is initially set to, use default value if not set
+	//private _initialValue: string;
 	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
 	private _notifyOutputChanged: () => void;
 	// Reference to ComponentFramework Context object
@@ -38,17 +38,17 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._context = context;
 		this._container = container;
-		this._defaultColor = context.parameters.defaultColor.raw || "#ffffff"
-		this._value = context.parameters.inputValue.raw || this._defaultColor;
+		const defaultColor = context.parameters?.defaultColor?.raw || "#ffffff"
+		this._value = context.parameters?.inputValue?.raw || defaultColor;
+		//this._initialValue = this._value;
 
 		if (!context.parameters.inputValue.raw){
 			this.colorOnChange(this._value);
 		}
 
 		this.props = {
-			inputValue : this._value,
-			isDisabled : this._context.mode.isControlDisabled,
-			isVisible : this._context.mode.isVisible,
+			pcfContext: context,
+			initialColorValue: this._value,			
 			onColorChange: this.colorOnChange.bind(this)			
 		}					
 	}	
@@ -59,9 +59,10 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{		
-		this.props.inputValue = this._value;
-		this.props.isDisabled = this._context.mode.isControlDisabled;
-		this.props.isVisible = this._context.mode.isVisible,
+		//this.props.inputValue = this._value;
+		// this.props.inputValue = this._context.parameters?.inputValue?.raw || this._defaultColor;
+		// this.props.isDisabled = this._context.mode.isControlDisabled;
+		// this.props.isVisible = this._context.mode.isVisible,
 		ReactDOM.render(
 			React.createElement(
 				ColorPickerComp, this.props
@@ -94,14 +95,5 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 	{
 		// clean up the react control
 		ReactDOM.unmountComponentAtNode(this._container);
-	}
-
-	// getProps(): boolean
-	// {
-	// 	this.props
-	// 	if (this._context.parameters.inputValue.security) {
-	// 		readOnly = readOnly || !this._context.parameters.picklistField.security.editable;
-	// 		masked = !this._context.parameters.picklistField.security.readable;
-	// 	  }
-	// }
+	}	
 }
