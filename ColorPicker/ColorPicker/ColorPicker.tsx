@@ -1,4 +1,5 @@
 import * as React from "react";
+import {IInputs} from "./generated/ManifestTypes";
 import { TextField} from "office-ui-fabric-react/lib/TextField";
 import { ColorPicker } from "office-ui-fabric-react/lib/ColorPicker";
 import { Callout, DirectionalHint } from "office-ui-fabric-react/lib/Callout";
@@ -8,116 +9,108 @@ import { Stack, IStackTokens } from 'office-ui-fabric-react/lib/Stack';
 import { getTheme, ITheme, IStyle } from "@uifabric/styling";
 
 export interface IColorPickerCompProps {
-    inputValue: string,
-    isDisabled: boolean,
-    isVisible: boolean,
+    pcfContext: ComponentFramework.Context<IInputs>,
+    initialColorValue: string,
     onColorChange: (color: string) => void,
 }
 
-export interface IColorPickerCompState extends React.ComponentState, IColorPickerCompProps{
-    //for properties that do not need to be passed from the PCF control to the React control
-    //put them in the State as apposed to the Props
-    displayColorPicker: boolean,
-    colorPickerButtonRef: React.RefObject<HTMLDivElement>
-}
+export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {      
+    const [colorValue, setColorValue] = React.useState(props.initialColorValue);
+    const [colorPickerIsHidden, setColorPickerIsHidden] = React.useState(true);
+    const [controlIsVisible, setControlIsVisible] = React.useState(props.pcfContext.mode.isVisible)
+    const [controlIsDisabled, setControlIsDisabled] = React.useState(props.pcfContext.mode.isControlDisabled)
+    const [theme, setTheme] = React.useState(getTheme);
 
-//sytle for out Stack
-const stackTokens: IStackTokens = { 
-    childrenGap: 10, 
-    padding: 5 };
+    const colorPickerButtonRef = React.useRef(null);
 
-//get the theme so we can use it later to style non Office-UI content
-const theme: ITheme = getTheme();
+    React.useEffect(() => {
+        props.onColorChange(colorValue || props.initialColorValue);
+    }, [colorValue]);
 
-export class ColorPickerComp extends React.Component<IColorPickerCompProps, IColorPickerCompState>{
-    constructor(props: IColorPickerCompProps){
-        super(props);
+    React.useEffect(() => {
+        setColorValue(props.pcfContext.parameters?.inputValue?.raw || '')
+    }, [props.pcfContext.parameters.inputValue.raw]);
 
-        //sets the initial state of the component
-        this.state = {
-            inputValue: props.inputValue,
-            isDisabled: props.isDisabled,
-            isVisible: props.isVisible,
-            onColorChange: props.onColorChange,
-            displayColorPicker: false,            
-            colorPickerButtonRef: React.createRef()
-        };          
-    }    
+    React.useEffect(() => {
+        setControlIsDisabled(props.pcfContext.mode.isControlDisabled)
+    },[props.pcfContext.mode.isControlDisabled]);
 
-    public render(): JSX.Element {
-        //css for the color picker button container
-        const colorButtonContainerSytles: React.CSSProperties = {
-            border: `1px solid ${theme.semanticColors.inputBorder}`,
-            padding: '4px'
-        }
-        
-        //css style for the color button picker
-        const colorButtonStyle: IStyle = {
-            borderWidth: '1px', 
-            borderColor: theme.semanticColors.inputBorder, 
-            backgroundColor: this.state.inputValue,                
-            minWidth: 40,
-            minHeight: 22,
-            height: 22
-        }
+    React.useEffect(() => {
+        setControlIsVisible(props.pcfContext.mode.isVisible)
+    },[props.pcfContext.mode.isVisible]);
 
-        //css styles for the color picker button
-        const colorButtonStyles: IButtonStyles = {            
-            root: colorButtonStyle,
-            rootHovered: colorButtonStyle,
-            rootDisabled: colorButtonStyle
-        };
+    //sytle for out Stack
+    const stackTokens: IStackTokens = { 
+        childrenGap: 10, 
+        padding: 5 
+    };
 
-        return(
-            <div style={{display: this.props.isVisible ? 'inherit' : 'none'}}>            
-            <Stack horizontal tokens={stackTokens}>                                      
-                        <div ref={this.state.colorPickerButtonRef} style={colorButtonContainerSytles}>
-                            <DefaultButton ariaDescription="Select Color" 
-                            styles={colorButtonStyles} 
-                            onClick={this._onShowColorPickerClicked}
-                            disabled={this.props.isDisabled}/>
-                        </div>
-                        <Callout
-                            gapSpace={0}
-                            target={this.state.colorPickerButtonRef.current}
-                            onDismiss={this._onShowColorPickerClosed}
-                            setInitialFocus={true}
-                            hidden={!this.state.displayColorPicker}
-                            directionalHint={DirectionalHint.rightCenter}
-                            >
-                            <ColorPicker 
-                            color={this.state.inputValue} 
-                            onChange={this._onChangeColorPicker} 
-                            alphaSliderHidden={true}                            
-                            />
-                        </Callout>             
-                        <TextField disabled value={`${this.state.inputValue}`}  />
-                </Stack>
-            </div>
-        );
+    // //get the theme so we can use it later to style non Office-UI content
+    // const theme: ITheme = React.useMemo(getTheme, []);
+
+    const colorButtonContainerSytles: React.CSSProperties = {
+        border: `1px solid ${theme.semanticColors.inputBorder}`,
+        padding: '4px'
     }
     
+    //css style for the color button picker
+    const colorButtonStyle: IStyle = {
+        borderWidth: '1px', 
+        borderColor: theme.semanticColors.inputBorder, 
+        backgroundColor: colorValue,                
+        minWidth: 40,
+        minHeight: 22,
+        height: 22
+    }
+
+    //css styles for the color picker button
+    const colorButtonStyles: IButtonStyles = {            
+        root: colorButtonStyle,
+        rootHovered: colorButtonStyle,
+        rootDisabled: colorButtonStyle
+    };
+
     //called when the color picker button is clicked
-    private _onShowColorPickerClicked = () => {
-        this.setState({
-            displayColorPicker: !this.state.displayColorPicker
-        });
-      };
+    const _onShowColorPickerClicked = () => {
+        setColorPickerIsHidden(!colorPickerIsHidden);        
+    };
 
     //called when the color picker callout is closed
-    private _onShowColorPickerClosed = () => {
-       this.setState({
-           displayColorPicker: false,
-       });
-     };
+    const _onShowColorPickerClosed = () => {
+        setColorPickerIsHidden(true);       
+    };
 
     //called when the color in the color picker has changed
-    private _onChangeColorPicker = (ev: React.SyntheticEvent<HTMLElement>, colorObj: IColor) => {       
+    const _onChangeColorPicker = (ev: React.SyntheticEvent<HTMLElement>, colorObj: IColor) => {       
         let fullHexColor = `#${colorObj.hex}`;
-       this.setState({ inputValue: fullHexColor },
-                  () => {
-                      //call back to our function in the PCF ts file to update the value in the props there.
-                      this.props.onColorChange(fullHexColor);
-                  });  
-     };       
+        setColorValue(fullHexColor);
+    }
+
+    return(
+        <div style={{display: controlIsVisible ? 'inherit' : 'none'}}>            
+        <Stack horizontal tokens={stackTokens}>                                      
+                    <div ref={colorPickerButtonRef} style={colorButtonContainerSytles}>
+                        <DefaultButton ariaDescription="Select Color" 
+                        styles={colorButtonStyles} 
+                        onClick={_onShowColorPickerClicked}
+                        disabled={controlIsDisabled}/>
+                    </div>
+                    <Callout
+                        gapSpace={0}
+                        target={colorPickerButtonRef}
+                        onDismiss={_onShowColorPickerClosed}
+                        setInitialFocus={true}
+                        hidden={colorPickerIsHidden}
+                        directionalHint={DirectionalHint.rightCenter}
+                        >
+                        <ColorPicker 
+                        color={colorValue} 
+                        onChange={_onChangeColorPicker} 
+                        alphaSliderHidden={true}                            
+                        />
+                    </Callout>             
+                    <TextField disabled value={`${colorValue}`}  />
+            </Stack>
+        </div>
+    );   
 }
