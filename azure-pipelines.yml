@@ -41,6 +41,11 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
+    workingDir: './AzureMapsGrid/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
     workingDir: './DetailListGrid/'
 
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
@@ -67,6 +72,12 @@ steps:
   inputs:
     SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
     Contents: 'BingMapsGridControl_managed.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Debug/'
+    Contents: 'AzureMapsGridControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2

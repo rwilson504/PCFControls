@@ -1,0 +1,84 @@
+#mainDiv {
+  height: 100%;
+}
+
+#mapDiv {
+    position:relative;
+    width:100%;
+    height:calc(100% - 25px);
+    border-style: solid;
+    margin:auto;    
+    z-index:0; /* z-index of 0 will ensure that our map controls dont overlap the dyanmics drop downs. */
+}
+
+#mapInfoDiv {
+  height: 25px;
+  position: relative;  
+  bottom: 0;
+  margin-top: 5px;
+  margin-left: 10px;
+  color: #333333;
+  font-size: 12px;
+  display: flex;
+}
+
+#mapInfoDiv .mapInfoDetails {
+  margin-left: 10px;
+  display: flex;
+}
+
+#invalidSpan {
+  text-decoration: underline;
+  color: #3b79b7;
+}
+
+.azuremapsgrid-customInfobox {
+  max-width: 240px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.azuremapsgrid-customInfobox .azuremapsgrid-name {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+@keyframes spinner-line-fade-more {
+    0%, 100% {
+      opacity: 0; /* minimum opacity */
+    }
+    1% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-fade-quick {
+    0%, 39%, 100% {
+      opacity: 0.25; /* minimum opacity */
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-fade-default {
+    0%, 100% {
+      opacity: 0.22; /* minimum opacity */
+    }
+    1% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-shrink {
+    0%, 25%, 100% {
+      /* minimum scale and opacity */
+      transform: scale(0.5);
+      opacity: 0.25;
+    }
+    26% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
