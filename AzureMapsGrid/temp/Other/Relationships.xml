@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships>
+  <EntityRelationship Name="business_unit_raw_azuremapsconfig" />
+  <EntityRelationship Name="lk_raw_azuremapsconfig_createdby" />
+  <EntityRelationship Name="lk_raw_azuremapsconfig_modifiedby" />
+  <EntityRelationship Name="owner_raw_azuremapsconfig" />
+  <EntityRelationship Name="team_raw_azuremapsconfig" />
+  <EntityRelationship Name="user_raw_azuremapsconfig" />
+</EntityRelationships>

@@ -1,0 +1,24 @@
+{
+  "name": "pcf-project",
+  "version": "1.0.0",
+  "description": "Project containing your PowerApps Component Framework (PCF) control.",
+  "scripts": {
+    "build": "pcf-scripts build",
+    "clean": "pcf-scripts clean",
+    "rebuild": "pcf-scripts rebuild",
+    "start": "pcf-scripts start"
+  },
+  "dependencies": {
+    "@types/node": "^10.17.17",
+    "@types/powerapps-component-framework": "^1.2.0",
+    "azure-maps-control": "^2.0.25",
+    "office-ui-fabric-react": "^7.105.1",
+    "react": "^16.13.1",
+    "react-azure-maps": "0.0.6",
+    "spin.js": "^4.1.0"
+  },
+  "devDependencies": {
+    "pcf-scripts": "^1",
+    "pcf-start": "^1"
+  }
+}

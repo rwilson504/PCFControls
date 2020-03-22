@@ -1,0 +1,14 @@
+{
+	"solutions": [
+		{
+			"profile": "default,debug",
+			"solution_uniquename": "AzureMapsGridControl",
+			"packagepath": ".\\AzureMapsGrid\\AzureMapsGridControl",
+			"solutionpath": "..\\Output\\AzureMapsGridControl_{0}.{1}.{2}.{3}.zip",
+			"packagetype": "both_unmanaged_import",
+			"increment_on_import": false,
+			"allowdelete": false,
+			"clobber": false
+		}		
+	]
+}

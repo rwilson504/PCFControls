@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW.AzureMapsGrid" constructor="AzureMapsGrid" version="0.0.252" display-name-key="Azure Maps Grid" description-key="AzureMapsGrid description" control-type="standard" preview-image="preview.png">
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="mapDataSet" display-name-key="Map Data Set">
+    </data-set>
+    <property name="primaryFieldName" display-name-key="Primary Field" description-key="Enter the Primary Field schema which will be used to display the title on the map. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
+    <property name="descriptionFieldName" display-name-key="Description Field" description-key="Enter the Primary Field schema which will be used to display the title on the map. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="latFieldName" display-name-key="Latitude Field" description-key="Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="address1_latitude" />
+    <property name="longFieldName" display-name-key="Longitude Field" description-key="Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)." of-type="SingleLine.Text" usage="input" required="true" default-value="address1_longitude" />
+    <property name="pushpinColorField" display-name-key="Pushpin Color Field" description-key="Enter the Pushpin Color field schema name if available, this field should contain a hex value for the color." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
+    <property name="defaultPushpinColor" display-name-key="Default Pushpin Color" description-key="Enter a hex value for the default color of the Pushpins(example: #ffffff)." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
+    <!-- <property name="azureAuthType" display-name-key="Azure Authentication Type" description-key="Enter one a value for the Authentication Type (1) Subscription Key, (2) AAD, (3) Anonymous" of-type="SingleLine.Text" usage="input" required="true" default-value="1" />
+    <property name="azureAuthSubscriptionKey" display-name-key="(Auth: Subscription Key) Azure Maps Subscription Key" description-key="Subscription key from your Azure Maps account. Must be specified for subscription key authentication type." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthClientId" display-name-key="(Auth: AAD/Anonymous) Azure Maps Client Id" description-key="The Azure Maps client ID, This is an unique identifier used to identify the maps account. Preferred to always be specified, but must be specified for AAD and anonymous authentication types." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthAadAppId" display-name-key="(Auth: AAD) Azure Maps AAD App Id" description-key="The Azure AD registered app ID. This is the app ID of an app registered in your Azure AD tenant. Must be specified for AAD authentication type." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthAadTenant" display-name-key="(Auth: AAD) Azure Maps AAD Tenant" description-key="The AAD tenant that owns the registered app specified by AAD AppId. Must be specified for AAD authentication type." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthAadInstance" display-name-key="(Auth: AAD) Azure Maps AAD Instance" description-key="The AAD instance to use for logging in. Can be optionally specified when using the AAD authentication type. By default the https://login.microsoftonline.com/ instance will be used." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthAnonymousUrl" display-name-key="(Auth: Anonymous) Azure Maps Anonymous Endpoint Url" description-key="The custom endpoint url to fetch the Access Token." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureAuthAnonymousGetTokenFunc" display-name-key="(Auth: Anonymous) Azure Maps Anonymous Get Token Function" description-key="A callback to use with the anonymous authentication mechanism. This callback will be responsible for resolving to a authentication token.  The text here will be converted to a function in the control. E.g. fetching a CORS protected token from an endpoint." of-type="Multiple" usage="input" required="false" />
+    <property name="isAzureGovernment" display-name-key="Azure Government?" description-key="If you will be connecting to Azure Maps through the Azure Government cloud instance enter (true)" of-type="SingleLine.Text" usage="input" required="false" default-value="false" /> -->
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/AzureMapsGrid.css" order="1" />
+      <!-- <resx path="strings/AzureMapsGrid.1033.resx" version="1.0.0" /> -->
+    </resources>
+    <feature-usage>
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

@@ -57,6 +57,9 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 		if (rowspan) this._detailList.style.height = `${(rowspan * 1.5).toString()}em`;
 
 		this._container.appendChild(this._detailList);
+
+		//set the paging size to 5000
+		context.parameters.sampleDataSet.paging.setPageSize(5000);
 	}
 
 
@@ -67,13 +70,7 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
 		var self = this;
-		var dataSet = context.parameters.sampleDataSet; 
-		
-		//set the paging size to 5000
-		if (dataSet.loading) {
-			dataSet.paging.setPageSize(5000);
-			return;
-		} 
+		var dataSet = context.parameters.sampleDataSet; 			
 
 		//if data set has additional pages retrieve them before running anything else
 		if (dataSet.paging.hasNextPage) {

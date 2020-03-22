@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{8f94d5d3-31e0-40d7-b3e3-55f9d5b9c38c}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{1c127130-60f1-4ea1-973b-b2de1a593591}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{492449e1-391e-48ce-8361-593f0ce39b09}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{028dd13e-62ab-1b43-26ae-0b94442c6079}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Azure Government?" languagecode="1033" />
+                        </labels>
+                        <control id="raw_azuregovernment" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="raw_azuregovernment" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{117b176b-e52d-6d6e-b061-713ab3a68d83}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Authentication Type" languagecode="1033" />
+                        </labels>
+                        <control id="raw_authenticationtype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="raw_authenticationtype" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{84d30aca-e27b-4341-acc9-7d1b3622eb0c}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="raw_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="raw_name" uniqueid="{db421cad-97bd-1966-ca6d-0e1542836478}" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c1d9c1cd-bc99-4d5a-b0ee-a14ddde971e3}" showlabel="true" locklevel="1" visible="false">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" uniqueid="{be356849-93d8-2932-394a-dd9e8892ae9d}" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{76113566-3e29-3810-b5dc-8b9c686cd80e}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Subscription Key" languagecode="1033" />
+                        </labels>
+                        <control id="raw_subscriptionkey" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="raw_subscriptionkey" disabled="false" uniqueid="{84c47800-bd34-99e1-e4e1-ec37656ada71}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b7394a98-0753-06c3-3457-c2725d7ddbcd}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Client Id" languagecode="1033" />
+                        </labels>
+                        <control id="raw_clientid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="raw_clientid" disabled="false" uniqueid="{7d3a4a7e-5507-b10e-3a86-05bc4d03d92a}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7886d564-8e0e-5e65-56b7-2b782205c75d}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="AAD App Id" languagecode="1033" />
+                        </labels>
+                        <control id="raw_aadappid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="raw_aadappid" disabled="false" uniqueid="{3417a972-1712-3090-1878-0a2d2584e855}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{bcdbe8bd-55e6-d809-bec8-36caa7d6cd7d}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="AAD Tenant" languagecode="1033" />
+                        </labels>
+                        <control id="raw_aadtenant" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="raw_aadtenant" disabled="false" uniqueid="{c4157acb-a703-76db-3e96-6ebd8e7063e5}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{03d366a5-0b78-d49d-8b0e-4dbe5c8edd24}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="AAD Instance" languagecode="1033" />
+                        </labels>
+                        <control id="raw_aadinstance" classid="{71716B6C-711E-476c-8AB8-5D11542BFB47}" datafieldname="raw_aadinstance" disabled="false" uniqueid="{ba19cac5-d7cc-9879-a4e6-b69e3d31c37e}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{17551801-0634-34a5-1644-be62c2a48d1d}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Anonymous Url" languagecode="1033" />
+                        </labels>
+                        <control id="raw_anonymousurl" classid="{71716B6C-711E-476c-8AB8-5D11542BFB47}" datafieldname="raw_anonymousurl" disabled="false" uniqueid="{c5e62894-31c3-9b00-abd1-9c3826aa1bb1}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d1a60499-5763-51e3-6e38-ecbc2518e5b2}" showlabel="true" locklevel="0" visible="false" rowspan="10">
+                        <labels>
+                          <label description="Anonymous Get Token Function" languagecode="1033" />
+                        </labels>
+                        <control id="raw_anonymousgettokenfunction" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="raw_anonymousgettokenfunction" disabled="false" uniqueid="{dc863cb6-7934-a553-6a96-00149386a2a5}" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <Navigation>
+        <NavBar></NavBar>
+        <NavBarAreas>
+          <NavBarArea Id="Info">
+            <Titles>
+              <Title LCID="1033" Text="Common" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Sales">
+            <Titles>
+              <Title LCID="1033" Text="Sales" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Service">
+            <Titles>
+              <Title LCID="1033" Text="Service" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Marketing">
+            <Titles>
+              <Title LCID="1033" Text="Marketing" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="ProcessCenter">
+            <Titles>
+              <Title LCID="1033" Text="Process Sessions" />
+            </Titles>
+          </NavBarArea>
+        </NavBarAreas>
+      </Navigation>
+      <controlDescriptions />
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

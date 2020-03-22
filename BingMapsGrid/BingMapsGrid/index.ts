@@ -70,6 +70,9 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		mainDiv.appendChild(this._mapInfoDiv);
 
 		this._container.appendChild(mainDiv);
+
+		//set the paging size to 5000
+		context.parameters.mapDataSet.paging.setPageSize(5000);
 	}
 
 	public initMap(){
@@ -110,13 +113,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!Microsoft.Maps) {			
 			setTimeout(() => {self.updateView(self._context)}, 1000);
 			return;
-		}
-	
-		//set the paging size to 5000
-		if (dataSet.loading) {
-            dataSet.paging.setPageSize(5000);            
-            return;
-        }
+		}		
 
 		//if data set has additional pages retrieve them before running anything else
 		if (dataSet.paging.hasNextPage) {
