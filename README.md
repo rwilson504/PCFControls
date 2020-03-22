@@ -33,7 +33,7 @@ Connect to bing maps and display information from a Dynamics View.
 ## Azure Maps Control
 Connect to Azure maps and display information from a Dynamics View.
 
-![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Azure-Maps-Control/images/azuremapcontrol.gif?raw=true?raw=true)
+![Azure Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Azure-Maps-Control/images/azuremapcontrol.gif?raw=true?raw=true)
 
 ## Boolean Optionset
 Allows you to utilize a drop down for Boolean fields on the Business Process Flow forms.
