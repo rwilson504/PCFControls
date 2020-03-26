@@ -26,3 +26,8 @@ Description Field - Enter the schema name of the field on the view which will di
 Pushpin Color Field - Enter the Pushpin Color field schema name if available, this field should contain a hex value for the color. For related entities use the following format (new_entityname.new_fieldname)
 
 Default Pushpin Color - Enter a hex value for the default color of the Pushpins(example: #ffffff).  Otherwise the default Bing Maps color will be used.  Also this default color will be overwritten with specific colors if the Pushpin Color Field is also utilized and that field contains data.
+
+## Installation Usage
+After you install the solution into your system create a new view and add the custom control to the view.  Ensure you add the required fields to the view and any filter you want.  After you create the view Publish the customizations and navigate to the new view.  The video below provides additional details.
+
+![Bing Maps Control installation Usage](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bingmapcontrolusage.gif?raw=true)
