@@ -1,17 +1,13 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {IProps, DetailListGridControl}  from './DetailListGridControl'
-import { relative } from "path";
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class DetailListGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _context: ComponentFramework.Context<IInputs>;
 	private _container: HTMLDivElement;
 	private _detailList: HTMLDivElement;
-	private _notifyOutputChanged: () => void;
 
 	private _props: IProps;
 
@@ -36,7 +32,6 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 
 		this._container = container;
 		this._context = context;
-		this._notifyOutputChanged = notifyOutputChanged;
 
 		this._props = {
 			pcfContext: this._context
