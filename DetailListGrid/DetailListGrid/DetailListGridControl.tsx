@@ -6,7 +6,9 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
 import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { IRenderFunction, SelectionMode } from 'office-ui-fabric-react/lib/Utilities';
-import { DetailsList, DetailsListLayoutMode, Selection, IColumn, ConstrainMode, IDetailsFooterProps } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, DetailsListLayoutMode, Selection, IColumn, ConstrainMode, IDetailsFooterProps, IDetailsHeaderProps } from 'office-ui-fabric-react/lib/DetailsList';
+import { TooltipHost, ITooltipHostProps } from 'office-ui-fabric-react/lib/Tooltip';
+import * as lcid from 'lcid';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs> 
@@ -208,29 +210,20 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
 
     // when a column header is clicked sort the items
     const _onColumnClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
-        let updatedColumns = columns;
-        let sortedItems = items;
         let isSortedDescending = column?.isSortedDescending;
     
         // If we've sorted this column, flip it.
         if (column?.isSorted) {
           isSortedDescending = !isSortedDescending;
         }
-    
-        // Sort the items.
-        sortedItems = _copyAndSort(sortedItems, column?.fieldName!, isSortedDescending);
-    
+
         // Reset the items and columns to match the state.
-        setItems(sortedItems);
+        setItems(_copyAndSort(items, column?.fieldName!, isSortedDescending));
         setColumns(
-            updatedColumns.map(col => {
-              col.isSorted = col.key === column?.key;
-      
-              if (col.isSorted) {
+            columns.map(col => {
+                col.isSorted = col.key === column?.key;
                 col.isSortedDescending = isSortedDescending;
-              }
-      
-              return col;
+                return col;
             })
         );
     }
@@ -238,8 +231,20 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
     //sort the items in the grid.
     const _copyAndSort = <T, >(items: T[], columnKey: string, isSortedDescending?: boolean): T[] =>  {
         let key = columnKey as keyof T;
-        return items.slice(0).sort((a: T, b: T) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
-    }
+        let sortedItems = items.slice(0);        
+        sortedItems.sort((a: T, b: T) => (a[key] || '' as any).toString().localeCompare((b[key] || '' as any).toString(), _getUserLanguage(), { numeric: true }));
+
+        if (isSortedDescending) {
+            sortedItems.reverse();
+        }
+
+        return sortedItems;
+    }    
+
+    const _getUserLanguage = (): string => {
+        var language = lcid.from(props.pcfContext.userSettings.languageId);
+        return language.substring(0, language.indexOf('_'));
+    } 
 
     const _onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
         return (
@@ -251,6 +256,16 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
         );
       }
     
+    const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
+        return (
+            <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
+                {defaultRender!({
+                    ...props!,
+                    onRenderColumnHeaderTooltip: (tooltipHostProps: ITooltipHostProps | undefined) => <TooltipHost {...tooltipHostProps} />
+                })}
+            </Sticky>
+        )
+    }
     return (
     <Fabric>
         <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>            
@@ -266,6 +281,7 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
                         checkButtonAriaLabel="Row checkbox"                        
                         selectionMode={SelectionMode.multiple}
+                        onRenderDetailsHeader={_onRenderDetailsHeader}
                         onRenderDetailsFooter={_onRenderDetailsFooter} 
                         layoutMode = {DetailsListLayoutMode.justified}
                         constrainMode={ConstrainMode.unconstrained}

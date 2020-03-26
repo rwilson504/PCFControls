@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.DetailListGrid" constructor="DetailListGrid" version="0.0.107" display-name-key="DetailsList Grid" description-key="A custom grid view that utilizes the Office Fabric UI DetailsList control." control-type="standard">
+  <control namespace="RAW.DetailListGrid" constructor="DetailListGrid" version="0.0.112" display-name-key="DetailsList Grid" description-key="A custom grid view that utilizes the Office Fabric UI DetailsList control." control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFindSearch:true">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
