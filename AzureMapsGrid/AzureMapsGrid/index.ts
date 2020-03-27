@@ -74,8 +74,9 @@ export class AzureMapsGrid implements ComponentFramework.StandardControl<IInputs
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{	
-		var self = this;
 		var dataSet = context.parameters.mapDataSet;				
+
+		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
 		if (dataSet.paging.hasNextPage) {

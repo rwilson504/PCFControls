@@ -20,6 +20,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	private _bMapPushpinDefaultColor: string;
 	private _bMapInfoBox: Microsoft.Maps.Infobox;
 	private _bMapInfoBoxInvalidRecords: Microsoft.Maps.Infobox; 
+	private _bMapScriptIsLoaded: boolean;
+	private _bMapIsLoaded: boolean;
 	private _loadingSpinner: Spinner;
 
 	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
@@ -45,9 +47,13 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
+		//this will ensure that if the container size changes the updateView function will be called.
+		context.mode.trackContainerResize(true);
+
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._context = context;
 		this._container = container;
+		this._bMapIsLoaded = false;
 		
 		this._loadingSpinner = new Spinner({
 			length: 0, 
@@ -64,6 +70,9 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		this._mapDiv = document.createElement("div");
 		this._mapDiv.setAttribute("id", "mapDiv");
+		//we need to set the map height.  If the allocated height is not -1 then we are in a canvas app 
+		//and we need to set the heigh based upon the allocated height of the container.
+		this._mapDiv.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "calc(100% - 25px)";
 		this._mapInfoDiv = document.createElement("div");
 		this._mapInfoDiv.setAttribute("id", "mapInfoDiv");
 		mainDiv.appendChild(this._mapDiv);
@@ -73,9 +82,18 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		//set the paging size to 5000
 		context.parameters.mapDataSet.paging.setPageSize(5000);
+
+		this.initMap();
 	}
 
 	public initMap(){
+
+		var self = this;
+		if (!this._bMapScriptIsLoaded) {			
+			setTimeout(() => {self.initMap()}, 1000);
+			return;
+		}		
+
 		this._bMapPushpinDefaultColor = this._context.parameters.defaultPushpinColor.raw || ""
 		this._bMapOptions = {			
 			zoom: 0,			
@@ -87,7 +105,9 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._bMapInfoBox = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {visible: false});
 		this._bMapInfoBoxInvalidRecords = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {title: 'Invalid Locations', visible: false, showPointer: true});
 		this._bMapInfoBox.setMap(this._bMap);
-		this._bMapInfoBoxInvalidRecords.setMap(this._bMap);	
+		this._bMapInfoBoxInvalidRecords.setMap(this._bMap);
+
+		this._bMapIsLoaded = true;
 	}
 
 	public addBingMapsScriptToHeader(context: any): void {
@@ -95,10 +115,15 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		let headerScript: HTMLScriptElement = document.createElement("script");
         headerScript.type = 'text/javascript';
-        headerScript.id = "BingMapsHeaderScript";
+		headerScript.id = "BingMapsHeaderScript";
+		headerScript.async = true;
+		headerScript.defer = true;
 		headerScript.src = `https://www.bing.com/api/maps/mapcontrol?key=${apiKey}`;
+		headerScript.onload = () => {
+			this._bMapScriptIsLoaded = true;
+		}
 		document.head.appendChild(headerScript);
-	}
+	}	
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -108,29 +133,34 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	{	
 		var self = this;
 		var dataSet = context.parameters.mapDataSet;
-		
-		// check to make sure Maps ojbect has been loaded.
-		if (!Microsoft.Maps) {			
-			setTimeout(() => {self.updateView(self._context)}, 1000);
-			return;
-		}		
+
+		//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
+		if (this._context.mode.allocatedHeight !== -1) {
+			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
+		}				
+
+		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
 		if (dataSet.paging.hasNextPage) {
 			dataSet.paging.loadNextPage();
 			return;
-        }				
-
-		//set bounding box
-		this.populateMap(dataSet);				
+		}		
+				
+		//populate the map
+		this.populateMap();				
 	}
 
-	private populateMap(dataSet: ComponentFramework.PropertyTypes.DataSet) {
+	private populateMap() {
+		var self = this;
+		if (!this._bMapIsLoaded){			
+			setTimeout(() => {self.populateMap()}, 1000);
+			return;
+		}
+
+		let dataSet = this._context.parameters.mapDataSet;
 		//shortcut to parameters
 		let params = this._context.parameters;
-		
-		//initialize the map
-		this.initMap();
 
 		var keys = { 
 			lat: params.latFieldName.raw ? this.getFieldName(dataSet, params.latFieldName.raw) : "",
@@ -144,6 +174,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (!dataSet || !keys.lat || !keys.long) {
 			return;
 		}
+
+		this._bMap.entities.clear();
 		
 		//store location results so that we can utilize them later to get the bounding box for the map
 		let locationResults : Microsoft.Maps.Location[] = [];
@@ -206,7 +238,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._mapInfoDiv.innerHTML = `Total Records (${totalRecordCount.toString()}) Valid Locations (${locationResults.length.toString()}) Invalid/Empty Locations (<span title="Click to View Invalid/Empty record data." id="invalidSpan">${invalidRecords.length.toString()}</span>)`;
 		document.getElementById('invalidSpan')?.addEventListener("click", this.showInvalidRecordInfoBox.bind(this));
 		
-		//stop the loading spinner
+		//stop spinner
 		this._loadingSpinner.stop();
 	}
 
