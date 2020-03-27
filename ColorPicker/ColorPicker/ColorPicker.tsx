@@ -7,12 +7,15 @@ import { DefaultButton, IButtonStyles } from 'office-ui-fabric-react/lib/Button'
 import { IColor } from 'office-ui-fabric-react/lib/Color'
 import { Stack, IStackTokens } from 'office-ui-fabric-react/lib/Stack';
 import { getTheme, ITheme, IStyle } from "@uifabric/styling";
+import { initializeIcons } from '@uifabric/icons';
 
 export interface IColorPickerCompProps {
     pcfContext: ComponentFramework.Context<IInputs>,
     initialColorValue: string,
     onColorChange: (color: string) => void,
 }
+
+initializeIcons();
 
 export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {      
     const [colorValue, setColorValue] = React.useState(props.initialColorValue);
