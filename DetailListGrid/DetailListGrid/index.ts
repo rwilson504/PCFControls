@@ -45,11 +45,21 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 		this._detailList.setAttribute("id", "detailList");
 		// if data-is-scrollable is not set then grid will not show all results.
 		this._detailList.setAttribute("data-is-scrollable", "true");
-		// sets the height based upon the rowSpan which is there but not included in the Mode interace when
-		// the control is a subgrid.
-		// Then multiple by 1.5 em which is what MS uses per row.	
-		let rowspan = (this._context.mode as any).rowSpan;
-		if (rowspan) this._detailList.style.height = `${(rowspan * 1.5).toString()}em`;
+		
+		//we need to set the grid height.  If the allocated height is not -1 then we are in a canvas app 
+		//and we need to set the heigh based upon the allocated height of the container.
+		if (this._context.mode.allocatedHeight !== -1)
+		{
+			this._detailList.style.height = `${(this._context.mode.allocatedHeight).toString()}px`
+		}
+		else
+		{
+			// sets the height based upon the rowSpan which is there but not included in the Mode interace when
+			// the control is a subgrid.
+			// Then multiple by 1.5 em which is what MS uses per row.	
+			let rowspan = (this._context.mode as any).rowSpan;
+			if (rowspan) this._detailList.style.height = `${(rowspan * 1.5).toString()}em`;
+		}
 
 		this._container.appendChild(this._detailList);
 
@@ -64,8 +74,16 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var self = this;
-		var dataSet = context.parameters.sampleDataSet; 			
+		var dataSet = context.parameters.sampleDataSet;
+		
+		//reset the height if we are in a canvas app
+		//currently though the dataset in canvas will not return the columns so this component will not load correctly in canvas.
+		if (this._context.mode.allocatedHeight !== -1)
+		{
+			this._detailList.style.height = `${(this._context.mode.allocatedHeight).toString()}px`
+		}
+
+		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
 		if (dataSet.paging.hasNextPage) {

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.AzureMapsGrid" constructor="AzureMapsGrid" version="0.0.252" display-name-key="Azure Maps Grid" description-key="AzureMapsGrid description" control-type="standard" preview-image="preview.png">
+  <control namespace="RAW.AzureMapsGrid" constructor="AzureMapsGrid" version="0.0.253" display-name-key="Azure Maps Grid" description-key="AzureMapsGrid description" control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="mapDataSet" display-name-key="Map Data Set">
     </data-set>
