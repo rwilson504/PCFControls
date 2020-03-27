@@ -8,6 +8,7 @@ import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { IRenderFunction, SelectionMode } from 'office-ui-fabric-react/lib/Utilities';
 import { DetailsList, DetailsListLayoutMode, Selection, IColumn, ConstrainMode, IDetailsFooterProps, IDetailsHeaderProps } from 'office-ui-fabric-react/lib/DetailsList';
 import { TooltipHost, ITooltipHostProps } from 'office-ui-fabric-react/lib/Tooltip';
+import { initializeIcons } from '@uifabric/icons';
 import * as lcid from 'lcid';
 
 export interface IProps {
@@ -18,6 +19,8 @@ interface IColumnWidth {
     name: string,
     width: number
 }
+
+initializeIcons();
 
 export const DetailListGridControl: React.FC<IProps> = (props) => {        
 
