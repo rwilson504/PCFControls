@@ -122,7 +122,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		headerScript.onload = () => {
 			this._bMapScriptIsLoaded = true;
 		}
-		document.head.appendChild(headerScript);
+		
+		this._container.appendChild(headerScript);
 	}	
 
 	/**
@@ -239,7 +240,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		document.getElementById('invalidSpan')?.addEventListener("click", this.showInvalidRecordInfoBox.bind(this));
 		
 		//stop spinner
-		this._loadingSpinner.stop();
+		this._loadingSpinner.stop();		
 	}
 
 	private generateBoundingBox(locationResults: Microsoft.Maps.Location[]) {

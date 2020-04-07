@@ -84,9 +84,9 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 		{
 			//since we are in a canvas app let's make sure we set the height of the control
 			this._detailList.style.height = `${(this._context.mode.allocatedHeight).toString()}px`
-		}
+		}	
 
-		if (dataSet.loading) return;		
+		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
 		if (this._isModelApp && dataSet.paging.hasNextPage) {
