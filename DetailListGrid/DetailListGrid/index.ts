@@ -8,6 +8,7 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	private _context: ComponentFramework.Context<IInputs>;
 	private _container: HTMLDivElement;
 	private _detailList: HTMLDivElement;
+	private _isModelApp: boolean
 
 	private _props: IProps;
 
@@ -32,9 +33,11 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 
 		this._container = container;
 		this._context = context;
+		this._isModelApp = window.hasOwnProperty('getGlobalContextObject');
 
 		this._props = {
-			pcfContext: this._context
+			pcfContext: this._context,
+			isModelApp: this._isModelApp
 		}
 
 		// set the container to display to relative so that our Scrollable Panel does not cover up the
@@ -76,21 +79,21 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	{
 		var dataSet = context.parameters.sampleDataSet;
 		
-		//reset the height if we are in a canvas app
-		//currently though the dataset in canvas will not return the columns so this component will not load correctly in canvas.
+		//Are we in a canvas app?
 		if (this._context.mode.allocatedHeight !== -1)
 		{
+			//since we are in a canvas app let's make sure we set the height of the control
 			this._detailList.style.height = `${(this._context.mode.allocatedHeight).toString()}px`
-		}
+		}	
 
 		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
-		if (dataSet.paging.hasNextPage) {
+		if (this._isModelApp && dataSet.paging.hasNextPage) {
 			dataSet.paging.loadNextPage();
 			return;
-		}				
-
+		}
+		
 		// render the DetailsList control
 		ReactDOM.render(
 			React.createElement(DetailListGridControl, this._props), 
