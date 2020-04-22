@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW.CalendarNoOutputs" constructor="CalendarNoEnums" version="0.0.56" display-name-key="Calendar No Outputs" description-key="A Calendar view that can be used in both Model and Canvas apps." control-type="standard">
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="calendarDataSet" display-name-key="Calendar Data">
+      <!-- <property-set name="resourceNamePropertySet" display-name-key="Resource Name" description-key="Name of the resource which will be displayed." of-type="SingleLine.Text" usage="bound" required="true" /> -->
+    </data-set>
+    <!-- <property name="defaultCalendarView" display-name-key="Default Claendar View" description-key="Choose the default calendar view that will be shown." usage="input" of-type="Enum" required="false" default-value="month">
+      <value name="Month" display-name-key="Month View" description-key="Month View">month</value>
+      <value name="Week" display-name-key="Week View" description-key="Week View">week</value>
+      <value name="WorkWeek" display-name-key="Work Week View" description-key="Work Week View">work_week</value>
+      <value name="Day" display-name-key="Day View" description-key="Day View">day</value>
+      <value name="Agenda" display-name-key="Agenda View" description-key="Agenda View">agenda</value>
+    </property> -->
+    <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
+    <property name="eventFieldStart" display-name-key="Event Start Field" description-key="Enter the Event Start Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="start" />
+    <property name="eventFieldEnd" display-name-key="Event End Field" description-key="Enter the Event End Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="end" />
+    <property name="eventColor" display-name-key="Event Color Field" description-key="Enter the Event Color Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceField" display-name-key="Resource Field" description-key="For a Model App put in the Lookup field of the Resource, for a Canvas app put in the field name that holds the Id of the resource." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceName" display-name-key="Resource Name" description-key="For a Model App this is not required but for Canvas apps if you are using resources enter the field name containing the Resources name." of-type="SingleLine.Text" usage="input" required="false" />
+    <!-- <property name="onChangeAction" display-name-key="(Output) On Change Action" description-key="This will provide which action was taken for an OnChange Event" usage="output" of-type="Enum" required="false">
+      <value name="RecordSelected" display-name-key="Record Selected" description-key="This occurs when a record is selected on the calendar. The selectedRecordId property will be updated.">RecordSelected</value>
+      <value name="TimeSlotSelected" display-name-key="Time Slot Selected" description-key="This occurs when an empty time slot is selected. The selectedSlotStart and selectedSlotEnd properties will be updated.">TimeSlotSelected</value>
+    </property>
+    <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotResourceId" display-name-key="(Output) Selected Slot Resource" description-key="When an empty time slot is selected this will return the resource id if one is available" usage="output" of-type="SingleLine.Text" required="false" /> -->
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/react-big-calendar.css" order="1" />
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/CanvasCalendar.css" order="1" />
+      <resx path="strings/CanvasCalendar.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>

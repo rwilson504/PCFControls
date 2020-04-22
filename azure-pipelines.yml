@@ -48,6 +48,11 @@ steps:
     command: 'install'
     workingDir: './DetailListGrid/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './Calendar/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -84,6 +89,12 @@ steps:
   inputs:
     SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Debug/'
     Contents: 'DetailListGridControl_managed.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './Calendar/Calendar/CalendarControl/bin/Debug/'
+    Contents: 'CalendarControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
