@@ -5,6 +5,12 @@ Reusable PowerApps Control Framework (PCF) controls.
 
 # Controls
 
+## Calendar/Resource Manager
+
+Provides calendar and resource management in both Model and Canvas Apps.  Canvas App developers have access to output data which will allow them to customize their own for for actions taken on the calendar.
+
+![Control Overview](./Calendar/images/calendarcontrol.gif)
+
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
 ![DetailsList Grid Control](https://github.com/rwilson504/Blogger/blob/master/Office-Fabric-UI-DetailsList-PCF/office-fabric-ui-detailslist.gif?raw=true)

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.99" display-name-key="Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
+    <data-set name="calendarDataSet" display-name-key="Calendar Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
+    </data-set>
+    <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
+    <property name="eventFieldStart" display-name-key="Event Start Field" description-key="Enter the Event Start Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="start" />
+    <property name="eventFieldEnd" display-name-key="Event End Field" description-key="Enter the Event End Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="end" />
+    <property name="eventColor" display-name-key="Event Color Field" description-key="Enter the Event Color Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="eventId" display-name-key="Event Id Field" description-key="For Model Apps this is not required but if you are using Canvas you will need to put in the Id field for the Events if you wish to use them." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceField" display-name-key="Resource Field" description-key="For a Model App put in the Lookup field of the Resource, for a Canvas app put in the field name that holds the Id of the resource." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceName" display-name-key="Resource Name" description-key="For a Model App this is not required but for Canvas apps if you are using resources enter the field name containing the Resources name." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceGetAllInModel" display-name-key="Get All Resources" description-key="For Model apps only.  If you select true and are using resources then this will ensure that all resources get returned, even those without events in the dataset" of-type="SingleLine.Text" usage="input" required="false" default-value="false" />
+    <property name="calendarDefaultView" display-name-key="Default Claendar View" description-key="Choose the default calendar view that will be shown. Options are month, week, work_week, day, agenda." usage="input" of-type="SingleLine.Text" required="false" default-value="month" />
+    <property name="calendarDate" display-name-key="Calendar Date" description-key="Allows you to change the calendar date from a Date Field in Canvas Apps" usage="input" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotResourceId" display-name-key="(Output) Selected Slot Resource" description-key="When an empty time slot is selected this will return the resource id if one is available" usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="currentRangeStart" display-name-key="(Output) Calendar Range Start" description-key="When the current calendar range changes the new Start will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="currentRangeEnd" display-name-key="(Output) Calendar Range End" description-key="When the current calendar range changes the new End will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="currentCalendarDate" display-name-key="(Output) Calendar Date" description-key="Provides the current date the calendar is set to." usage="output" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="onChangeAction" display-name-key="(Output) On Change Action" description-key="This will provide which action was taken for an OnChange Event" usage="output" of-type="SingleLine.Text" required="false" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/react-big-calendar.css" order="1" />
+    </resources>
+    <feature-usage>
+      <!--
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      -->
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>
