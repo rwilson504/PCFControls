@@ -1,8 +1,10 @@
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { Calendar, momentLocalizer, Event } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Event, Messages } from 'react-big-calendar'
+import GetMessages from './Translations'
 import * as moment from 'moment'
+import * as lcid from 'lcid';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
@@ -24,6 +26,9 @@ const localizer = momentLocalizer(moment);
 export const CalendarControl: React.FC<IProps> = (props) => {        
 
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
+const [calendarCulture, setCalendarCulture] = React.useState(getISOLanguage(props.pcfContext))
+const [calendarMessages, setCalendarMessages] = React.useState(GetMessages(calendarCulture));
+const [calendarRtl, setCalendarRtl] = React.useState(props.pcfContext.userSettings.isRTL);
 const [defaultView, setDefaultView] = React.useState(getDefaultView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
 const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? new Date() : props.pcfContext.parameters.calendarDate.raw as Date);
 
@@ -121,7 +126,10 @@ return(!calendarData?.resources ? <Calendar
     selectable
     localizer={localizer}
     date={calendarDate}
-    defaultView={defaultView}
+    culture={calendarCulture}
+    rtl={calendarRtl}
+    messages={calendarMessages}
+    defaultView={defaultView}    
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected} 
     onSelectSlot={ _handleSlotSelect }
@@ -132,6 +140,8 @@ return(!calendarData?.resources ? <Calendar
     selectable
     localizer={localizer}
     date={calendarDate}
+    culture={calendarCulture}
+    messages={calendarMessages}
     defaultView={defaultView}
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected }
@@ -348,4 +358,20 @@ async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, 
             title: e[resourceName]
         })
     });
+}
+
+function getISOLanguage(pcfContext: ComponentFramework.Context<IInputs>): string
+{
+    //look for a lanuage setting comging in from the parameters.
+    //if nothign was entered use an empty string which will default to en
+    let lang = pcfContext.parameters.calendarLanguage?.raw || '';    
+
+    //if this is a model app and a language was not added as an input then user the current users
+    // language settings.
+    if (!lang && pcfContext.mode.allocatedHeight === -1){
+        lang = lcid.from(pcfContext.userSettings.languageId);
+        return lang.substring(0, lang.indexOf('_'));
+    }
+
+    return lang;
 }
