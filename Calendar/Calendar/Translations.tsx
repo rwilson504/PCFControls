@@ -62,6 +62,25 @@ export default function GetMessages(lang: string): Messages{
                     noEventsInRange: 'No hay elementos programados en el intervalo de fechas.',              
                     showMore: total => `+${total} más`
                 }
+        case 'it':
+            return {
+            date: 'Data',
+            time: 'Ora',
+            event: 'Evento',
+            allDay: 'Tutto il giorno',
+            week: 'Settimana',
+            work_week: 'Settimana lavorativa',
+            day: 'Giorno',
+            month: 'Mese',
+            previous: 'Indietro',
+            next: 'Avanti',
+            yesterday: 'Ieri',
+            tomorrow: 'Domani',
+            today: 'Oggi',
+            agenda: 'Calendario',
+            noEventsInRange: 'Non ci sono eventi in queste date.',
+            showMore: total => `+${total} altri`
+            }        
         case 'en':
         default:
             return {
