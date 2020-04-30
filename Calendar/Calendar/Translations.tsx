@@ -80,6 +80,25 @@ export default function GetMessages(lang: string): Messages{
             agenda: 'Calendario',
             noEventsInRange: 'Non ci sono eventi in queste date.',
             showMore: total => `+${total} altri`
+            }
+        case 'ru':
+            return {
+            date: 'Свидание',
+            time: 'Время',
+            event: 'Событие',
+            allDay: 'Весь день',
+            week: 'Неделя',
+            work_week: 'Рабочая неделя',
+            day: 'День',
+            month: 'Месяц',
+            previous: 'предыдущий',
+            next: 'следующий',
+            yesterday: 'Вчерашний день',
+            tomorrow: 'Завтра',
+            today: 'Cегодня',
+            agenda: 'Повестка дня',
+            noEventsInRange: 'В этом диапазоне нет событий.',
+            showMore: total => `Еще +${total} события`
             }        
         case 'en':
         default:
