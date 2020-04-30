@@ -27,9 +27,9 @@ export default function GetMessages(lang: string): Messages{
         case 'de':
             return {
                 date: 'Datum',
-                time: 'Zeit',
+                time: 'Uhrzeit',
                 event: 'Ereignis',
-                allDay: 'Den ganzen Tag',
+                allDay: 'ganztägig',
                 week: 'Woche',
                 work_week: 'Arbeitswoche',
                 day: 'Tag',
@@ -41,7 +41,7 @@ export default function GetMessages(lang: string): Messages{
                 today: 'Heute',
                 agenda: 'Agenda',              
                 noEventsInRange: 'Es gibt keine Ereignisse in diesem Bereich.',              
-                showMore: total => `+${total} Mehr`
+                showMore: total => `Weitere +${total}`
             }
         case 'es':
                 return {
