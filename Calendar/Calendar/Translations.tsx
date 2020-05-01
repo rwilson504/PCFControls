@@ -99,6 +99,25 @@ export default function GetMessages(lang: string): Messages{
             agenda: 'Повестка дня',
             noEventsInRange: 'В этом диапазоне нет событий.',
             showMore: total => `Еще +${total} события`
+            }
+        case 'nl':
+            return {
+                date: 'Datum',
+                time: 'Tijdstip',
+                event: 'Evenement',
+                allDay: 'De hele dag',
+                week: 'Week',
+                work_week: 'Werk Week',
+                day: 'Dag',
+                month: 'Maand',
+                previous: 'Terug',
+                next: 'Naast',
+                yesterday: 'Gisteren',
+                tomorrow: 'Morgen',
+                today: 'Vandaag',
+                agenda: 'Agenda',              
+                noEventsInRange: 'Er zijn geen evenementen gepland in deze periode.',              
+                showMore: total => `+${total} meer`
             }        
         case 'en':
         default:
