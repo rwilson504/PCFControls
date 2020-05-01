@@ -53,8 +53,8 @@ React.useEffect(()=>{
 
 //allows for changing the calendar date if a date/time field is utilized in canvas on the input parameters
 React.useEffect(()=>{
-    if (props.pcfContext.parameters.calendarDate.raw && calendarDate != props.pcfContext.parameters.calendarDate.raw){
-        setCalendarDate(props.pcfContext.parameters.calendarDate.raw)
+    if (props.pcfContext.parameters.calendarDate?.raw?.getTime() !== 0 && calendarDate != props.pcfContext.parameters.calendarDate.raw){
+        setCalendarDate(props.pcfContext.parameters.calendarDate.raw as Date)
     }    
 },[props.pcfContext.parameters.calendarDate.raw])
 
