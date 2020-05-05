@@ -58,12 +58,12 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '**/*.cdsproj'
-    msbuildArguments: '/t:build /restore'
+    msbuildArguments: '/t:build /p:Configuration=Release /restore'
 
 #Copy the solution files to the build artifacts directory.
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Debug/'
+    SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Release/'
     Contents: 'ControlPicker_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
@@ -73,31 +73,31 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Debug/'
+    SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Release/'
     Contents: 'BooleanOptionsetControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Debug/'
+    SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Release/'
     Contents: 'BingMapsGridControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Debug/'
+    SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Release/'
     Contents: 'AzureMapsGridControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Debug/'
+    SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Release/'
     Contents: 'DetailListGridControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './Calendar/Calendar/CalendarControl/bin/Debug/'
+    SourceFolder: './Calendar/Calendar/CalendarControl/bin/Release/'
     Contents: 'CalendarControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
