@@ -11,10 +11,11 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 	// Reference to ComponentFramework Context object
 	private _context: ComponentFramework.Context<IInputs>;
 	private _props: IProps;
-	private _selectedAction: string;
 	private _selectedRecordId: string;
-	private _selectedSlotStart: Date;
+	private _selectedRecord: boolean;
+	private _selectedSlotStart: Date | undefined;
 	private _selectedSlotEnd: Date;
+	private _selectedSlot: boolean;
 	private _selectedSlotResourceId: string;
 	private _currentRangeStart: Date;
 	private _currentRangeEnd: Date;
@@ -45,6 +46,15 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		this._context = context;
 		this._container = container;
 
+		//make sure to initialize your private variables that will be return in the getOutpus function.
+		// If any of them are undefined then the onChange event for the control in a canvas app will not fire.
+		this._currentRangeStart = new Date();
+		this._currentRangeEnd = new Date();
+		this._selectedSlotResourceId = '';
+		this._selectedRecordId = '';
+		this._selectedRecord = false;
+		this._selectedSlot = false;
+
 		this._props = {
 			pcfContext: this._context,
 			onClickSelectedRecord: this.onClickSelectedRecord.bind(this),
@@ -65,7 +75,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
+	public async updateView(context: ComponentFramework.Context<IInputs>): Promise<void>
 	{		
 
 		var dataSet = context.parameters.calendarDataSet
@@ -95,16 +105,15 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 	}
 
 	public onRangeChange(start: Date, end: Date){
-		this._currentRangeStart = start;
+		this._currentRangeStart = start;		
 		this._currentRangeEnd = end;
-		this._selectedAction = "RangeChange";
 		this._notifyOutputChanged();
 	}
 
 	public onClickSelectedRecord(recordId: string)
 	{
 		this._selectedRecordId = recordId;
-		this._selectedAction = "RecordSelected";
+		this._selectedRecord = true;
 		this._notifyOutputChanged();
 	}
 
@@ -113,14 +122,15 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		this._selectedSlotStart = start;
 		this._selectedSlotEnd = end;
 		this._selectedSlotResourceId = resourceId || "";
-		this._selectedAction = "TimeSlotSelected";		
+		this._selectedSlot = true;	
 		this._notifyOutputChanged();
 	}
 
-	public onDateChange(date: Date)
+	public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date)
 	{
 		this._currentDate = date;
-		this._selectedAction = "DateChange";
+		this._currentRangeStart = rangeStart;		
+		this._currentRangeEnd = rangeEnd;
 		this._notifyOutputChanged();
 	}
 
@@ -129,47 +139,39 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs
-	{
-		//initially I tried just returning every output variable at once.  
-		//DO NOT DO THAT!!!!!!! If you have any output variables that are undefined then any OnChange event code you have will not fire.
-		// return {
-		// 	selectedSlotStart: this._selectedSlotStart,
-		// 	selectedSlotEnd : this._selectedSlotEnd,
-		// 	selectedSlotResourceId : this._selectedSlotResourceId,		
-		// 	selectedRecordId : this._selectedRecordId,	
-		// 	currentRangeStart: this._currentRangeStart,
-		// 	currentRangeEnd: this._currentRangeEnd,
-		// 	onChangeAction: this._selectedAction		 	
-		// };
-		
-		switch(this._selectedAction)
-		{
-			case 'RecordSelected':
-				return {
-					selectedRecordId : this._selectedRecordId,
-					onChangeAction: this._selectedAction	
-				}
-			case 'TimeSlotSelected':
-				return {
-					selectedSlotStart: this._selectedSlotStart,
-					selectedSlotEnd : this._selectedSlotEnd,
-					selectedSlotResourceId : this._selectedSlotResourceId,
-					onChangeAction: this._selectedAction
-				}
-			case 'DateChange':
-				return {
-					currentCalendarDate: this._currentDate,
-					onChangeAction: this._selectedAction
-				}
-			case 'RangeChange': 
-			default:
-				return {
-					currentRangeStart: this._currentRangeStart,
-					currentRangeEnd: this._currentRangeEnd,
-					onChangeAction: this._selectedAction		
-				};
-			
+	{	
+		let notifyAgain = false;
+
+		var output: IOutputs = {
+			currentRangeStart: this._currentRangeStart,
+			currentRangeEnd: this._currentRangeEnd,
+			currentCalendarDate: this._currentDate,
+			actionRecordSelected : this._selectedRecord,
+			actionSlotSelected : this._selectedSlot
 		}
+		
+		if (this._selectedRecord){
+			notifyAgain = true;
+			output.selectedRecordId = this._selectedRecordId;
+			this._selectedRecord = false;
+		}
+		
+
+		if (this._selectedSlot)
+		{
+			notifyAgain = true;
+			output.actionSlotSelected = true;
+			output.selectedSlotStart = this._selectedSlotStart;
+			output.selectedSlotEnd = this._selectedSlotEnd;
+			output.selectedSlotResourceId = this._selectedSlotResourceId;
+			this._selectedSlot = false;
+		}
+		
+		if (notifyAgain){
+			this._notifyOutputChanged();
+		}
+
+		return output;				
 	}
 
 	/** 
