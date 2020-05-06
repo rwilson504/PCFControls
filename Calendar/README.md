@@ -191,19 +191,17 @@ Here are the input properties for the control
 The data returned from the control will be attached to the Canvas Control element.  There are currently 3 defined types of output changes that occur.
 
 * RecordSelection, occurs whenever a user clicks on a calendar event.
-    * .onChangeAction, "RecordSelection"
+    * .actionRecordSelected, This value will be set to true when the action happens.
     * .selectedRecordId, The id of the record selected.
-* TimSlotSelected, occurs when a user select an empty area on the calendar.  It will return the timespan for the selection.
-    * .onChangeAction, "TimSlotSelected"
+* TimSlotSelected, occurs when a user select an empty area on the calendar.  It will return the timespan for the selection. 
+    * .actionSlotSelected, This value will be set to true when the acction happens. 
     * .selectedSlotStart, The start time of the empty slot selected. 
     * .selectedSlotEnd, The end time of the empty slot selected. 
     * .selectedSlotResourceId, If the time slot was on a view showing the resources the Id of that Resoruce will be provided.
-* RangeChange, when a user click on an empty part of the calendar
-    * .onChangeAction, "RangeChange"
+* RangeChange, when a user click on the next/back buttons or udpates a view on the calendar
     * .currentRangeStart, The current start time show on the calendar view.
     * .currentRangeStart, The current end time show on the calendar view.
-* DateChange, when the current date of the calendar changes
-    * .onChangeAction, "DateChange"
+* DateChange, when the current date of the calendar changes    
     * .currentCalendarDate, The current date of the calendar control
 
 This is an example of a text box with the Default values set the .selectedRecordId property of the control.
