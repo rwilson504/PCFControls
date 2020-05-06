@@ -5,13 +5,14 @@ import { Calendar, momentLocalizer, Event, Messages } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
+//import * as dates from 'react-big-calendar/lib/utils/dates';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
     onClickSelectedRecord: (recordId: string) => void,
     onClickSlot: (start: Date, end: Date, resourceId: string) => void,
     onRangeChange: (start: Date, end: Date) => void,
-    onDateChange: (date: Date) => void
+    onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date) => void
 }
 
 //extend the event interface to include additional properties we wil use.
@@ -25,12 +26,15 @@ const localizer = momentLocalizer(moment);
 
 export const CalendarControl: React.FC<IProps> = (props) => {        
 
-const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
 const [calendarCulture, setCalendarCulture] = React.useState(getISOLanguage(props.pcfContext))
+//set our moment to the current callendar culture for use of it outside the calendar.
+moment.locale(calendarCulture);
 const [calendarMessages, setCalendarMessages] = React.useState(GetMessages(calendarCulture));
 const [calendarRtl, setCalendarRtl] = React.useState(props.pcfContext.userSettings.isRTL);
 const [defaultView, setDefaultView] = React.useState(getDefaultView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
-const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? new Date() : props.pcfContext.parameters.calendarDate.raw as Date);
+const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
+const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : props.pcfContext.parameters.calendarDate.raw || moment().toDate());
+const calendarRef = React.useRef(null);
 
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
 React.useEffect(()=>{
@@ -59,7 +63,12 @@ React.useEffect(()=>{
 },[props.pcfContext.parameters.calendarDate.raw])
 
 React.useEffect(()=>{
-       props.onDateChange(calendarDate);
+    if (calendarDate)
+    {    
+        let ref = calendarRef.current as any;
+        let rangeDates = getCurrentRange(calendarDate, ref.props.view, ref.props.culture)        
+        props.onDateChange(calendarDate, rangeDates.start, rangeDates.end);
+    }
 },[calendarDate])
 
 //when an event is selected it return the events id in canvas and open the record in model app
@@ -105,7 +114,7 @@ const _handleSlotSelect = (slotInfo: any) => {
 
 //required event when using a variable for the Calendar Date
 const _handleNavigate = (date: Date, view: string, action: string) => {
-    console.log("_handleNavigate");
+    //console.log("_handleNavigate");
     setCalendarDate(moment(date).toDate());
 }
 
@@ -135,6 +144,13 @@ return(!calendarData?.resources ? <Calendar
     onSelectSlot={ _handleSlotSelect }
     onRangeChange={ _handleRangeChange }
     onNavigate={ _handleNavigate }
+    ref={calendarRef}
+    eventPropGetter={event => ({            
+        style: {
+            backgroundColor: event.color || "#3174ad",
+            color: getContrastYIQ(event.color || "#3174ad")
+        }
+    })}
     /> : 
     <Calendar
     selectable
@@ -150,6 +166,7 @@ return(!calendarData?.resources ? <Calendar
     onNavigate={ _handleNavigate }
     resources={calendarData.resources}
     resourceAccessor="resource"
+    ref={calendarRef}
     eventPropGetter={event => ({            
         style: {
             backgroundColor: event.color || "#3174ad",
@@ -241,7 +258,7 @@ async function getResources(pcfContext: ComponentFramework.Context<IInputs>, key
             let resourceRef = record.getValue(keys.resource) as ComponentFramework.EntityReference;
             if (resourceRef){
                 resourceId = resourceRef.id.guid;
-                resourceName = keys.resourceName ? record.getValue(keys.resourceName) as string || "" : resourceRef.name;
+                resourceName = keys.resourceName && keys.resourceName.indexOf('.') !== -1 ? record.getValue(keys.resourceName) as string || "" : resourceRef.name;
                 resourceEtn = resourceRef.etn as string;
             }
         }
@@ -375,3 +392,25 @@ function getISOLanguage(pcfContext: ComponentFramework.Context<IInputs>): string
 
     return lang;
 }
+
+function getCurrentRange(date: Date, view: string, culture: string) : {start: Date, end: Date} {
+
+    let start = moment().toDate(), end = moment().toDate();
+    if(view === 'day'){
+      start = moment(date).startOf('day').toDate();
+      end   = moment(date).endOf('day').toDate();
+    }
+    else if(view === 'week'){
+      start = moment(date).startOf('week').toDate();
+      end   = moment(date).endOf('week').toDate();
+    }
+    else if(view === 'month'){
+    start = moment(date).startOf('month').startOf('week').toDate()
+    end = moment(date).endOf('month').endOf('week').toDate()
+    }
+    else if(view === 'agenda'){
+      start = moment(date).startOf('day').toDate();
+      end   = moment(date).endOf('day').add(1, 'month').toDate();
+    }
+    return {start, end};
+  }
