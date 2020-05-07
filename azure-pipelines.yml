@@ -3,7 +3,13 @@
 name: $(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionPatch).$(BuildVersionRevision)
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - *.md
+    - *.yml
 
 pr: none
 
