@@ -2,14 +2,14 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 name: $(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionPatch).$(BuildVersionRevision)
 
-trigger:
-  branches:
-    include:
-    - master
-  paths:
-    exclude:
-    - *.md
-    - *.yml
+trigger: none
+  # branches:
+  #   include:
+  #   - master
+  # paths:
+  #   exclude:
+  #   - *.md
+  #   - *.yml
 
 pr: none
 
