@@ -18,7 +18,7 @@
     "spin.js": "^4.1.0"
   },
   "devDependencies": {
-    "pcf-scripts": "^1",
-    "pcf-start": "^1"
+    "pcf-scripts": "^1.2.6",
+    "pcf-start": "^1.2.6"
   }
 }

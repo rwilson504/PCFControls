@@ -1,12 +1,19 @@
+/*
+ * @Author: richard.wilson 
+ * @Date: 2020-05-09 07:38:17 
+ * @Last Modified by: richard.wilson
+ * @Last Modified time: 2020-05-09 08:01:13
+ */
+
 import * as React from "react";
 import {IInputs} from "./generated/ManifestTypes";
-import { TextField} from "office-ui-fabric-react/lib/TextField";
+import { TextField, ITextFieldStyles, ITextFieldStyleProps} from "office-ui-fabric-react/lib/TextField";
 import { ColorPicker } from "office-ui-fabric-react/lib/ColorPicker";
 import { Callout, DirectionalHint } from "office-ui-fabric-react/lib/Callout";
 import { DefaultButton, IButtonStyles } from 'office-ui-fabric-react/lib/Button';
 import { IColor } from 'office-ui-fabric-react/lib/Color'
 import { Stack, IStackTokens } from 'office-ui-fabric-react/lib/Stack';
-import { getTheme, ITheme, IStyle } from "@uifabric/styling";
+import { getTheme, IStyle } from "@uifabric/styling";
 import { initializeIcons } from '@uifabric/icons';
 
 export interface IColorPickerCompProps {
@@ -48,9 +55,6 @@ export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {
         padding: 5 
     };
 
-    // //get the theme so we can use it later to style non Office-UI content
-    // const theme: ITheme = React.useMemo(getTheme, []);
-
     const colorButtonContainerSytles: React.CSSProperties = {
         border: `1px solid ${theme.semanticColors.inputBorder}`,
         padding: '4px'
@@ -72,6 +76,30 @@ export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {
         rootHovered: colorButtonStyle,
         rootDisabled: colorButtonStyle
     };
+
+    //style for textbox to mimic disabled style but leave field in read-only mode
+    // so that text from field can be copied in browsers that dont allow selection
+    // within disabled fields like firefox.
+    const colorTextStyle: Partial<ITextFieldStyles> = {
+        fieldGroup: {        
+            background: theme.semanticColors.disabledBackground,
+            borderColor: theme.semanticColors.disabledBorder,            
+            selectors: {
+                '::after' : {
+                    borderColor: theme.semanticColors.disabledBorder,
+                    borderWidth: '1px'
+                },
+                ':hover' : {
+                    borderColor: theme.semanticColors.disabledBorder                    
+                }         
+            }
+        },
+        field:
+        {
+            borderColor: theme.semanticColors.disabledBorder,
+            color: theme.semanticColors.disabledText
+        }
+    };    
 
     //called when the color picker button is clicked
     const _onShowColorPickerClicked = () => {
@@ -112,7 +140,7 @@ export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {
                         alphaSliderHidden={true}                            
                         />
                     </Callout>             
-                    <TextField disabled value={`${colorValue}`}  />
+                    <TextField readOnly value={`${colorValue}`} styles={colorTextStyle} />
             </Stack>
         </div>
     );   

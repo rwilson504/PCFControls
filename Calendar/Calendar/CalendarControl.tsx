@@ -1,3 +1,10 @@
+/*
+ * @Author: richard.wilson 
+ * @Date: 2020-05-09 07:38:02 
+ * @Last Modified by:   richard.wilson 
+ * @Last Modified time: 2020-05-09 07:38:02 
+ */
+
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
@@ -34,6 +41,7 @@ const [calendarRtl, setCalendarRtl] = React.useState(props.pcfContext.userSettin
 const [defaultView, setDefaultView] = React.useState(getDefaultView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
 const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : props.pcfContext.parameters.calendarDate.raw || moment().toDate());
+const [calendarScrollTo, setCalendarScrollTo] = React.useState(moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate());
 const calendarRef = React.useRef(null);
 
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
@@ -138,7 +146,8 @@ return(!calendarData?.resources ? <Calendar
     culture={calendarCulture}
     rtl={calendarRtl}
     messages={calendarMessages}
-    defaultView={defaultView}    
+    defaultView={defaultView}
+    scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected} 
     onSelectSlot={ _handleSlotSelect }
@@ -159,6 +168,7 @@ return(!calendarData?.resources ? <Calendar
     culture={calendarCulture}
     messages={calendarMessages}
     defaultView={defaultView}
+    scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected }
     onSelectSlot={ _handleSlotSelect }

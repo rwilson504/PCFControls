@@ -9,13 +9,13 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@types/node": "^10.12.18",
+    "@types/node": "^10.17.21",
     "@types/powerapps-component-framework": "^1.2.0",
     "@types/react-big-calendar": "^0.24.0",
     "lcid": "^3.1.1",
-    "moment": "^2.24.0",
+    "moment": "^2.25.3",
     "react": "^16.13.1",
-    "react-big-calendar": "^0.24.3",
+    "react-big-calendar": "^0.24.6",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
