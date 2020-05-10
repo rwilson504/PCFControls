@@ -21,7 +21,14 @@ button.rbc-input::-moz-focus-inner {
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: stretch; }
+  align-items: stretch; 
+  font-family: 'SegoeUI', 'Segoe UI';
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  color: #666666
+}
 
 .rbc-calendar *,
 .rbc-calendar *:before,
@@ -102,7 +109,7 @@ button.rbc-input::-moz-focus-inner {
     background-image: none;
     border: 1px solid #ccc;
     padding: .375rem 1rem;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     line-height: normal;
     white-space: nowrap; }
     .rbc-toolbar button:active, .rbc-toolbar button.rbc-active {
@@ -133,11 +140,11 @@ button.rbc-input::-moz-focus-inner {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
   .rbc-rtl .rbc-btn-group > button:first-child:not(:last-child) {
-    border-radius: 4px;
+    /* border-radius: 4px; */
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
   .rbc-rtl .rbc-btn-group > button:last-child:not(:first-child) {
-    border-radius: 4px;
+    /* border-radius: 4px; */
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
   .rbc-btn-group > button:not(:first-child):not(:last-child) {
@@ -154,13 +161,14 @@ button.rbc-input::-moz-focus-inner {
 .rbc-event {
   border: solid;
   border-width: 1px;
-  border-color: #666;
+  border-color: #999;
   box-sizing: border-box;
   box-shadow: none;
   margin: 0;
   padding: 2px 5px;
   background-color: #3174ad;
-  border-radius: 5px;
+  /* transition: 0.25s; */
+  /* border-radius: 5px; */
   color: #fff;
   cursor: pointer;
   width: 100%;
@@ -172,6 +180,10 @@ button.rbc-input::-moz-focus-inner {
     background-color: #265985; }
   .rbc-event:focus {
     outline: 5px auto #3b99fc; }
+
+/* .rbc-event:hover{
+  opacity: .8;
+} */
 
 .rbc-event-label {
   font-size: 80%; }
@@ -211,7 +223,15 @@ button.rbc-input::-moz-focus-inner {
   font-weight: bold;
   font-size: 85%;
   height: auto;
-  line-height: normal; }
+  line-height: normal; 
+  color: #666;
+  text-decoration: none;
+}
+
+.rbc-show-more:hover {
+  color: #000;
+  background-color: #d4d4d4;
+}
 
 .rbc-month-view {
   position: relative;
@@ -317,9 +337,27 @@ button.rbc-input::-moz-focus-inner {
   .rbc-agenda-time-cell .rbc-continues-prior:before {
     content: '« '; }
 
-.rbc-agenda-date-cell,
+.rbc-agenda-table th:nth-child(1){
+  width: 100px !important;
+}
+
+.rbc-agenda-table th:nth-child(2){
+  width: 160px !important;
+}
+
+.rbc-agenda-date-cell {
+  white-space: nowrap;
+  width: 80px !important;
+  background-color: white;
+  color: #666;
+}
+
 .rbc-agenda-time-cell {
-  white-space: nowrap; }
+  white-space: nowrap;
+  width: 160px !important;
+  max-width: 160px !important;
+  min-width: 160px !important;
+}
 
 .rbc-agenda-event-cell {
   width: 100%; }
@@ -357,7 +395,7 @@ button.rbc-input::-moz-focus-inner {
       left: 10px;
       right: 0; }
   .rbc-day-slot .rbc-event {
-    border: 1px solid #265985;
+    border: 1px solid #999;
     display: flex;
     max-height: 100%;
     min-height: 20px;
@@ -379,6 +417,13 @@ button.rbc-input::-moz-focus-inner {
   .rbc-day-slot .rbc-time-slot {
     border-top: 1px solid #f7f7f7; }
 
+.rbc-time-view .rbc-time-header-gutter {
+  /* To fix issue in Canvas app we will set the width manually */
+  width: 70px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
+}
+
 .rbc-time-view-resources .rbc-time-gutter,
 .rbc-time-view-resources .rbc-time-header-gutter {
   position: sticky;
@@ -386,7 +431,8 @@ button.rbc-input::-moz-focus-inner {
   background-color: white;
   border-right: 1px solid #DDD;
   z-index: 10;
-  margin-right: -1px; }
+  margin-right: -1px;   
+}
 
 .rbc-time-view-resources .rbc-time-header {
   overflow: hidden; }
@@ -493,7 +539,9 @@ button.rbc-input::-moz-focus-inner {
   overflow-y: auto;
   position: relative; }
   .rbc-time-content > .rbc-time-gutter {
-    flex: none; }
+    flex: none; 
+    /* To fix issue in Canvas app we will set the width manually */
+    width: 70px !important;}
   .rbc-time-content > * + * > * {
     border-left: 1px solid #DDD; }
   .rbc-rtl .rbc-time-content > * + * > * {

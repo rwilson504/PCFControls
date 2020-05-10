@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.148" display-name-key="Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
+  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.149" display-name-key="Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
     <data-set name="calendarDataSet" display-name-key="Calendar Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
     </data-set>
     <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
