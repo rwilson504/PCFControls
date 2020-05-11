@@ -6,7 +6,8 @@
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start"
+    "start": "pcf-scripts start",
+    "postinstall": "cd ./node_modules/react-big-calendar && npm install"
   },
   "dependencies": {
     "@types/node": "^10.17.21",
@@ -15,7 +16,7 @@
     "lcid": "^3.1.1",
     "moment": "^2.25.3",
     "react": "^16.13.1",
-    "react-big-calendar": "^0.24.6",
+    "react-big-calendar": "https://github.com/rwilson504/react-big-calendar.git",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
