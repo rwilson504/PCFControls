@@ -16,7 +16,7 @@
     "lcid": "^3.1.1",
     "moment": "^2.25.3",
     "react": "^16.13.1",
-    "react-big-calendar": "https://github.com/rwilson504/react-big-calendar.git",
+    "react-big-calendar": "^0.24.6",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
