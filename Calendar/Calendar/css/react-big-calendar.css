@@ -348,8 +348,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-agenda-date-cell {
   white-space: nowrap;
   width: 80px !important;
-  background-color: white;
-  color: #666;
+  color: #666;  
 }
 
 .rbc-agenda-time-cell {

@@ -1,8 +1,8 @@
 /*
  * @Author: richard.wilson 
  * @Date: 2020-05-09 07:38:02 
- * @Last Modified by:   richard.wilson 
- * @Last Modified time: 2020-05-09 07:38:02 
+ * @Last Modified by: richard.wilson
+ * @Last Modified time: 2020-05-11 14:12:02
  */
 
 import * as React from 'react';
@@ -12,14 +12,15 @@ import { Calendar, momentLocalizer, Event, Messages } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
-//import * as dates from 'react-big-calendar/lib/utils/dates';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
+    dataSetVersion: number,
     onClickSelectedRecord: (recordId: string) => void,
     onClickSlot: (start: Date, end: Date, resourceId: string) => void,
     onRangeChange: (start: Date, end: Date) => void,
-    onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date) => void
+    onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date) => void,
+    onViewChange: (view: string) => void
 }
 
 //extend the event interface to include additional properties we wil use.
@@ -38,7 +39,7 @@ const [calendarCulture, setCalendarCulture] = React.useState(getISOLanguage(prop
 moment.locale(calendarCulture);
 const [calendarMessages, setCalendarMessages] = React.useState(GetMessages(calendarCulture));
 const [calendarRtl, setCalendarRtl] = React.useState(props.pcfContext.userSettings.isRTL);
-const [defaultView, setDefaultView] = React.useState(getDefaultView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
+const [calendarView, setCalendarView] = React.useState(getCalendarView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
 const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : props.pcfContext.parameters.calendarDate.raw || moment().toDate());
 const [calendarScrollTo, setCalendarScrollTo] = React.useState(moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate());
@@ -54,6 +55,7 @@ React.useEffect(()=>{
         }
 
         var dataSet = props.pcfContext.parameters.calendarDataSet;
+        console.log(`asyncCalendarData: dataSet.sortedRecordIds.length: ${dataSet.sortedRecordIds.length}`)
         if (dataSet.loading === false)
         {
             setCalendarData(await getCalendarData(props.pcfContext, keys));
@@ -61,7 +63,8 @@ React.useEffect(()=>{
     }        
     asyncCalendarData();
 },
-[props.pcfContext.parameters.calendarDataSet]);
+//[props.pcfContext.parameters.calendarDataSet]);
+[props.dataSetVersion]);
 
 //allows for changing the calendar date if a date/time field is utilized in canvas on the input parameters
 React.useEffect(()=>{
@@ -78,6 +81,13 @@ React.useEffect(()=>{
         props.onDateChange(calendarDate, rangeDates.start, rangeDates.end);
     }
 },[calendarDate])
+
+React.useEffect(()=>{
+    if (calendarView)
+    {                 
+        props.onViewChange(getCalendarView(calendarView));
+    }
+},[calendarView])
 
 //when an event is selected it return the events id in canvas and open the record in model app
 const _handleEventSelected = (event: IEvent) => {
@@ -121,13 +131,13 @@ const _handleSlotSelect = (slotInfo: any) => {
 }
 
 //required event when using a variable for the Calendar Date
-const _handleNavigate = (date: Date, view: string, action: string) => {
-    //console.log("_handleNavigate");
+const _handleNavigate = (date: Date, view: string, action: string) => {    
     setCalendarDate(moment(date).toDate());
 }
 
 //sends the new range values to the output parameters when the range is updated
 const _handleRangeChange = (rangeInfo: any) => {
+    let updateRef = calendarRef.current;
     //on some view the rangeInfo has a start and end date
     if (rangeInfo.hasOwnProperty('start') && rangeInfo.hasOwnProperty('end'))
     {    
@@ -139,6 +149,11 @@ const _handleRangeChange = (rangeInfo: any) => {
     }
 }
 
+const _handleOnView = (view: string) => {
+    setCalendarView(getCalendarView(view));
+    console.log(view);
+}
+
 return(!calendarData?.resources ? <Calendar
     selectable
     localizer={localizer}
@@ -146,13 +161,15 @@ return(!calendarData?.resources ? <Calendar
     culture={calendarCulture}
     rtl={calendarRtl}
     messages={calendarMessages}
-    defaultView={defaultView}
+    defaultView={calendarView}
+    view={calendarView}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected} 
     onSelectSlot={ _handleSlotSelect }
     onRangeChange={ _handleRangeChange }
     onNavigate={ _handleNavigate }
+    onView={ _handleOnView }
     ref={calendarRef}
     eventPropGetter={event => ({            
         style: {
@@ -167,13 +184,15 @@ return(!calendarData?.resources ? <Calendar
     date={calendarDate}
     culture={calendarCulture}
     messages={calendarMessages}
-    defaultView={defaultView}
+    defaultView={calendarView}
+    view={calendarView}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected }
     onSelectSlot={ _handleSlotSelect }
     onRangeChange={ _handleRangeChange }
     onNavigate={ _handleNavigate }
+    onView={ _handleOnView }
     resources={calendarData.resources}
     resourceAccessor="resource"
     ref={calendarRef}
@@ -242,6 +261,7 @@ async function getCalendarData(pcfContext: ComponentFramework.Context<IInputs>, 
     let resourceData = await getResources(pcfContext, keys);
     let eventData = await getEvents(pcfContext, resourceData, keys);
 
+    console.log(`getCalendarData: eventData.length: ${eventData?.length}`);
     return {resources: resourceData, events: eventData, keys: keys}
 }
 
@@ -366,9 +386,9 @@ function formatDateAsParameterString(date: Date){
         date.getSeconds();
 }
 
-function getDefaultView(viewName: string) : "month" | "week" | "work_week" | "day" | "agenda" | undefined {
+function getCalendarView(viewName: string) : "month" | "week" | "work_week" | "day" | "agenda" {
     let possibleViews = ["month", "week", "work_week", "day", "agenda"];
-    return possibleViews.indexOf(viewName) > -1 ? possibleViews[possibleViews.indexOf(viewName)] as any: undefined;
+    return possibleViews.indexOf(viewName) > -1 ? possibleViews[possibleViews.indexOf(viewName)] as any: "month";
 }
 
 async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, resources: any[], keys: any): Promise<void> {

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.149" display-name-key="Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
+  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.150" display-name-key="Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
     <data-set name="calendarDataSet" display-name-key="Calendar Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
     </data-set>
     <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
@@ -22,6 +22,7 @@
     <property name="currentRangeStart" display-name-key="(Output) Calendar Range Start" description-key="When the current calendar range changes the new Start will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="currentRangeEnd" display-name-key="(Output) Calendar Range End" description-key="When the current calendar range changes the new End will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="currentCalendarDate" display-name-key="(Output) Calendar Date" description-key="Provides the current date the calendar is set to." usage="output" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="currentCalendarView" display-name-key="(Output) Calendar View" description-key="Provides the current view the calendar is set to." usage="output" of-type="SingleLine.Text" required="false" />
     <property name="actionSlotSelected" display-name-key="(Output) Empty Time Slot Was Selected" description-key="Provides the Canvas app producer notification that an empty time slot was selected on the calendar." usage="output" of-type="TwoOptions" required="false" />
     <property name="actionRecordSelected" display-name-key="(Output) Record was selected" description-key="Provides the Canvas app producer notification that a record was selected on the calendar." usage="output" of-type="TwoOptions" required="false" />
     <resources>
