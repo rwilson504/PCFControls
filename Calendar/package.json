@@ -6,8 +6,7 @@
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start",
-    "postinstall": "cd ./node_modules/react-big-calendar && npm install"
+    "start": "pcf-scripts start"
   },
   "dependencies": {
     "@types/node": "^10.17.21",
