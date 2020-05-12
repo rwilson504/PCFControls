@@ -45,6 +45,22 @@ const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.paramete
 const [calendarScrollTo, setCalendarScrollTo] = React.useState(moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate());
 const calendarRef = React.useRef(null);
 
+//fix for agenda color issue
+React.useEffect(()=> {
+    if (calendarView === 'agenda')
+    {
+        var agendaTRs = document.querySelectorAll(':scope .rbc-agenda-content .rbc-agenda-table tr');
+        for (var i=0; i < agendaTRs.length; i++)
+        {    
+                var agendaTR = agendaTRs[i] as HTMLTableRowElement
+                var backgroundColor = agendaTR.style.backgroundColor;
+                agendaTR.style.backgroundColor = "transparent";
+                (agendaTR.getElementsByClassName('rbc-agenda-time-cell')[0] as HTMLTableCellElement).style.backgroundColor = backgroundColor;
+                (agendaTR.getElementsByClassName('rbc-agenda-event-cell')[0] as HTMLTableCellElement).style.backgroundColor = backgroundColor;
+        }
+    }
+}, [calendarView])
+
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
 React.useEffect(()=>{
     async function asyncCalendarData(){
