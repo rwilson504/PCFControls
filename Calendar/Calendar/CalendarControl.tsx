@@ -8,19 +8,16 @@
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { Calendar, momentLocalizer, Event, Messages } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Event, Messages, Views, View } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
-    dataSetVersion: number,
     onClickSelectedRecord: (recordId: string) => void,
     onClickSlot: (start: Date, end: Date, resourceId: string) => void,
-    onRangeChange: (start: Date, end: Date) => void,
-    onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date) => void,
-    onViewChange: (view: string) => void
+    onCalendarChange: (date: Date, rangeStart: Date, rangeEnd: Date, view: View) => void,
 }
 
 //extend the event interface to include additional properties we wil use.
@@ -31,35 +28,22 @@ interface IEvent extends Event{
 
 //Big-Calendar utilizes this for time zone
 const localizer = momentLocalizer(moment);
+const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as View[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {        
-
-const [calendarCulture, setCalendarCulture] = React.useState(getISOLanguage(props.pcfContext))
+const eventDefaultBackgroundColor = props.pcfContext.parameters.eventDefaultColor.raw || '#3174ad';
+const calendarTodayBackgroundColor = props.pcfContext.parameters.calendarTodayBackgroundColor.raw || '#eaf6ff';
+const calendarCulture = getISOLanguage(props.pcfContext);
 //set our moment to the current callendar culture for use of it outside the calendar.
 moment.locale(calendarCulture);
-const [calendarMessages, setCalendarMessages] = React.useState(GetMessages(calendarCulture));
-const [calendarRtl, setCalendarRtl] = React.useState(props.pcfContext.userSettings.isRTL);
-const [calendarView, setCalendarView] = React.useState(getCalendarView(props.pcfContext.parameters.calendarDefaultView.raw || ""));
-const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
-const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : props.pcfContext.parameters.calendarDate.raw || moment().toDate());
-const [calendarScrollTo, setCalendarScrollTo] = React.useState(moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate());
-const calendarRef = React.useRef(null);
+const calendarMessages = GetMessages(calendarCulture);
+const calendarRtl = props.pcfContext.userSettings.isRTL;
+const calendarScrollTo = moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate();
 
-//fix for agenda color issue
-React.useEffect(()=> {
-    if (calendarView === 'agenda')
-    {
-        var agendaTRs = document.querySelectorAll(':scope .rbc-agenda-content .rbc-agenda-table tr');
-        for (var i=0; i < agendaTRs.length; i++)
-        {    
-                var agendaTR = agendaTRs[i] as HTMLTableRowElement
-                var backgroundColor = agendaTR.style.backgroundColor;
-                agendaTR.style.backgroundColor = "transparent";
-                (agendaTR.getElementsByClassName('rbc-agenda-time-cell')[0] as HTMLTableCellElement).style.backgroundColor = backgroundColor;
-                (agendaTR.getElementsByClassName('rbc-agenda-event-cell')[0] as HTMLTableCellElement).style.backgroundColor = backgroundColor;
-        }
-    }
-}, [calendarView])
+const [calendarView, setCalendarView] = React.useState(getCalendarView(props.pcfContext.parameters.calendarView.raw || ""));
+const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
+const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : (props.pcfContext.parameters.calendarDate.raw || moment().toDate()));
+const calendarRef = React.useRef(null);
 
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
 React.useEffect(()=>{
@@ -74,42 +58,39 @@ React.useEffect(()=>{
         console.log(`asyncCalendarData: dataSet.sortedRecordIds.length: ${dataSet.sortedRecordIds.length}`)
         if (dataSet.loading === false)
         {
-            setCalendarData(await getCalendarData(props.pcfContext, keys));
+            setCalendarData(await getCalendarData(props.pcfContext, keys));            
         }
     }        
     asyncCalendarData();
 },
-//[props.pcfContext.parameters.calendarDataSet]);
-[props.dataSetVersion]);
+[props.pcfContext.parameters.calendarDataSet.records]);
 
 //allows for changing the calendar date if a date/time field is utilized in canvas on the input parameters
 React.useEffect(()=>{
-    if (props.pcfContext.parameters.calendarDate?.raw?.getTime() !== 0 && calendarDate != props.pcfContext.parameters.calendarDate.raw){
+    if (props.pcfContext.parameters.calendarDate?.raw?.getTime() !== 0 
+    && !moment(calendarDate).isSame(props.pcfContext.parameters.calendarDate.raw)){
         setCalendarDate(props.pcfContext.parameters.calendarDate.raw as Date)
     }    
 },[props.pcfContext.parameters.calendarDate.raw])
 
+//allows for changing the calendar view if a user decides to add in custom button for the view in canvas
 React.useEffect(()=>{
-    if (calendarDate)
-    {    
-        let ref = calendarRef.current as any;
-        let rangeDates = getCurrentRange(calendarDate, ref.props.view, ref.props.culture)        
-        props.onDateChange(calendarDate, rangeDates.start, rangeDates.end);
-    }
-},[calendarDate])
+    if (props.pcfContext.parameters.calendarView?.raw && calendarView != props.pcfContext.parameters.calendarView.raw){
+        setCalendarView(getCalendarView(props.pcfContext.parameters.calendarView.raw))
+    }    
+},[props.pcfContext.parameters.calendarView.raw])
 
 React.useEffect(()=>{
-    if (calendarView)
-    {                 
-        props.onViewChange(getCalendarView(calendarView));
+    if (calendarDate && calendarView)
+    {            
+        _onCalendarChange();       
     }
-},[calendarView])
+},[calendarDate, calendarView])
 
 //when an event is selected it return the events id in canvas and open the record in model app
 const _handleEventSelected = (event: IEvent) => {
     let eventId = event.id as string
     
-    //props.pcfContext.parameters.calendarDataSet.setSelectedRecordIds([eventId]);
     props.onClickSelectedRecord(event.id as string);
 
     //if we are in a model app open the record when it's selected.
@@ -148,29 +129,73 @@ const _handleSlotSelect = (slotInfo: any) => {
 
 //required event when using a variable for the Calendar Date
 const _handleNavigate = (date: Date, view: string, action: string) => {    
-    setCalendarDate(moment(date).toDate());
-}
-
-//sends the new range values to the output parameters when the range is updated
-const _handleRangeChange = (rangeInfo: any) => {
-    let updateRef = calendarRef.current;
-    //on some view the rangeInfo has a start and end date
-    if (rangeInfo.hasOwnProperty('start') && rangeInfo.hasOwnProperty('end'))
-    {    
-        props.onRangeChange(rangeInfo.start, rangeInfo.end);
-    }
-    //on other views it has an array of dates
-    if (Array.isArray(rangeInfo)) {
-        props.onRangeChange(rangeInfo[0], rangeInfo[rangeInfo.length-1]);
-    }
+    setCalendarDate(moment(date).toDate());    
 }
 
 const _handleOnView = (view: string) => {
-    setCalendarView(getCalendarView(view));
-    console.log(view);
+    setCalendarView(getCalendarView(view));    
 }
 
-return(!calendarData?.resources ? <Calendar
+const _onCalendarChange = () =>
+{
+    let ref = calendarRef.current as any;
+    let rangeDates = getCurrentRange(calendarDate, ref.props.view, ref.props.culture)        
+    props.onCalendarChange(ref.props.date, rangeDates.start, rangeDates.end, ref.props.view);
+}
+
+const dayPropGetter = (date: Date) => {
+    if (date.getDate() === moment().date())
+      return {        
+        style: {
+          backgroundColor: calendarTodayBackgroundColor,
+          color: getContrastYIQ(calendarTodayBackgroundColor)
+        },
+      }
+    else return {}
+  }
+
+const agendaEvent = ({event} : any)=> {    
+    return (                
+      <span style={{
+        overflow: 'auto',
+        display: 'block',
+        backgroundColor: event.color || eventDefaultBackgroundColor,
+        padding: '5px',
+        color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
+      }}>               
+        {event.title}
+      </span>
+    ) 
+}
+
+const resourceHeader = ({label} : any)=> {
+    let ref = calendarRef.current as any;
+    return (                
+        ref.props.view === 'day' ? 
+        <span>
+            <style>
+            {`.rbc-time-header > .rbc-time-header-content {
+                min-width: 0px;
+            }`}
+            </style> 
+        {label}
+      </span>: 
+      <span>
+          {label}
+      </span>
+    ) 
+}
+
+const timeGutterHeader = ({label} : any)=> {
+    let ref = calendarRef.current as any;
+    return (                
+      <span className="rbc-time-header-gutter-all-day">
+          {ref ? ref.props.messages.allDay : ""}
+      </span>
+    ) 
+}
+
+return(!calendarData?.resources ? <Calendar    
     selectable
     localizer={localizer}
     date={calendarDate}
@@ -179,22 +204,29 @@ return(!calendarData?.resources ? <Calendar
     messages={calendarMessages}
     defaultView={calendarView}
     view={calendarView}
+    views={allViews}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected} 
     onSelectSlot={ _handleSlotSelect }
-    onRangeChange={ _handleRangeChange }
     onNavigate={ _handleNavigate }
     onView={ _handleOnView }
     ref={calendarRef}
     eventPropGetter={event => ({            
         style: {
-            backgroundColor: event.color || "#3174ad",
-            color: getContrastYIQ(event.color || "#3174ad")
+            backgroundColor: event.color || eventDefaultBackgroundColor,
+            color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
         }
     })}
+    dayPropGetter={dayPropGetter}
+    components={{
+        agenda: {
+          event: agendaEvent,
+        },
+        timeGutterHeader: timeGutterHeader     
+    }}
     /> : 
-    <Calendar
+    <Calendar    
     selectable
     localizer={localizer}
     date={calendarDate}
@@ -202,11 +234,11 @@ return(!calendarData?.resources ? <Calendar
     messages={calendarMessages}
     defaultView={calendarView}
     view={calendarView}
+    views={allViews}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected }
     onSelectSlot={ _handleSlotSelect }
-    onRangeChange={ _handleRangeChange }
     onNavigate={ _handleNavigate }
     onView={ _handleOnView }
     resources={calendarData.resources}
@@ -214,10 +246,18 @@ return(!calendarData?.resources ? <Calendar
     ref={calendarRef}
     eventPropGetter={event => ({            
         style: {
-            backgroundColor: event.color || "#3174ad",
-            color: getContrastYIQ(event.color || "#3174ad")
+            backgroundColor: event.color || eventDefaultBackgroundColor,
+            color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
         }
     })}
+    dayPropGetter={dayPropGetter}
+    components={{
+        agenda: {
+          event: agendaEvent,
+        },        
+        resourceHeader: resourceHeader,
+        timeGutterHeader: timeGutterHeader
+    }}
     />);
 }
 
@@ -262,9 +302,10 @@ async function getKeys(pcfContext: ComponentFramework.Context<IInputs>) : Promis
 //gets fields name from the datsource columns and provides the necessary alias information for
 //related entities.
 function getFieldName(dataSet: ComponentFramework.PropertyTypes.DataSet , fieldName: string): string {
-    //if the field name does not contain a . then just return the field name
-    if (fieldName.indexOf('.') === -1) return fieldName;
-
+    //if the field name does not contain a .  or linking is null which could be the case in a canvas app
+    // when using a collection  then just return the field name
+    if (fieldName.indexOf('.') === -1 || !dataSet.linking) return fieldName;
+    
     //otherwise we need to determine the alias of the linked entity
     var linkedFieldParts = fieldName.split('.');
     linkedFieldParts[0] = dataSet.linking.getLinkedEntities().find(e => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
@@ -311,8 +352,8 @@ async function getResources(pcfContext: ComponentFramework.Context<IInputs>, key
         //otherwise this is canvas and the user has supplied the data.
         else
         {
-            resourceId = record.getValue(keys.resource) as string;
-            resourceName = record.getValue(keys.resourceName) as string;
+            resourceId = record.getValue(keys.resource) as string || "";
+            resourceName = record.getValue(keys.resourceName) as string || "";
         }
         
         if (!resourceId) continue;
@@ -337,6 +378,22 @@ async function getResources(pcfContext: ComponentFramework.Context<IInputs>, key
     }
 
     return distinctResources;    
+}
+
+async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, resources: any[], keys: any): Promise<void> {
+    var resourceName = keys.resourceName.indexOf('.') === -1 ? keys.resourceName : keys.resourceName.split('.')[1];
+    var options = keys.resourceName ? `?$select=${resourceName}` : undefined;
+    
+    //retrieve all the resources
+    var allResources = await pcfContext.webAPI.retrieveMultipleRecords(keys.resourceEtn, options, 5000);
+    
+    //loop through and push them to the resources array
+    allResources.entities.forEach(e => { 
+        resources.push({
+            id: e[keys.resourceId],
+            title: e[resourceName]
+        })
+    });
 }
 
 //retrieves all the events from the datasource
@@ -407,38 +464,6 @@ function getCalendarView(viewName: string) : "month" | "week" | "work_week" | "d
     return possibleViews.indexOf(viewName) > -1 ? possibleViews[possibleViews.indexOf(viewName)] as any: "month";
 }
 
-async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, resources: any[], keys: any): Promise<void> {
-    var resourceName = keys.resourceName.indexOf('.') === -1 ? keys.resourceName : keys.resourceName.split('.')[1];
-    var options = keys.resourceName ? `?$select=${resourceName}` : undefined;
-    
-    //retrieve all the resources
-    var allResources = await pcfContext.webAPI.retrieveMultipleRecords(keys.resourceEtn, options, 5000);
-    
-    //loop through and push them to the resources array
-    allResources.entities.forEach(e => { 
-        resources.push({
-            id: e[keys.resourceId],
-            title: e[resourceName]
-        })
-    });
-}
-
-function getISOLanguage(pcfContext: ComponentFramework.Context<IInputs>): string
-{
-    //look for a lanuage setting comging in from the parameters.
-    //if nothign was entered use an empty string which will default to en
-    let lang = pcfContext.parameters.calendarLanguage?.raw || '';    
-
-    //if this is a model app and a language was not added as an input then user the current users
-    // language settings.
-    if (!lang && pcfContext.mode.allocatedHeight === -1){
-        lang = lcid.from(pcfContext.userSettings.languageId);
-        return lang.substring(0, lang.indexOf('_'));
-    }
-
-    return lang;
-}
-
 function getCurrentRange(date: Date, view: string, culture: string) : {start: Date, end: Date} {
 
     let start = moment().toDate(), end = moment().toDate();
@@ -460,3 +485,19 @@ function getCurrentRange(date: Date, view: string, culture: string) : {start: Da
     }
     return {start, end};
   }
+
+function getISOLanguage(pcfContext: ComponentFramework.Context<IInputs>): string
+{
+    //look for a lanuage setting comging in from the parameters.
+    //if nothign was entered use an empty string which will default to en
+    let lang = pcfContext.parameters.calendarLanguage?.raw || '';    
+
+    //if this is a model app and a language was not added as an input then user the current users
+    // language settings.
+    if (!lang && pcfContext.mode.allocatedHeight === -1){
+        lang = lcid.from(pcfContext.userSettings.languageId);
+        return lang.substring(0, lang.indexOf('_'));
+    }
+
+    return lang;
+}

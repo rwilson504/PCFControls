@@ -10,7 +10,6 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 	private _container: HTMLDivElement;
 	private _context: ComponentFramework.Context<IInputs>;
 	private _props: IProps;
-	private _dataSetVersion: number;
 	private _selectedRecordId: string;
 	private _actionRecordSelected: boolean;
 	private _selectedSlotStart: Date | undefined;
@@ -51,23 +50,19 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		// If any of them are undefined then the onChange event for the control in a canvas app will not fire.
 		this._currentRangeStart = new Date();
 		this._currentRangeEnd = new Date();
-		this._currentCalendarView = context.parameters.calendarDefaultView.raw || "month";
+		this._currentCalendarView = context.parameters.calendarView.raw || "month";	
 		this._selectedSlotResourceId = '';
 		this._selectedRecordId = '';
 		this._actionRecordSelected = false;
 		this._actionSlotSelected = false;
-		this._dataSetVersion = 0;
 
 		this._updateFromOutput = false;
 
 		this._props = {
 			pcfContext: this._context,
-			dataSetVersion: this._dataSetVersion,
 			onClickSelectedRecord: this.onClickSelectedRecord.bind(this),
 			onClickSlot: this.onClickSelectedSlot.bind(this),
-			onRangeChange: this.onRangeChange.bind(this),
-			onDateChange: this.onDateChange.bind(this),
-			onViewChange: this.onViewChange.bind(this)	
+			onCalendarChange: this.onDateChange.bind(this),
 		}
 
 		this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
@@ -93,11 +88,9 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		}
 
 		var dataSet = context.parameters.calendarDataSet
-
-		//useEffect on the dataSet itself was not picking up on all the updates so pass in a dataset version
-		// and update it in the props so the react control knows it was updated.
-		this._props.dataSetVersion = this._dataSetVersion++;
 		
+		if (dataSet.loading) return;
+
 		//CANVAS ONLY
 		if (context.mode.allocatedHeight !== -1) {
 			//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
@@ -109,9 +102,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			// will come back and do a reset on the paging.  I beleive this is all due to a MS bug.
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
 			dataSet.paging.reset();
-		}
-		
-		if (dataSet.loading) return;
+		}				
 
 		//MODEL ONLY
 		if (context.mode.allocatedHeight === -1 && dataSet.paging.hasNextPage) {
@@ -120,7 +111,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			dataSet.paging.loadNextPage();
 			return;
 		}
-
+		
 		this._props.pcfContext = context;
 		console.log(`updateView: dataSet.sortedRecordIds.length:  ${context.parameters.calendarDataSet.sortedRecordIds.length}`)
 
@@ -130,12 +121,6 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			), 
 			this._container
 		);	
-	}
-
-	public onRangeChange(start: Date, end: Date){
-		this._currentRangeStart = start;		
-		this._currentRangeEnd = end;
-		this._notifyOutputChanged();
 	}
 
 	public onClickSelectedRecord(recordId: string)
@@ -154,15 +139,11 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		this._notifyOutputChanged();
 	}
 
-	public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date)
+	public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date, view: string)
 	{
 		this._currentCalendarDate = date;
 		this._currentRangeStart = rangeStart;		
 		this._currentRangeEnd = rangeEnd;
-		this._notifyOutputChanged();
-	}
-
-	public onViewChange(view: string){
 		this._currentCalendarView = view;
 		this._notifyOutputChanged();
 	}

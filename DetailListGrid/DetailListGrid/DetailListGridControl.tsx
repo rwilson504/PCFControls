@@ -14,7 +14,8 @@ import * as lcid from 'lcid';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
-    isModelApp: boolean
+    isModelApp: boolean,
+    dataSetVersion: number
 }
 
 interface IColumnWidth {
@@ -50,14 +51,14 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
     // When the component is updated this will determine if the sampleDataSet has changed.  
     // If it has we will go get the udpated items.
     React.useEffect(() => {
-        console.log('sampleDataSet was updated');        
+        console.log('TSX: props.dataSetVersion was updated');        
         setItems(getItems(columns, props.pcfContext));
-        }, [props.pcfContext.parameters.sampleDataSet]);  
+        }, [props.dataSetVersion]);  
     
     // When the component is updated this will determine if the width of the control has changed.
     // If so the column widths will be adjusted.
     React.useEffect(() => {
-        console.log('width was updated');
+        //console.log('width was updated');
         setColumns(updateColumnWidths(columns, props.pcfContext));
         }, [props.pcfContext.mode.allocatedWidth]);        
     
@@ -244,7 +245,7 @@ const getColumnWidthDistribution = (pcfContext: ComponentFramework.Context<IInpu
 
     // Considering need to remove border & padding length
     let totalWidth:number = pcfContext.mode.allocatedWidth - 250;
-    console.log(`new total width: ${totalWidth}`);
+    //console.log(`new total width: ${totalWidth}`);
     let widthSum = 0;
     
     columnsOnView.forEach(function (columnItem) {
