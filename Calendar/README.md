@@ -5,7 +5,7 @@ This control has been designed to work in both Canvas and Model apps.  Because o
 ![Control Overview](./images/calendarcontrol.gif)
 
 Canvas
-- To ensure data loads correctly in Canvas we must use collections instead of CDS datasources.
+- To ensure data loads correctly in Canvas we must use collections instead of CDS datasource directly.
 - There are output parameters that are defined in the app which will pass back data when an item is clicked on, an empty time span is selected, or the calendar range has been updated.  These output parameters will allow you to create your own functionality in the Canvas app for updated or creating records.
 - To set the default lanague for the calendar you can utilize the Lanague() function to pass the users current browser language into the calendarLanguage property.
 
@@ -45,10 +45,12 @@ Set the propertie of the control.
 - **Event Start Field** This will be the start time for the events.  Enter the logical name of the attribute in this fields. Ex. raw_start
 - **Event End Field** This will be the end time for the events.  Enter the logical name of the attribute in this fields. Ex. raw_end
 - **Event Color Field** This will change the color of the event.  You can use a color field on the event or you can utlize a color field from the resources. Enter the logical name of the attribute.  Ex. on Event raw_color, Ex. on Resource raw_resource.raw_color.
+- **Default Event Background Color** Specify the default background color for events if not using a field to define the color. Value should be in Hex color format, eg. #3174ad
 - **Event Id Field** (Do Not Use In Model, for Canvas Only were data is supplied by a collection)
 - **Resource Field** If you want to utilize resources enter the logical name of the lookup field for the Resource.
 - **Resource Name** To use a name field for the resource that is not the default name field you can enter it here. Ex. raw_resource.raw_specialname.  Otherwise you can leave this blank and it will use data from the default name field.
 - **Get All Resources** Determines if all resources will be returned even those that don't have any events on the calendar.  Possible values are true or false.
+- **Today Background Color** Sets the background color for the time slots that cover todays date.
 - **Default Claendar View** Set the default calendar view.  Possible values are "month", "week", "work_week", "day", "agenda"
 - **Calendar Date** (Do Not Use In Model, for Canvas Only)
 - **Calendar Language** Allows you to set the default language/culture for the calendar.  If you leave this blank it will default to the users current language in Dynamics if it's available or you can specifiy a lanuage if you always want the calendar to show up in that language.
@@ -61,12 +63,12 @@ Using the control in Canvas requires more configuration due to the limitations a
 - Using Code Components in a canvas app is currently in pre-release.  You will need to follow [these directions](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps) in order to enable this feature within your environment.
 - After you drop the calendar control onto your Canvas app or update any of the controls properties make sure that you close and re-open the app in the PowerApps Editor to see the changes reflected.
 - When adding the control to the form it will have a long name like raw_RAW.Calendar.Calendar(00000001-0000-0000-0001-00000000009b1) rename it to something simple like Calendar Control
-- Because Canvas apps utilize delegation our datasource for the control will need to be a Collection as apposed to using the CDS entity directly, directions on how to do this are below.
+- Because PCF Code components are not currently in Preview from Microsoft there are some paging bugs that limit the number of records return when using a CDS entity directly, instead you will need to utilize a Collection to get the data. directions on how to do this are below.
 
 ## Events Only
-To just get the events and display them on the calendar we must utilize a simple collection to get all the events.  Because Canvas apps utilize delegation we need to load all CDS data into a collection, otherwise the number of records will be constrained.
+To just get the events and display them on the calendar we must utilize a simple collection to get all the events.  Because Canvas have some paging issues right now we will need to load the CDS data into a collection, otherwise the number of records will be constrained to 25.
 
-The following code can be added to the OnVisible event of the Canvas form.  The collection name will be calendarEvents and the CDS entity we are pulling from is called Events.  Additionally you can add filters when creating the Events entity if you would like to only show certain events.
+The following code can be added to the OnVisible event of the Canvas form or to a Toggle switch that can update the data when it's been checked..  The collection name will be calendarEvents and the CDS entity we are pulling from is called Events.  Additionally you can add filters when creating the Events entity if you would like to only show certain events.
 
 ![OnLoad of Screen](./images/CanvasCalendarEventsOnlyOnLoad.png)
 

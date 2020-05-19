@@ -8,6 +8,7 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	private _context: ComponentFramework.Context<IInputs>;
 	private _container: HTMLDivElement;
 	private _detailList: HTMLDivElement;
+	private _dataSetVersion: number;
 	private _isModelApp: boolean
 
 	private _props: IProps;
@@ -34,10 +35,12 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 		this._container = container;
 		this._context = context;
 		this._isModelApp = window.hasOwnProperty('getGlobalContextObject');
+		this._dataSetVersion = 0;
 
 		this._props = {
 			pcfContext: this._context,
-			isModelApp: this._isModelApp
+			isModelApp: this._isModelApp,
+			dataSetVersion: this._dataSetVersion
 		}
 
 		// set the container to display to relative so that our Scrollable Panel does not cover up the
@@ -79,20 +82,34 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	{
 		var dataSet = context.parameters.sampleDataSet;
 		
+		if (dataSet.loading) return;
+
 		//Are we in a canvas app?
-		if (this._context.mode.allocatedHeight !== -1)
+		if (!this._isModelApp)
 		{
 			//since we are in a canvas app let's make sure we set the height of the control
 			this._detailList.style.height = `${(this._context.mode.allocatedHeight).toString()}px`
-		}	
-
-		if (dataSet.loading) return;
+			
+			//Setting the page size in a Canvas app works on the first load of the component.  If you navigate
+			// away from the page on which the component is located though the paging get reset to 25 when you
+			// navigate back.  In order to fix this we need to reset the paging to the count of the records that
+			// will come back and do a reset on the paging.  I beleive this is all due to a MS bug.	
+			//@ts-ignore
+			console.log(`TS: updateView, dataSet.paging.pageSize ${dataSet.paging.pageSize}`);	
+			console.log(`TS: updateView, dataSet.paging.totalResultCount ${dataSet.paging.totalResultCount}`)
+			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
+			dataSet.paging.reset();
+		}
 
 		//if data set has additional pages retrieve them before running anything else
 		if (this._isModelApp && dataSet.paging.hasNextPage) {
 			dataSet.paging.loadNextPage();
 			return;
 		}
+
+		//useEffect on the dataSet itself was not picking up on all the updates so pass in a dataset version
+		// and update it in the props so the react control knows it was updated.
+		this._props.dataSetVersion = this._dataSetVersion++;
 		
 		// render the DetailsList control
 		ReactDOM.render(
