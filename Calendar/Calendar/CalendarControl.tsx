@@ -144,7 +144,7 @@ const _onCalendarChange = () =>
 }
 
 const dayPropGetter = (date: Date) => {
-    if (date.getDate() === moment().date())
+    if (moment(date).startOf('day').isSame(moment().startOf('day')))
       return {        
         style: {
           backgroundColor: calendarTodayBackgroundColor,
@@ -471,10 +471,10 @@ function getCurrentRange(date: Date, view: string, culture: string) : {start: Da
       start = moment(date).startOf('day').toDate();
       end   = moment(date).endOf('day').toDate();
     }
-    else if(view === 'week'){
+    else if(view === 'week' || view === 'work_week'){
       start = moment(date).startOf('week').toDate();
       end   = moment(date).endOf('week').toDate();
-    }
+    }    
     else if(view === 'month'){
     start = moment(date).startOf('month').startOf('week').toDate()
     end = moment(date).endOf('month').endOf('week').toDate()
