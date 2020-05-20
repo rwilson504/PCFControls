@@ -67,11 +67,13 @@ React.useEffect(()=>{
 
 //allows for changing the calendar date if a date/time field is utilized in canvas on the input parameters
 React.useEffect(()=>{
+    //this appears to be firing every time a render happens...
+
     if (props.pcfContext.parameters.calendarDate?.raw?.getTime() !== 0 
     && !moment(calendarDate).isSame(props.pcfContext.parameters.calendarDate.raw)){
         setCalendarDate(props.pcfContext.parameters.calendarDate.raw as Date)
     }    
-},[props.pcfContext.parameters.calendarDate.raw])
+},[props.pcfContext.parameters.calendarDate.raw?.getTime()])
 
 //allows for changing the calendar view if a user decides to add in custom button for the view in canvas
 React.useEffect(()=>{
