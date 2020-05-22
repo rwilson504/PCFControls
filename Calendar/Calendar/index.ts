@@ -4,6 +4,8 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {CalendarControl, IProps} from "./CalendarControl"
+import * as Color from 'color'
+var isHexColor = require('is-hexcolor');
 
 export class Calendar implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -64,6 +66,12 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			onClickSlot: this.onClickSelectedSlot.bind(this),
 			onCalendarChange: this.onDateChange.bind(this),
 		}
+		
+		//add style tag that we will add custom calendar style options to.
+		let styleEl = document.createElement('style');
+		styleEl.type = 'text/css';
+		styleEl.id = 'rbc-calendar-theme-style';
+		document.head.appendChild(styleEl);
 
 		this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
 		this._container.style.zIndex = "0";

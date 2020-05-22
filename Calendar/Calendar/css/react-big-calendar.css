@@ -27,7 +27,7 @@ button.rbc-input::-moz-focus-inner {
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  color: #666666
+  /* color: #666666 */
 }
 
 .rbc-calendar *,
@@ -53,10 +53,12 @@ button.rbc-input::-moz-focus-inner {
   direction: rtl; }
 
 .rbc-off-range {
-  color: #999999; }
+  /* color: #999999; } */
+}
 
 .rbc-off-range-bg {
-  background: #e6e6e6; }
+  /* background: #e6e6e6;  */
+}
 
 .rbc-header {
   overflow: hidden;
@@ -69,12 +71,15 @@ button.rbc-input::-moz-focus-inner {
   font-weight: bold;
   font-size: 90%;
   min-height: 0;
-  border-bottom: 1px solid #DDD; }
+  border-bottom: 1px solid; /*  #DDDDDD;  */
+}
   .rbc-header + .rbc-header {
-    border-left: 1px solid #DDD; }
+    border-left: 1px solid; /*  #DDDDDD;  */
+  }
   .rbc-rtl .rbc-header + .rbc-header {
     border-left-width: 0;
-    border-right: 1px solid #DDD; }
+    border-right: 1px solid; /*  #DDDDDD;  */
+  }
   .rbc-header > a, .rbc-header > a:active, .rbc-header > a:visited {
     color: inherit;
     text-decoration: none; }
@@ -86,7 +91,8 @@ button.rbc-input::-moz-focus-inner {
   z-index: 4; }
 
 .rbc-today {
-  background-color: #eaf6ff; }
+  font-style: italic;
+}
 
 .rbc-toolbar {
   display: flex;
@@ -94,20 +100,20 @@ button.rbc-input::-moz-focus-inner {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 16px; }
+  font-size: 18px; }
   .rbc-toolbar .rbc-toolbar-label {
     flex-grow: 1;
     padding: 0 10px;
     text-align: center; }
   .rbc-toolbar button {
-    color: #373a3c;
+    /* color: #373a3c; */
     display: inline-block;
     margin: 0;
     text-align: center;
     vertical-align: middle;
     background: none;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid;/* #ccc; */
     padding: .375rem 1rem;
     /* border-radius: 4px; */
     line-height: normal;
@@ -115,20 +121,20 @@ button.rbc-input::-moz-focus-inner {
     .rbc-toolbar button:active, .rbc-toolbar button.rbc-active {
       background-image: none;
       box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-      background-color: #e6e6e6;
-      border-color: #adadad; }
-      .rbc-toolbar button:active:hover, .rbc-toolbar button:active:focus, .rbc-toolbar button.rbc-active:hover, .rbc-toolbar button.rbc-active:focus {
-        color: #373a3c;
-        background-color: #d4d4d4;
-        border-color: #8c8c8c; }
+      /* background-color: #e6e6e6; */
+      border-color: inherit; /* #adadad; */ }
+    .rbc-toolbar button:active:hover, .rbc-toolbar button:active:focus, .rbc-toolbar button.rbc-active:hover, .rbc-toolbar button.rbc-active:focus {
+        /* color: #373a3c; */
+        /* background-color: #d4d4d4; */
+        border-color:inherit; /* #8c8c8c; */ }
     .rbc-toolbar button:focus {
-      color: #373a3c;
-      background-color: #e6e6e6;
-      border-color: #adadad; }
+      /* color: #373a3c; */
+      /* background-color: #e6e6e6; */
+      border-color: inherit; /*#adadad;*/ }
     .rbc-toolbar button:hover {
-      color: #373a3c;
-      background-color: #e6e6e6;
-      border-color: #adadad; }
+      /* color: #373a3c; */
+      /* background-color: #e6e6e6; */
+      border-color: inherit; /* #adadad; */ }
 
 .rbc-btn-group {
   display: inline-block;
@@ -159,14 +165,14 @@ button.rbc-input::-moz-focus-inner {
     margin-left: 10px; }
 
 .rbc-event {
-  border: solid;
-  border-width: 1px;
-  border-color: #999;
+  /* border: solid; */
+  border-width: 0;
+  /* border-color: #999; */
   box-sizing: border-box;
   box-shadow: none;
   margin: 0;
   padding: 2px 5px;
-  background-color: #3174ad;
+  /* background-color: #3174ad; */
   /* transition: 0.25s; */
   /* border-radius: 5px; */
   color: #fff;
@@ -220,22 +226,22 @@ button.rbc-input::-moz-focus-inner {
 .rbc-show-more {
   /* background-color: rgba(255, 255, 255, 0.3); */
   z-index: 4;
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size: 85%;
   height: auto;
   line-height: normal; 
-  color: #666;
+  /* color: #666; */
   text-decoration: none;
 }
 
 .rbc-show-more:hover {
-  color: #000;
+  /* color: #000; */
   background-color: #d4d4d4;
 }
 
 .rbc-month-view {
   position: relative;
-  border: 1px solid #DDD;
+  border: 1px solid; /* #DDD; */
   display: flex;
   flex-direction: column;
   flex: 1 0 0;
@@ -257,7 +263,8 @@ button.rbc-input::-moz-focus-inner {
   overflow: hidden;
   height: 100%; }
   .rbc-month-row + .rbc-month-row {
-    border-top: 1px solid #DDD; }
+    border-top: 1px solid;
+  /* #DDD; */ }
 
 .rbc-date-cell {
   flex: 1 1 0;
@@ -265,7 +272,9 @@ button.rbc-input::-moz-focus-inner {
   padding-right: 5px;
   text-align: right; }
   .rbc-date-cell.rbc-now {
-    font-weight: bold; }
+    font-weight: bold; 
+    font-style: italic;
+  }
   .rbc-date-cell > a, .rbc-date-cell > a:active, .rbc-date-cell > a:visited {
     color: inherit;
     text-decoration: none; }
@@ -279,10 +288,10 @@ button.rbc-input::-moz-focus-inner {
 .rbc-day-bg {
   flex: 1 0 0%; }
   .rbc-day-bg + .rbc-day-bg {
-    border-left: 1px solid #DDD; }
+    border-left: 1px solid;/* #DDD; */ }
   .rbc-rtl .rbc-day-bg + .rbc-day-bg {
     border-left-width: 0;
-    border-right: 1px solid #DDD; }
+    border-right: 1px solid;/* #DDD; */ }
 
 .rbc-overlay {
   position: absolute;
@@ -306,7 +315,7 @@ button.rbc-input::-moz-focus-inner {
   overflow: auto; }
   .rbc-agenda-view table.rbc-agenda-table {
     width: 100%;
-    border: 1px solid #DDD;
+    border: 1px solid;/* #DDD; */;
     border-spacing: 0;
     border-collapse: collapse; }
     .rbc-agenda-view table.rbc-agenda-table tbody > tr{
@@ -320,16 +329,16 @@ button.rbc-input::-moz-focus-inner {
       padding-right: 15px;
       text-transform: lowercase; }
     .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
-      border-left: 1px solid #DDD; }
+      border-left: 1px solid;/* #DDD; */ }
     .rbc-rtl .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
       border-left-width: 0;
-      border-right: 1px solid #DDD; }
+      border-right: 1px solid;/* #DDD; */ }
     .rbc-agenda-view table.rbc-agenda-table tbody > tr + tr {
-      border-top: 1px solid #DDD; }
+      border-top: 1px solid;/* #DDD; */ }
     .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
       padding: 3px 5px;
       text-align: left;
-      border-bottom: 1px solid #DDD; }
+      border-bottom: 1px solid;/* #DDD; */ }
       .rbc-rtl .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
         text-align: right; }
 
@@ -351,7 +360,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-agenda-date-cell {
   white-space: nowrap;
   width: 80px !important;
-  color: #666;  
+  /* color: #666;   */
 }
 
 .rbc-agenda-time-cell {
@@ -359,7 +368,7 @@ button.rbc-input::-moz-focus-inner {
   width: 160px !important;
   max-width: 160px !important;
   min-width: 160px !important;
-  color: #666;
+  /* color: #666; */
 }
 
 .rbc-agenda-event-cell {
@@ -376,7 +385,7 @@ button.rbc-input::-moz-focus-inner {
     flex: 1; }
 
 .rbc-timeslot-group {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid;/* #DDD; */;
   min-height: 40px;
   display: flex;
   flex-flow: column nowrap; }
@@ -421,7 +430,7 @@ button.rbc-input::-moz-focus-inner {
     height: 100%;
     min-height: 1em; }
   .rbc-day-slot .rbc-time-slot {
-    border-top: 1px solid #f7f7f7; }
+    border-top: 1px solid; /* #f7f7f7; */ }
 
 .rbc-time-view .rbc-time-header-gutter {
   /* To fix issue in Canvas app we will set the width manually */
@@ -446,7 +455,7 @@ button.rbc-input::-moz-focus-inner {
   position: sticky;
   left: 0;
   /* background-color: white; */
-  border-right: 1px solid #DDD;
+  border-right: 1px solid;/* #DDD; */;
   z-index: 10;
   margin-right: -1px;   
 }
@@ -499,7 +508,7 @@ button.rbc-input::-moz-focus-inner {
   flex-direction: column;
   flex: 1;
   width: 100%;
-  border: 1px solid #DDD;
+  border: 1px solid;/* #DDD; */;
   min-height: 0; }
   .rbc-time-view .rbc-time-gutter {
     white-space: nowrap; }
@@ -509,7 +518,7 @@ button.rbc-input::-moz-focus-inner {
     height: 100%;
     position: relative; }
   .rbc-time-view .rbc-allday-cell + .rbc-allday-cell {
-    border-left: 1px solid #DDD; }
+    border-left: 1px solid;/* #DDD; */ }
   .rbc-time-view .rbc-allday-events {
     position: relative;
     z-index: 4; }
@@ -522,14 +531,14 @@ button.rbc-input::-moz-focus-inner {
   flex: 0 0 auto;
   flex-direction: row; }
   .rbc-time-header.rbc-overflowing {
-    border-right: 1px solid #DDD; }
+    border-right: 1px solid;/* #DDD; */ }
   .rbc-rtl .rbc-time-header.rbc-overflowing {
     border-right-width: 0;
-    border-left: 1px solid #DDD; }
+    border-left: 1px solid;/* #DDD; */ }
   .rbc-time-header > .rbc-row:first-child {
-    border-bottom: 1px solid #DDD; }
+    border-bottom: 1px solid;/* #DDD; */ }
   .rbc-time-header > .rbc-row.rbc-row-resource {
-    border-bottom: 1px solid #DDD; }
+    border-bottom: 1px solid;/* #DDD; */ }
 
 .rbc-time-header-cell-single-day {
   display: none; }
@@ -539,12 +548,12 @@ button.rbc-input::-moz-focus-inner {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  border-left: 1px solid #DDD; }
+  border-left: 1px solid;/* #DDD; */ }
   .rbc-rtl .rbc-time-header-content {
     border-left-width: 0;
-    border-right: 1px solid #DDD; }
+    border-right: 1px solid;/* #DDD; */ }
   .rbc-time-header-content > .rbc-row.rbc-row-resource {
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid;/* #DDD; */
     flex-shrink: 0; }
 
 .rbc-time-content {
@@ -552,7 +561,7 @@ button.rbc-input::-moz-focus-inner {
   flex: 1 0 0%;
   align-items: flex-start;
   width: 100%;
-  border-top: 2px solid #DDD;
+  border-top: 2px solid;/* #DDD; */
   overflow-y: auto;
   position: relative; }
   .rbc-time-content > .rbc-time-gutter {
@@ -560,10 +569,10 @@ button.rbc-input::-moz-focus-inner {
     /* To fix issue in Canvas app we will set the width manually */
     width: 70px !important;}
   .rbc-time-content > * + * > * {
-    border-left: 1px solid #DDD; }
+    border-left: 1px solid;/* #DDD; */ }
   .rbc-rtl .rbc-time-content > * + * > * {
     border-left-width: 0;
-    border-right: 1px solid #DDD; }
+    border-right: 1px solid;/* #DDD; */ }
   .rbc-time-content > .rbc-day-slot {
     width: 100%;
     user-select: none;
