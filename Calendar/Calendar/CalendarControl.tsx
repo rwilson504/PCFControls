@@ -12,6 +12,8 @@ import { Calendar, momentLocalizer, Event, Messages, Views, View } from 'react-b
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
+import * as Color from 'color'
+var isHexColor = require('is-hexcolor');
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
@@ -31,8 +33,12 @@ const localizer = momentLocalizer(moment);
 const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as View[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {        
-const eventDefaultBackgroundColor = props.pcfContext.parameters.eventDefaultColor.raw || '#3174ad';
-const calendarTodayBackgroundColor = props.pcfContext.parameters.calendarTodayBackgroundColor.raw || '#eaf6ff';
+const eventDefaultBackgroundColor = Color(isHexColor(props.pcfContext.parameters.eventDefaultColor.raw) ? props.pcfContext.parameters.eventDefaultColor.raw as string : '#3174ad');
+const calendarTodayBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTodayBackgroundColor.raw) ? props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string : '#eaf6ff');
+const calendarTextColor = Color(isHexColor(props.pcfContext.parameters.calendarTextColor.raw) ? props.pcfContext.parameters.calendarTextColor.raw as string : '#666666');
+const calendarBorderColor = Color(isHexColor(props.pcfContext.parameters.calendarBorderColor.raw) ? props.pcfContext.parameters.calendarBorderColor.raw as string : '#dddddd');
+const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw) ? props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string : '#ffffff');
+
 const calendarCulture = getISOLanguage(props.pcfContext);
 //set our moment to the current callendar culture for use of it outside the calendar.
 moment.locale(calendarCulture);
@@ -88,6 +94,98 @@ React.useEffect(()=>{
         _onCalendarChange();       
     }
 },[calendarDate, calendarView])
+
+React.useEffect(()=>{
+    let styleTag = document.getElementById('rbc-calendar-theme-style');
+    if (styleTag){
+        styleTag.innerHTML = generateThemeCSS();
+    }
+},[props.pcfContext.parameters.eventDefaultColor.raw, props.pcfContext.parameters.calendarTodayBackgroundColor.raw, 
+    props.pcfContext.parameters.calendarTextColor.raw, props.pcfContext.parameters.calendarBorderColor.raw, 
+    props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw])
+
+const generateThemeCSS = () : string =>{
+    return `
+    .rbc-calendar, 
+    .rbc-toolbar button, 
+    .rbc-agenda-date-cell,
+    .rbc-agenda-time-cell
+    {
+        color: ${calendarTextColor};
+    }
+
+    .rbc-toolbar button:active, .rbc-toolbar button.rbc-active, .rbc-toolbar button:focus, .rbc-toolbar button:hover {
+        background-color: ${calendarTextColor.fade(.7)};
+    }
+
+    .rbc-toolbar button:active:hover, .rbc-toolbar button:active:focus, .rbc-toolbar button.rbc-active:hover, .rbc-toolbar button.rbc-active:focus {
+        background-color: ${calendarTextColor.fade(.6)};
+    }
+
+    .rbc-toolbar button:active:hover, .rbc-toolbar button:active:focus, .rbc-toolbar button.rbc-active:hover, .rbc-toolbar button.rbc-active:focus,
+    rbc-toolbar button:focus,
+    .rbc-toolbar button:hover {
+        color: ${calendarTextColor.grayscale()} !important;
+    }
+
+    .rbc-off-range-bg {
+        background-color: ${calendarTextColor.fade(.8)} !important
+    }
+
+    .rbc-off-range {
+        color: ${calendarTextColor.fade(.6)}
+    }
+
+    .rbc-show-more {
+        color: ${calendarTextColor.fade(.3)} !important;
+    }
+
+    .rbc-show-more:hover {
+        background-color: ${calendarTextColor.isDark() ? calendarTextColor.grayscale().fade(.8) : calendarTextColor.grayscale().fade(.2) } !important;
+    }
+
+    .rbc-time-view-resources .rbc-time-gutter,
+    .rbc-time-view-resources .rbc-time-header-gutter {
+        background-color: ${calendarTimeBarBackgroundColor};
+    }
+
+    .rbc-header,
+    .rbc-header + .rbc-header,
+    .rbc-rtl .rbc-header + .rbc-header,
+    .rbc-month-view,
+    .rbc-month-row,
+    .rbc-day-bg + .rbc-day-bg,
+    .rbc-rtl .rbc-day-bg + .rbc-day-bg,
+    .rbc-agenda-view table.rbc-agenda-table,
+    .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
+    .rbc-rtl .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
+    .rbc-agenda-view table.rbc-agenda-table tbody > tr + tr,
+    .rbc-agenda-view table.rbc-agenda-table thead > tr > th,
+    .rbc-timeslot-group,
+    .rbc-time-view-resources .rbc-time-gutter,
+    .rbc-time-view-resources .rbc-time-header-gutter,
+    .rbc-time-view,
+    .rbc-time-view .rbc-allday-cell + .rbc-allday-cell,
+    .rbc-time-header.rbc-overflowing,
+    .rbc-rtl .rbc-time-header.rbc-overflowing,
+    .rbc-time-header > .rbc-row:first-child,
+    .rbc-time-header > .rbc-row.rbc-row-resource,
+    .rbc-time-header-content,
+    .rbc-rtl .rbc-time-header-content,
+    .rbc-time-header-content > .rbc-row.rbc-row-resource,
+    .rbc-time-content,
+    .rbc-time-content > * + * > *,
+    .rbc-rtl .rbc-time-content > * + * > *,
+    .rbc-toolbar button
+    {
+        border-color: ${calendarBorderColor} !important;
+    }
+
+    .rbc-day-slot .rbc-time-slot {
+        border-color: ${calendarBorderColor.fade(.2)} !important;
+    }	
+    `;
+}
 
 //when an event is selected it return the events id in canvas and open the record in model app
 const _handleEventSelected = (event: IEvent) => {
@@ -145,15 +243,25 @@ const _onCalendarChange = () =>
     props.onCalendarChange(ref.props.date, rangeDates.start, rangeDates.end, ref.props.view);
 }
 
-const dayPropGetter = (date: Date) => {
+const eventPropsGetter = (event: IEvent) => {
+    return {
+        style: {
+            backgroundColor: event.color || eventDefaultBackgroundColor.toString(),
+            color: Color(event.color || eventDefaultBackgroundColor).isDark() ? '#fff' : "#000",
+            borderColor: calendarBorderColor.toString()
+        }
+    }
+}
+
+const dayPropsGetter = (date: Date) => {
     if (moment(date).startOf('day').isSame(moment().startOf('day')))
       return {        
         style: {
-          backgroundColor: calendarTodayBackgroundColor,
-          color: getContrastYIQ(calendarTodayBackgroundColor)
-        },
+          backgroundColor: calendarTodayBackgroundColor.toString(),
+        }
       }
-    else return {}
+    else return {        
+    }
   }
 
 const agendaEvent = ({event} : any)=> {    
@@ -161,9 +269,9 @@ const agendaEvent = ({event} : any)=> {
       <span style={{
         overflow: 'auto',
         display: 'block',
-        backgroundColor: event.color || eventDefaultBackgroundColor,
+        backgroundColor: event.color || eventDefaultBackgroundColor.toString(),
         padding: '5px',
-        color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
+        color: Color(event.color || eventDefaultBackgroundColor).isDark() ? '#fff' : "#000"
       }}>               
         {event.title}
       </span>
@@ -188,7 +296,7 @@ const resourceHeader = ({label} : any)=> {
     ) 
 }
 
-const timeGutterHeader = ({label} : any)=> {
+const timeGutterHeader = ()=> {
     let ref = calendarRef.current as any;
     return (                
       <span className="rbc-time-header-gutter-all-day">
@@ -214,18 +322,13 @@ return(!calendarData?.resources ? <Calendar
     onNavigate={ _handleNavigate }
     onView={ _handleOnView }
     ref={calendarRef}
-    eventPropGetter={event => ({            
-        style: {
-            backgroundColor: event.color || eventDefaultBackgroundColor,
-            color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
-        }
-    })}
-    dayPropGetter={dayPropGetter}
+    eventPropGetter={eventPropsGetter}
+    dayPropGetter={dayPropsGetter}    
     components={{
         agenda: {
           event: agendaEvent,
         },
-        timeGutterHeader: timeGutterHeader     
+        timeGutterHeader: timeGutterHeader
     }}
     /> : 
     <Calendar    
@@ -246,13 +349,8 @@ return(!calendarData?.resources ? <Calendar
     resources={calendarData.resources}
     resourceAccessor="resource"
     ref={calendarRef}
-    eventPropGetter={event => ({            
-        style: {
-            backgroundColor: event.color || eventDefaultBackgroundColor,
-            color: getContrastYIQ(event.color || eventDefaultBackgroundColor)
-        }
-    })}
-    dayPropGetter={dayPropGetter}
+    eventPropGetter={eventPropsGetter}
+    dayPropGetter={dayPropsGetter}
     components={{
         agenda: {
           event: agendaEvent,
@@ -438,16 +536,6 @@ async function getEvents(pcfContext: ComponentFramework.Context<IInputs>, resour
         }
 
         return newEvents;
-}
-
-//determines if the title text will be black or white depending on the color of the background
-function getContrastYIQ(hexcolor: string){
-    hexcolor = hexcolor.replace("#", "");
-    var r = parseInt(hexcolor.substr(0,2),16);
-    var g = parseInt(hexcolor.substr(2,2),16);
-    var b = parseInt(hexcolor.substr(4,2),16);
-    var yiq = ((r*299)+(g*587)+(b*114))/1000;
-    return (yiq >= 128) ? 'black' : 'white';
 }
 
 //format the date/time so that it can be passed as a parameter to a Dynamics form
