@@ -267,7 +267,9 @@ const dayPropsGetter = (date: Date) => {
 
 const agendaEvent = ({event} : any)=> {    
     return (                
-      <span style={{
+      <span 
+      title={event.title}
+      style={{
         overflow: 'auto',
         display: 'block',
         backgroundColor: event.color || eventDefaultBackgroundColor.toString(),
@@ -300,7 +302,7 @@ const resourceHeader = ({label} : any)=> {
 const timeGutterHeader = ()=> {
     let ref = calendarRef.current as any;
     return (                
-      <span className="rbc-time-header-gutter-all-day">
+      <span title={ref ? ref.props.messages.allDay : ""} className="rbc-time-header-gutter-all-day">
           {ref ? ref.props.messages.allDay : ""}
       </span>
     ) 
