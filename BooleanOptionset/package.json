@@ -9,11 +9,11 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@types/node": "^10.17.16",
-    "@types/powerapps-component-framework": "^1.2.0"
+    "@types/node": "^10.17.24",
+    "@types/powerapps-component-framework": "^1.2.3"
   },
   "devDependencies": {
-    "pcf-scripts": "^1.2.6",
-    "pcf-start": "^1.2.6"
+    "pcf-scripts": "^1.3.1",
+    "pcf-start": "^1.3.1"
   }
 }
