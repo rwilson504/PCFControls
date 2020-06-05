@@ -8,9 +8,9 @@ export default function GetMessages(lang: string): Messages{
         case 'fr':
             return {
                 date: 'date',
-                time: 'temps',
+                time: 'heure',
                 event: 'événement',
-                allDay: 'journée',
+                allDay: 'jour entier',
                 week: 'semaine',
                 work_week: 'semaine de travail',
                 day: 'jour',
