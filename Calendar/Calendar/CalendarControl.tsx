@@ -576,8 +576,8 @@ function getCurrentRange(date: Date, view: string, culture: string) : {start: Da
       end   = moment(date).endOf('week').toDate();
     } 
     else if(view === 'work_week'){
-        start = moment(date).isoWeekday(1).toDate();
-        end   = moment(date).isoWeekday(5).toDate();
+        start = moment(date).weekday(1).toDate();
+        end   = moment(date).weekday(5).toDate();
     }    
     else if(view === 'month'){
     start = moment(date).startOf('month').startOf('week').toDate()
