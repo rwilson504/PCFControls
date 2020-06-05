@@ -182,6 +182,12 @@ const generateThemeCSS = () : string =>{
         border-color: ${calendarBorderColor} !important;
     }
 
+    .rbc-event:focus,
+    .rbc-toolbar button:focus
+    {
+        outline: 5px auto ${calendarBorderColor};
+    }
+
     .rbc-day-slot .rbc-time-slot {
         border-color: ${calendarBorderColor.fade(.2)} !important;
     }	
