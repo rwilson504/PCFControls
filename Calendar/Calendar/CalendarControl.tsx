@@ -8,7 +8,7 @@
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { Calendar, momentLocalizer, Event, Messages, Views, View } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Event, View } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
@@ -30,7 +30,7 @@ interface IEvent extends Event{
 
 //Big-Calendar utilizes this for time zone
 const localizer = momentLocalizer(moment);
-const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as View[];
+const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as string[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {        
 const eventDefaultBackgroundColor = Color(isHexColor(props.pcfContext.parameters.eventDefaultColor.raw) ? props.pcfContext.parameters.eventDefaultColor.raw as string : '#3174ad');
@@ -38,6 +38,7 @@ const calendarTodayBackgroundColor = Color(isHexColor(props.pcfContext.parameter
 const calendarTextColor = Color(isHexColor(props.pcfContext.parameters.calendarTextColor.raw) ? props.pcfContext.parameters.calendarTextColor.raw as string : '#666666');
 const calendarBorderColor = Color(isHexColor(props.pcfContext.parameters.calendarBorderColor.raw) ? props.pcfContext.parameters.calendarBorderColor.raw as string : '#dddddd');
 const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw) ? props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string : '#ffffff');
+const calendarViews = getCalendarViews(props.pcfContext.parameters.calendarAvailableViews.raw || "month");
 
 const calendarCulture = getISOLanguage(props.pcfContext);
 //set our moment to the current callendar culture for use of it outside the calendar.
@@ -46,7 +47,7 @@ const calendarMessages = GetMessages(calendarCulture);
 const calendarRtl = props.pcfContext.userSettings.isRTL;
 const calendarScrollTo = moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate();
 
-const [calendarView, setCalendarView] = React.useState(getCalendarView(props.pcfContext.parameters.calendarView.raw || ""));
+const [calendarView, setCalendarView] = React.useState(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView.raw || ""));
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
 const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : (props.pcfContext.parameters.calendarDate.raw || moment().toDate()));
 const calendarRef = React.useRef(null);
@@ -84,7 +85,7 @@ React.useEffect(()=>{
 //allows for changing the calendar view if a user decides to add in custom button for the view in canvas
 React.useEffect(()=>{
     if (props.pcfContext.parameters.calendarView?.raw && calendarView != props.pcfContext.parameters.calendarView.raw){
-        setCalendarView(getCalendarView(props.pcfContext.parameters.calendarView.raw))
+        setCalendarView(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView.raw))
     }    
 },[props.pcfContext.parameters.calendarView.raw])
 
@@ -233,7 +234,7 @@ const _handleNavigate = (date: Date, view: string, action: string) => {
 }
 
 const _handleOnView = (view: string) => {
-    setCalendarView(getCalendarView(view));    
+    setCalendarView(getCalendarView(calendarViews, view));    
 }
 
 const _onCalendarChange = () =>
@@ -314,7 +315,7 @@ return(!calendarData?.resources ? <Calendar
     messages={calendarMessages}
     defaultView={calendarView}
     view={calendarView}
-    views={allViews}
+    views={calendarViews}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected} 
@@ -339,7 +340,7 @@ return(!calendarData?.resources ? <Calendar
     messages={calendarMessages}
     defaultView={calendarView}
     view={calendarView}
-    views={allViews}
+    views={calendarViews}
     scrollToTime={calendarScrollTo} 
     events={calendarData.events}
     onSelectEvent={ _handleEventSelected }
@@ -356,7 +357,7 @@ return(!calendarData?.resources ? <Calendar
           event: agendaEvent,
         },        
         resourceHeader: resourceHeader,
-        timeGutterHeader: timeGutterHeader
+        timeGutterHeader: timeGutterHeader        
     }}
     />);
 }
@@ -549,9 +550,16 @@ function formatDateAsParameterString(date: Date){
         date.getSeconds();
 }
 
-function getCalendarView(viewName: string) : "month" | "week" | "work_week" | "day" | "agenda" {
-    let possibleViews = ["month", "week", "work_week", "day", "agenda"];
-    return possibleViews.indexOf(viewName) > -1 ? possibleViews[possibleViews.indexOf(viewName)] as any: "month";
+function getCalendarView(calendarViews: View[], viewName: string) : View {    
+    return calendarViews.indexOf(viewName as View) > -1 ? allViews[allViews.indexOf(viewName)] as View: calendarViews[0];
+}
+
+function getCalendarViews(viewList: string) : View[] {    
+    let validViews = viewList.split(',').filter(x => allViews.indexOf(x.trim()) !== -1);
+    if (validViews.length < 1){
+        validViews.push('month');
+    }
+    return validViews as View[];
 }
 
 function getCurrentRange(date: Date, view: string, culture: string) : {start: Date, end: Date} {
