@@ -346,8 +346,8 @@ button.rbc-input::-moz-focus-inner {
       .rbc-rtl .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
         text-align: right; }
 
-.rbc-agenda-time-cell {
-  text-transform: lowercase; }
+.rbc-agenda-time-cell .rbc-continues-after {
+  text-transform: none; }
   .rbc-agenda-time-cell .rbc-continues-after:after {
     content: ' »'; }
   .rbc-agenda-time-cell .rbc-continues-prior:before {
@@ -444,6 +444,8 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-time-header-gutter .rbc-time-header-gutter-all-day {
+  font-size: 12px;
+  padding-right: 8px;
   bottom: 0;
   position: absolute;
   overflow: hidden;
