@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "@types/node": "^10.17.21",
-    "@types/powerapps-component-framework": "^1.2.0",
+    "@types/powerapps-component-framework": "^1.2.3",
     "lcid": "^3.1.1",
     "office-ui-fabric-react": "^7.112.0",
     "react": "^16.13.1"
   },
   "devDependencies": {
-    "pcf-scripts": "^1.2.6",
-    "pcf-start": "^1.2.6"
+    "pcf-scripts": "^1.3.1",
+    "pcf-start": "^1.3.1"
   }
 }
