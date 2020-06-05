@@ -96,15 +96,19 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-toolbar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 18px; }
+  font-size: 14px; }
   .rbc-toolbar .rbc-toolbar-label {
     flex-grow: 1;
-    padding: 0 10px;
-    text-align: center; }
+    /* padding: 0 10px; */
+    text-align: center; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .rbc-toolbar button {
     /* color: #373a3c; */
     display: inline-block;
@@ -114,7 +118,7 @@ button.rbc-input::-moz-focus-inner {
     background: none;
     background-image: none;
     border: 1px solid;/* #ccc; */
-    padding: .375rem 1rem;
+    padding: .3rem .5rem;
     /* border-radius: 4px; */
     line-height: normal;
     white-space: nowrap; }
