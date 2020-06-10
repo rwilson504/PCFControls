@@ -59,6 +59,11 @@ steps:
     command: 'install'
     workingDir: './Calendar/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './CanvasFileDownloader/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -105,6 +110,12 @@ steps:
   inputs:
     SourceFolder: './Calendar/Calendar/CalendarControl/bin/Release/'
     Contents: 'CalendarControl_managed.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './CanvasFileDownloader/Solution/CanvasFileDownloaderControl/bin/Release/'
+    Contents: 'CanvasFileDownloaderControl_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
