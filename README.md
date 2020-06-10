@@ -11,6 +11,11 @@ Provides calendar and resource management in both Model and Canvas Apps.  Canvas
 
 ![Control Overview](./Calendar/images/calendarcontrol.gif)
 
+## Canvas File Downloader
+This control will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
+
+![Canvas File Downloader](./CanvasFileDownloader/images/CanvasFileDownloader.png)
+
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
 ![DetailsList Grid Control](https://github.com/rwilson504/Blogger/blob/master/Office-Fabric-UI-DetailsList-PCF/office-fabric-ui-detailslist.gif?raw=true)
