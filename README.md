@@ -12,7 +12,7 @@ Provides calendar and resource management in both Model and Canvas Apps.  Canvas
 ![Control Overview](./Calendar/images/calendarcontrol.gif)
 
 ## Canvas File Downloader
-This control will allow you to download a file to the client computer in a canvas app by supplying it's Base64 content string instead of a Url.
+This control will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
 
 ![Canvas File Downloader](./CanvasFileDownloader/images/CanvasFileDownloader.png)
 

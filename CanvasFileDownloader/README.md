@@ -1,4 +1,4 @@
-In Canvas apps the Launch and Download function require that you supply a URL to download a file.  This control will allow you to download a file to the client computer in a canvas app by supplying it's Base64 content string.
+In Canvas apps the Launch and Download function require that you supply a URL to download a file.  This control will allow you to download a file to the client computer in a Canvas Power App by supplying it's base64 content string isntead of a Url.
 
 ## How to Configure
 
