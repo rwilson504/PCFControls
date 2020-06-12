@@ -1,20 +1,25 @@
 [![Build Status](https://dev.azure.com/rickwilson/GitHub-rwilson504/_apis/build/status/rwilson504.PCFControls?branchName=master)](https://dev.azure.com/rickwilson/GitHub-rwilson504/_build/latest?definitionId=5&branchName=master)
 
 # Description
-Reusable PowerApps Control Framework (PCF) controls.
+Reusable PowerApps Component Framework (PCF) components.
 
-# Controls
+# Components
 
 ## Calendar/Resource Manager
 
 Provides calendar and resource management in both Model and Canvas Apps.  Canvas App developers have access to output data which will allow them to customize their own for for actions taken on the calendar.
 
-![Control Overview](./Calendar/images/calendarcontrol.gif)
+![Calendar Component](./Calendar/images/calendarcontrol.gif)
 
 ## Canvas File Downloader
-This control will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
+This component will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
 
 ![Canvas File Downloader](./CanvasFileDownloader/images/CanvasFileDownloader.png)
+
+## Canvas File Uploader
+The component allows you to upload a file from your computer into a canvas app and return the Data Url or the Text of the file.  Data Urls in Canvas apps can be utilizes to populate other controls such as the Image or PDF viewer controls.  The text output allows you view the text contents of a file, which could be very useful in things like loading simple text, JSON, or HTML.
+
+![Canvas File Uploader](./CanvasFileUploader/images/CanvasFileUploader.gif)
 
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
@@ -32,16 +37,16 @@ Allows you to simulate the out of the box grid and subgrid controls using the Of
 * Detecting and responding to control width updates.
 
 ## Color Picker
-This color picker control utilizes React and the Office-UI-Fabric controls.
+This color picker component utilizes React and the Office-UI-Fabric controls.
 
-![Color Picker Control](https://1.bp.blogspot.com/-DRZqFJPS1e8/XbtAv9zhLZI/AAAAAAABN1Y/Qt5eoWhmTBcW3tplwsLL2plE1bAOmQDGwCLcBGAsYHQ/s1600/PCFColorPicker.gif)
+![Color Picker Component](https://1.bp.blogspot.com/-DRZqFJPS1e8/XbtAv9zhLZI/AAAAAAABN1Y/Qt5eoWhmTBcW3tplwsLL2plE1bAOmQDGwCLcBGAsYHQ/s1600/PCFColorPicker.gif)
 
-## Bing Maps Control
+## Bing Maps Component
 Connect to bing maps and display information from a Dynamics View.
 
 ![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bing-maps-control.gif?raw=true)
 
-## Azure Maps Control
+## Azure Maps Component
 Connect to Azure maps and display information from a Dynamics View.
 
 ![Azure Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Azure-Maps-Control/images/azuremapcontrol.gif?raw=true?raw=true)
@@ -50,6 +55,6 @@ Connect to Azure maps and display information from a Dynamics View.
 Allows you to utilize a drop down for Boolean fields on the Business Process Flow forms.
 
 # Build
-The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Control Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
+The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
 
-![PCF Custom Control Builder Screenshot](https://1.bp.blogspot.com/-7r7bRCF23zQ/Xbw7y67L0MI/AAAAAAABN1w/Z5kGoAFduPccyEEULiSDAVLUsdqhZNpcgCLcBGAsYHQ/s640/XrmToolBoxPCFCustomControlBuilder.png)
+![PCF Custom Component Builder Screenshot](https://1.bp.blogspot.com/-7r7bRCF23zQ/Xbw7y67L0MI/AAAAAAABN1w/Z5kGoAFduPccyEEULiSDAVLUsdqhZNpcgCLcBGAsYHQ/s640/XrmToolBoxPCFCustomControlBuilder.png)
