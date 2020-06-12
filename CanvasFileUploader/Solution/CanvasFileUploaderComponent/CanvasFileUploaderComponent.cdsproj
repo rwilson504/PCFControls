@@ -16,11 +16,10 @@
     <SolutionRootPath>src</SolutionRootPath>
   </PropertyGroup>
 
-  <!-- Solution Packager overrides, un-comment to use: SolutionPackagerType (Managed, Unmanaged, Both)
   <PropertyGroup>
-    <SolutionPackageType>Managed</SolutionPackageType>
+    <SolutionPackageType>Both</SolutionPackageType>
   </PropertyGroup>
-  -->
+ 
   
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerApps.MSBuild.Solution" Version="1.*" />
