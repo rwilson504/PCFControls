@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="CanvasFileUploader" version="0.0.10" display-name-key="RAW! Canvas File Uploader" description-key="Allows you to upload a file to a Canvas app and get it's data Url and Text" control-type="standard">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="acceptedFileTypes" display-name-key="Accepted File Type(s)" description-key="Provide a comma separated list of files types you will alllow the user to pick from. (eg: .gif, .jpg, .png, .doc)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="triggerFileSelector" display-name-key="Trigger File Selector" description-key="Setting this value to true will open the file selector.  When used in conjunction with a toggle control you utilize the controls functionality without actually displaying it to the user." of-type="TwoOptions" usage="bound" required="true" default-value="false" />
+    <property name="outputType" display-name-key="Output Type" description-key="Determines the output type that the file uploader will return." of-type="Enum" usage="input" required="true" default-value="DataUrl">
+      <value name="DataUrl" display-name-key="Data Url" description-key="File will be returned as a Data Url encoded in base64">DataUrl</value>
+      <value name="Text" display-name-key="Text" description-key="The text of the file will be returned.">Text</value>
+    </property>
+    <property name="value" display-name-key="Value" description-key="The value of the file after it has been processed." of-type="Multiple" usage="output" required="false" />
+    <property name="fileName" display-name-key="File Name" description-key="The file name that you selected" of-type="SingleLine.Text" usage="output" required="false" />
+    <!-- 
+      Property node's of-type attribute can be of-type-group attribute. 
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1" />
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/CanvasFileUploader.css" order="1" />
+      <resx path="strings/CanvasFileUploader.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>
