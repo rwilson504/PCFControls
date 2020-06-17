@@ -73,7 +73,13 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		styleEl.id = 'rbc-calendar-theme-style';
 		document.head.appendChild(styleEl);
 
-		this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
+		if (this._context.mode.allocatedHeight !== -1){
+			this._container.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
+		}
+		else{
+			///@ts-ignore
+			this._container.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "100%"
+		}		
 		this._container.style.zIndex = "0";
 		
 		//set the paging size to 5000
