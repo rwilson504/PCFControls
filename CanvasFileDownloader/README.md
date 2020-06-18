@@ -2,9 +2,9 @@ In Canvas apps the Launch and Download function require that you supply a URL to
 
 ## How to Configure
 
-* Make sure you have enabled PDF control for Canvas apps in your environment.  For instructions on that [Click Here](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
+* Make sure you have enabled PCF components for Canvas apps in your environment.  For instructions on that [Click Here](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
 
-* In the Power Apps Editor navigate **Custom -> Import Components**
+* In the Power Apps Editor ribbon navigate to **Insert -> Custom -> Import Components**
 ![Import Component](./images/ImportComponentRibbon.png)
 
 * On the Import Component screen select the **Code** tab and Import the **RAW! Canvas File Downloader**
