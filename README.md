@@ -11,15 +11,24 @@ Provides calendar and resource management in both Model and Canvas Apps.  Canvas
 
 ![Calendar Component](./Calendar/images/calendarcontrol.gif)
 
+[More...](./Calendar/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CalendarControl_managed.zip)
+
 ## Canvas File Downloader
 This component will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
 
 ![Canvas File Downloader](./CanvasFileDownloader/images/CanvasFileDownloader.png)
 
+[More...](./CanvasFileDownloader/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileDownloaderControl_managed.zip)
+
 ## Canvas File Uploader
 The component allows you to upload a file from your computer into a canvas app and return the Data Url or the Text of the file.  Data Urls in Canvas apps can be utilizes to populate other controls such as the Image or PDF viewer controls.  The text output allows you view the text contents of a file, which could be very useful in things like loading simple text, JSON, or HTML.
 
 ![Canvas File Uploader](./CanvasFileUploader/images/CanvasFileUploader.gif)
+
+[More...](./CanvasFileUploader/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileUploaderComponent_managed.zip)
 
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
@@ -36,23 +45,38 @@ Allows you to simulate the out of the box grid and subgrid controls using the Of
 * Retaining the use of the standard ribbon buttons by using the setSelectedRecordIds function on the DataSet.
 * Detecting and responding to control width updates.
 
+[More...](./DetailListGrid/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/DetailListGridControl_managed.zip)
+
 ## Color Picker
 This color picker component utilizes React and the Office-UI-Fabric controls.
 
 ![Color Picker Component](https://1.bp.blogspot.com/-DRZqFJPS1e8/XbtAv9zhLZI/AAAAAAABN1Y/Qt5eoWhmTBcW3tplwsLL2plE1bAOmQDGwCLcBGAsYHQ/s1600/PCFColorPicker.gif)
+
+[More...](./ColorPicker/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ColorPicker_managed.zip)
 
 ## Bing Maps Component
 Connect to bing maps and display information from a Dynamics View.
 
 ![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bing-maps-control.gif?raw=true)
 
+[More...](./BingMapsGrid/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/BingMapsGridControl_managed.zip)
+
 ## Azure Maps Component
 Connect to Azure maps and display information from a Dynamics View.
 
 ![Azure Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Azure-Maps-Control/images/azuremapcontrol.gif?raw=true?raw=true)
 
+[More...](./AzureMapsGrid/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/AzureMapsGridControl_managed.zip)
+
 ## Boolean Optionset
 Allows you to utilize a drop down for Boolean fields on the Business Process Flow forms.
+
+[More...](./BooleanOptionset/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/BooleanOptionsetControl_managed.zip)
 
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.

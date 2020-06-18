@@ -55,6 +55,14 @@ Set the propertie of the control.
 - **Calendar Date** (Do Not Use In Model, for Canvas Only)
 - **Calendar Language** Allows you to set the default language/culture for the calendar.  If you leave this blank it will default to the users current language in Dynamics if it's available or you can specifiy a lanuage if you always want the calendar to show up in that language.
 
+## Using In Sub-Grid
+If using this control in a Sub-Grid you will need to add it to the form using the Classic Editor.
+
+![Classic Editor For Sub-Grid](./images/ModelCalendarSubGrid.png)
+
+To set the height for the calendar update the number of rows the subgrid should take up.
+![Sub-Grid Rows for Calendar](./images/ModelCalendarSubGridHeight.png)
+
 # Canvas Configuration
 Using the control in Canvas requires more configuration due to the limitations and differences inherit between Model and Canvas apps.  In a canvas app the actions such as creating a new record or updating an existing one need to be implemented by the person creating the app.  The control will provide you with output which will allow you to access data from the calendar and complete those interactions.
 
