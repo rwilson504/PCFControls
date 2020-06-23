@@ -1,6 +1,6 @@
 ![Rotational Image](./images/RotationalImage.gif)
 
-This image component allows you to rotate an image to any degree unlike the Canvas image component which only allows 90, 180, or 270 degrees.  Having full rotation of the image can allow you to build things such a compass or custom guages/indicators for your application.
+This image component allows you to rotate an image to any degree unlike the Canvas image component which only allows 90, 180, or 270 degrees.  Having full rotation of the image can allow you to build things such a compass or custom gauges/indicators for your application.
 
 ## How to Configure
 
