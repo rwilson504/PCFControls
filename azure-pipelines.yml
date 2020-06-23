@@ -136,7 +136,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './CanvasFileUploader/Solution/RotationalImageComponent/bin/Release/'
+    SourceFolder: './RotationalImage/Solution/RotationalImageComponent/bin/Release/'
     Contents: 'RotationalImageComponent_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
