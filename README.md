@@ -35,7 +35,7 @@ Is an image component that will allow you to rotate the image which is not somet
 
 ![Rotational Image](./RotationalImage/images/RotationalImage.gif)
 
-[More...](./CanvasFileUploader/README.md)  
+[More...](./RotationalImage/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RotationalImageComponent_managed.zip)
 
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
