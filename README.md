@@ -30,6 +30,14 @@ The component allows you to upload a file from your computer into a canvas app a
 [More...](./CanvasFileUploader/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileUploaderComponent_managed.zip)
 
+## Rotational Image
+Is an image component that will allow you to rotate the image which is not something you can do with the standard Canvas image component.  The image can be set using a url or a base64 string.   
+
+![Rotational Image](./RotationalImage/images/RotationalImage.gif)
+
+[More...](./CanvasFileUploader/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RotationalImageComponent_managed.zip)
+
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
 ![DetailsList Grid Control](https://github.com/rwilson504/Blogger/blob/master/Office-Fabric-UI-DetailsList-PCF/office-fabric-ui-detailslist.gif?raw=true)

@@ -25,7 +25,7 @@ The default configuration will display a standard HTML file input control.
     * **triggerFileSelected** (boolean): This property can be utilized to open the file selected programatically in Canvas without the user clicking the "Choose File" button.  For more information see the section below called "Configure Using Canvas Button and Label"
     * **outputType** (Enum): Here you can determine what output is supplied after the file is selected.  The are two options to select from.
         * DataUrl - Returns a data url of the file in base64 format.  This string format can be utilized to set other controls in Canvas such as the image control or the PDF viewer component.  Canvas apps know how to translate these data urls into files.  These data urls can also be used in a Patch function on a CDS entity to create annotations or set file fields.
-        * Text - Returns the text represenation of the file.  This can be very useful for .txt files or any of type of simple file.  You could use this to load JSON configuration or HTML into your app.
+        * Text - Returns the text representation of the file.  This can be very useful for .txt files or any of type of simple file.  You could use this to load JSON configuration or HTML into your app.
     * **OnChange**: After the file is selected the files name and content will be returned in two output variables called **fileName** and **value**.  To utilize these output variables set Canvas variables to their value in the OnChange event.
     ![Component Properties](./images/ComponentProperties.png)
 
@@ -35,7 +35,7 @@ The standard HTML file input may not meet your needs for look/feel of your appli
 
 ![Canvas Controls For Upload](./images/CanvasComponentUpload.png)
 
-* To begin open the App -> OnStart function and set a variable for trigering the file browser to false.
+* To begin open the App -> OnStart function and set a variable for triggering the file browser to false.
 ![App Start](./images/CustomAppStart.png)
 
 * Add a Toggle control to your form and update the following properties.  This Toggle will be used to open the file selector. It is important to utilize a Toggle otherwise the async nature of Canvas apps will not correctly set your TriggerFileSelector to the proper value after the selector is opened.
@@ -78,7 +78,7 @@ The standard HTML file input may not meet your needs for look/feel of your appli
         Set(OutputType, drdOutputType.SelectedText);
         ```
 
-* Finally we can update the confiration of the RAW! Canvas File Uploader component to make it not visible and set it's properties.  Start by renameing the component in the editor.  In this example it's called CanvasFileUpload
+* Finally we can update the confirmation of the RAW! Canvas File Uploader component to make it not visible and set it's properties.  Start by renaming the component in the editor.  In this example it's called CanvasFileUpload
     * OnChange: 
         ```
         Set(FileName, CanvasFileUpload.fileName);
