@@ -40,7 +40,7 @@ export class CanvasFileDownloader implements ComponentFramework.StandardControl<
 		if (!params.download?.raw) return;
 
 		let a = document.createElement('a');
-		a.href = `data:${params.fileMIMEType.raw};base64,${params.fileContents.raw}`
+		a.href = params.fileContents.raw?.startsWith('data:') ? params.fileContents.raw : `data:${params.fileMIMEType.raw};base64,${params.fileContents.raw}`
 		a.download = params.fileName.raw || '';
 		document.body.appendChild(a)
 		a.click()
