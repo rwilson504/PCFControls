@@ -1,10 +1,7 @@
-PCF/REACT COLOR PICKER
+BOOLEAN OPTIONSET
 ================
 
-A PCF Control for choosing a color and setting it's value in a single line text field.
+A PCF Control to allow you to set a Boolean field to a drop down instead of a toggle.  Typically Booleans fields can be made into drop down easily using the form editor but on certain version of dynamics there is a bug which only allows Toggle style fields within Business Process Flow (BPF) screens.  This control will allow you to have a drop down again on those BPF forms.
 
-# Overview
-This control utilizes React and the Office-Ui-Fabric to allow a user to pick a color and update the text field that the control is bound to.
-
-![Demo Image](https://1.bp.blogspot.com/-DRZqFJPS1e8/XbtAv9zhLZI/AAAAAAABN1Y/Qt5eoWhmTBcW3tplwsLL2plE1bAOmQDGwCLcBGAsYHQ/s1600/PCFColorPicker.gif)
-Note - Image above shows the color field twice so that you see that the field is being updated.
+# Installation Usage
+To utilize this control you can follow the [these instructions](https://powerusers.microsoft.com/t5/Power-Automate-Community-Blog/Preview-Custom-Controls-in-Business-Process-Flows/ba-p/263237) for adding custom PCF components to BPF forms.
