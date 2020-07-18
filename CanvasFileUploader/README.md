@@ -33,6 +33,8 @@ The default configuration will display a standard HTML file input control.
 ## Configure Using Canvas Button and Label
 The standard HTML file input may not meet your needs for look/feel of your application.  This component was designed to allow you to interact with it utilizing the already available Canvas controls that you are used to.  Below is a demonstration on how to configure the Component utilizing a Canvas Button, Text Box, and Toggle control.
 
+**Note for Firefox:** For this to work in Firefox you will need to add https://pa-content.azureedge.net to the list of exception for the popup blocker.
+
 ![Canvas Controls For Upload](./images/CanvasComponentUpload.png)
 
 * To begin open the App -> OnStart function and set a variable for triggering the file browser to false.

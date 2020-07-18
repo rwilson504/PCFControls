@@ -38,6 +38,15 @@ Is an image component that will allow you to rotate the image which is not somet
 [More...](./RotationalImage/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RotationalImageComponent_managed.zip)
 
+## Runtime Info
+
+![Runtime Info](./RuntimeInfo/images/RuntimeInfo.png)
+
+This component will allow you to get additional information about the browser and device running your Canvas App is running in.
+
+[More...](./RuntimeImage/README.md)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RuntimeInfoComponent_managed.zip)
+
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
 
 ![DetailsList Grid Control](https://github.com/rwilson504/Blogger/blob/master/Office-Fabric-UI-DetailsList-PCF/office-fabric-ui-detailslist.gif?raw=true)

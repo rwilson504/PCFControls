@@ -74,6 +74,11 @@ steps:
     command: 'install'
     workingDir: './RotationalImage/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './RuntimeInfo/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -138,6 +143,12 @@ steps:
   inputs:
     SourceFolder: './RotationalImage/Solution/RotationalImageComponent/bin/Release/'
     Contents: 'RotationalImageComponent_managed.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './RuntimeInfo/Solution/RuntimeInfoComponent/bin/Release/'
+    Contents: 'RuntimeInfoComponent_managed.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
