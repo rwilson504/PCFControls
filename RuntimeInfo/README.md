@@ -3,7 +3,7 @@ RUNTIME INFO
 
 This component will allow you to get additional information about the browser and device running your Canvas App is running in.
 
-![RuntimeInfo](./images/RuntimeInfo.png)
+![RuntimeInfo](./images/RunTimeInfo.png)
 
 ## Installation/Usage
 

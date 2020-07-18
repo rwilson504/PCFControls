@@ -40,11 +40,11 @@ Is an image component that will allow you to rotate the image which is not somet
 
 ## Runtime Info
 
-![Runtime Info](./RuntimeInfo/images/RuntimeInfo.png)
+![Runtime Info](./RuntimeInfo/images/RunTimeInfo.png)
 
 This component will allow you to get additional information about the browser and device running your Canvas App is running in.
 
-[More...](./RuntimeImage/README.md)
+[More...](./RuntimeInfo/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RuntimeInfoComponent_managed.zip)
 
 ## Custom Grid/Subgrid Using Office-UI-Fabric DetailsList
