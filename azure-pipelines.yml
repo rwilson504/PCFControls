@@ -90,65 +90,69 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Release/'
-    Contents: 'ControlPicker_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - powershell: |
     Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker_managed.zip" -NewName "ColorPicker_managed.zip"      
   displayName: 'Rename Control Picker to Color Picker'
 
+  - powershell: |
+    Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker.zip" -NewName "ColorPicker.zip"      
+  displayName: 'Rename Control Picker to Color Picker'
+
 - task: CopyFiles@2
   inputs:
     SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Release/'
-    Contents: 'BooleanOptionsetControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Release/'
-    Contents: 'BingMapsGridControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Release/'
-    Contents: 'AzureMapsGridControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Release/'
-    Contents: 'DetailListGridControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './Calendar/Calendar/CalendarControl/bin/Release/'
-    Contents: 'CalendarControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './CanvasFileDownloader/Solution/CanvasFileDownloaderControl/bin/Release/'
-    Contents: 'CanvasFileDownloaderControl_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './CanvasFileUploader/Solution/CanvasFileUploaderComponent/bin/Release/'
-    Contents: 'CanvasFileUploaderComponent_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './RotationalImage/Solution/RotationalImageComponent/bin/Release/'
-    Contents: 'RotationalImageComponent_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: './RuntimeInfo/Solution/RuntimeInfoComponent/bin/Release/'
-    Contents: 'RuntimeInfoComponent_managed.zip'
+    Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 #Publish the build artifacts.
