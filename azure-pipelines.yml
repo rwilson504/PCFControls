@@ -97,7 +97,7 @@ steps:
     Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker_managed.zip" -NewName "ColorPicker_managed.zip"      
   displayName: 'Rename Control Picker to Color Picker'
 
-  - powershell: |
+- powershell: |
     Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker.zip" -NewName "ColorPicker.zip"      
   displayName: 'Rename Control Picker to Color Picker'
 
