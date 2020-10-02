@@ -30,6 +30,14 @@ The component allows you to upload a file from your computer into a canvas app a
 [More...](./CanvasFileUploader/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileUploaderComponent_managed.zip)
 
+## PDF Form Fill (Canvas)
+This component will allow you to fill in a PDF Form within a Canvas App without the use of a premium flow connector.  The component utilizes the [PDF-LIB](https://pdf-lib.js.org/) open source library.
+
+![PDF Form Fill for Canvas](./PDFFormFillCanvas/images/PDFFormFill.png)
+
+[More...](./PDFFormFillCanvas/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWPDFFormFillCanvas_managed.zip)
+
 ## Rotational Image
 Is an image component that will allow you to rotate the image which is not something you can do with the standard Canvas image component.  The image can be set using a url or a base64 string.   
 
