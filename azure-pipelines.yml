@@ -79,6 +79,11 @@ steps:
     command: 'install'
     workingDir: './RuntimeInfo/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './PDFFormFillCanvas/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -152,6 +157,12 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './RuntimeInfo/Solution/RuntimeInfoComponent/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './PDFFormFillCanvas/Solution/RAWPDFFormFillCanvas/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
