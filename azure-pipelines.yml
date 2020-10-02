@@ -162,7 +162,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './PDFFormFillCanvas/Solution/RAWPDFFormFillCanvas/bin/Release/'
+    SourceFolder: './PDFFormFillCanvas\Solutions\RAWPDFFormFillCanvas/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
