@@ -11,6 +11,7 @@ import { DetailsList, DetailsListLayoutMode, Selection, IColumn, ConstrainMode, 
 import { TooltipHost, ITooltipHostProps } from 'office-ui-fabric-react/lib/Tooltip';
 import { initializeIcons } from '@uifabric/icons';
 import * as lcid from 'lcid';
+import { Stack } from 'office-ui-fabric-react';
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
@@ -51,7 +52,7 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
     // When the component is updated this will determine if the sampleDataSet has changed.  
     // If it has we will go get the udpated items.
     React.useEffect(() => {
-        console.log('TSX: props.dataSetVersion was updated');        
+        //console.log('TSX: props.dataSetVersion was updated');        
         setItems(getItems(columns, props.pcfContext));
         }, [props.dataSetVersion]);  
     
@@ -102,16 +103,6 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
             })
         );
     }      
-
-    const _onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
-        return (
-          <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
-            <div className="detailList-footer">
-               <Label className="detailList-gridLabels">Records: {items.length.toString()} ({selectedItemCount} selected)</Label>
-            </div>
-          </Sticky>
-        );
-      }
     
     const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
         return (
@@ -124,8 +115,26 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
         )
     }
 
-    return (
-    <Fabric>        
+    return (   
+        <Stack grow
+            styles={{
+                root: {
+                  width: "100%",
+                  height: "inherit",
+                },
+              }}>
+        <Stack.Item 
+            verticalFill 
+                styles={{
+                    root: {
+                        height: "100%",
+                        overflowY: "auto",
+                        overflowX: "auto",
+                    },
+                }}
+                  >
+        <div 
+            style={{ position: 'relative', height: '100%' }}>
         <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>            
                 <ShimmeredDetailsList
                         enableShimmer={!isDataLoaded}
@@ -133,7 +142,7 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
                         items={items}
                         columns= {columns}
                         setKey="set"                                                                                         
-                        selection={_selection} // udpates the dataset so that we can utilize the ribbon buttons in Dynamics                                        
+                        selection={_selection} // updates the dataset so that we can utilize the ribbon buttons in Dynamics                                        
                         onColumnHeaderClick={_onColumnClick} // used to implement sorting for the columns.                    
                         selectionPreservedOnEmptyClick={true}
                         ariaLabelForSelectionColumn="Toggle selection"
@@ -141,12 +150,18 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
                         checkButtonAriaLabel="Row checkbox"                        
                         selectionMode={SelectionMode.multiple}
                         onRenderDetailsHeader={_onRenderDetailsHeader}
-                        onRenderDetailsFooter={_onRenderDetailsFooter} 
                         layoutMode = {DetailsListLayoutMode.justified}
                         constrainMode={ConstrainMode.unconstrained}
                     />       
-        </ScrollablePane>                
-    </Fabric>
+        </ScrollablePane>
+        </div>
+        </Stack.Item>
+        <Stack.Item align="start">
+            <div className="detailList-footer">
+               <Label className="detailList-gridLabels">Records: {items.length.toString()} ({selectedItemCount} selected)</Label>               
+            </div>
+        </Stack.Item>
+        </Stack>             
     );
 };
 

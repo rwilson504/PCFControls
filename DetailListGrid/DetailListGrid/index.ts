@@ -95,8 +95,8 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 			// navigate back.  In order to fix this we need to reset the paging to the count of the records that
 			// will come back and do a reset on the paging.  I beleive this is all due to a MS bug.	
 			//@ts-ignore
-			console.log(`TS: updateView, dataSet.paging.pageSize ${dataSet.paging.pageSize}`);	
-			console.log(`TS: updateView, dataSet.paging.totalResultCount ${dataSet.paging.totalResultCount}`)
+			//console.log(`TS: updateView, dataSet.paging.pageSize ${dataSet.paging.pageSize}`);	
+			//console.log(`TS: updateView, dataSet.paging.totalResultCount ${dataSet.paging.totalResultCount}`)
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
 			dataSet.paging.reset();
 		}
