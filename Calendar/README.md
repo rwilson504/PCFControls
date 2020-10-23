@@ -49,6 +49,8 @@ Set the propertie of the control.
 - **Event Id Field** (Do Not Use In Model, for Canvas Only were data is supplied by a collection)
 - **Resource Field** If you want to utilize resources enter the logical name of the lookup field for the Resource.
 - **Resource Name** To use a name field for the resource that is not the default name field you can enter it here. Ex. raw_resource.raw_specialname.  Otherwise you can leave this blank and it will use data from the default name field.
+- **Week Start Day** Select the day the week should start on.  If left blank or 0 this will be based upon your locale. (1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday)
+- **Work Week Days** Select the days you would like to show on the work week.  For example enter 2,4,6 to only show Monday, Wednesday, and Friday.  If left blank it will display Monday-Friday. (1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday)
 - **Get All Resources** Determines if all resources will be returned even those that don't have any events on the calendar.  Possible values are true or false.
 - **Today Background Color** Sets the background color for the time slots that cover todays date.
 - **Default Claendar View** Set the default calendar view.  Possible values are "month", "week", "work_week", "day", "agenda"
