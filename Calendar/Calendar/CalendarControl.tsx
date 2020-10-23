@@ -2,17 +2,18 @@
  * @Author: richard.wilson 
  * @Date: 2020-05-09 07:38:02 
  * @Last Modified by: richard.wilson
- * @Last Modified time: 2020-05-11 14:12:02
+ * @Last Modified time: 2020-10-23 10:08:17
  */
 
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { Calendar, momentLocalizer, Event, View } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Event, View, ViewsProps } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
 import * as Color from 'color'
+var CustomWorkWeek = require('./MyWorkWeek');
 var isHexColor = require('is-hexcolor');
 
 export interface IProps {
@@ -29,20 +30,23 @@ interface IEvent extends Event{
 }
 
 //Big-Calendar utilizes this for time zone
-const localizer = momentLocalizer(moment);
+//const localizer = momentLocalizer(moment);
 const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as string[];
 
-export const CalendarControl: React.FC<IProps> = (props) => {        
+export const CalendarControl: React.FC<IProps> = (props) => {      
 const eventDefaultBackgroundColor = Color(isHexColor(props.pcfContext.parameters.eventDefaultColor.raw) ? props.pcfContext.parameters.eventDefaultColor.raw as string : '#3174ad');
 const calendarTodayBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTodayBackgroundColor.raw) ? props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string : '#eaf6ff');
 const calendarTextColor = Color(isHexColor(props.pcfContext.parameters.calendarTextColor.raw) ? props.pcfContext.parameters.calendarTextColor.raw as string : '#666666');
 const calendarBorderColor = Color(isHexColor(props.pcfContext.parameters.calendarBorderColor.raw) ? props.pcfContext.parameters.calendarBorderColor.raw as string : '#dddddd');
 const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw) ? props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string : '#ffffff');
-const calendarViews = getCalendarViews(props.pcfContext.parameters.calendarAvailableViews.raw || "month");
-
+const calendarViews = getCalendarViews(props.pcfContext);
+const weekStartDay = props.pcfContext.parameters.calendarWeekStart?.raw || null;
 const calendarCulture = getISOLanguage(props.pcfContext);
-//set our moment to the current callendar culture for use of it outside the calendar.
-moment.locale(calendarCulture);
+
+//set our moment to the current calendar culture for use of it outside the calendar.
+weekStartDay && weekStartDay > 0 ? moment.locale(calendarCulture, {week: { dow: weekStartDay - 1 } }) : moment.locale(calendarCulture);
+const localizer = momentLocalizer(moment);
+
 const calendarMessages = GetMessages(calendarCulture);
 const calendarRtl = props.pcfContext.userSettings.isRTL;
 const calendarScrollTo = moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate();
@@ -359,7 +363,7 @@ return(!calendarData?.resources ? <Calendar
     resourceAccessor="resource"
     ref={calendarRef}
     eventPropGetter={eventPropsGetter}
-    dayPropGetter={dayPropsGetter}
+    dayPropGetter={dayPropsGetter}    
     components={{
         agenda: {
           event: agendaEvent,
@@ -558,16 +562,43 @@ function formatDateAsParameterString(date: Date){
         date.getSeconds();
 }
 
-function getCalendarView(calendarViews: View[], viewName: string) : View {    
-    return calendarViews.indexOf(viewName as View) > -1 ? allViews[allViews.indexOf(viewName)] as View: calendarViews[0];
+function getCalendarView(calendarViews: ViewsProps, viewName: string) : View {
+    let calView = Object.keys(calendarViews).find((x: string) => x === viewName.toLowerCase());
+    return calView ? calView as View : Object.keys(calendarViews)[0] as View;    
 }
 
-function getCalendarViews(viewList: string) : View[] {    
+function getCalendarViews(pcfContext: ComponentFramework.Context<IInputs>) : ViewsProps {
+    let viewList = pcfContext.parameters.calendarAvailableViews.raw || "month";
     let validViews = viewList.split(',').filter(x => allViews.indexOf(x.trim()) !== -1);
+    
+    let selectedViews: any = {};
     if (validViews.length < 1){
-        validViews.push('month');
+        selectedViews.week = true;
     }
-    return validViews as View[];
+    else{
+        validViews.forEach((view: string) => {
+            if (view === 'work_week'){
+                selectedViews.work_week = CustomWorkWeek.default;                
+                selectedViews.work_week.includedDays = getWorkWeekExcludedDays(pcfContext)                
+            }
+            else{
+                selectedViews[view] = true;
+            }
+        });
+    }
+    return selectedViews;    
+}
+
+function getWorkWeekExcludedDays(pcfContext: ComponentFramework.Context<IInputs>): number[]
+{   
+    if (pcfContext.parameters.calendarWorkWeekDays && pcfContext.parameters.calendarWorkWeekDays.raw)
+    {
+        return pcfContext.parameters.calendarWorkWeekDays.raw.split(',').map( x => { return (+x)-1; });
+    }
+    else
+    {
+        return [1,2,3,4,5];
+    }
 }
 
 function getCurrentRange(date: Date, view: string, culture: string) : {start: Date, end: Date} {
@@ -598,8 +629,8 @@ function getCurrentRange(date: Date, view: string, culture: string) : {start: Da
 
 function getISOLanguage(pcfContext: ComponentFramework.Context<IInputs>): string
 {
-    //look for a lanuage setting comging in from the parameters.
-    //if nothign was entered use an empty string which will default to en
+    //look for a language setting coming in from the parameters.
+    //if nothing was entered use an empty string which will default to en
     let lang = pcfContext.parameters.calendarLanguage?.raw || '';    
 
     //if this is a model app and a language was not added as an input then user the current users

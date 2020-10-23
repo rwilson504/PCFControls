@@ -12,7 +12,7 @@
     "@types/color": "^3.0.1",
     "@types/node": "^10.17.24",
     "@types/powerapps-component-framework": "^1.2.3",
-    "@types/react-big-calendar": "^0.24.1",
+    "@types/react-big-calendar": "^0.24.6",
     "color": "^3.1.2",
     "is-hexcolor": "^1.0.0",
     "lcid": "^3.1.1",

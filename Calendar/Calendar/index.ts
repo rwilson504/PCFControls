@@ -113,7 +113,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			//Setting the page size in a Canvas app works on the first load of the component.  If you navigate
 			// away from the page on which the component is located though the paging get reset to 25 when you
 			// navigate back.  In order to fix this we need to reset the paging to the count of the records that
-			// will come back and do a reset on the paging.  I beleive this is all due to a MS bug.
+			// will come back and do a reset on the paging.  I believe this is all due to a MS bug.
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
 			dataSet.paging.reset();
 		}				
