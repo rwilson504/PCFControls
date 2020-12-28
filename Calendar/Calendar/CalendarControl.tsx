@@ -34,11 +34,11 @@ interface IEvent extends Event{
 const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as string[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {      
-const eventDefaultBackgroundColor = Color(isHexColor(props.pcfContext.parameters.eventDefaultColor.raw) ? props.pcfContext.parameters.eventDefaultColor.raw as string : '#3174ad');
-const calendarTodayBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTodayBackgroundColor.raw) ? props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string : '#eaf6ff');
-const calendarTextColor = Color(isHexColor(props.pcfContext.parameters.calendarTextColor.raw) ? props.pcfContext.parameters.calendarTextColor.raw as string : '#666666');
-const calendarBorderColor = Color(isHexColor(props.pcfContext.parameters.calendarBorderColor.raw) ? props.pcfContext.parameters.calendarBorderColor.raw as string : '#dddddd');
-const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw) ? props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string : '#ffffff');
+const eventDefaultBackgroundColor = Color(isHexColor(props.pcfContext.parameters.eventDefaultColor?.raw || '') ? props.pcfContext.parameters.eventDefaultColor.raw as string : '#3174ad');
+const calendarTodayBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTodayBackgroundColor?.raw || '') ? props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string : '#eaf6ff');
+const calendarTextColor = Color(isHexColor(props.pcfContext.parameters.calendarTextColor?.raw || '') ? props.pcfContext.parameters.calendarTextColor.raw as string : '#666666');
+const calendarBorderColor = Color(isHexColor(props.pcfContext.parameters.calendarBorderColor?.raw || '') ? props.pcfContext.parameters.calendarBorderColor.raw as string : '#dddddd');
+const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || '') ? props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string : '#ffffff');
 const calendarViews = getCalendarViews(props.pcfContext);
 const weekStartDay = props.pcfContext.parameters.calendarWeekStart?.raw || null;
 const calendarCulture = getISOLanguage(props.pcfContext);
@@ -51,9 +51,9 @@ const calendarMessages = GetMessages(calendarCulture);
 const calendarRtl = props.pcfContext.userSettings.isRTL;
 const calendarScrollTo = moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate();
 
-const [calendarView, setCalendarView] = React.useState(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView.raw || ""));
+const [calendarView, setCalendarView] = React.useState(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView?.raw || ""));
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
-const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : (props.pcfContext.parameters.calendarDate.raw || moment().toDate()));
+const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : (props.pcfContext.parameters.calendarDate?.raw || moment().toDate()));
 const calendarRef = React.useRef(null);
 
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
@@ -84,14 +84,14 @@ React.useEffect(()=>{
     && !moment(calendarDate).isSame(props.pcfContext.parameters.calendarDate.raw)){
         setCalendarDate(props.pcfContext.parameters.calendarDate.raw as Date)
     }    
-},[props.pcfContext.parameters.calendarDate.raw?.getTime()])
+},[props.pcfContext.parameters.calendarDate?.raw?.getTime()])
 
 //allows for changing the calendar view if a user decides to add in custom button for the view in canvas
 React.useEffect(()=>{
     if (props.pcfContext.parameters.calendarView?.raw && calendarView != props.pcfContext.parameters.calendarView.raw){
         setCalendarView(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView.raw))
     }    
-},[props.pcfContext.parameters.calendarView.raw])
+},[props.pcfContext.parameters.calendarView?.raw])
 
 React.useEffect(()=>{
     if (calendarDate && calendarView)
@@ -105,9 +105,9 @@ React.useEffect(()=>{
     if (styleTag){
         styleTag.innerHTML = generateThemeCSS();
     }
-},[props.pcfContext.parameters.eventDefaultColor.raw, props.pcfContext.parameters.calendarTodayBackgroundColor.raw, 
-    props.pcfContext.parameters.calendarTextColor.raw, props.pcfContext.parameters.calendarBorderColor.raw, 
-    props.pcfContext.parameters.calendarTimeBarBackgroundColor.raw])
+},[props.pcfContext.parameters.eventDefaultColor?.raw, props.pcfContext.parameters.calendarTodayBackgroundColor?.raw, 
+    props.pcfContext.parameters.calendarTextColor?.raw, props.pcfContext.parameters.calendarBorderColor?.raw, 
+    props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw])
 
 const generateThemeCSS = () : string =>{
     return `
@@ -568,7 +568,7 @@ function getCalendarView(calendarViews: ViewsProps, viewName: string) : View {
 }
 
 function getCalendarViews(pcfContext: ComponentFramework.Context<IInputs>) : ViewsProps {
-    let viewList = pcfContext.parameters.calendarAvailableViews.raw || "month";
+    let viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
     let validViews = viewList.split(',').filter(x => allViews.indexOf(x.trim()) !== -1);
     
     let selectedViews: any = {};
