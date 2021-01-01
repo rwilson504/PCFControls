@@ -28,10 +28,154 @@ pool:
 #COLOR PICKER
 
 steps:
-- template: azure-pipeline-steps.yml
+#Run npm install to get all required resources for the projectl
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './ColorPicker/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './BooleanOptionset/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './BingMapsGrid/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './AzureMapsGrid/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './DetailListGrid/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './Calendar/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './CanvasFileDownloader/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './CanvasFileUploader/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './RotationalImage/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './RuntimeInfo/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './PDFFormFillCanvas/'
+
+#PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
+#The build command will utilize NuGet to go out and get all the resource packages it needs.
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.cdsproj'
+    msbuildArguments: '/t:build /p:Configuration=Release /restore'
+
+#Copy the solution files to the build artifacts directory.
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './ColorPicker/ColorPicker/ControlPicker/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- powershell: |
+    Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker_managed.zip" -NewName "ColorPicker_managed.zip"      
+  displayName: 'Rename Control Picker to Color Picker'
+
+- powershell: |
+    Rename-Item -Path "$(Build.ArtifactStagingDirectory)/ControlPicker.zip" -NewName "ColorPicker.zip"      
+  displayName: 'Rename Control Picker to Color Picker'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './BooleanOptionset/BooleanOptionset/BooleanOptionsetControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './BingMapsGrid/BingMapsGrid/BingMapsGridControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './DetailListGrid/DetailListGrid/DetailListGridControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './Calendar/Calendar/CalendarControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './CanvasFileDownloader/Solution/CanvasFileDownloaderControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './CanvasFileUploader/Solution/CanvasFileUploaderComponent/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './RotationalImage/Solution/RotationalImageComponent/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './RuntimeInfo/Solution/RuntimeInfoComponent/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './PDFFormFillCanvas\Solutions\RAWPDFFormFillCanvas/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+#Publish the build artifacts.
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 
 #GitHub Release
 - task: GitHubRelease@1
+  condition: and(succeeded(), eq(variables['Release'], true))
   inputs:
     gitHubConnection: 'github.com_rwilson504'
     repositoryName: 'rwilson504/PCFControls'
