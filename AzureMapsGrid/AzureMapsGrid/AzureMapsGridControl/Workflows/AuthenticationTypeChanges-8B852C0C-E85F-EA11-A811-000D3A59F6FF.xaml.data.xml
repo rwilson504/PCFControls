@@ -18,6 +18,7 @@
   <IntroducedVersion>1.0.0.0</IntroducedVersion>
   <IsCustomizable>1</IsCustomizable>
   <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
   <ProcessTriggerScope>1</ProcessTriggerScope>
   <PrimaryEntity>raw_azuremapsconfig</PrimaryEntity>
   <LocalizedNames>

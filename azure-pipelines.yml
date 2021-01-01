@@ -175,6 +175,7 @@ steps:
 
 #GitHub Release
 - task: GitHubRelease@1
+  condition: and(succeeded(), eq(variables['Release'], true))
   inputs:
     gitHubConnection: 'github.com_rwilson504'
     repositoryName: 'rwilson504/PCFControls'
