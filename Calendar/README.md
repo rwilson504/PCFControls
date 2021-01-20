@@ -7,13 +7,17 @@ This control has been designed to work in both Canvas and Model apps.  Because o
 Canvas
 - To ensure data loads correctly in Canvas we must use collections instead of CDS datasource directly.
 - There are output parameters that are defined in the app which will pass back data when an item is clicked on, an empty time span is selected, or the calendar range has been updated.  These output parameters will allow you to create your own functionality in the Canvas app for updated or creating records.
-- To set the default lanague for the calendar you can utilize the Lanague() function to pass the users current browser language into the calendarLanguage property.
+- To set the default language for the calendar you can utilize the Language() function to pass the users current browser language into the calendarLanguage property.
 
 Model
 - Clicking on and event will open the record for editing.
 - Clicking on an empty timespan will open a new record form, and will pass in the start, end, and resource field data.
 - Calendar will default to the users currently selected language in their users settings if that language is available otherwise it will utilize English.
 
+# Sample Application
+If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.
+
+[Download Sample App](./Sample/CanvasCalendar_1_0_0_4_managed.zip)
 
 # Model Configuration
 To add the calendar in a model view you can do the following.
@@ -32,19 +36,19 @@ Choose the places you want the control to show up such as web or tablet.  Then b
 
 After you are done save the view and do a Publish All.
 
-If at first you dont see the control on the view you created do the following.
+If at first you don't see the control on the view you created do the following.
 
-Select the elipses and do Show As
+Select the ellipsis and do Show As
 ![Select Show As](./images/ModelCalendarShowAs.png)
 
 Select the Calendar Control
 ![Select Calendar Control](./images/ModelCalendarShowAs.png)
 
-Set the propertie of the control.
+Set the properties of the control.
 - **Event Name Field** This will be the title for the events.  Enter the logical name of the attribute in this fields. Ex. raw_name
 - **Event Start Field** This will be the start time for the events.  Enter the logical name of the attribute in this fields. Ex. raw_start
 - **Event End Field** This will be the end time for the events.  Enter the logical name of the attribute in this fields. Ex. raw_end
-- **Event Color Field** This will change the color of the event.  You can use a color field on the event or you can utlize a color field from the resources. Enter the logical name of the attribute.  Ex. on Event raw_color, Ex. on Resource raw_resource.raw_color.
+- **Event Color Field** This will change the color of the event.  You can use a color field on the event or you can utilize a color field from the resources. Enter the logical name of the attribute.  Ex. on Event raw_color, Ex. on Resource raw_resource.raw_color.
 - **Default Event Background Color** Specify the default background color for events if not using a field to define the color. Value should be in Hex color format, eg. #3174ad
 - **Event Id Field** (Do Not Use In Model, for Canvas Only were data is supplied by a collection)
 - **Resource Field** If you want to utilize resources enter the logical name of the lookup field for the Resource.
@@ -53,9 +57,9 @@ Set the propertie of the control.
 - **Work Week Days** Select the days you would like to show on the work week.  For example enter 2,4,6 to only show Monday, Wednesday, and Friday.  If left blank it will display Monday-Friday. (1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday)
 - **Get All Resources** Determines if all resources will be returned even those that don't have any events on the calendar.  Possible values are true or false.
 - **Today Background Color** Sets the background color for the time slots that cover todays date.
-- **Default Claendar View** Set the default calendar view.  Possible values are "month", "week", "work_week", "day", "agenda"
+- **Default Calendar View** Set the default calendar view.  Possible values are "month", "week", "work_week", "day", "agenda"
 - **Calendar Date** (Do Not Use In Model, for Canvas Only)
-- **Calendar Language** Allows you to set the default language/culture for the calendar.  If you leave this blank it will default to the users current language in Dynamics if it's available or you can specifiy a lanuage if you always want the calendar to show up in that language.
+- **Calendar Language** Allows you to set the default language/culture for the calendar.  If you leave this blank it will default to the users current language in Dynamics if it's available or you can specify a language if you always want the calendar to show up in that language.
 
 ## Using In Sub-Grid
 If using this control in a Sub-Grid you will need to add it to the form using the Classic Editor.
@@ -206,11 +210,11 @@ The data returned from the control will be attached to the Canvas Control elemen
     * .actionRecordSelected, This value will be set to true when the action happens.
     * .selectedRecordId, The id of the record selected.
 * TimSlotSelected, occurs when a user select an empty area on the calendar.  It will return the timespan for the selection. 
-    * .actionSlotSelected, This value will be set to true when the acction happens. 
+    * .actionSlotSelected, This value will be set to true when the action happens. 
     * .selectedSlotStart, The start time of the empty slot selected. 
     * .selectedSlotEnd, The end time of the empty slot selected. 
-    * .selectedSlotResourceId, If the time slot was on a view showing the resources the Id of that Resoruce will be provided.
-* RangeChange, when a user click on the next/back buttons or udpates a view on the calendar
+    * .selectedSlotResourceId, If the time slot was on a view showing the resources the Id of that Resource will be provided.
+* RangeChange, when a user click on the next/back buttons or updates a view on the calendar
     * .currentRangeStart, The current start time show on the calendar view.
     * .currentRangeStart, The current end time show on the calendar view.
 * DateChange, when the current date of the calendar changes    
@@ -224,7 +228,7 @@ This is an example of the OnChange event on the Calendar Control which will allo
 ![Calendar OnChange Event](./images/CanvasCalendarOnChange.png)
 
 ## Setting the Calendar Date
-If you would like to set the Calendar date to somethign other than Today you can do so in two ways.  If you leave the calendarDate property on the control empty it will default to Today.
+If you would like to set the Calendar date to something other than Today you can do so in two ways.  If you leave the calendarDate property on the control empty it will default to Today.
 
 ### Default On App Load
 The first way is if you just want to default the calendar once upon app load.  In this case you can set a variable during the OnStart of your app.

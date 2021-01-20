@@ -30,7 +30,7 @@ In Canvas apps the Launch and Download function require that you supply a URL to
 ![File Downloaded](./images/FileDownloaded.png)
 
 ## Convert Blob to Base64 String
-If you are utilizing a connect which returns a Blob object you can utilzie the JSON function to convert that blob to a string.  Below is the code I utilized to convert a Blob produced by the Encodian connector.
+If you are utilizing a connect which returns a Blob object you can utilize the JSON function to convert that blob to a string.  Below is the code I utilized to convert a Blob produced by the Encodian connector.
 
 ``` 
 //Send our PDF template to Encodian to fill in all the form fields.
