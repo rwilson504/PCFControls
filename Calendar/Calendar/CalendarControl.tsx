@@ -2,13 +2,13 @@
  * @Author: richard.wilson 
  * @Date: 2020-05-09 07:38:02 
  * @Last Modified by: richard.wilson
- * @Last Modified time: 2020-10-23 10:08:17
+ * @Last Modified time: 2021-01-20 13:05:14
  */
 
 import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { Calendar, momentLocalizer, Event, View, ViewsProps } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Event, View, ViewsProps, Culture } from 'react-big-calendar'
 import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
@@ -29,8 +29,6 @@ interface IEvent extends Event{
     color?: string
 }
 
-//Big-Calendar utilizes this for time zone
-//const localizer = momentLocalizer(moment);
 const allViews  = ['month' , 'week' , 'work_week' , 'day' , 'agenda'] as string[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {      
@@ -44,8 +42,13 @@ const weekStartDay = props.pcfContext.parameters.calendarWeekStart?.raw || null;
 const calendarCulture = getISOLanguage(props.pcfContext);
 
 //set our moment to the current calendar culture for use of it outside the calendar.
-weekStartDay && weekStartDay > 0 ? moment.locale(calendarCulture, {week: { dow: weekStartDay - 1 } }) : moment.locale(calendarCulture);
 const localizer = momentLocalizer(moment);
+//customize the momentLocalizer to utilize our week start day property.
+localizer.startOfWeek = (culture: Culture) => {
+      if (weekStartDay && weekStartDay > 0) return weekStartDay - 1;
+      var data = culture ? moment.localeData(culture) : moment.localeData();
+      return data ? data.firstDayOfWeek() : 0;
+}
 
 const calendarMessages = GetMessages(calendarCulture);
 const calendarRtl = props.pcfContext.userSettings.isRTL;
@@ -294,15 +297,6 @@ const agendaEvent = ({event} : any)=> {
 const resourceHeader = ({label} : any)=> {
     let ref = calendarRef.current as any;
     return (                
-        ref.props.view === 'day' ? 
-        <span>
-            <style>
-            {`.rbc-time-header > .rbc-time-header-content {
-                min-width: 0px;
-            }`}
-            </style> 
-        {label}
-      </span>: 
       <span>
           {label}
       </span>
