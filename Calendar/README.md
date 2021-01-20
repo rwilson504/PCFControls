@@ -17,7 +17,7 @@ Model
 # Sample Application
 If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.
 
-[Download Sample App](./Sample/CanvasCalendar_1_0_0_4_managed.zip)
+[Download Sample App](https://github.com/rwilson504/PCFControls/raw/master/Calendar/Sample/CanvasCalendar_1_0_0_4_managed.zip)
 
 # Model Configuration
 To add the calendar in a model view you can do the following.
