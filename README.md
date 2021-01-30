@@ -30,6 +30,14 @@ The component allows you to upload a file from your computer into a canvas app a
 [More...](./CanvasFileUploader/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileUploaderComponent_managed.zip)
 
+## Frame Messenger (Canvas)
+Allows you to add an iframe to a canvas app and load an external web page.  Additionally it supports the ability to pass data back from the loaded page utilizing the [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) javascript functionality.  The postMessage allows you to load WebResources into the iframe and utilize Xrm.WebApi if you have the [Canvas App embedded within a Model app](https://www.richardawilson.com/2020/06/launch-canvas-app-in-model-app-from.html).
+
+![RAW Frame](./Frame/images/RAWFrame.png)
+
+[More...](./Frame/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWframe_managed.zip)
+
 ## PDF Form Fill (Canvas)
 This component will allow you to fill in a PDF Form within a Canvas App without the use of a premium flow connector.  The component utilizes the [PDF-LIB](https://pdf-lib.js.org/) open source library.
 

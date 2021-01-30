@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<style>
+    body {
+        margin: 0;
+        overflow-wrap: break-word;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 999999;
+    }
+
+    iframe {
+        display: block;
+        border: none;
+        height: 100vh;
+        width: 100vw;
+    }
+    
+</style>
+<script type="application/javascript">
+    onLoad = function (){        
+        if (typeof Xrm === "undefined") {
+            if (typeof parent.Xrm !== "undefined") 
+            { 
+                Xrm = parent.Xrm;
+            }
+            else if (typeof opener.Xrm !== "undefined") 
+            { 
+                Xrm = opener.Xrm;
+            }
+        }
+
+        //collection of params which will be included in the url
+        var params = [];
+        
+        let openInNewWindowValue = (getParameterByName('newwindow') || 'false');
+        let openInNewWindow = (openInNewWindowValue === 'true' || openInNewWindowValue === '1') ? true : false;
+
+        //If we are within a model app there will be an appid parameter in the parent url.
+        //By passing this param to the Canvas app we can more easily construct links
+        //to entities that will load those records in the correct Model app.        
+        let modelAppId = getParameterByName('appid', parent.location.href);        
+        params.push(modelAppId ? 'modelappid=' + modelAppId : '');
+        params.push('modelappurl=' + window.location.origin);        
+        
+        //pass additional parameters if the user selected to pass params in the sitemap entry
+        params.push(getParameterByName('orgname') ? 'orgname=' + getParameterByName('orgname') : '');
+        params.push(getParameterByName('orglcid') ? 'orglcid=' + getParameterByName('orglcid') : '');
+        params.push(getParameterByName('userlcid') ? 'userlcid=' + getParameterByName('userlcid') : '');
+        
+        //pass the id and typename parameter if launching this script from a ribbon button.
+        params.push(getParameterByName('id') ? 'id=' + getParameterByName('id') : '');
+        params.push(getParameterByName('typename') ? 'typename=' + getParameterByName('typename') : '');
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // SET PARAMS USING DATA PARAMETER ON SITEMAP
+        // Additional params sent into a web resource should be URI encoded within the Data parameter.
+        // For additional information about the parameters you can pass to Canvas apps see the Microsoft
+        // documentation at https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/embed-apps-dev
+        //
+        // The only param you are required to have within the Data param is the canvasappname param which will be the
+        // name of the Canvas application you want to load.
+        //        
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        
+        let canvasAppName = getParameterByName('canvasappname');
+        if (!canvasAppName)
+        {
+            alert('The parameter canvasappname was not provided in the Url.  This parameter should contain the name of the Canvas App you are attempting to load.');
+            return;
+        }    
+        params.push(getParameterByName('data'));
+        
+        //////////////////////////////////////////////////////////////////////////////////////////
+        
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // SET PARAMS USING INDIVIDUAL WEBRESOURCES
+        // If managing your sitemap in XRMToolbox is not something you want to do you can comment/remove
+        // the SET PARAMS USING DATA PARAMETER ON SITEMAP section code and uncomment the code below
+        // and set your own parameters.  Then hard code your values in and create a new copy of this
+        // WebResource per Canvas App you want to link to on the sitemap.
+        //
+        // params.push('canvasappname=' + 'raw_yourappname');
+        // params.push('source=' + 'yoursource');
+        //
+        //////////////////////////////////////////////////////////////////////////////////////////    
+
+    
+        //Search for the canvas app by it's name.
+        Xrm.WebApi.retrieveMultipleRecords("canvasapp", "?$top=1&$select=canvasappid,tags,appversion&$filter=name eq '" + canvasAppName + "'", null).then(
+            function (entities, nextLink) {            
+                if (entities.entities.length) {
+                    let canvasAppId = entities.entities[0].canvasappid;
+                    //Build the url based upon the Canvas App Id and the parameters being passed.
+                    let appUrl = 'https://apps.powerapps.com/play/' + canvasAppId + '?' + params.filter(Boolean).join('&');
+                    let iFrame = document.getElementById('canvasApp');
+                    
+                    if (openInNewWindow){            
+                        createNewWindowMessage(iFrame);            
+                        window.open(appUrl, '_blank')
+                        return;
+                    }
+                    iFrame.src = appUrl; //set the src to the Canvas App url
+                    iFrame.title = canvasAppName; //set the iFrame title for accessability
+                }
+                else{
+                    alert('Could not find Canvas app called ' + canvasAppName);
+                }
+            }, function (error) {
+                alert('There was an error loading the Canvas application.');
+        });
+    }
+
+    createNewWindowMessage = function(iframe) {
+        var messageDiv = document.createElement('div');
+        messageDiv.innerText = 'App Opened In New Window/Tab';
+        messageDiv.style.cssText = "font-size: 18px;font-family: 'SegoeUI', 'Segoe UI';height: 100%;width: 100%;display: flex;justify-content: center;align-items: center;";
+        iframe.contentWindow.document.body.appendChild(messageDiv);
+    }
+
+    getParameterByName = function (name, url) {
+        url = url || window.location.href;
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+                regex = new RegExp(regexS, "i"),
+                results = regex.exec(url);
+            if (results == null) {
+                regexS = "[\\?&][dD]ata=([^&#]*)",
+                regex = new RegExp(regexS, "i"),
+                results = regex.exec(url);
+                if (results == null) {      //if no data parameter was found return null
+                    return results;
+                }
+                else {  //if data parameter is found then search through through what is returned for the named query string parameter.
+                    results = decodeURIComponent(results[1].replace(/\+/g, " "));
+                    //do an extra decode for ribbon function where passing Data param as a string.
+                    results = decodeURIComponent(results);
+                    regexS = "[?&]?" + name + "=([^&#]*)",
+                    regex = new RegExp(regexS, "i"),
+                    results = regex.exec(results);
+                    return (results == null) ? results : results[1];
+                }
+            }
+            else {
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+    }
+</script>
+
+<head>
+    <title>Canvas App Loader</title>
+</head>
+<body onload="onLoad()">
+    <iframe title="" id="canvasApp" src="" allow="geolocation; microphone; camera">
+    </iframe>
+</body>
+</html>

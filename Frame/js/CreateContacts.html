@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Get Default Choice Value</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>        
+    function createContacts() {
+        requestCollection = [];
+
+        for (let index = 0; index < 5; index++) {
+            let request = {};
+            let contact =  { 
+                lastname: `Test Contact`,
+                firstname: ` ${index + 1} - ${Date.now()}`
+            };
+            request.getMetadata  = function () {
+                return {
+                    boundParameter: undefined,
+                    operationType: 2,
+                    operationName: 'Create'
+                };
+            }
+            request.etn = "contact";
+            request.payload = contact;
+            
+            requestCollection.push(request);
+        }        
+
+        //if calling the webapi for the same or the canvas app is running in then you can utilize top.Xrm        
+        top.Xrm.WebApi.online.executeMultiple(requestCollection).then(
+            (results) => {
+                let error = results.find(result => result.ok === false);
+                if (!error)
+                {
+                    window.parent.postMessage(`All contacts were created successfully`, '*');
+                }
+                else 
+                {
+                    window.parent.postMessage(`There was an error creating at least one contact`, '*');
+                }
+            },
+            (error) => {
+                console.log(`Error: ${error.message}`);
+                window.parent.postMessage(`Error: ${error.message}`, '*');
+            }
+        );
+        
+        //// You can also use XMLHttpRequest request if you don't want to utilize the Xrm.WebApi      
+        // function BatchPostContacts() { 
+        //     this.apiUrl = window.location.origin + "/api/data/v9.1/"; 
+        //     this.uniqueId = "batch_" + (new Date().getTime()); 
+        //     this.batchItemHeader = "--" +  this.uniqueId + "\nContent-Type: application/http\nContent-Transfer-Encoding:binary"; 
+        //     this.content = []; 
+        // } 
+        
+        // BatchPostContacts.prototype.addRequestItem = function(entity) { 
+        //     this.content.push(this.batchItemHeader); 
+        //     this.content.push(""); 
+        //     this.content.push("POST " + this.apiUrl + "contacts" + " HTTP/1.1"); 
+        //     this.content.push("Content-Type: application/json;type=entry"); 
+        //     this.content.push(""); 
+        //     this.content.push(JSON.stringify(entity)); 
+        // } 
+        
+        // BatchPostContacts.prototype.sendRequest = function() { 
+        //     this.content.push(""); 
+        //     this.content.push("--" + this.uniqueId + "--"); 
+        //     this.content.push(" "); 
+        
+        //     var xhr = new XMLHttpRequest(); 
+        //     xhr.open("POST", encodeURI(this.apiUrl + "$batch")); 
+        //     xhr.setRequestHeader("Content-Type", "multipart/mixed;boundary=" + this.uniqueId); 
+        //     xhr.setRequestHeader("Accept", "application/json"); 
+        //     xhr.setRequestHeader("OData-MaxVersion", "4.0"); 
+        //     xhr.setRequestHeader("OData-Version", "4.0"); 
+        //     xhr.addEventListener("load",  
+        //         function() {
+        //             if (xhr.status === 200)
+        //             {
+        //                 window.parent.postMessage("Created Contacts!", '*');
+        //             }
+        //             else
+        //             {
+        //                 console.log("Batch request response code: " + xhr.status);
+        //                 window.parent.postMessage(`Error: Response Code - ${xhr.status}`, '*');
+        //             }
+        //         }); 
+        
+        //     xhr.send(this.content.join("\n")); 
+        // }
+
+        // var batchRequest = new BatchPostContacts();
+        // for (let index = 0; index < 200; index++) {
+        //     batchRequest.addRequestItem({
+        //         lastname: `Test Contact`,
+        //         firstname: ` ${index + 1} - ${Date.now()}`
+        //     })            
+        // }        
+        // batchRequest.sendRequest();                         
+    }        
+    </script>
+</head>
+<body onload="createContacts()" style="background-color: bisque;">
+    Create Contacts
+</body>
+</html>
