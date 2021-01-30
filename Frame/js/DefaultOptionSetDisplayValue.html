@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Get Default Choice Value</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>        
+        function getDefaultChoiceValue() {
+            var entity = getParameterByName('entity');
+            var attribute = getParameterByName('choice');
+
+            //if getting metadata from the model app org you can utilize top.Xrm
+            top.Xrm.Utility.getEntityMetadata(entity, [attribute]).then(
+            (result) => {
+                let choiceAttr = result.Attributes.getByName(attribute);
+                let defaultChoice  = choiceAttr.OptionSet[choiceAttr.DefaultFormValue].text;
+                window.parent.postMessage(defaultChoice, '*');                
+            }, 
+            (error) => {
+                console.log(e.error.message);
+            });
+
+            
+            ////You can also use XMLHttpRequest request if you don't want to utilize the Xrm.WebApi
+            // var req = new XMLHttpRequest();            
+            // var url = window.location.origin + `/api/data/v9.1/EntityDefinitions(LogicalName='${entity}')/Attributes(LogicalName='${attribute}')/Microsoft.Dynamics.CRM.PicklistAttributeMetadata?$select=DefaultFormValue&$expand=OptionSet($select=Options)`;
+            // req.open("GET", url, true);
+            // req.setRequestHeader("OData-MaxVersion", "4.0");
+            // req.setRequestHeader("OData-Version", "4.0");
+            // req.setRequestHeader("Accept", "application/json");
+            // req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            // req.onreadystatechange = function () {
+            //     if (this.readyState === 4) {
+            //         req.onreadystatechange = null;
+            //         if (this.status === 200) {                                                
+            //             var results = JSON.parse(this.response);
+            //             let defaultOption = results.OptionSet.Options.find(x => x.Value === results.DefaultFormValue);
+            //             let defaultOptionDisplayName = defaultOption.Label.LocalizedLabels[0].Label;
+            //             window.parent.postMessage(defaultOptionDisplayName, '*');
+            //             //console.log(this.response);
+            //         } else {
+            //             window.parent.postMessage('error', '*');
+            //         }
+            //     }
+            //     };
+            // req.send();    
+        }
+
+        function getParameterByName(name, url) {
+        url = url || window.location.href;
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+                regex = new RegExp(regexS, "i"),
+                results = regex.exec(url);
+            if (results == null) {
+                regexS = "[\\?&][dD]ata=([^&#]*)",
+                regex = new RegExp(regexS, "i"),
+                results = regex.exec(url);
+                if (results == null) {      //if no data parameter was found return null
+                    return results;
+                }
+                else {  //if data parameter is found then search through through what is returned for the named query string parameter.
+                    results = decodeURIComponent(results[1].replace(/\+/g, " "));
+                    //do an extra decode for ribbon function where passing Data param as a string.
+                    results = decodeURIComponent(results);
+                    regexS = "[?&]?" + name + "=([^&#]*)",
+                    regex = new RegExp(regexS, "i"),
+                    results = regex.exec(results);
+                    return (results == null) ? results : results[1];
+                }
+            }
+            else {
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+    }
+    </script>
+</head>
+<body onload="getDefaultChoiceValue()" style="background-color: bisque;">
+    Get Default Choice
+</body>
+</html>
