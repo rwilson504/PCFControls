@@ -173,7 +173,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './Frame\Solutions/RAWframe/bin/Release/'
+    SourceFolder: './Frame/Solution/RAWframe/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
