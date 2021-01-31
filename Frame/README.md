@@ -1,3 +1,6 @@
+![RAW! Frame Messenger](images/RAWFrame.png)
+
+## Overview
 The RAW! Frame component can be used to display another webpage within your Canvas App.  It is similar to many of the other iframe components out there but with one exception, that you can return data from the page you load into it. For example if your Canvas app is embedded within a Model app you could load webresource page into the iframe to gain access to the WebAPI and return data utilizing the controls output.
 
 The origin of the component is from a requirement to return the default Choice value in the CDS metadata within a Canvas app.  The only way to get this data within a Canvas app is to utilize Power Automate.  The Canvas app being developed was contained within a Model application, [see how to do that here](https://www.richardawilson.com/2020/06/launch-canvas-app-in-model-app-from.html).  Because the Canvas app is hosted within a Model app the a webresource can access the Xrm object from the Model app and the session security already in place will allow you make the call. 
