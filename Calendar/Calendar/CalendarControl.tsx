@@ -9,8 +9,8 @@ import * as React from 'react';
 import {IInputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { Calendar, momentLocalizer, Event, View, ViewsProps } from 'react-big-calendar'
-import GetMessages from './Translations'
-import * as moment from 'moment'
+import GetMessages from './Translations';
+import * as moment from 'moment';
 import * as lcid from 'lcid';
 import * as Color from 'color'
 var CustomWorkWeek = require('./MyWorkWeek');
