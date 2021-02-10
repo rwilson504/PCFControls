@@ -9,7 +9,7 @@
     <Version>1.0.195</Version>
     <Managed>2</Managed>
     <Publisher>
-      <UniqueName>raw</UniqueName>
+      <UniqueName>RAW</UniqueName>
       <LocalizedNames>
         <LocalizedName description="RAW" languagecode="1033" />
       </LocalizedNames>

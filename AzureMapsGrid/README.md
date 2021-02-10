@@ -22,7 +22,7 @@ For information on how to set up your Azure Maps account and get your subscripti
 
 ![Azure Maps Config](https://github.com/rwilson504/Blogger/blob/master/Azure-Maps-Control/images/azuremapsconfig.png?raw=true)
 
-NOTE: Currently only the Subscription Key authentication has been tested.  The Azure AD functionality should work but I would love feedback from those using it.  The Anonymous authentication is a bit tricker because you need to supply a getToken function. If you want to attempt the Anonymouse authentication ensure you write your function like the one below.  It is important that you utilze the variable name 'url' for the Anonymous url you supply in the config entity as well as ensuring that your fetch function return errors otherwise your users will just see a spinner if there is an auth error.
+NOTE: Currently only the Subscription Key authentication has been tested.  The Azure AD functionality should work but I would love feedback from those using it.  The Anonymous authentication is a bit tricker because you need to supply a getToken function. If you want to attempt the Anonymous authentication ensure you write your function like the one below.  It is important that you utilize the variable name 'url' for the Anonymous url you supply in the config entity as well as ensuring that your fetch function return errors otherwise your users will just see a spinner if there is an auth error.
 
 ```function(resolve, reject, map) {
        fetch(url)

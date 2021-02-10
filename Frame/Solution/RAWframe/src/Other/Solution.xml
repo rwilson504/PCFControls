@@ -2,13 +2,13 @@
 <ImportExportXml version="9.1.0.643" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <!-- Unique Name of Cds Solution-->
-    <UniqueName>CalendarControl</UniqueName>
+    <UniqueName>RAWframe</UniqueName>
     <LocalizedNames>
       <!-- Localized Solution Name in language code -->
-      <LocalizedName description="CalendarControl" languagecode="1033" />
+      <LocalizedName description="RAW! Frame" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.163</Version>
+    <Version>1.0.9</Version>
     <!-- Solution Package Type: Unmanaged(0)/Managed(1)/Both(2)-->
     <Managed>2</Managed>
     <Publisher>
