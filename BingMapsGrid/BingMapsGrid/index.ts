@@ -1,9 +1,11 @@
 /// <reference path="../node_modules/bingmaps/types/MicrosoftMaps/Microsoft.Maps.d.ts" />
+/// <reference path="../node_modules/bingmaps/types/MicrosoftMaps/Modules/Clustering.d.ts" />
 
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {Spinner} from 'spin.js'
 import { isNumber, isString } from "util";
+var isHexColor = require('is-hexcolor');
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -22,6 +24,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	private _bMapInfoBoxInvalidRecords: Microsoft.Maps.Infobox; 
 	private _bMapScriptIsLoaded: boolean;
 	private _bMapIsLoaded: boolean;
+	private _bMapIsPopulating: boolean;
 	private _loadingSpinner: Spinner;
 
 	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
@@ -94,7 +97,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			return;
 		}		
 
-		this._bMapPushpinDefaultColor = this._context.parameters.defaultPushpinColor.raw || ""
+		this._bMapPushpinDefaultColor = isHexColor(this._context.parameters.defaultPushpinColor?.raw || '') ? this._context.parameters.defaultPushpinColor.raw as string : '';
 		this._bMapOptions = {			
 			zoom: 0,			
 			center: new Microsoft.Maps.Location(0,0),
@@ -132,7 +135,6 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{	
-		var self = this;
 		var dataSet = context.parameters.mapDataSet;
 
 		//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
@@ -153,11 +155,16 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	}
 
 	private populateMap() {
+		//wait for the map script to load
 		var self = this;
 		if (!this._bMapIsLoaded){			
 			setTimeout(() => {self.populateMap()}, 1000);
 			return;
 		}
+
+		//prevent the double run of updateView to update the map a second time while it's loading.
+		if (this._bMapIsPopulating) return;
+		this._bMapIsPopulating = true;
 
 		let dataSet = this._context.parameters.mapDataSet;
 		//shortcut to parameters
@@ -176,13 +183,12 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			return;
 		}
 
-		this._bMap.entities.clear();
-		
 		//store location results so that we can utilize them later to get the bounding box for the map
 		let locationResults : Microsoft.Maps.Location[] = [];
 		let totalRecordCount = dataSet.sortedRecordIds.length;
 		let invalidRecords: string[] = [];
 
+		let pushPins: Microsoft.Maps.Pushpin[] = [];
 		//loop through all the records to create the pushpins
 		for (let i = 0; i < totalRecordCount; i++) {
 			var recordId = dataSet.sortedRecordIds[i];
@@ -215,7 +221,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			};			
 
 			//set color
-			if(keys.color && record.getValue(keys.color)){
+			if(keys.color && isHexColor(record.getValue(keys.color))){
 				pushPin.setOptions({color: record.getValue(keys.color).toString()})
 			}
 			else if (this._bMapPushpinDefaultColor){
@@ -226,7 +232,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			Microsoft.Maps.Events.addHandler(pushPin, 'click', this.pushPinInfoBoxOpen.bind(this));
 			Microsoft.Maps.Events.addHandler(pushPin, 'mouseover', this.pushPinInfoBoxOpen.bind(this));
 			Microsoft.Maps.Events.addHandler(pushPin, 'mouseout', this.pushPinInfoBoxClose.bind(this));
-			this._bMap.entities.push(pushPin);
+			
+			pushPins.push(pushPin);
 		}
 		
 		//generate the bounding box for the map to allow user to quickly see the area in which the pins are located.
@@ -239,8 +246,32 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._mapInfoDiv.innerHTML = `Total Records (${totalRecordCount.toString()}) Valid Locations (${locationResults.length.toString()}) Invalid/Empty Locations (<span title="Click to View Invalid/Empty record data." id="invalidSpan">${invalidRecords.length.toString()}</span>)`;
 		document.getElementById('invalidSpan')?.addEventListener("click", this.showInvalidRecordInfoBox.bind(this));
 		
-		//stop spinner
-		this._loadingSpinner.stop();		
+		Microsoft.Maps.loadModule('Microsoft.Maps.Clustering', () => {
+			var clusterLayer = new Microsoft.Maps.ClusterLayer(pushPins, {
+				clusteredPinCallback: this.clusterPinCustomization.bind(this),
+				clusteringEnabled: params.clusteringEnabled?.raw?.toLowerCase() === 'true' ? true : false,
+				gridSize: params.clusterGridSize.raw || 45,
+				clusterPlacementType: params.clusterPlacement?.raw === "FirstLocation" ? Microsoft.Maps.ClusterPlacementType.FirstLocation : Microsoft.Maps.ClusterPlacementType.MeanAverage
+			});
+			this._bMap.layers.clear();
+			this._bMap.layers.insert(clusterLayer);
+			//allow the map to update again if the updateView is called
+			this._bMapIsPopulating = false;
+			//stop spinner
+			this._loadingSpinner.stop();
+		})					
+	}
+
+	private clusterPinCustomization(cluster: Microsoft.Maps.ClusterPushpin)
+	{
+		var clusterColor = this._context.parameters.clusterPushpinColor.raw || '';
+		if (clusterColor && isHexColor(clusterColor))
+		{
+			cluster.setOptions({color: clusterColor});
+		}
+		else if (this._bMapPushpinDefaultColor){
+			cluster.setOptions({color: this._bMapPushpinDefaultColor});
+		}	
 	}
 
 	private generateBoundingBox(locationResults: Microsoft.Maps.Location[]) {

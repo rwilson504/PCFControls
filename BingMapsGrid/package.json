@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/node": "^10.17.24",
     "@types/powerapps-component-framework": "^1.2.3",
+    "is-hexcolor": "^1.0.0",
     "spin.js": "^4.1.0"
   },
   "devDependencies": {

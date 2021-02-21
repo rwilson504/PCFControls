@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.101" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard">
+  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.108" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="mapDataSet" display-name-key="Map Data Set">
     </data-set>
@@ -10,6 +10,13 @@
     <property name="longFieldName" display-name-key="Longitude Field" description-key="Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)." of-type="SingleLine.Text" usage="input" required="true" default-value="address1_longitude" />
     <property name="pushpinColorField" display-name-key="Pushpin Color Field" description-key="Enter the Pushpin Color field schema name if available, this field should contain a hex value for the color." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
     <property name="defaultPushpinColor" display-name-key="Default Pushpin Color" description-key="Enter a hex value for the default color of the Pushpins(example: #ffffff)." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
+    <property name="clusteringEnabled" display-name-key="Clustering Enabled" description-key="Enable clustering on the calendar (true or false)." of-type="SingleLine.Text" usage="input" required="true" default-value="false" />
+    <property name="clusterPlacement" display-name-key="Cluster Placement" description-key="Determines the output type that the file uploader will return." of-type="Enum" usage="input" required="true" default-value="MeanAverage">
+      <value name="MeanAverage" display-name-key="Mean Average" description-key="Mean Average placement calculates the average position of a group of coordinates. This method creates a more realistic representation of the data, however requires more processing power and increases the chances of pushpins overlapping.">MeanAverage</value>
+      <value name="FirstLocation" display-name-key="FirstLocation" description-key="This method is the simplest way to represent a cluster. It places the cluster at the first location in the cluster. This method may not accurately represent the data but requires little processing power.">FirstLocation</value>
+    </property>
+    <property name="clusterGridSize" display-name-key="Cluster Grid Size" description-key="The width and height of the gird cells used for clustering in pixels. Default: 45." of-type="Whole.None" usage="input" required="false" default-value="45" />
+    <property name="clusterPushpinColor" display-name-key="Cluster Pushpin Color" description-key="Enter a hex value for the color of the cluster Pushpins(example: #ffffff)." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
     <property name="bingMapsAPIKey" display-name-key="Bing Maps API Key" description-key="Enter your Bing Maps API Key." of-type="SingleLine.Text" usage="input" required="true" />
     <resources>
       <code path="index.ts" order="1" />
