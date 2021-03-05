@@ -2,7 +2,7 @@
  * @Author: richard.wilson 
  * @Date: 2020-05-09 07:38:02 
  * @Last Modified by: richard.wilson
- * @Last Modified time: 2021-01-20 13:05:14
+ * @Last Modified time: 2021-03-05 17:48:41
  */
 
 import * as React from 'react';
@@ -197,7 +197,11 @@ const generateThemeCSS = () : string =>{
 
     .rbc-day-slot .rbc-time-slot {
         border-color: ${calendarBorderColor.fade(.2)} !important;
-    }	
+    }
+    
+    .rbc-view-day .rbc-time-view .rbc-allday-cell {
+        width: 140px;
+    }    
     `;
 }
 
@@ -328,16 +332,18 @@ return(!calendarData?.resources ? <Calendar
     onSelectSlot={ _handleSlotSelect }
     onNavigate={ _handleNavigate }
     onView={ _handleOnView }
-    ref={calendarRef}
+    ref={calendarRef}    
+    className={`rbc-view-${calendarView}`}
     eventPropGetter={eventPropsGetter}
-    dayPropGetter={dayPropsGetter}    
+    dayPropGetter={dayPropsGetter}     
     components={{
         agenda: {
           event: agendaEvent,
         },
+        //toolbar: MobileToolbar,
         timeGutterHeader: timeGutterHeader
     }}
-    /> : 
+    />: 
     <Calendar    
     selectable
     localizer={localizer}
@@ -355,13 +361,15 @@ return(!calendarData?.resources ? <Calendar
     onView={ _handleOnView }
     resources={calendarData.resources}
     resourceAccessor="resource"
-    ref={calendarRef}
+    ref={calendarRef}    
+    className={`rbc-view-${calendarView}`}
     eventPropGetter={eventPropsGetter}
-    dayPropGetter={dayPropsGetter}    
+    dayPropGetter={dayPropsGetter}
     components={{
         agenda: {
           event: agendaEvent,
-        },        
+        },
+        //toolbar: MobileToolbar,  
         resourceHeader: resourceHeader,
         timeGutterHeader: timeGutterHeader        
     }}
