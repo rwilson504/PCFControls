@@ -42,7 +42,7 @@
                 }
             },
             (error) => {
-                console.log(`Error: ${error.message}`);
+                //console.log(`Error: ${error.message}`);
                 window.parent.postMessage(`Error: ${error.message}`, '*');
             }
         );
