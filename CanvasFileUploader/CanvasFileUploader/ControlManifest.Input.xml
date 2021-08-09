@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="CanvasFileUploader" version="0.0.10" display-name-key="RAW! Canvas File Uploader" description-key="Allows you to upload a file to a Canvas app and get the data Url and Text" control-type="standard">
+  <control namespace="RAW" constructor="CanvasFileUploader" version="0.0.13" display-name-key="RAW! Canvas File Uploader" description-key="Allows you to upload a file to a Canvas app and get the data Url and Text" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="acceptedFileTypes" display-name-key="Accepted File Type(s)" description-key="Provide a comma separated list of files types you will alllow the user to pick from. (eg: .gif, .jpg, .png, .doc)" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="triggerFileSelector" display-name-key="Trigger File Selector" description-key="Setting this value to true will open the file selector.  When used in conjunction with a toggle control you utilize the controls functionality without actually displaying it to the user." of-type="TwoOptions" usage="bound" required="true" default-value="false" />

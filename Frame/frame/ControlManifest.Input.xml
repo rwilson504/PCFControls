@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="frame" version="0.0.11" display-name-key="RAW! Frame" description-key="Control that allows for passing messages from iframe" control-type="standard">
+  <control namespace="RAW" constructor="frame" version="0.0.12" display-name-key="RAW! Frame" description-key="Control that allows for passing messages from iframe" control-type="standard">
     <property name="src" display-name-key="Frame Source Location" description-key="Enter the url of the iframe" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="postMessageFromFrame" display-name-key="Message From Frame" description-key="The contents of the postMessage from the iframe to the canvas app." of-type="Multiple" usage="output" />
     <property name="refresh" display-name-key="Refresh Frame" description-key="Refresh the iframe" of-type="TwoOptions" usage="bound" required="true" default-value="false" />

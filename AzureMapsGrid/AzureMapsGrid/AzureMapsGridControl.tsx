@@ -357,13 +357,13 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 						cameraOptions={markers.cameraOptions}															
 						events={{							
 							ready: (e: any) => {
-								console.log('ready', e);
+								//console.log('ready', e);
 								e.map.setCamera({
 									bounds: markers.cameraOptions.bounds, 
 									padding: markers.cameraOptions.padding});								
 							},					
 							error: (e: MapErrorEvent) => {								
-								console.log('error', e);
+								//console.log('error', e);
 								//If the map is not currently loaded then assume that this error is coming from an authentication error.
 								//Microsoft has decided to throw errors for a lof of things that don't actually affect functionality.
 								if (e.map['loaded'] === false)

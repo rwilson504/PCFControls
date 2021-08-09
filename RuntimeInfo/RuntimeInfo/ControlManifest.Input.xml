@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="RuntimeInfo" version="0.0.7" display-name-key="RAW! Runtime Info" description-key="Allows you to get some of the runtime information for the current running app." control-type="standard">
+  <control namespace="RAW" constructor="RuntimeInfo" version="0.0.8" display-name-key="RAW! Runtime Info" description-key="Allows you to get some of the runtime information for the current running app." control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="UserAgent" display-name-key="UserAgent" description-key="Provides the User Agent string" usage="output" of-type="SingleLine.Text" required="false" />
     <property name="Browser" display-name-key="Browser" description-key="Browser Name" usage="output" of-type="SingleLine.Text" required="false" />
@@ -12,9 +12,9 @@
     <property name="DeviceVendor" display-name-key="DeviceVendor" description-key="Device Vendor" usage="output" of-type="SingleLine.Text" required="false" />
     <property name="Engine" display-name-key="Engine" description-key="Engine Name" usage="output" of-type="SingleLine.Text" required="false" />
     <property name="EngineVersion" display-name-key="EngineVersion" description-key="Engine Version" usage="output" of-type="SingleLine.Text" required="false" />
-    <property name="CPUArchitecture" display-name-key="CPUArchitecture" description-key="CPU Architecture" usage="output" of-type="SingleLine.Text" required="false" />    
+    <property name="CPUArchitecture" display-name-key="CPUArchitecture" description-key="CPU Architecture" usage="output" of-type="SingleLine.Text" required="false" />
     <resources>
-      <code path="index.ts" order="1" />    
-    </resources>   
+      <code path="index.ts" order="1" />
+    </resources>
   </control>
 </manifest>

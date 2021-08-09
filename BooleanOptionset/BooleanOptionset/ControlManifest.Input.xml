@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.BooleanOptionset" constructor="BooleanOptionset" version="0.0.92" display-name-key="Boolean Optionset" description-key="BooleanOptionset description" control-type="standard">
+  <control namespace="RAW.BooleanOptionset" constructor="BooleanOptionset" version="0.0.96" display-name-key="Boolean Optionset" description-key="BooleanOptionset description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="inputValue" display-name-key="Input Boolean" description-key="Select the boolean input for the control" of-type="TwoOptions" usage="bound" required="true" />
     <!-- 
