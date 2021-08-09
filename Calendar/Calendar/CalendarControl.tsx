@@ -2,7 +2,7 @@
  * @Author: richard.wilson 
  * @Date: 2020-05-09 07:38:02 
  * @Last Modified by: richard.wilson
- * @Last Modified time: 2021-03-05 17:48:41
+ * @Last Modified time: 2021-03-05 18:00:21
  */
 
 import * as React from 'react';
@@ -13,6 +13,8 @@ import GetMessages from './Translations'
 import * as moment from 'moment'
 import * as lcid from 'lcid';
 import * as Color from 'color'
+import {MobileToolbar, ToolbarColor} from './MobileToolbar'
+import { inherits } from 'util';
 var CustomWorkWeek = require('./MyWorkWeek');
 var isHexColor = require('is-hexcolor');
 
@@ -40,6 +42,9 @@ const calendarTimeBarBackgroundColor = Color(isHexColor(props.pcfContext.paramet
 const calendarViews = getCalendarViews(props.pcfContext);
 const weekStartDay = props.pcfContext.parameters.calendarWeekStart?.raw || null;
 const calendarCulture = getISOLanguage(props.pcfContext);
+
+ToolbarColor.textColor = calendarTextColor;
+ToolbarColor.borderColor = calendarBorderColor;
 
 //set our moment to the current calendar culture for use of it outside the calendar.
 const localizer = momentLocalizer(moment);
@@ -69,7 +74,7 @@ React.useEffect(()=>{
         }
 
         var dataSet = props.pcfContext.parameters.calendarDataSet;
-        console.log(`asyncCalendarData: dataSet.sortedRecordIds.length: ${dataSet.sortedRecordIds.length}`)
+        //console.log(`asyncCalendarData: dataSet.sortedRecordIds.length: ${dataSet.sortedRecordIds.length}`)
         if (dataSet.loading === false)
         {
             setCalendarData(await getCalendarData(props.pcfContext, keys));            
@@ -104,6 +109,8 @@ React.useEffect(()=>{
 },[calendarDate, calendarView])
 
 React.useEffect(()=>{
+    ToolbarColor.textColor = calendarTextColor;
+    ToolbarColor.borderColor = calendarBorderColor;
     let styleTag = document.getElementById('rbc-calendar-theme-style');
     if (styleTag){
         styleTag.innerHTML = generateThemeCSS();
@@ -344,7 +351,7 @@ return(!calendarData?.resources ? <Calendar
         timeGutterHeader: timeGutterHeader
     }}
     />: 
-    <Calendar    
+    <Calendar
     selectable
     localizer={localizer}
     date={calendarDate}
@@ -433,7 +440,7 @@ async function getCalendarData(pcfContext: ComponentFramework.Context<IInputs>, 
     let resourceData = await getResources(pcfContext, keys);
     let eventData = await getEvents(pcfContext, resourceData, keys);
 
-    console.log(`getCalendarData: eventData.length: ${eventData?.length}`);
+    //console.log(`getCalendarData: eventData.length: ${eventData?.length}`);
     return {resources: resourceData, events: eventData, keys: keys}
 }
 

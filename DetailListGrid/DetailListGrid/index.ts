@@ -98,7 +98,6 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 			//console.log(`TS: updateView, dataSet.paging.pageSize ${dataSet.paging.pageSize}`);	
 			//console.log(`TS: updateView, dataSet.paging.totalResultCount ${dataSet.paging.totalResultCount}`)
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
-			dataSet.paging.reset();
 		}
 
 		//if data set has additional pages retrieve them before running anything else

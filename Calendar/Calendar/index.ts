@@ -115,7 +115,6 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			// navigate back.  In order to fix this we need to reset the paging to the count of the records that
 			// will come back and do a reset on the paging.  I believe this is all due to a MS bug.
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
-			dataSet.paging.reset();
 		}				
 
 		//MODEL ONLY
@@ -127,7 +126,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		}
 		
 		this._props.pcfContext = context;
-		console.log(`updateView: dataSet.sortedRecordIds.length:  ${context.parameters.calendarDataSet.sortedRecordIds.length}`)
+		//console.log(`updateView: dataSet.sortedRecordIds.length:  ${context.parameters.calendarDataSet.sortedRecordIds.length}`)
 
 		ReactDOM.render(
 			React.createElement(

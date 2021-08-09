@@ -43,7 +43,7 @@ export class RotationalImage implements ComponentFramework.StandardControl<IInpu
 	}
 
 	public handleOnClick = () => {
-		console.log('test');
+		//console.log('test');
 		this._notifyOutputChanged();
 	}
 
