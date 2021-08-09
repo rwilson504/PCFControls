@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="CanvasFileDownloader" version="0.0.11" display-name-key="RAW! Canvas File Downloader" description-key="Allows you to download a base64 file to your local machine." control-type="standard">
+  <control namespace="RAW" constructor="CanvasFileDownloader" version="0.0.12" display-name-key="RAW! Canvas File Downloader" description-key="Allows you to download a base64 file to your local machine." control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="fileName" display-name-key="File Name" description-key="This will be the name of the file that the browser will use to save the file." of-type="SingleLine.Text" usage="input" required="true" />
     <property name="fileMIMEType" display-name-key="MIME Type" description-key="This will be the name of the file that the browser will use to save the file." of-type="SingleLine.Text" usage="input" required="true" />

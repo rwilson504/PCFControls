@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project containing your PowerApps Component Framework (PCF) control.",
   "scripts": {
-    "build": "pcf-scripts build",    
+    "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
     "start": "pcf-scripts start"
@@ -13,7 +13,8 @@
     "@types/powerapps-component-framework": "^1.2.0"
   },
   "devDependencies": {
-    "pcf-scripts": "^1",
-    "pcf-start": "^1"
+    "pcf-scripts": "^1.8.6",
+    "pcf-start": "^1.8.6",
+    "typescript": "^4.3.5"
   }
 }

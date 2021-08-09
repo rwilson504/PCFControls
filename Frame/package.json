@@ -14,7 +14,8 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
-    "pcf-scripts": "^1.4.4",
-    "pcf-start": "^1.4.4"
+    "pcf-scripts": "^1.8.6",
+    "pcf-start": "^1.8.6",
+    "typescript": "^4.3.5"
   }
 }

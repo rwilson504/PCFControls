@@ -12,10 +12,11 @@
     "@types/node": "^10.12.18",
     "@types/powerapps-component-framework": "^1.2.0",
     "@types/ua-parser-js": "^0.7.33",
-    "ua-parser-js": "^0.7.21"
+    "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "pcf-scripts": "^1",
-    "pcf-start": "^1"
+    "pcf-scripts": "^1.8.6",
+    "pcf-start": "^1.8.6",
+    "typescript": "^4.3.5"
   }
 }
