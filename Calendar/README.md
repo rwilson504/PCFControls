@@ -15,33 +15,33 @@ Model
 - Calendar will default to the users currently selected language in their users settings if that language is available otherwise it will utilize English.
 
 # Sample Application
-If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.
+If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.  
 
 [Download Sample App](https://github.com/rwilson504/PCFControls/raw/master/Calendar/Sample/CanvasCalendar_1_0_0_4_managed.zip)
 
 # Model Configuration
 To add the calendar in a model view you can do the following.
 
-Create a new view or select an existing one.  You need to make sure that any columns you utilize in the control properties are in the view.
+Create a new view or select an existing one.  You need to make sure that any columns you utilize in the control properties are in the view.  
 ![Add Columns To View](./images/ModelCalendarAddColumns.png)
 
-Click to add the custom control
+Click to add the custom control  
 ![Add Custom Control](./images/ModelCalendarAddControl.png)
 
-Select the Calendar Control
+Select the Calendar Control  
 ![Select Calendar Control](./images/ModelCalendarSelectCalendarControl.png)
 
-Choose the places you want the control to show up such as web or tablet.  Then begin to modify the properties of the control.
+Choose the places you want the control to show up such as web or tablet.  Then begin to modify the properties of the control.  
 ![Select Control Locations and Properties](./images/ModelCalendarSelectProperties.png)
 
 After you are done save the view and do a Publish All.
 
 If at first you don't see the control on the view you created do the following.
 
-Select the ellipsis and do Show As
+Select the ellipsis and do Show As  
 ![Select Show As](./images/ModelCalendarShowAs.png)
 
-Select the Calendar Control
+Select the Calendar Control  
 ![Select Calendar Control](./images/ModelCalendarShowAs.png)
 
 Set the properties of the control.
@@ -62,11 +62,11 @@ Set the properties of the control.
 - **Calendar Language** Allows you to set the default language/culture for the calendar.  If you leave this blank it will default to the users current language in Dynamics if it's available or you can specify a language if you always want the calendar to show up in that language.
 
 ## Using In Sub-Grid
-If using this control in a Sub-Grid you will need to add it to the form using the Classic Editor.
+If using this control in a Sub-Grid you will need to add it to the form using the Classic Editor.  
 
 ![Classic Editor For Sub-Grid](./images/ModelCalendarSubGrid.png)
 
-To set the height for the calendar update the number of rows the subgrid should take up.
+To set the height for the calendar update the number of rows the subgrid should take up.  
 ![Sub-Grid Rows for Calendar](./images/ModelCalendarSubGridHeight.png)
 
 # Canvas Configuration
@@ -82,7 +82,7 @@ Using the control in Canvas requires more configuration due to the limitations a
 ## Events Only
 To just get the events and display them on the calendar we must utilize a simple collection to get all the events.  Because Canvas have some paging issues right now we will need to load the CDS data into a collection, otherwise the number of records will be constrained to 25.
 
-The following code can be added to the OnVisible event of the Canvas form or to a Toggle switch that can update the data when it's been checked..  The collection name will be calendarEvents and the CDS entity we are pulling from is called Events.  Additionally you can add filters when creating the Events entity if you would like to only show certain events.
+The following code can be added to the OnVisible event of the Canvas form or to a Toggle switch that can update the data when it's been checked..  The collection name will be calendarEvents and the CDS entity we are pulling from is called Events.  Additionally you can add filters when creating the Events entity if you would like to only show certain events.  
 
 ![OnLoad of Screen](./images/CanvasCalendarEventsOnlyOnLoad.png)
 
@@ -91,10 +91,10 @@ ClearCollect(calendarEvents, Events)
 );
 ```
 
-Here is the data source selection on the control.
+Here is the data source selection on the control.  
 ![Data Source Selection](./images/CanvasCalendarEventsOnlyDataSource.png)
 
-Here are the input properties for the control.  If the eventId property is not filled in correctly you will not get the proper record guid when you select a record, this is only required in Canvas apps.
+Here are the input properties for the control.  If the eventId property is not filled in correctly you will not get the proper record guid when you select a record, this is only required in Canvas apps.  
 ![Input Properties](./images/CanvasCalendarEventsOnlyAdvancedProps.png)
 
 ## Events and Resources
@@ -103,10 +103,10 @@ To get Events and Resource data we will need to utilize more complex Collections
 ### Return Only Resources That Have Events
 The configuration below will load the Events and include information about their resources. Also because we will be utilizing a control you will need to add in the EventId and set that parameter on the control. 
 
-Here you can see that there are 5 resources in our Resource data.
+Here you can see that there are 5 resources in our Resource data.  
 ![Events With Resources Data Source](./images/CanvasCalendarResourcesWithEventsData.png)
 
-In the resource Day view of the calendar though it only shows 4 resources because Andrew doesn't have any events.
+In the resource Day view of the calendar though it only shows 4 resources because Andrew doesn't have any events.  
 ![Events With Resources Header](./images/CanvasCalendarResourcesWithEventsResourceHeader.png)
 
 The following code can be added to the OnVisible event of the Canvas form.
@@ -137,10 +137,10 @@ ClearCollect(
 );
 ```
 
-Here is the data source selection on the control.
+Here is the data source selection on the control.  
 ![Data Source Selection](./images/CanvasCalendarResourcesWithEventsDataSource.png)
 
-Here are the input properties for the control
+Here are the input properties for the control  
 ![Input Properties](./images/CanvasCalendarResourcesWithEventsAdvancedProps.png)
 
 
@@ -197,10 +197,10 @@ ClearCollect(mergedSources, finalEvents);
 Collect(mergedSources, finalResources);
 ```
 
-Here is the data source selection on the control.
+Here is the data source selection on the control.  
 ![Data Source Selection](./images/CanvasCalendarAllResourcesDataSource.png)
 
-Here are the input properties for the control
+Here are the input properties for the control  
 ![Input Properties](./images/CanvasCalendarAllResourcesAdvancedProps.png)
 
 ## OnChange Event
@@ -220,41 +220,41 @@ The data returned from the control will be attached to the Canvas Control elemen
 * DateChange, when the current date of the calendar changes    
     * .currentCalendarDate, The current date of the calendar control
 
-This is an example of a text box with the Default values set the .selectedRecordId property of the control.
+This is an example of a text box with the Default values set the .selectedRecordId property of the control.  
 ![Text Box Showing Selected ID](./images/CanvasCalendarOnChangeProperties.png)
 
-This is an example of the OnChange event on the Calendar Control which will allow you to do things such as open a form to create a new record or update and existing one.
+This is an example of the OnChange event on the Calendar Control which will allow you to do things such as open a form to create a new record or update and existing one.  
 
-![Calendar OnChange Event](./images/CanvasCalendarOnChange.png)
+![Calendar OnChange Event](https://user-images.githubusercontent.com/7444929/140170012-5b34c219-0afa-42b0-963a-1d8d3dc3e708.png)
 
 ## Setting the Calendar Date
 If you would like to set the Calendar date to something other than Today you can do so in two ways.  If you leave the calendarDate property on the control empty it will default to Today.
 
 ### Default On App Load
-The first way is if you just want to default the calendar once upon app load.  In this case you can set a variable during the OnStart of your app.
+The first way is if you just want to default the calendar once upon app load.  In this case you can set a variable during the OnStart of your app.  
 
 ![Calendar Start Date Variable](./images/CanvasCalendarDateOnStart.png)
 
-Next set the calendarDate property in the Calendar Control on your form.
+Next set the calendarDate property in the Calendar Control on your form.  
 
 ![Calendar Start Date Variable](./images/CanvasCalendarDateControlProp.png)
 
-Finally you will need to make sure the OnChange handler of the control updates the CalendarDate variable every time the calendar date changes. Otherwise every time you try to move forward or back the calendar will just go right back to your original date.
+Finally you will need to make sure the OnChange handler of the control updates the CalendarDate variable every time the calendar date changes. Otherwise every time you try to move forward or back the calendar will just go right back to your original date.  
 
 ![Calendar On Change](./images/CanvasCalendarDateOnChange.png)
 
 ### Allow User to Select Date
 To allow the user control of the calendar date you can utilize a Date control.
 
-First start by creating a variable on the OnStart of your application and setting the default date you would like to have.
+First start by creating a variable on the OnStart of your application and setting the default date you would like to have.  
 
 ![Calendar Start Date Variable](./images/CanvasCalendarDateOnStart.png)
 
-Next set the calendarDate property in the Calendar Control on your form.
+Next set the calendarDate property in the Calendar Control on your form.  
 
 ![Calendar Start Date Variable](./images/CanvasCalendarDateControlProp.png)
 
-Add a Date control on your form. Set it's Default proper to the variable you created earlier and set it's OnSelect event to update that variable with any newly selected date in the control.
+Add a Date control on your form. Set it's Default proper to the variable you created earlier and set it's OnSelect event to update that variable with any newly selected date in the control.  
 
 ![Calendar Start Date Picker Props](./images/CanvasCalendarDatePickerProps.png)
 
