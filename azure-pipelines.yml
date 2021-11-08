@@ -23,7 +23,7 @@ variables:
   BuildVersionRevision: $[counter(format('{0}.{1}.{2}', variables['BuildVersionMajor'], variables['BuildVersionMinor'],variables['BuildVersionPatch']), 1)]
 
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: 'windows-latest'
 
 #COLOR PICKER
 
