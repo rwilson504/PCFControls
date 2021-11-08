@@ -57,6 +57,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._context = context;
 		this._container = container;
 		this._bMapIsLoaded = false;
+		this._bMapScriptIsLoaded = false;
 		
 		this._loadingSpinner = new Spinner({
 			length: 0, 
@@ -92,25 +93,26 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	public initMap(){
 
 		var self = this;
-		if (!this._bMapScriptIsLoaded) {			
+		//even though the script has loaded we still need to check that the namespace has been loaded into global.
+		if (!self._bMapScriptIsLoaded || !globalThis.Microsoft || !globalThis.Microsoft.Maps || !globalThis.Microsoft.Maps.Location) {			
 			setTimeout(() => {self.initMap()}, 1000);
 			return;
 		}		
 
-		this._bMapPushpinDefaultColor = isHexColor(this._context.parameters.defaultPushpinColor?.raw || '') ? this._context.parameters.defaultPushpinColor.raw as string : '';
-		this._bMapOptions = {			
+		self._bMapPushpinDefaultColor = isHexColor(self._context.parameters.defaultPushpinColor?.raw || '') ? self._context.parameters.defaultPushpinColor.raw as string : '';
+		self._bMapOptions = {			
 			zoom: 0,			
-			center: new Microsoft.Maps.Location(0,0),
-			mapTypeId: Microsoft.Maps.MapTypeId.aerial			
+			center: new globalThis.Microsoft.Maps.Location(0,0),
+			mapTypeId: globalThis.Microsoft.Maps.MapTypeId.aerial			
 		};
 		
-		this._bMap = new Microsoft.Maps.Map(this._mapDiv, this._bMapOptions);
-		this._bMapInfoBox = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {visible: false});
-		this._bMapInfoBoxInvalidRecords = new Microsoft.Maps.Infobox(this._bMap.getCenter(), {title: 'Invalid Locations', visible: false, showPointer: true});
-		this._bMapInfoBox.setMap(this._bMap);
-		this._bMapInfoBoxInvalidRecords.setMap(this._bMap);
+		self._bMap = new globalThis.Microsoft.Maps.Map(self._mapDiv, self._bMapOptions);
+		self._bMapInfoBox = new globalThis.Microsoft.Maps.Infobox(self._bMap.getCenter(), {visible: false});
+		self._bMapInfoBoxInvalidRecords = new globalThis.Microsoft.Maps.Infobox(self._bMap.getCenter(), {title: 'Invalid Locations', visible: false, showPointer: true});
+		self._bMapInfoBox.setMap(self._bMap);
+		self._bMapInfoBoxInvalidRecords.setMap(self._bMap);
 
-		this._bMapIsLoaded = true;
+		self._bMapIsLoaded = true;
 	}
 
 	public addBingMapsScriptToHeader(context: any): void {
@@ -157,25 +159,25 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	private populateMap() {
 		//wait for the map script to load
 		var self = this;
-		if (!this._bMapIsLoaded){			
+		if (!self._bMapIsLoaded){			
 			setTimeout(() => {self.populateMap()}, 1000);
 			return;
 		}
 
 		//prevent the double run of updateView to update the map a second time while it's loading.
-		if (this._bMapIsPopulating) return;
-		this._bMapIsPopulating = true;
+		if (self._bMapIsPopulating) return;
+		self._bMapIsPopulating = true;
 
-		let dataSet = this._context.parameters.mapDataSet;
+		let dataSet = self._context.parameters.mapDataSet;
 		//shortcut to parameters
-		let params = this._context.parameters;
+		let params = self._context.parameters;
 
 		var keys = { 
-			lat: params.latFieldName.raw ? this.getFieldName(dataSet, params.latFieldName.raw) : "",
-			long: params.longFieldName.raw ? this.getFieldName(dataSet, params.longFieldName.raw) : "",
-			name: params.primaryFieldName.raw ? this.getFieldName(dataSet, params.primaryFieldName.raw) : "",
-			description: params.descriptionFieldName.raw ? this.getFieldName(dataSet, params.descriptionFieldName.raw) : "",
-			color: params.pushpinColorField.raw ? this.getFieldName(dataSet, params.pushpinColorField.raw) : ""
+			lat: params.latFieldName.raw ? self.getFieldName(dataSet, params.latFieldName.raw) : "",
+			long: params.longFieldName.raw ? self.getFieldName(dataSet, params.longFieldName.raw) : "",
+			name: params.primaryFieldName.raw ? self.getFieldName(dataSet, params.primaryFieldName.raw) : "",
+			description: params.descriptionFieldName.raw ? self.getFieldName(dataSet, params.descriptionFieldName.raw) : "",
+			color: params.pushpinColorField.raw ? self.getFieldName(dataSet, params.pushpinColorField.raw) : ""
 		}
 		
 		//if dataset is empty or the lat/long fields are not defined then end
@@ -184,11 +186,11 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		}
 
 		//store location results so that we can utilize them later to get the bounding box for the map
-		let locationResults : Microsoft.Maps.Location[] = [];
+		let locationResults : globalThis.Microsoft.Maps.Location[] = [];
 		let totalRecordCount = dataSet.sortedRecordIds.length;
 		let invalidRecords: string[] = [];
 
-		let pushPins: Microsoft.Maps.Pushpin[] = [];
+		let pushPins: globalThis.Microsoft.Maps.Pushpin[] = [];
 		//loop through all the records to create the pushpins
 		for (let i = 0; i < totalRecordCount; i++) {
 			var recordId = dataSet.sortedRecordIds[i];
@@ -199,18 +201,18 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			var name = record.getValue(keys.name);
 
 			//if incorrect lat or long values are in the data then continue;
-			if (!this.checkLatitude(lat) || !this.checkLongitude(long)) 
+			if (!self.checkLatitude(lat) || !self.checkLongitude(long)) 
 			{ 	
 				//add the invalid/empty record to a string array so we can show it in an info box.		
 				invalidRecords.push(`Name: ${name}, Lat: ${lat ? lat.toString() : ''}, Long: ${long ? long.toString() : ''}`);
 				continue;
 			}
 
-			var pushpinLatLong = new Microsoft.Maps.Location(lat, long);
+			var pushpinLatLong = new globalThis.Microsoft.Maps.Location(lat, long);
 			locationResults.push(pushpinLatLong);
 
 			//create new pushpin
-			var pushPin = new Microsoft.Maps.Pushpin(pushpinLatLong, {title: name.toString()});
+			var pushPin = new globalThis.Microsoft.Maps.Pushpin(pushpinLatLong, {title: name.toString()});
 			
 			//set metadata for push pin
 			pushPin.metadata = {
@@ -224,41 +226,41 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			if(keys.color && isHexColor(record.getValue(keys.color))){
 				pushPin.setOptions({color: record.getValue(keys.color).toString()})
 			}
-			else if (this._bMapPushpinDefaultColor){
-				pushPin.setOptions({color: this._bMapPushpinDefaultColor})
+			else if (self._bMapPushpinDefaultColor){
+				pushPin.setOptions({color: self._bMapPushpinDefaultColor})
 			}
 
 			//add handlers for pushpin
-			Microsoft.Maps.Events.addHandler(pushPin, 'click', this.pushPinInfoBoxOpen.bind(this));
-			Microsoft.Maps.Events.addHandler(pushPin, 'mouseover', this.pushPinInfoBoxOpen.bind(this));
-			Microsoft.Maps.Events.addHandler(pushPin, 'mouseout', this.pushPinInfoBoxClose.bind(this));
+			globalThis.Microsoft.Maps.Events.addHandler(pushPin, 'click', self.pushPinInfoBoxOpen.bind(self));
+			globalThis.Microsoft.Maps.Events.addHandler(pushPin, 'mouseover', self.pushPinInfoBoxOpen.bind(self));
+			globalThis.Microsoft.Maps.Events.addHandler(pushPin, 'mouseout', self.pushPinInfoBoxClose.bind(self));
 			
 			pushPins.push(pushPin);
 		}
 		
 		//generate the bounding box for the map to allow user to quickly see the area in which the pins are located.
-		this.generateBoundingBox(locationResults);		
+		self.generateBoundingBox(locationResults);		
 		
 		//set the invalid record info box description with the list of our invalid records.
-		this._bMapInfoBoxInvalidRecords.setOptions({description: invalidRecords.join('<br />')});
+		self._bMapInfoBoxInvalidRecords.setOptions({description: invalidRecords.join('<br />')});
 		
 		//add record information to the footer
-		this._mapInfoDiv.innerHTML = `Total Records (${totalRecordCount.toString()}) Valid Locations (${locationResults.length.toString()}) Invalid/Empty Locations (<span title="Click to View Invalid/Empty record data." id="invalidSpan">${invalidRecords.length.toString()}</span>)`;
-		document.getElementById('invalidSpan')?.addEventListener("click", this.showInvalidRecordInfoBox.bind(this));
+		self._mapInfoDiv.innerHTML = `Total Records (${totalRecordCount.toString()}) Valid Locations (${locationResults.length.toString()}) Invalid/Empty Locations (<span title="Click to View Invalid/Empty record data." id="invalidSpan">${invalidRecords.length.toString()}</span>)`;
+		document.getElementById('invalidSpan')?.addEventListener("click", self.showInvalidRecordInfoBox.bind(self));
 		
-		Microsoft.Maps.loadModule('Microsoft.Maps.Clustering', () => {
-			var clusterLayer = new Microsoft.Maps.ClusterLayer(pushPins, {
-				clusteredPinCallback: this.clusterPinCustomization.bind(this),
+		globalThis.Microsoft.Maps.loadModule('Microsoft.Maps.Clustering', () => {
+			var clusterLayer = new globalThis.Microsoft.Maps.ClusterLayer(pushPins, {
+				clusteredPinCallback: self.clusterPinCustomization.bind(self),
 				clusteringEnabled: params.clusteringEnabled?.raw?.toLowerCase() === 'true' ? true : false,
 				gridSize: params.clusterGridSize.raw || 45,
-				clusterPlacementType: params.clusterPlacement?.raw === "FirstLocation" ? Microsoft.Maps.ClusterPlacementType.FirstLocation : Microsoft.Maps.ClusterPlacementType.MeanAverage
+				clusterPlacementType: params.clusterPlacement?.raw === "FirstLocation" ? globalThis.Microsoft.Maps.ClusterPlacementType.FirstLocation : globalThis.Microsoft.Maps.ClusterPlacementType.MeanAverage
 			});
-			this._bMap.layers.clear();
-			this._bMap.layers.insert(clusterLayer);
+			self._bMap.layers.clear();
+			self._bMap.layers.insert(clusterLayer);
 			//allow the map to update again if the updateView is called
-			this._bMapIsPopulating = false;
+			self._bMapIsPopulating = false;
 			//stop spinner
-			this._loadingSpinner.stop();
+			self._loadingSpinner.stop();
 		})					
 	}
 
@@ -283,7 +285,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			locationResults.sort(this.compareLocationValues('longitude'));
 			let minLong = locationResults[0].longitude;
 			let maxLong = locationResults[locationResults.length - 1].longitude;
-			let box = Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
+			let box = globalThis.Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
 			this._bMap.setView({ bounds: box });
 		}
 	}
@@ -351,8 +353,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		//check for null or undefined
 		if (!lat) return false;
 		
-		lat = isNumber(lat) ? lat.toString() : lat;
-		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/;
+		lat = typeof lat === "number" ? lat.toString() : lat;
+		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,100})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,100})?))$/;
 		return latExpression.test(lat);		
 	}
 
@@ -361,16 +363,16 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		//check for null or undefined
 		if (!long) return false;
 		
-		long = isNumber(long) ? long.toString() : long;
-		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/;
+		long = typeof long === "number" ? long.toString() : long;
+		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,100})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,100})?))$/;
 		return longExpression.test(long);		
 	}
 
 	public showInvalidRecordInfoBox(e: Event): void {
 		let boundingBox = this._bMap.getBounds();
 
-		let infoboxOptions: Microsoft.Maps.IInfoboxOptions = {visible: true, 
-			location: new Microsoft.Maps.Location(boundingBox.getSouth(), this._bMap.getCenter().longitude),
+		let infoboxOptions: globalThis.Microsoft.Maps.IInfoboxOptions = {visible: true, 
+			location: new globalThis.Microsoft.Maps.Location(boundingBox.getSouth(), this._bMap.getCenter().longitude),
 			maxHeight: this._bMap.getHeight() - 20,
 			maxWidth: this._bMap.getWidth() - 20};
 
