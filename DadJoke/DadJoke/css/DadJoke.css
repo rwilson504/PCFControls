@@ -1,0 +1,8 @@
+.RAW\.DadJoke img {
+    font-family: "Segoe UI", "Segoe WP", Segoe, device-segoe, Tahoma, Helvetica, Arial, sans-serif;
+    max-width: -webkit-fill-available;
+    min-width: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

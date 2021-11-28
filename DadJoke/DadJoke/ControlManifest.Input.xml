@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="DadJoke" version="0.0.16" display-name-key="RAW! Dad Joke" description-key="One of the punniest PCF components out there." control-type="standard" preview-image="img/preview.png">
+    <property name="ohNotAnotherOne" display-name-key="Oh Not Another One" description-key="Really do I have to load another joke???????" of-type="TwoOptions" usage="bound" required="true" default-value="0" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/DadJoke.css" order="1" />
+      <resx path="strings/DadJoke.1033.resx" version="1.0.0" />
+    </resources>
+    <property name="youAskedForIt" display-name-key="You Asked For It" description-key="Why are you doing this to yourself???????" usage="output" required="false" of-type="SingleLine.Text" default-value="" />
+  </control>
+</manifest>
