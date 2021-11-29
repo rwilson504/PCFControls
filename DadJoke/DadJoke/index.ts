@@ -4,7 +4,7 @@ export class DadJoke implements ComponentFramework.StandardControl<IInputs, IOut
 	
 	private _notifyOutputChanged: () => void;
 	private _thisIsTheWorst: string;
-	private _theJokeLivesHere: HTMLDivElement;
+	private _theJokeLivesHere: HTMLTextAreaElement;
 
 	constructor()
 	{
@@ -21,11 +21,21 @@ export class DadJoke implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
 	{
+		//this will ensure that if the container size changes the updateView function will be called.
 		context.mode.trackContainerResize(true);
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._thisIsTheWorst = '';
-		this._theJokeLivesHere = document.createElement("div");
-		container.appendChild(this._theJokeLivesHere);
+		
+		//text area for joke
+		this._theJokeLivesHere = document.createElement("textarea");		
+		this._theJokeLivesHere.readOnly;
+		this._theJokeLivesHere.setAttribute("autocomplete", "off");
+		this._theJokeLivesHere.setAttribute("class", "textAreaControl");
+		if (context.mode.allocatedHeight !== -1){
+			this._theJokeLivesHere.style.height = `${(context.mode.allocatedHeight - 25).toString()}px`;
+		}
+		//append the joke to the container
+		container.appendChild(this._theJokeLivesHere);		
 	}
 
 	/**
@@ -34,6 +44,10 @@ export class DadJoke implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public async updateView(context: ComponentFramework.Context<IInputs>): Promise<void>
 	{
+		if (context.mode.allocatedHeight !== -1){
+			this._theJokeLivesHere.style.height = `${(context.mode.allocatedHeight - 25).toString()}px`;
+		}
+		
 		if(context.parameters.ohNotAnotherOne.raw || this._thisIsTheWorst === '')
 		{
 
@@ -49,7 +63,7 @@ export class DadJoke implements ComponentFramework.StandardControl<IInputs, IOut
 			const body = await response.json()
 
 			this._thisIsTheWorst = body.joke;
-			this._theJokeLivesHere.innerText = body.joke;
+			this._theJokeLivesHere.textContent = body.joke;
 
 			this._notifyOutputChanged();
 		}

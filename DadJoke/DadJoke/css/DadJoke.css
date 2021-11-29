@@ -1,8 +1,65 @@
-.RAW\.DadJoke img {
-    font-family: "Segoe UI", "Segoe WP", Segoe, device-segoe, Tahoma, Helvetica, Arial, sans-serif;
-    max-width: -webkit-fill-available;
-    min-width: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
+.RAW\.DadJoke .textAreaControl {
+    word-break: normal;
+    font-style: normal;
+    font-variant: normal;
+    border: 0;
+    margin: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border-style: solid;
+    text-decoration: none;
+    color: rgb(51, 51, 51);
+    border-width: 1px;
+    font-size: 1rem;
+    font-family: "Segoe UI Regular", SegoeUI, "Segoe UI";
+    opacity: 1;
+    padding-top: 0px;
+    cursor: default;
+    line-height: 1.5em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-weight: 600;
+    height: 2.5rem;
+    padding-bottom: 0px;
+    border-color: transparent;
+    box-sizing: content-box;
+    -webkit-text-fill-color: rgb(51, 51, 51);
+    resize: none;
+    min-height: 4.5em;
+    outline: none;
+  }
+  
+  .RAW\.DadJoke .textAreaControl:hover{
+    word-break: normal;
+    font-style: normal;
+    font-variant: normal;
+    border: 0;
+    margin: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    border-style: solid;
+    text-decoration: none;
+    color: rgb(51, 51, 51);
+    border-width: 1px;
+    font-size: 1rem;
+    font-family: "Segoe UI Regular", SegoeUI, "Segoe UI";
+    opacity: 1;
+    padding-top: 0px;
+    cursor: default;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-weight: 600;
+    height: 2.5rem;
+    padding-bottom: 0px;
+    -webkit-text-fill-color: rgb(51, 51, 51);
+    resize: none;
+    outline: none;
+    background-color: rgb(226, 226, 226);
+    border-color: rgb(226, 226, 226);
+    box-sizing: content-box;
+    min-height: 4.5em;
+    line-height: 1.5em;
+  }
