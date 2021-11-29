@@ -178,13 +178,13 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './Frame/Solution/RAW!DadJoke/bin/Release/'
+    SourceFolder: './DadJoke/Solution/RAW!DadJoke/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: './DadJoke/Solution/RAWframe/bin/Release/'
+    SourceFolder: './Frame/Solution/RAWframe/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
