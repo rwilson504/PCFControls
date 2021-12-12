@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.110" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard">
+  <control namespace="RAW.BingMapsGrid" constructor="BingMapsGrid" version="0.0.116" display-name-key="Bing Maps Grid" description-key="BingMapsGrid description" control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="mapDataSet" display-name-key="Map Data Set">
     </data-set>
@@ -8,6 +8,7 @@
     <property name="descriptionFieldName" display-name-key="Description Field" description-key="Enter the Primary Field schema which will be used to display the title on the map. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="latFieldName" display-name-key="Latitude Field" description-key="Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="address1_latitude" />
     <property name="longFieldName" display-name-key="Longitude Field" description-key="Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)." of-type="SingleLine.Text" usage="input" required="true" default-value="address1_longitude" />
+    <property name="idFieldName" display-name-key="Id Field" description-key="For Model Apps this is not required but if you are using Canvas you will need to put in the Id field for the item if you are using a collection." of-type="SingleLine.Text" usage="input" required="false" />
     <property name="pushpinColorField" display-name-key="Pushpin Color Field" description-key="Enter the Pushpin Color field schema name if available, this field should contain a hex value for the color." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
     <property name="defaultPushpinColor" display-name-key="Default Pushpin Color" description-key="Enter a hex value for the default color of the Pushpins(example: #ffffff)." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
     <property name="clusteringEnabled" display-name-key="Clustering Enabled" description-key="Enable clustering on the calendar (true or false)." of-type="SingleLine.Text" usage="input" required="true" default-value="false" />
@@ -18,6 +19,7 @@
     <property name="clusterGridSize" display-name-key="Cluster Grid Size" description-key="The width and height of the gird cells used for clustering in pixels. Default: 45." of-type="Whole.None" usage="input" required="false" default-value="45" />
     <property name="clusterPushpinColor" display-name-key="Cluster Pushpin Color" description-key="Enter a hex value for the color of the cluster Pushpins(example: #ffffff)." of-type="SingleLine.Text" usage="input" required="false" default-value="" />
     <property name="bingMapsAPIKey" display-name-key="Bing Maps API Key" description-key="Enter your Bing Maps API Key." of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a pin is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/BingMapsGrid.css" order="1" />

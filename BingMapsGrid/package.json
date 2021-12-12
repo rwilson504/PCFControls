@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "bingmaps": "^2.0.3",
-    "pcf-scripts": "^1.8.6",
+    "pcf-scripts": "^1.10.4",
     "pcf-start": "^1.8.6",
     "typescript": "^4.3.5"
   }

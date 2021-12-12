@@ -33,6 +33,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
     private _refreshData: EventListenerOrEventListenerObject;
 	// Reference to ComponentFramework Context object
 	private _context: ComponentFramework.Context<IInputs>;
+	private _updateFromOutput: boolean;
+	private _selectedRecordId: string;
 
 		
 	constructor()
@@ -58,6 +60,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._container = container;
 		this._bMapIsLoaded = false;
 		this._bMapScriptIsLoaded = false;
+		this._selectedRecordId = '';
 		
 		this._loadingSpinner = new Spinner({
 			length: 0, 
@@ -76,7 +79,13 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._mapDiv.setAttribute("id", "mapDiv");
 		//we need to set the map height.  If the allocated height is not -1 then we are in a canvas app 
 		//and we need to set the heigh based upon the allocated height of the container.
-		this._mapDiv.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "calc(100% - 25px)";
+		if (this._context.mode.allocatedHeight !== -1){
+			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
+		}
+		else{
+			///@ts-ignore
+			this._mapDiv.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)"
+		}		
 		this._mapInfoDiv = document.createElement("div");
 		this._mapInfoDiv.setAttribute("id", "mapInfoDiv");
 		mainDiv.appendChild(this._mapDiv);
@@ -137,6 +146,11 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{	
+		if (this._updateFromOutput){
+			this._updateFromOutput = false;
+			return;
+		}
+
 		var dataSet = context.parameters.mapDataSet;
 
 		//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
@@ -147,7 +161,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (dataSet.loading) return;
 
 		//if data set has additional pages retrieve them before running anything else
-		if (dataSet.paging.hasNextPage) {
+		if (context.mode.allocatedHeight === -1 && dataSet.paging.hasNextPage) {
 			dataSet.paging.loadNextPage();
 			return;
 		}		
@@ -173,11 +187,12 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		let params = self._context.parameters;
 
 		var keys = { 
-			lat: params.latFieldName.raw ? self.getFieldName(dataSet, params.latFieldName.raw) : "",
-			long: params.longFieldName.raw ? self.getFieldName(dataSet, params.longFieldName.raw) : "",
-			name: params.primaryFieldName.raw ? self.getFieldName(dataSet, params.primaryFieldName.raw) : "",
-			description: params.descriptionFieldName.raw ? self.getFieldName(dataSet, params.descriptionFieldName.raw) : "",
-			color: params.pushpinColorField.raw ? self.getFieldName(dataSet, params.pushpinColorField.raw) : ""
+			id: params?.idFieldName?.raw ? self.getFieldName(dataSet, params.idFieldName.raw) : "",
+			lat: params?.latFieldName?.raw ? self.getFieldName(dataSet, params.latFieldName.raw) : "",
+			long: params?.longFieldName?.raw ? self.getFieldName(dataSet, params.longFieldName.raw) : "",
+			name: params?.primaryFieldName?.raw ? self.getFieldName(dataSet, params.primaryFieldName.raw) : "",
+			description: params?.descriptionFieldName?.raw ? self.getFieldName(dataSet, params.descriptionFieldName.raw) : "",
+			color: params?.pushpinColorField?.raw ? self.getFieldName(dataSet, params.pushpinColorField.raw) : ""
 		}
 		
 		//if dataset is empty or the lat/long fields are not defined then end
@@ -218,7 +233,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			pushPin.metadata = {
 				title: name,
 				description: keys.description && record.getValue(keys.description) ? record.getValue(keys.description) : "",
-				entityId: recordId, 
+				entityId: keys.id && record.getValue(keys.id) ? record.getValue(keys.id) : recordId, 
 				entityName: dataSet.getTargetEntityType()
 			};			
 
@@ -321,8 +336,13 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 				visible: true,
 				actions: [{
 					label: 'Open Record',
-					eventHandler: function(){
-					self._context.navigation.openForm({openInNewWindow: true, entityId: e.target.metadata.entityId, entityName: e.target.metadata.entityName })
+					eventHandler: function(){						
+						if (self._context.mode.allocatedHeight === -1)
+						{
+							self._context.navigation.openForm({openInNewWindow: true, entityId: e.target.metadata.entityId, entityName: e.target.metadata.entityName })
+						}
+						self._selectedRecordId = e.target.metadata.entityId;
+						self._notifyOutputChanged();
 					}
 				}]
 			});
@@ -385,7 +405,12 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public getOutputs(): IOutputs
 	{
-		return {};
+		this._updateFromOutput = true;
+		let notifyAgain = false;
+
+		return {
+			selectedRecordId: this._selectedRecordId || ''
+		};
 	}
 
 	/** 
