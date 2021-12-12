@@ -105,6 +105,14 @@ Connect to Azure maps and display information from a Dynamics View.
 [More...](./AzureMapsGrid/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/AzureMapsGridControl_managed.zip)
 
+## World Daylight Map
+Enables you to embed a map of the world with a daylight/night-time overlay within a Canvas Power App.
+
+![World Daylight Map Sample](https://github.com/rwilson504/Blogger/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true?raw=true)
+
+[More...](./WorldDaylightMap/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWWorldDaylightMap_managed.zip)
+
 ## Boolean Optionset
 Allows you to utilize a drop down for Boolean fields on the Business Process Flow forms.
 
