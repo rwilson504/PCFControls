@@ -13,7 +13,7 @@ Make sure you have enabled PCF components for Canvas apps in your environment.  
 - Navigate to https://make.powerapps.com
 - Click on Solution area
 - Click **Import** button on the ribbon and select the RAWWorldDaylightMap_managed.zip file you downloaded.
-- Followow the import wizard and wait for solution to import. 
+- Follow the import wizard and wait for solution to import. 
 
 ### Import Sample App
 - Download the sample app file [World Daylight Map.msapp](https://github.com/rwilson504/PCFControls/raw/master/WorldDaylightMap/Sample/World%20Daylight%20Map.msapp)
