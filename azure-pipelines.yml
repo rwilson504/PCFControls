@@ -52,6 +52,11 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
+    workingDir: './WorldDaylightMap/'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
     workingDir: './DetailListGrid/'
 
 - task: Npm@1
@@ -131,6 +136,12 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './AzureMapsGrid/AzureMapsGrid/AzureMapsGridControl/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './WorldDaylightMap/Solution/RAWWorldDaylightMap/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
