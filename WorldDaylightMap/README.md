@@ -1,7 +1,7 @@
 # World Daylight Map PCF Component
 This PCF component utilizes [world-daylight-map](https://github.com/d-w-d/world-daylight-map), enabling you to embed a map of the world with a daylight/night-time overlay within a Canvas Power App. 
 
-![World Daylight Map Sample](https://github.com/rwilson504/Blogger/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true?raw=true)
+![World Daylight Map Sample](https://github.com/rwilson504/PCFControls/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true?raw=true)
 
 ## Installation
 
