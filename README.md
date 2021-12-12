@@ -108,7 +108,7 @@ Connect to Azure maps and display information from a Dynamics View.
 ## World Daylight Map
 Enables you to embed a map of the world with a daylight/night-time overlay within a Canvas Power App.
 
-![World Daylight Map Sample](https://github.com/rwilson504/Blogger/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true?raw=true)
+![World Daylight Map Sample](https://github.com/rwilson504/PCFControls/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true)
 
 [More...](./WorldDaylightMap/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWWorldDaylightMap_managed.zip)
