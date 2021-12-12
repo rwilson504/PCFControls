@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="WorldDaylightMap" version="0.0.6" display-name-key="RAW! World Daylight Map" description-key="Enables you to embed a map of the world with a daylight/night-time overlay." control-type="standard" preview-image="img/preview.png">
+    <!-- <data-set name="iconDataSet" display-name-key="Icon Data Set" description-key="Allows you to define a collection of icons on the map.">
+    </data-set> -->
+    <property name="controlsPosition" display-name-key="Controls Position" description-key="The position of the control on the map." of-type="Enum" usage="input" required="true" default-value="outer-top">
+      <value name="outer-top" display-name-key="Outer Top">outer-top</value>
+      <value name="top" display-name-key="Top">top</value>
+      <value name="top-left" display-name-key="Top Left">top-left</value>
+      <value name="top-right" display-name-key="Top Right">top-right</value>
+      <value name="bottom" display-name-key="Bottom">bottom</value>
+      <value name="bottom-left" display-name-key="Bottom Left">bottom-left</value>
+      <value name="bottom-right" display-name-key="Bottom Right">bottom-right</value>
+      <value name="no-controls" display-name-key="No Controls">no-controls</value>
+    </property>
+    <property name="controlsScale" display-name-key="Controls Scale" description-key="Takes a value between 0 and 1, scales the size of the controls box." of-type="Decimal" usage="input" required="false" default-value="1.0" />
+    <property name="font" display-name-key="Font" description-key="Standard CSS string; you need to make the font available within your CSS setup." of-type="SingleLine.Text" usage="input" required="false" default-value="'Roboto', sans-serif" />
+    <property name="fontSize" display-name-key="Font Size" description-key="By default, this property has value 0, which causes the library to automatically scale your text based upon the width of the container. You can override this scaling-font size by an absolute value." of-type="Whole.None" usage="input" required="false" default-value="0" />
+    <property name="isSunshineDisplayed" display-name-key="Is Sunshine Displayed" description-key="Controls whether or not to display a radial gradient to mimic the sunshine on the earths surface. Default is true." of-type="TwoOptions" usage="input" required="true" default-value="true" />
+    <property name="refresh" display-name-key="Refresh" description-key="Setting this value to true will refresh the map." of-type="TwoOptions" usage="bound" required="true" default-value="false" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/WorldDaylightMap.css" order="1" />
+      <resx path="strings/WorldDaylightMap.1033.resx" version="1.0.0" />
+    </resources>
+  </control>
+</manifest>
