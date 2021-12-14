@@ -35,6 +35,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	private _context: ComponentFramework.Context<IInputs>;
 	private _updateFromOutput: boolean;
 	private _selectedRecordId: string;
+	private _selectedRecordType: string;
 
 		
 	constructor()
@@ -61,6 +62,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		this._bMapIsLoaded = false;
 		this._bMapScriptIsLoaded = false;
 		this._selectedRecordId = '';
+		this._selectedRecordType = '';
 		
 		this._loadingSpinner = new Spinner({
 			length: 0, 
@@ -188,6 +190,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		var keys = { 
 			id: params?.idFieldName?.raw ? self.getFieldName(dataSet, params.idFieldName.raw) : "",
+			recordType: params?.recordTypeFieldName?.raw ? self.getFieldName(dataSet, params.recordTypeFieldName.raw) : "",
 			lat: params?.latFieldName?.raw ? self.getFieldName(dataSet, params.latFieldName.raw) : "",
 			long: params?.longFieldName?.raw ? self.getFieldName(dataSet, params.longFieldName.raw) : "",
 			name: params?.primaryFieldName?.raw ? self.getFieldName(dataSet, params.primaryFieldName.raw) : "",
@@ -234,7 +237,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 				title: name,
 				description: keys.description && record.getValue(keys.description) ? record.getValue(keys.description) : "",
 				entityId: keys.id && record.getValue(keys.id) ? record.getValue(keys.id) : recordId, 
-				entityName: dataSet.getTargetEntityType()
+				entityName: keys.recordType && record.getValue(keys.recordType) ? record.getValue(keys.recordType) : dataSet.getTargetEntityType()
 			};			
 
 			//set color
@@ -341,6 +344,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 						{
 							self._context.navigation.openForm({openInNewWindow: true, entityId: e.target.metadata.entityId, entityName: e.target.metadata.entityName })
 						}
+						self._selectedRecordType = e.target.metadata.entityName;
 						self._selectedRecordId = e.target.metadata.entityId;
 						self._notifyOutputChanged();
 					}
@@ -409,7 +413,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		let notifyAgain = false;
 
 		return {
-			selectedRecordId: this._selectedRecordId || ''
+			selectedRecordId: this._selectedRecordId || '',
+			selectedRecordType: this._selectedRecordType || ''
 		};
 	}
 
