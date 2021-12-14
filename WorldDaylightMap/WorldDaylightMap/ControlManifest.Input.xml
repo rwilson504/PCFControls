@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="WorldDaylightMap" version="0.0.6" display-name-key="RAW! World Daylight Map" description-key="Enables you to embed a map of the world with a daylight/night-time overlay." control-type="standard" preview-image="img/preview.png">
+  <control namespace="RAW" constructor="WorldDaylightMap" version="0.0.8" display-name-key="RAW! World Daylight Map" description-key="Enables you to embed a map of the world with a daylight/night-time overlay." control-type="standard" preview-image="img/preview.png">
     <!-- <data-set name="iconDataSet" display-name-key="Icon Data Set" description-key="Allows you to define a collection of icons on the map.">
     </data-set> -->
     <property name="controlsPosition" display-name-key="Controls Position" description-key="The position of the control on the map." of-type="Enum" usage="input" required="true" default-value="outer-top">
