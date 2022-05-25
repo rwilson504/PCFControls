@@ -79,15 +79,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		this._mapDiv = document.createElement("div");
 		this._mapDiv.setAttribute("id", "mapDiv");
-		//we need to set the map height.  If the allocated height is not -1 then we are in a canvas app 
-		//and we need to set the heigh based upon the allocated height of the container.
-		if (this._context.mode.allocatedHeight !== -1){
-			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
-		}
-		else{
-			///@ts-ignore
-			this._mapDiv.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)"
-		}		
+		
+		this.setMapHeight();		
 		this._mapInfoDiv = document.createElement("div");
 		this._mapInfoDiv.setAttribute("id", "mapInfoDiv");
 		mainDiv.appendChild(this._mapDiv);
@@ -99,7 +92,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		context.parameters.mapDataSet.paging.setPageSize(5000);
 
 		this.initMap();
-	}
+	}	
 
 	public initMap(){
 
@@ -155,10 +148,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		var dataSet = context.parameters.mapDataSet;
 
-		//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
-		if (this._context.mode.allocatedHeight !== -1) {
-			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
-		}				
+		this.setMapHeight();
 
 		if (dataSet.loading) return;
 
@@ -170,6 +160,20 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 				
 		//populate the map
 		this.populateMap();				
+	}
+
+	/**
+	 * Sets the height of the map. If the allocated height is not -1 then we are in a canvas app 
+	 * and we need to set the heigh based upon the allocated height of the container.
+	 */	 
+	private setMapHeight(): void {
+		if (this._context.mode.allocatedHeight !== -1) {
+			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
+		}
+		else {
+			///@ts-ignore
+			this._mapDiv.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)";
+		}
 	}
 
 	private populateMap() {
