@@ -5,7 +5,6 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {AzureMapsGridControl} from "./AzureMapsGridControl"
 import {Spinner} from 'spin.js'
 import atlas = require("azure-maps-control");
-import { isNumber, isString } from "util";
 import { IProps } from "./AzureMapsGridControl";
 import * as React from 'react';
 

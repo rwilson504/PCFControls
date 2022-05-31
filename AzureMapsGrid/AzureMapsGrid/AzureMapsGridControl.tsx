@@ -11,7 +11,6 @@ import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyleSets, getTheme, FontWeights } from 'office-ui-fabric-react/lib/Styling';
 import { HoverCard, HoverCardType, IPlainCardProps } from 'office-ui-fabric-react/lib/HoverCard';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { isNumber } from "util";
 import atlas = require('azure-maps-control');
 
 
@@ -27,6 +26,7 @@ const baseMapOptions: IAzureMapOptions = {
     zoom: 10, 
 	center: [0, 0],
 	language: 'en-US',
+	view: 'Auto',
 	style: 'satellite_road_labels'	
 }
 
@@ -225,7 +225,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 					settings: {}, 					
 					loading: false, 
 					errorTitle: 'Error retrieveing the Azure Maps Settings.', 
-					errorMessage: error});
+					errorMessage: error as string});
             }
         }
 
@@ -522,7 +522,7 @@ const checkLatitude = (lat: any): boolean => {
 	//check for null or undefined
 	if (!lat) return false;
 	
-	lat = isNumber(lat) ? lat.toString() : lat;
+	lat = typeof lat === 'number' ? lat.toString() : lat;
 	let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 	return latExpression.test(lat);		
 }
@@ -531,7 +531,7 @@ const checkLongitude = (long: any): boolean =>	{
 	//check for null or undefined
 	if (!long) return false;
 	
-	long = isNumber(long) ? long.toString() : long;
+	long = typeof long === 'number' ? long.toString() : long;
 	let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 	return longExpression.test(long);		
 }
