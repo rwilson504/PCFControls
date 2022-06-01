@@ -11,23 +11,11 @@ import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyleSets, getTheme, FontWeights } from 'office-ui-fabric-react/lib/Styling';
 import { HoverCard, HoverCardType, IPlainCardProps } from 'office-ui-fabric-react/lib/HoverCard';
 import { Label } from 'office-ui-fabric-react/lib/Label';
+import * as lcid from 'lcid';
 import atlas = require('azure-maps-control');
-
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs> 
-}
-
-interface MyWindow extends Window {
-	myFunction: Function;
-  }
-
-const baseMapOptions: IAzureMapOptions = {    
-    zoom: 10, 
-	center: [0, 0],
-	language: 'en-US',
-	view: 'Auto',
-	style: 'satellite_road_labels'	
 }
 
 const azureMapsControls: IAzureMapControls[] = [
@@ -40,7 +28,7 @@ const azureMapsControls: IAzureMapControls[] = [
         options: { position: ControlPosition.TopRight } as ControlOptions
     },
     {
-        controlName: 'PitchControl',        
+        controlName: 'PitchControl',
         options: { position: ControlPosition.TopRight } as ControlOptions
     },
     {
@@ -49,7 +37,6 @@ const azureMapsControls: IAzureMapControls[] = [
         options: { position: ControlPosition.TopRight } as ControlOptions
     }
 ];
-
 
 const loaderComponent = <Spinner styles={{root: {height: '100%'}}} size={SpinnerSize.large} label="Loading..."  />;
 
@@ -109,7 +96,12 @@ const invalidRecordsStyle = mergeStyleSets({
 });
 
 export const AzureMapsGridControl: React.FC<IProps> = (props) => {	
-
+	const baseMapOptions: IAzureMapOptions = {    
+		zoom: 10, 
+		center: [0, 0],	
+		language: lcid.from(props.pcfContext.userSettings.languageId).replace('_', '-'),
+		style: 'satellite_road_labels'	
+	}		
 	const [environmentSettings, setEnvironmentSettings] = React.useState({settings: {}, loading: true, errorTitle: '', errorMessage: ''});
 	const [azureMapOptions, setAzureMapOptions] = React.useState(baseMapOptions);
 	const [showMap, setShowMap] = React.useState(false);
@@ -161,7 +153,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 			{ 	
 				//output the incorrect lat/long data so the user could later update the record.
 				//console.log(`Cannot add pin for ${name}, Lat: ${lat ? lat.toString() : ''}, Long: ${long ? long.toString() : ''}`);
-				returnData.invalid.push(`Name: ${name}, Lat: ${lat ? lat.toString() : ''}, Long: ${long ? long.toString() : ''}`)				
+				returnData.invalid.push(`${props.pcfContext.resources.getString('AzureMapsGridControl_Name')}: ${name}, ${props.pcfContext.resources.getString('AzureMapsGridControl_Latitude')}: ${lat ? lat.toString() : ''}, ${props.pcfContext.resources.getString('AzureMapsGridControl_Longitude')}: ${long ? long.toString() : ''}`)				
 				continue;
 			}			
 			
@@ -333,11 +325,22 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
         [markers]
 	);
 
+	const onRenderPlainCard = (items: string[]): JSX.Element => {
+		return (
+		items.length > 0 ?	
+		  <div className={invalidRecordsStyle.compactCard}>
+			<div>{props.pcfContext.resources.getString('AzureMapsGridControl_Label_InvalidEmptyLocations')}</div>
+			{items.map((item, index) => <div className={invalidRecordsStyle.invalidItem} key={index}>{item}</div>)}
+		  </div>
+		  : <div></div>
+		);
+	  };
+	
 	const _expandingCardProps: IPlainCardProps = {
 		onRenderPlainCard: onRenderPlainCard,
 		renderData: markers.invalid
 	};
-
+	
     return(	
     <div id="mainDiv">		
         <div id="mapDiv">
@@ -352,7 +355,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 				</Stack>}         			
             {showMap && <AzureMapsProvider>
 				<AzureMap 
-						options={azureMapOptions}
+						options={azureMapOptions}						
 						LoaderComponent={() => loaderComponent}
 						cameraOptions={markers.cameraOptions}															
 						events={{							
@@ -406,26 +409,22 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 									<div className="azuremapsgrid-name">{popupDetails.properties.name}</div>
 									{popupDetails.properties.description && <div>{popupDetails.properties.description}</div>}
 									<div>{popupDetails.options.position![1]}, {popupDetails.options.position![0]}</div>
-									<div><a href={`main.aspx?etn=${popupDetails.properties.entityName}&pagetype=entityrecord&id=${popupDetails.properties.id}`} target="_blank">Open Record</a></div>
-									</div>}             
+									<div><a href={`javascript:top.Xrm.Navigation.navigateTo({ pageType: 'entityrecord', entityName: '${popupDetails.properties.entityName}', entityId: '${popupDetails.properties.id}'}, {target: 2})`}>Open Record</a></div>
+									</div>}					
             		/>
                 </AzureMap>
             </AzureMapsProvider>}
         </div>
         <div id="mapInfoDiv">
-			<div>Total Records ({(markers.invalid.length + markers.valid.length).toString()})</div>
-			<div className="mapInfoDetails">Valid Locations ({markers.valid.length.toString()})</div>
-			<div className="mapInfoDetails">Invalid/Empty Locations (</div>
+			<div> {props.pcfContext.resources.getString('AzureMapsGridControl_Label_TotalRecords')} ({(markers.invalid.length + markers.valid.length).toString()})</div>
+			<div className="mapInfoDetails">{props.pcfContext.resources.getString('AzureMapsGridControl_Label_ValidLocations')} ({markers.valid.length.toString()})</div>
+			<div className="mapInfoDetails">{props.pcfContext.resources.getString('AzureMapsGridControl_Label_InvalidEmptyLocations')} (</div>
 			<HoverCard type={HoverCardType.plain} plainCardProps={_expandingCardProps} className={invalidRecordsStyle.item}>{markers.invalid.length.toString()}</HoverCard>
 			<div>)</div>
         </div>
     </div>
     );
 }
-
-const myFunction = () => {
-	alert("I am an alert box!");
-  }
 
 const isAzureGoverment = (settings: any): boolean => {
 	return settings?.raw_azuregovernment === true || false;
@@ -441,7 +440,6 @@ const generateBoundingBox = (locationResults: data.Position[]): atlas.data.Bound
 		let minLong = locationResults[0][0];
 		let maxLong = locationResults[locationResults.length - 1][0];
 
-		//let box = Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
 		return atlas.data.BoundingBox.fromEdges(minLong, minLat, maxLong, maxLat)		
 	}
 }
@@ -461,17 +459,6 @@ const getPopupProperties = (e: MapMouseEvent) => {
 	const prop: any = e.shapes![0];
 	return prop.getProperties();
 }
-
-const onRenderPlainCard = (items: string[]): JSX.Element => {
-	return (
-	items.length > 0 ?	
-	  <div className={invalidRecordsStyle.compactCard}>
-		<div>Invalid Records</div>
-		{items.map((item, index) => <div className={invalidRecordsStyle.invalidItem} key={index}>{item}</div>)}
-	  </div>
-	  : <div></div>
-	);
-  };
 
 const renderPoint = (record: DataSetInterfaces.EntityRecord, keys: any, defaultMarkerColor: string) => {        
 	return (

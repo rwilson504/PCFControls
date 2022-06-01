@@ -12,6 +12,7 @@
     "@types/node": "^10.17.60",
     "@types/powerapps-component-framework": "^1.3.4",
     "azure-maps-control": "^2.1.10",
+    "lcid": "^3.1.1",
     "office-ui-fabric-react": "^7.185.7",
     "react": "^16.14.0",
     "react-azure-maps": "^0.3.0",
