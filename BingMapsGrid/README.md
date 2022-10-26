@@ -13,6 +13,8 @@ A PCF Control that allows you to display view information containing latitude an
 
 # Configuration Options
 
+**NOTE:** Any of the data columns you define in the properties must also be present on your view.
+
 **Bing Maps API Key** (Required) - Enter your Bing Maps API Key.  You can obtain a dev/test key from [here.](https://www.bingmapsportal.com/)
 
 **Primary Field** (Required) - Enter the schema name of the field on the view which will be used to generate the title of the Info Box that will be shown when hovering over a pushpin.
