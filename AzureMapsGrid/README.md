@@ -46,6 +46,8 @@ NOTE: Currently only the Subscription Key authentication has been tested.  The A
 
 # Configuration Options for Control
 
+NOTE: Any of the data columns you define in the properties must also be present on your view.
+
 Primary Field (Required) - Enter the schema name of the field on the view which will be used to generate the title of the Info Box that will be shown when hovering over a pushpin.
 
 Latitude Field (Required) - Enter the Latitude field schema name. For related entities use the following format (new_entityname.new_fieldname)
