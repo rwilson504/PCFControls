@@ -9,18 +9,25 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@types/base64-stream": "^1.0.0",
     "@types/js-base64": "^3.0.0",
     "@types/node": "^10.12.18",
-    "@types/powerapps-component-framework": "^1.2.0",
-    "base64-stream": "^1.0.0",
+    "@types/powerapps-component-framework": "^1.0.0",
     "image-type": "^4.1.0",
     "js-base64": "^3.5.2",
-    "pdf-lib": "^1.11.1"
+    "pdf-lib": "^1.0.0"
   },
   "devDependencies": {
-    "pcf-scripts": "^1.8.6",
-    "pcf-start": "^1.8.6",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "eslint": "^8.27.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.31.10",
+    "pcf-scripts": "^1.0.0",
+    "pcf-start": "^1.0.0",
+    "speed-measure-webpack-plugin": "^1.5.0",
     "typescript": "^4.3.5"
   }
 }

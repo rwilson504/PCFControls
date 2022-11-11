@@ -3,9 +3,17 @@ This component will allow you to fill in a PDF Form within a Canvas App without 
 ![PDF Form Fill for Canvas](./images/PDFFormFill.png)
 
 ## Installation/Usage
+
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWPDFFormFillCanvas_managed.zip)
+
 Click on the image below to access the instructional video on how to create a simple Canvas app using the component.
 
 [![Instruction Video](./images/YouTube.png)](https://www.youtube.com/watch?v=b-jn_qPPcVs)
+
+## Sample Application
+If you would like to try this component download the sample solution which includes a Canvas app containing a sample PDF.  The sample pdf was generated using [DocFly](https://www.docfly.com/) online PDF creator but you can use whatever PDF generation tool you want.
+
+[Download Sample App](https://github.com/rwilson504/PCFControls/raw/master/PDFFormFillCanvas/Sample/PDFFormFiller_1_0_0_1_managed.zip)
 
 ### Additional Information
 

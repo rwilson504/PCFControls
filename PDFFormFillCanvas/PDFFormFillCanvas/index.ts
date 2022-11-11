@@ -1,10 +1,7 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import { Base64 } from 'js-base64';
-// import * as JSON5 from 'json5'
-import {Base64Encode} from 'base64-stream';
 import * as ImageType from 'image-type'
-import { PDFButton, PDFCheckBox, PDFDocument, PDFDropdown, PDFForm, PDFImage, PDFRadioGroup, PDFTextField } from 'pdf-lib';
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { PDFButton, PDFCheckBox, PDFDocument, PDFDropdown, PDFForm, PDFRadioGroup, PDFTextField } from 'pdf-lib';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IInputs, IOutputs> {
@@ -26,12 +23,11 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 	 * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
-	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
+	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void)
 	{
 		context.mode.trackContainerResize(true);
 		this._notifyOutputChanged = notifyOutputChanged;			
 	}
-
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -46,14 +42,15 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 
 		try {
 
-			this._output = `data:application/pdf;base64,${await this.PDFLibCreation(context)}`;								
-			this._notifyOutputChanged();
+			this._output = `data:application/pdf;base64,${await this.PDFLibCreation(context)}`;											
 		}
-		catch(error)
+		catch(e)
 		{
-			this._outputErrorMessage = `ERROR: The PDF form fill ran into an error.  MESSAGE: ${error}`
-			this._output = null;	
+			this._outputErrorMessage = `ERROR: The PDF form fill ran into an error.  MESSAGE: ${(e instanceof Error) ? e.message : String(e)}`;
+			this._output = '';	
 		}
+
+		this._notifyOutputChanged();
 	}
 
 	/** 
@@ -63,7 +60,7 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 	public getOutputs(): IOutputs
 	{	
 		let output : IOutputs = {
-			pdfOutput : this._output || null,
+			pdfOutput : this._output || '',
 			outputErrorMessage: this._outputErrorMessage,
 			outputError: !!this._outputErrorMessage,
 			fillPDF: false
@@ -85,7 +82,7 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 		var params = pcfContext.parameters;
 		var dataSet = pcfContext.parameters.formDataSet;
 
-		const pdfDoc = await PDFDocument.load(this.convertStringToBinary(params.pdfTemplate.raw!));
+		const pdfDoc = await PDFDocument.load(this.convertStringToBinary(params.pdfTemplate.raw!),{ignoreEncryption: true});
 
 		const form = pdfDoc.getForm();
 		await this.parseDataSet(dataSet, form, pdfDoc);
@@ -94,12 +91,12 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 		return Base64.fromUint8Array(pdfBytes);
 	}
 
-	public async parseDataSet(dataSet: ComponentFramework.PropertyTypes.DataSet, form: PDFForm, pdfDoc: PDFDocument)
+	public async parseDataSet(dataSet: DataSet, form: PDFForm, pdfDoc: PDFDocument)
 	{
 		let totalRecordCount = dataSet.sortedRecordIds.length;
 		for (let i = 0; i < totalRecordCount; i++) {
 			var recordId = dataSet.sortedRecordIds[i];
-			var record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+			var record = dataSet.records[recordId] as ComponentFramework.PropertyHelper.DataSetApi.EntityRecord;
 			
 			let fieldName = record.getValue('name') as string;
 			let fieldData = record.getValue('data') || '';
@@ -114,11 +111,12 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 		if (!fieldType) return;
 		switch(fieldType.constructor.name)
 		{			
-			case PDFTextField.name: 
+			case PDFTextField.name: {
 				let textField = form.getTextField(name);
 				textField.setText(data);
 				break;
-			case PDFCheckBox.name:
+			}
+			case PDFCheckBox.name: {
 				let checkboxField = form.getCheckBox(name);				
 				if (this.strToBool(data)) {
 					checkboxField.check();
@@ -127,17 +125,20 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 					checkboxField.uncheck();
 				}
 				break;
-			case PDFRadioGroup.name:
+			}
+			case PDFRadioGroup.name: {
 				let radioButtonField = form.getRadioGroup(name);
 				let radioButtonOptions = radioButtonField.getOptions();
 				if (radioButtonOptions.find(option => option === data)) radioButtonField.select(data);				
 				break;
-			case PDFDropdown.name:
+			}
+			case PDFDropdown.name: {
 				let dropdownField = form.getDropdown(name);
 				let dropdownOptions = dropdownField.getOptions();
 				if (dropdownOptions.find(option => option === data)) dropdownField.select(data);
 				break;
-			case PDFButton.name:
+			}
+			case PDFButton.name: {
 				const imageArray = this.convertStringToBinary(data);				
 				let imageType = ImageType(imageArray);
 				if (imageType?.ext === 'jpg')
@@ -152,6 +153,7 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 					buttonField.setImage(imageBytes);
 				}			
 				break;
+			}
 		}
 	}
 
@@ -164,7 +166,7 @@ export class PDFFormFillCanvas implements ComponentFramework.StandardControl<IIn
 
 	public strToBool(s: string)
 	{
-		// will match one and only one of the string 'true','1', or 'on' rerardless
+		// will match one and only one of the string 'true','1', or 'on' regardless
 		// of capitalization and regardless off surrounding white-space.
 		//
 		let regex=/^\s*(true|1|on|checked|yes)\s*$/i

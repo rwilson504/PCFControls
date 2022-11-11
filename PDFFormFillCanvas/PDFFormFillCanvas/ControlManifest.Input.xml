@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="PDFFormFillCanvas" version="0.0.14" display-name-key="RAW! PDF Form Fill (Canvas)" description-key="Allow you to fill in PDF files within Canvas Apps." control-type="standard">
+  <control namespace="RAW" constructor="PDFFormFillCanvas" version="0.0.16" display-name-key="RAW! PDF Form Fill (Canvas)" description-key="Allow you to fill in PDF files within Canvas Apps." control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="formDataSet" display-name-key="Dataset for filling in form.  The required columns are Name, Type, and Data." />
     <property name="pdfTemplate" display-name-key="PDF Template (Base64)" description-key="This should be the Base64 content of the PDF Template." of-type="Multiple" usage="input" required="true" />
