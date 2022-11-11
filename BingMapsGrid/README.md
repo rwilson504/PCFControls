@@ -6,6 +6,8 @@ A PCF Control that allows you to display view information containing latitude an
 
 ![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bing-maps-control.gif?raw=true)
 
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/BingMapsGridControl_managed.zip)
+
 # Additional Features
 * Map will default to a bounding box defined by the location data being shown.
 * Will work with dataset that are 5k+ in size.

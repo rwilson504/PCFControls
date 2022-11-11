@@ -14,6 +14,12 @@ Model
 - Clicking on an empty timespan will open a new record form, and will pass in the start, end, and resource field data.
 - Calendar will default to the users currently selected language in their users settings if that language is available otherwise it will utilize English.
 
+# Installation
+
+[Download latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CalendarControl_managed.zip) solution file and import it into your environment.  Follow additional instruction below for use in Model or Canvas apps.
+
+Make sure you have enabled PCF components for Canvas apps in your environment.  For instructions on that [Click Here](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
+
 # Sample Application
 If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.  
 

@@ -16,6 +16,8 @@ Before installing the sample please install the [CDS Environment URL](https://gi
 
 ## Configuration
 
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWframe_managed.zip)
+
  Make sure you have enabled PCF components for Canvas apps in your environment.  For instructions on that [Click Here](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
 
 * In the Power Apps Editor ribbon navigate to **Insert -> Custom -> Import Components**

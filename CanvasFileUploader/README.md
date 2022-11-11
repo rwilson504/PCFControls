@@ -6,6 +6,9 @@ The component allows you to upload a file from your computer into a canvas app a
 This control was designed to allow the Canvas app developer to utilize either a standard HTML file input control or to utilize other build in Canvas controls such as Buttons, Check Boxes, Toggles, etc to control this component.  That allows the Canvas developer full control over the look and feel of the app.
 
 ## Default Configuration
+
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CanvasFileUploaderComponent_managed.zip)
+
 The default configuration will display a standard HTML file input control.
 ![Canvas Controls For Upload](./images/StandardInput.png)
 

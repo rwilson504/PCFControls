@@ -13,6 +13,8 @@ A PCF Control that allows you to display view information containing latitude an
 
 # Authentication Configuration
 
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/AzureMapsGridControl_managed.zip)
+
 In order to set the authentication for the control the solution includes an entity called 'Azure Maps Config'.  This will allow you to manage the authentication from a central location so that you do not have to set it for each control.
 
 For information on how to set up your Azure Maps account and get your subscription keys you can go [here.](https://docs.microsoft.com/en-us/azure/azure-maps/how-to-manage-account-keys)

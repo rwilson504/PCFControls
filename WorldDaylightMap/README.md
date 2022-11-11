@@ -4,6 +4,7 @@ This PCF component utilizes [world-daylight-map](https://github.com/d-w-d/world-
 ![World Daylight Map Sample](https://github.com/rwilson504/PCFControls/blob/master/WorldDaylightMap/images/world-daylight-map.png?raw=true?raw=true)
 
 ## Installation
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWWorldDaylightMap_managed.zip)
 
 ### Prerequisite
 Make sure you have enabled PCF components for Canvas apps in your environment.  For instructions on that [Click Here](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
