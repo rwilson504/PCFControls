@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="DocxTemplatesCanvas" version="0.0.8" display-name-key="RAW! Docx Templates (Canvas)" description-key="Allow you to fill in Docx template files within Canvas Apps." control-type="standard">
+    <external-service-usage enabled="false">
+    </external-service-usage>
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <property name="templateData" display-name-key="Template Data" description-key="Data that will be used to fill in the template.  You can utilize the JSON function within your app to generate this string." of-type="Multiple" usage="input" required="true" />
+    <property name="docxTemplate" display-name-key="Docx Template (Base64)" description-key="This should be the Base64 content of the Docx Template." of-type="Multiple" usage="input" required="true" />
+    <property name="docxOutput" display-name-key="Docx Filled (Base64)" description-key="The final filled Docx in Base64 string format" of-type="Multiple" usage="output" required="false" />
+    <property name="outputErrorMessage" display-name-key="Output Error Message" description-key="If there is an error during the function call the message will be provided here." of-type="Multiple" usage="output" required="false" />
+    <property name="outputError" display-name-key="Output Error" description-key="If there is an error during the function call this value will be true." of-type="TwoOptions" usage="output" required="false" default-value="false" />
+    <property name="fillTemplate" display-name-key="Fill Template" description-key="Setting this value to true will start the fill of the template." of-type="TwoOptions" usage="bound" required="true" default-value="false" />
+    <resources>
+      <code path="index.ts" order="1" />
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>
