@@ -28,7 +28,7 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{	
-		context.mode.trackContainerResize(true);
+		context.mode.trackContainerResize(false);
 		
 		this._context = context;
 		this._notifyOutputChanged = notifyOutputChanged;		
@@ -57,9 +57,7 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 			this._iframe.src = url; 
 		};
 
-		this._iframe.width = this._context.mode.allocatedWidth.toString();
-		this._iframe.height = this._context.mode.allocatedHeight.toString();
-		this._iframe.style.border = "0";
+		this.setStyles();
 
 		container.appendChild(this._iframe);		
 	}
@@ -71,9 +69,7 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{	
-		this._iframe.width = this._context.mode.allocatedWidth.toString();
-		this._iframe.height = this._context.mode.allocatedHeight.toString();
-		this._iframe.style.border = "0";
+		this.setStyles();
 		
 		if (this._updateFromOutput){
 			this._updateFromOutput = false;
@@ -111,5 +107,19 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 	public destroy(): void
 	{
 		window.removeEventListener('message', this._returnMessageFromFrame.bind(this), false);
+	}
+
+	private setStyles(): void {
+
+		this._iframe.style.border = "0";
+		if (this._context.mode.allocatedHeight !== -1) {
+			this._iframe.style.height = this._context.mode.allocatedHeight.toString();
+			this._iframe.style.width = this._context.mode.allocatedWidth.toString();
+		}
+		else {
+			///@ts-ignore
+			this._iframe.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)";
+			this._iframe.style.width = "100%";
+		}
 	}
 }
