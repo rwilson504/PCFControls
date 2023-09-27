@@ -1,5 +1,7 @@
 This component will allow you to fill in a Docx template within a Canvas App.  The component utilizes the [easy-template-x](https://github.com/alonrbar/easy-template-x) open source library.  For examples of how to create a template and how to structure the templateData property check out the easy-template-x [README](https://github.com/alonrbar/easy-template-x#live-demo) file.
 
+![Docx Template Sample App](image.png)
+
 ## Installation/Usage
 
 [Download](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWDocxTemplatesCanvas_managed.zip) and import the managed solution into your environment.
@@ -9,6 +11,8 @@ This component will allow you to fill in a Docx template within a Canvas App.  T
 ## Sample Application
 If you would like to try this component download the sample solution which includes a Canvas app containing a sample Docx.
 
+
+* This sample solution also contains the **!RAW Docx Template (Canvas)** components as well as the **!RAW Canvas File Downloader** compoenents.  If you plan to use the sample solution make sure you do not have these components already installed in your environment.
 * You will find the docx template and contoso image file used for the sample in the Media section of the Power Apps editor.  The docx file was renamed to .png because .docx files are not accepted for upload in the Media section.
 
 [Download Sample App](https://github.com/rwilson504/PCFControls/raw/master/DocxTemplatesCanvas/Sample/DocxTemplateSample_1_0_0_1_managed.zip)
