@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="ArcGISMaps" version="0.0.1" display-name-key="ArcGISMaps"
+    description-key="ArcGISMaps description" control-type="standard">
+    <!--external-service-usage
+    node declares whether this 3rd party PCF control is using external service or not, if yes, this
+    control will be considered as premium and please also add the external domain it is using.
+    If it is not using any external service, please set the enabled="false" and DO NOT add any domain
+    below. The "enabled" will be false by default.
+    Example1:
+      <external-service-usage enabled="true">
+        <domain>www.Microsoft.com</domain>
+      </external-service-usage>
+    Example2:
+      <external-service-usage enabled="false">
+      </external-service-usage>
+    -->
+    <external-service-usage enabled="false">
+      <!--UNCOMMENT
+      TO ADD EXTERNAL DOMAINS
+      <domain></domain>
+      <domain></domain>
+      -->
+    </external-service-usage>
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+      <!-- 'property-set' node represents a unique, configurable property that each record in the
+      dataset must provide. -->
+      <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
+      <property-set name="samplePropertySet" display-name-key="Property_Display_Key"
+      description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+      -->
+    </data-set>
+    <property name="APIKey" display-name-key="API Key" description-key="API Key"
+      of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="mapBase" display-name-key="Base Map" description-key="Base Map" of-type="Enum"
+      usage="bound" required="true" default-value="streets">
+      <value name="satellite" display-name-key="2D - World Imagery">satellite</value>
+      <value name="hybrid" display-name-key="2D - Hybrid Reference Layer and World Imagery">hybrid</value>
+      <value name="oceans" display-name-key="2D - World Ocean Reference and World Ocean Base">oceans</value>
+      <value name="osm" display-name-key="2D - OpenStreetMapLayer">osm</value>
+      <value name="terrain" display-name-key="2D - World Reference Overlay and World Terrain Base">terrain</value>
+      <value name="dark-gray" display-name-key="2D - Dark Gray Canvas">dark-gray</value>
+      <value name="dark-gray-vector" display-name-key="2D - Dark Gray Canvas">dark-gray-vector</value>
+      <value name="gray" display-name-key="2D - Light Gray Canvas">gray</value>
+      <value name="gray-vector" display-name-key="2D - Light Gray Canvas">gray-vector</value>
+      <value name="streets" display-name-key="2D - World Street Map">streets</value>
+      <value name="streets-vector" display-name-key="2D - World Street Map">streets-vector</value>
+      <value name="streets-night-vector" display-name-key="2D - World Street Map (Night)">streets-night-vector</value>
+      <value name="streets-navigation-vector" display-name-key="2D - World Navigation Map">streets-navigation-vector</value>
+      <value name="topo" display-name-key="2D - World Hillshade and World Topographic Map">topo</value>
+      <value name="topo-vector" display-name-key="2D - World Hillshade and World Topographic Map">topo-vector</value>
+      <value name="streets-relief-vector" display-name-key="2D - World Hillshade and World Street Map (with Relief)">streets-relief-vector</value>
+      <value name="topo-3d" display-name-key="3D - Topographic">topo-3d</value>
+      <value name="navigation-3d" display-name-key="3D - Navigation">navigation-3d</value>
+      <value name="navigation-dark-3d" display-name-key="3D - Navigation (Dark)">navigation-dark-3d</value>
+      <value name="osm-3d" display-name-key="3D - OpenStreetMap">osm-3d</value>
+      <value name="gray-3d" display-name-key="3D - Light Gray Canvas">gray-3d</value>
+      <value name="dark-gray-3d" display-name-key="3D - Dark Gray Canvas">dark-gray-3d</value>
+      <value name="streets-3d" display-name-key="3D - Streets">streets-3d</value>
+      <value name="streets-dark-3d" display-name-key="3D - Streets (Dark)">streets-dark-3d</value>
+    </property>
+    <property name="searchEnabled" display-name-key="Search Enabled"
+      description-key="Search Enabled" of-type="TwoOptions" usage="bound" required="true"
+      default-value="true" />
+    <property name="searchPosition" display-name-key="Search Position"
+      description-key="Search Position" of-type="Enum" usage="bound" required="true"
+      default-value="top-right">
+      <value name="bottom-leading" display-name-key="Bottom Leading">bottom-leading</value>
+      <value name="bottom-left" display-name-key="Bottom Left">bottom-left</value>
+      <value name="bottom-right" display-name-key="Bottom Right">bottom-right</value>
+      <value name="bottom-trailing" display-name-key="Bottom Trailing">bottom-trailing</value>
+      <value name="top-leading" display-name-key="Top Leading">top-leading</value>
+      <value name="top-left" display-name-key="Top Left">top-left</value>
+      <value name="top-right" display-name-key="Top Right">top-right</value>
+      <value name="top-trailing" display-name-key="Top Trailing">top-trailing</value>
+    </property>
+    <property name="legendEnabled" display-name-key="Legend Enabled"
+      description-key="Legend Enabled" of-type="TwoOptions" usage="bound" required="true"
+      default-value="true" />
+    <property name="legendPosition" display-name-key="Legend Position"
+      description-key="Legend Position" of-type="Enum" usage="bound" required="true"
+      default-value="bottom-left">
+      <value name="bottom-leading" display-name-key="Bottom Leading">bottom-leading</value>
+      <value name="bottom-left" display-name-key="Bottom Left">bottom-left</value>
+      <value name="bottom-right" display-name-key="Bottom Right">bottom-right</value>
+      <value name="bottom-trailing" display-name-key="Bottom Trailing">bottom-trailing</value>
+      <value name="top-leading" display-name-key="Top Leading">top-leading</value>
+      <value name="top-left" display-name-key="Top Left">top-left</value>
+      <value name="top-right" display-name-key="Top Right">top-right</value>
+      <value name="top-trailing" display-name-key="Top Trailing">top-trailing</value>
+    </property>
+    <resources>
+      <code path="index.ts" order="1" />
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/ArcGISMaps.css" order="1" />
+      <resx path="strings/ArcGISMaps.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>
