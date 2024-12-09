@@ -1,75 +1,83 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
-import * as React from 'react';
-import { createRoot, Root} from 'react-dom/client';
-import { ArcGISMapsControl, IProps } from "./ArcGISMaps";
-import { randomUUID } from "crypto";
-import {v7 as uuid} from 'uuid';
+import { loadResources, Resource } from "./utils";
 
 export class ArcGISMaps implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-
     private _container: HTMLDivElement;
-    private _root: Root;
-	private _context: ComponentFramework.Context<IInputs>;
-	private _props: IProps;
+    private _viewDiv: HTMLDivElement;
+    private _context: ComponentFramework.Context<IInputs>;
+    private resourcesLoaded: boolean = false;
 
-	private _notifyOutputChanged: () => void;
-    /**
-     * Empty constructor.
-     */
-    constructor()
-    {
+    constructor() {}
 
+    public async init(
+        context: ComponentFramework.Context<IInputs>,
+        notifyOutputChanged: () => void,
+        state: ComponentFramework.Dictionary,
+        container: HTMLDivElement
+    ): Promise<void> {
+        context.mode.trackContainerResize(true);
+
+        this._context = context;
+        this._container = container;
+        this._container.style.width = "100%";
+        this._container.style.height = "100%";
+
+        // Create the div that will hold the MapView
+        this._viewDiv = document.createElement("div");
+        this._viewDiv.id = "viewDiv";
+        this._viewDiv.style.width = "100%";
+        this._viewDiv.style.height = "100%";
+        this._container.appendChild(this._viewDiv);
+
+        // Load external resources using the utility function
+        await this.loadRequiredResources();
+
+        // Initialize the ArcGIS Map only after resources are loaded
+        this.initializeMap();
     }
 
-    /**
-     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
-     * Data-set values are not initialized here, use updateView.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
-     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
-     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
-     * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
-     */
-    public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): void
-    {
-        //this will ensure that if the container size changes the updateView function will be called.
-		context.mode.trackContainerResize(true);
+    private async loadRequiredResources(): Promise<void> {
+        const resources: Resource[] = [
+            { type: "style", src: "https://js.arcgis.com/4.30/esri/themes/light/main.css" }, // ArcGIS stylesheet
+            { type: "script", src: "https://js.arcgis.com/4.30/" } // ArcGIS API
+        ];
 
-		this._notifyOutputChanged = notifyOutputChanged;
-		this._context = context;
-		this._container = container;
-        this._root = createRoot(this._container);
-        this._props = {
-            pcfContext: context,
-            itemId: uuid()
-        };
+        await loadResources(resources);
     }
 
-    /**
-     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     */
-    public updateView(context: ComponentFramework.Context<IInputs>): void
-    {
-       this._root.render(ArcGISMapsControl(this._props));
+    private initializeMap(): void {
+        require(["esri/views/MapView", "esri/WebMap"], (MapView: any, WebMap: any) => {
+            const webmap = new WebMap({
+                portalItem: {
+                    id: "f2e9b762544945f390ca4ac3671cfa72" // Sample WebMap ID
+                }
+            });
+
+            const view = new MapView({
+                map: webmap,
+                container: this._viewDiv // Use the created div as the container
+            });
+
+            // Optional: Add listeners or other setup as needed
+            view.when(() => {
+                console.log("Map and View are ready");
+            }).catch((error: any) => {
+                console.error("Error creating map view: ", error);
+            });
+        });
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
-    public getOutputs(): IOutputs
-    {
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
+        // Implement any updates to the map view here
+    }
+
+    public getOutputs(): IOutputs {
         return {};
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
-    public destroy(): void
-    {
-        this._root.unmount();
+    public destroy(): void {
+        if (this._container && this._viewDiv) {
+            this._container.removeChild(this._viewDiv);
+        }
     }
 }
