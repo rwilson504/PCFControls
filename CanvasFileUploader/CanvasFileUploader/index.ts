@@ -46,13 +46,16 @@ export class CanvasFileUploader implements ComponentFramework.StandardControl<II
 			return;
 		}
 		
-		let file = this._fileInput.files![0];
+		const file = this._fileInput.files![0];
 		this._fileName = file.name;
 
-		var fileReader = new FileReader();
+		const fileReader = new FileReader();
 		fileReader.onloadend = () => {
 			this._value = fileReader.result as string;
 			this._notifyOutputChanged();
+
+			// Reset the file input value to allow re-upload of the same file
+			this._fileInput.value = "";
 		}
 		
 		if (this._outputType === 'Text')
@@ -61,7 +64,9 @@ export class CanvasFileUploader implements ComponentFramework.StandardControl<II
 		}
 		else{
 			fileReader.readAsDataURL(file);
-		}		
+		}
+		
+		
 	}
 
 
@@ -71,7 +76,7 @@ export class CanvasFileUploader implements ComponentFramework.StandardControl<II
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var params = context.parameters;
+		const params = context.parameters;
 		this._fileInput.accept = params.acceptedFileTypes.raw || "";				
 		this._fileInput.style.display = context.mode.isVisible ? "block" : "none"
 		this._outputType = context.parameters.outputType.raw || 'DataUrl';
