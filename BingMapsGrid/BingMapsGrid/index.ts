@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="../node_modules/bingmaps/types/MicrosoftMaps/Microsoft.Maps.d.ts" />
 /// <reference path="../node_modules/bingmaps/types/MicrosoftMaps/Modules/Clustering.d.ts" />
 
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {Spinner} from 'spin.js'
-import { isNumber, isString } from "util";
-var isHexColor = require('is-hexcolor');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const isHexColor = require('is-hexcolor');
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -36,8 +37,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	private _updateFromOutput: boolean;
 	private _selectedRecordId: string;
 	private _selectedRecordType: string;
-
-		
+	
 	constructor()
 	{
 
@@ -74,7 +74,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 		this.addBingMapsScriptToHeader(this._context);
 		
-		let mainDiv = document.createElement("div");
+		const mainDiv = document.createElement("div");
 		mainDiv.setAttribute("id", "mainDiv");
 
 		this._mapDiv = document.createElement("div");
@@ -85,7 +85,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			this._mapDiv.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
 		}
 		else{
-			///@ts-ignore
+			///@ts-expect-error need to set rowspan
 			this._mapDiv.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)"
 		}		
 		this._mapInfoDiv = document.createElement("div");
@@ -103,7 +103,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 	public initMap(){
 
-		var self = this;
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		const self = this;
 		//even though the script has loaded we still need to check that the namespace has been loaded into global.
 		if (!self._bMapScriptIsLoaded || !globalThis.Microsoft || !globalThis.Microsoft.Maps || !globalThis.Microsoft.Maps.Location) {			
 			setTimeout(() => {self.initMap()}, 1000);
@@ -126,10 +127,11 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		self._bMapIsLoaded = true;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public addBingMapsScriptToHeader(context: any): void {
-		var apiKey = context.parameters.bingMapsAPIKey.raw || "";
+		const apiKey = context.parameters.bingMapsAPIKey.raw || "";
 
-		let headerScript: HTMLScriptElement = document.createElement("script");
+		const headerScript: HTMLScriptElement = document.createElement("script");
         headerScript.type = 'text/javascript';
 		headerScript.id = "BingMapsHeaderScript";
 		headerScript.async = true;
@@ -153,7 +155,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 			return;
 		}
 
-		var dataSet = context.parameters.mapDataSet;
+		const dataSet = context.parameters.mapDataSet;
 
 		//if we are in a canvas app we need to resize the map to make sure it fits inside the allocatedHeight
 		if (this._context.mode.allocatedHeight !== -1) {
@@ -174,7 +176,8 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 	private populateMap() {
 		//wait for the map script to load
-		var self = this;
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		const self = this;
 		if (!self._bMapIsLoaded){			
 			setTimeout(() => {self.populateMap()}, 1000);
 			return;
@@ -184,11 +187,11 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (self._bMapIsPopulating) return;
 		self._bMapIsPopulating = true;
 
-		let dataSet = self._context.parameters.mapDataSet;
+		const dataSet = self._context.parameters.mapDataSet;
 		//shortcut to parameters
-		let params = self._context.parameters;
+		const params = self._context.parameters;
 
-		var keys = { 
+		const keys = { 
 			id: params?.idFieldName?.raw ? self.getFieldName(dataSet, params.idFieldName.raw) : "",
 			recordType: params?.recordTypeFieldName?.raw ? self.getFieldName(dataSet, params.recordTypeFieldName.raw) : "",
 			lat: params?.latFieldName?.raw ? self.getFieldName(dataSet, params.latFieldName.raw) : "",
@@ -204,19 +207,19 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		}
 
 		//store location results so that we can utilize them later to get the bounding box for the map
-		let locationResults : globalThis.Microsoft.Maps.Location[] = [];
-		let totalRecordCount = dataSet.sortedRecordIds.length;
-		let invalidRecords: string[] = [];
+		const locationResults : globalThis.Microsoft.Maps.Location[] = [];
+		const totalRecordCount = dataSet.sortedRecordIds.length;
+		const invalidRecords: string[] = [];
 
-		let pushPins: globalThis.Microsoft.Maps.Pushpin[] = [];
+		const pushPins: globalThis.Microsoft.Maps.Pushpin[] = [];
 		//loop through all the records to create the pushpins
 		for (let i = 0; i < totalRecordCount; i++) {
-			var recordId = dataSet.sortedRecordIds[i];
-			var record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+			const recordId = dataSet.sortedRecordIds[i];
+			const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
 			
-			var lat = record.getValue(keys.lat);
-			var long = record.getValue(keys.long);
-			var name = record.getValue(keys.name);
+			const lat = record.getValue(keys.lat);
+			const long = record.getValue(keys.long);
+			const name = record.getValue(keys.name);
 
 			//if incorrect lat or long values are in the data then continue;
 			if (!self.checkLatitude(lat) || !self.checkLongitude(long)) 
@@ -226,11 +229,11 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 				continue;
 			}
 
-			var pushpinLatLong = new globalThis.Microsoft.Maps.Location(lat, long);
+			const pushpinLatLong = new globalThis.Microsoft.Maps.Location(lat, long);
 			locationResults.push(pushpinLatLong);
 
 			//create new pushpin
-			var pushPin = new globalThis.Microsoft.Maps.Pushpin(pushpinLatLong, {title: name.toString()});
+			const pushPin = new globalThis.Microsoft.Maps.Pushpin(pushpinLatLong, {title: name.toString()});
 			
 			//set metadata for push pin
 			pushPin.metadata = {
@@ -267,7 +270,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		document.getElementById('invalidSpan')?.addEventListener("click", self.showInvalidRecordInfoBox.bind(self));
 		
 		globalThis.Microsoft.Maps.loadModule('Microsoft.Maps.Clustering', () => {
-			var clusterLayer = new globalThis.Microsoft.Maps.ClusterLayer(pushPins, {
+			const clusterLayer = new globalThis.Microsoft.Maps.ClusterLayer(pushPins, {
 				clusteredPinCallback: self.clusterPinCustomization.bind(self),
 				clusteringEnabled: params.clusteringEnabled?.raw?.toLowerCase() === 'true' ? true : false,
 				gridSize: params.clusterGridSize.raw || 45,
@@ -284,7 +287,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 
 	private clusterPinCustomization(cluster: Microsoft.Maps.ClusterPushpin)
 	{
-		var clusterColor = this._context.parameters.clusterPushpinColor.raw || '';
+		const clusterColor = this._context.parameters.clusterPushpinColor.raw || '';
 		if (clusterColor && isHexColor(clusterColor))
 		{
 			cluster.setOptions({color: clusterColor});
@@ -298,39 +301,43 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		
 		if (locationResults.length > 0) {
 			locationResults.sort(this.compareLocationValues('latitude'));
-			let minLat = locationResults[0].latitude;
-			let maxLat = locationResults[locationResults.length - 1].latitude;
+			const minLat = locationResults[0].latitude;
+			const maxLat = locationResults[locationResults.length - 1].latitude;
 			locationResults.sort(this.compareLocationValues('longitude'));
-			let minLong = locationResults[0].longitude;
-			let maxLong = locationResults[locationResults.length - 1].longitude;
-			let box = globalThis.Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
+			const minLong = locationResults[0].longitude;
+			const maxLong = locationResults[locationResults.length - 1].longitude;
+			const box = globalThis.Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
 			this._bMap.setView({ bounds: box });
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private compareLocationValues(key: 'latitude' | 'longitude', order = 'asc'): any {
 		return function innerSort(a: Microsoft.Maps.Location, b:Microsoft.Maps.Location): number {
-		  if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {			
+		// eslint-disable-next-line no-prototype-builtins
+		if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {			
 			return 0;
-		  }
+		}
 
-		  const loc = key === 'latitude' ? {a: a.latitude, b: b.latitude} : {a: a.longitude, b: b.longitude};
-	   
-		  let comparison = 0;
-		  if (loc.a > loc.b) {
+		const loc = key === 'latitude' ? {a: a.latitude, b: b.latitude} : {a: a.longitude, b: b.longitude};
+	
+		let comparison = 0;
+		if (loc.a > loc.b) {
 			comparison = 1;
-		  } else if (loc.a < loc.b) {
+		} else if (loc.a < loc.b) {
 			comparison = -1;
-		  }
-		  return (
+		}
+		return (
 			(order === 'desc') ? (comparison * -1) : comparison
-		  );
+		);
 		};
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public pushPinInfoBoxOpen(e: any): void{
 		if (e.target.metadata) {
-			var self = this;
+			// eslint-disable-next-line @typescript-eslint/no-this-alias
+			const self = this;
 			//Set the infobox options with the metadata of the pushpin.
 			this._bMapInfoBox.setOptions({
 				location: e.target.getLocation(),
@@ -353,6 +360,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public pushPinInfoBoxClose(e: any): void{
 		this._bMapInfoBox.setOptions({visible: false});
 	}
@@ -367,35 +375,37 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 		if (fieldName.indexOf('.') == -1) return fieldName;
 
 		//otherwise we need to determine the alias of the linked entity
-		var linkedFieldParts = fieldName.split('.');
+		const linkedFieldParts = fieldName.split('.');
 		linkedFieldParts[0] = dataSet.linking.getLinkedEntities().find(e => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
 		return linkedFieldParts.join('.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private checkLatitude(lat: any): boolean 
 	{
 		//check for null or undefined
 		if (!lat) return false;
 		
 		lat = typeof lat === "number" ? lat.toString() : lat;
-		let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,100})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,100})?))$/;
+		const latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,100})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,100})?))$/;
 		return latExpression.test(lat);		
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private checkLongitude(long: any): boolean
 	{
 		//check for null or undefined
 		if (!long) return false;
 		
 		long = typeof long === "number" ? long.toString() : long;
-		let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,100})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,100})?))$/;
+		const longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,100})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,100})?))$/;
 		return longExpression.test(long);		
 	}
 
 	public showInvalidRecordInfoBox(e: Event): void {
-		let boundingBox = this._bMap.getBounds();
+		const boundingBox = this._bMap.getBounds();
 
-		let infoboxOptions: globalThis.Microsoft.Maps.IInfoboxOptions = {visible: true, 
+		const infoboxOptions: globalThis.Microsoft.Maps.IInfoboxOptions = {visible: true, 
 			location: new globalThis.Microsoft.Maps.Location(boundingBox.getSouth(), this._bMap.getCenter().longitude),
 			maxHeight: this._bMap.getHeight() - 20,
 			maxWidth: this._bMap.getWidth() - 20};
@@ -410,7 +420,7 @@ export class BingMapsGrid implements ComponentFramework.StandardControl<IInputs,
 	public getOutputs(): IOutputs
 	{
 		this._updateFromOutput = true;
-		let notifyAgain = false;
+		const notifyAgain = false;
 
 		return {
 			selectedRecordId: this._selectedRecordId || '',
