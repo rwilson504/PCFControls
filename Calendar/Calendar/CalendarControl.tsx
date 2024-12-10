@@ -15,8 +15,10 @@ import * as lcid from 'lcid';
 import * as Color from 'color'
 import {MobileToolbar, ToolbarColor} from './MobileToolbar'
 import { inherits } from 'util';
-var CustomWorkWeek = require('./MyWorkWeek');
-var isHexColor = require('is-hexcolor');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const CustomWorkWeek = require('./MyWorkWeek');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const isHexColor = require('is-hexcolor');
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
@@ -51,7 +53,7 @@ const localizer = momentLocalizer(moment);
 //customize the momentLocalizer to utilize our week start day property.
 localizer.startOfWeek = (culture: Culture) => {
       if (weekStartDay && weekStartDay > 0) return weekStartDay - 1;
-      var data = culture ? moment.localeData(culture) : moment.localeData();
+      const data = culture ? moment.localeData(culture) : moment.localeData();
       return data ? data.firstDayOfWeek() : 0;
 }
 
@@ -60,6 +62,7 @@ const calendarRtl = props.pcfContext.userSettings.isRTL;
 const calendarScrollTo = moment().set({"hour": props.pcfContext.parameters.calendarScrollToTime?.raw || 0, "minute": 0, "seconds" : 0}).toDate();
 
 const [calendarView, setCalendarView] = React.useState(getCalendarView(calendarViews, props.pcfContext.parameters.calendarView?.raw || ""));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const [calendarData, setCalendarData] = React.useState<{resources: any[] | undefined, events: IEvent[], keys: any}>({resources: [], events: [], keys: undefined});
 const [calendarDate, setCalendarDate] = React.useState(props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0 ? moment().toDate() : (props.pcfContext.parameters.calendarDate?.raw || moment().toDate()));
 const calendarRef = React.useRef(null);
@@ -67,13 +70,13 @@ const calendarRef = React.useRef(null);
 //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
 React.useEffect(()=>{
     async function asyncCalendarData(){
-        var keys = calendarData.keys;
+        let keys = calendarData.keys;
         if (!keys)
         {
             keys = await getKeys(props.pcfContext);
         }
 
-        var dataSet = props.pcfContext.parameters.calendarDataSet;
+        const dataSet = props.pcfContext.parameters.calendarDataSet;
         //console.log(`asyncCalendarData: dataSet.sortedRecordIds.length: ${dataSet.sortedRecordIds.length}`)
         if (dataSet.loading === false)
         {
@@ -111,7 +114,7 @@ React.useEffect(()=>{
 React.useEffect(()=>{
     ToolbarColor.textColor = calendarTextColor;
     ToolbarColor.borderColor = calendarBorderColor;
-    let styleTag = document.getElementById('rbc-calendar-theme-style');
+    const styleTag = document.getElementById('rbc-calendar-theme-style');
     if (styleTag){
         styleTag.innerHTML = generateThemeCSS();
     }
@@ -214,7 +217,7 @@ const generateThemeCSS = () : string =>{
 
 //when an event is selected it return the events id in canvas and open the record in model app
 const _handleEventSelected = (event: IEvent) => {
-    let eventId = event.id as string
+    const eventId = event.id as string
     
     props.onClickSelectedRecord(event.id as string);
 
@@ -230,17 +233,19 @@ const _handleEventSelected = (event: IEvent) => {
 
 //when an empty area on the calendar is selected this output the values for the selected range in canvas
 //and opens the record in model.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _handleSlotSelect = (slotInfo: any) => {
    
     props.onClickSlot(slotInfo.start, slotInfo.end, slotInfo.resourceId || "");
     //if we are in a model app open a new record and pass in the data
     if (props.pcfContext.mode.allocatedHeight === -1){
 
-        let newRecordProperties: any = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const newRecordProperties: any = {};
         newRecordProperties[calendarData.keys.start] = formatDateAsParameterString(slotInfo.start);
         newRecordProperties[calendarData.keys.end] = formatDateAsParameterString(slotInfo.end);
         if (calendarData.keys.resource && slotInfo.resourceId && calendarData.resources){
-            var resourceInfo = calendarData.resources.find(x=> x.id === slotInfo.resourceId);
+            const resourceInfo = calendarData.resources.find(x=> x.id === slotInfo.resourceId);
             newRecordProperties[calendarData.keys.resource] = resourceInfo.id;
             newRecordProperties[calendarData.keys.resource + "name"] = resourceInfo.title;
             newRecordProperties[calendarData.keys.resource + "type"] = resourceInfo.etn;
@@ -263,8 +268,9 @@ const _handleOnView = (view: string) => {
 
 const _onCalendarChange = () =>
 {
-    let ref = calendarRef.current as any;
-    let rangeDates = getCurrentRange(calendarDate, ref.props.view, ref.props.culture)        
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ref = calendarRef.current as any;
+    const rangeDates = getCurrentRange(calendarDate, ref.props.view, ref.props.culture)        
     props.onCalendarChange(ref.props.date, rangeDates.start, rangeDates.end, ref.props.view);
 }
 
@@ -289,6 +295,7 @@ const dayPropsGetter = (date: Date) => {
     }
   }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const agendaEvent = ({event} : any)=> {    
     return (                
       <span 
@@ -305,8 +312,10 @@ const agendaEvent = ({event} : any)=> {
     ) 
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const resourceHeader = ({label} : any)=> {
-    let ref = calendarRef.current as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ref = calendarRef.current as any;
     return (                
       <span>
           {label}
@@ -315,7 +324,8 @@ const resourceHeader = ({label} : any)=> {
 }
 
 const timeGutterHeader = ()=> {
-    let ref = calendarRef.current as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ref = calendarRef.current as any;
     return (                
       <span title={ref ? ref.props.messages.allDay : ""} className="rbc-time-header-gutter-all-day">
           {ref ? ref.props.messages.allDay : ""}
@@ -384,12 +394,13 @@ return(!calendarData?.resources ? <Calendar
 }
 
 //gets all the fields names and other keys will will need while processing the data
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getKeys(pcfContext: ComponentFramework.Context<IInputs>) : Promise<any> {
-    let params = pcfContext.parameters;
-    let dataSet = pcfContext.parameters.calendarDataSet;
+    const params = pcfContext.parameters;
+    const dataSet = pcfContext.parameters.calendarDataSet;
 
-    let resource = params.resourceField.raw ? getFieldName(dataSet, params.resourceField.raw) : "";
-    let resourceGetAllInModel = params.resourceGetAllInModel.raw?.toLowerCase() === "true" ? true : false;
+    const resource = params.resourceField.raw ? getFieldName(dataSet, params.resourceField.raw) : "";
+    const resourceGetAllInModel = params.resourceGetAllInModel.raw?.toLowerCase() === "true" ? true : false;
     let resourceEtn = '';
     let resourceName = params.resourceName.raw ? getFieldName(dataSet, params.resourceName.raw) : "";
     let resourceId = '';
@@ -398,11 +409,11 @@ async function getKeys(pcfContext: ComponentFramework.Context<IInputs>) : Promis
     if (pcfContext.mode.allocatedHeight === -1 && resource && resourceGetAllInModel)
     {
         //get the resource entity name
-        ///@ts-ignore
-        let eventMeta = await pcfContext.utils.getEntityMetadata(pcfContext.mode.contextInfo.entityTypeName, [resource]);
+        ///@ts-expect-error contextInfo access
+        const eventMeta = await pcfContext.utils.getEntityMetadata(pcfContext.mode.contextInfo.entityTypeName, [resource]);
         resourceEtn = eventMeta.Attributes.getByName(resource).Targets[0];        
         //get the resource primary name and id fields for resource.
-        let resourceMeta = await pcfContext.utils.getEntityMetadata(resourceEtn);
+        const resourceMeta = await pcfContext.utils.getEntityMetadata(resourceEtn);
         resourceName = resourceName ? resourceName : resourceMeta.PrimaryNameAttribute;
         resourceId = resourceMeta.PrimaryIdAttribute;        
     }
@@ -429,34 +440,37 @@ function getFieldName(dataSet: ComponentFramework.PropertyTypes.DataSet , fieldN
     if (fieldName.indexOf('.') === -1 || !dataSet.linking) return fieldName;
     
     //otherwise we need to determine the alias of the linked entity
-    var linkedFieldParts = fieldName.split('.');
+    const linkedFieldParts = fieldName.split('.');
     linkedFieldParts[0] = dataSet.linking.getLinkedEntities().find(e => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
     return linkedFieldParts.join('.');
 }
 
 //returns all the calendar data including the events and resources
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getCalendarData(pcfContext: ComponentFramework.Context<IInputs>, keys: any) : Promise<{resources: any[] | undefined, events: Event[], keys: any}>
 {
-    let resourceData = await getResources(pcfContext, keys);
-    let eventData = await getEvents(pcfContext, resourceData, keys);
+    const resourceData = await getResources(pcfContext, keys);
+    const eventData = await getEvents(pcfContext, resourceData, keys);
 
     //console.log(`getCalendarData: eventData.length: ${eventData?.length}`);
     return {resources: resourceData, events: eventData, keys: keys}
 }
 
 //retrieves all the resources from the datasource
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getResources(pcfContext: ComponentFramework.Context<IInputs>, keys: any): Promise<any[] | undefined> {
-    let dataSet = pcfContext.parameters.calendarDataSet;
+    const dataSet = pcfContext.parameters.calendarDataSet;
     
-    let resources: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const resources: any[] = [];
     //if the user did not put in resource then do not add them to the calendar.
     if (!keys.resource) return undefined;
     
-    let totalRecordCount = dataSet.sortedRecordIds.length;
+    const totalRecordCount = dataSet.sortedRecordIds.length;
     
     for (let i = 0; i < totalRecordCount; i++) {
-        let recordId = dataSet.sortedRecordIds[i];
-        let record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+        const recordId = dataSet.sortedRecordIds[i];
+        const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
 
         let resourceId = "";
         let resourceName = "";
@@ -464,7 +478,7 @@ async function getResources(pcfContext: ComponentFramework.Context<IInputs>, key
 
         //if this is a Model app we will be using a lookup reference for the Resources
         if (pcfContext.mode.allocatedHeight === -1){
-            let resourceRef = record.getValue(keys.resource) as ComponentFramework.EntityReference;
+            const resourceRef = record.getValue(keys.resource) as ComponentFramework.EntityReference;
             if (resourceRef){
                 resourceId = resourceRef.id.guid;
                 resourceName = keys.resourceName && keys.resourceName.indexOf('.') !== -1 ? record.getValue(keys.resourceName) as string || "" : resourceRef.name;
@@ -502,12 +516,13 @@ async function getResources(pcfContext: ComponentFramework.Context<IInputs>, key
     return distinctResources;    
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, resources: any[], keys: any): Promise<void> {
-    var resourceName = keys.resourceName.indexOf('.') === -1 ? keys.resourceName : keys.resourceName.split('.')[1];
-    var options = keys.resourceName ? `?$select=${resourceName}` : undefined;
+    const resourceName = keys.resourceName.indexOf('.') === -1 ? keys.resourceName : keys.resourceName.split('.')[1];
+    const options = keys.resourceName ? `?$select=${resourceName}` : undefined;
     
     //retrieve all the resources
-    var allResources = await pcfContext.webAPI.retrieveMultipleRecords(keys.resourceEtn, options, 5000);
+    const allResources = await pcfContext.webAPI.retrieveMultipleRecords(keys.resourceEtn, options, 5000);
     
     //loop through and push them to the resources array
     allResources.entities.forEach(e => { 
@@ -519,34 +534,35 @@ async function getAllResources(pcfContext: ComponentFramework.Context<IInputs>, 
 }
 
 //retrieves all the events from the datasource
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getEvents(pcfContext: ComponentFramework.Context<IInputs>, resources: any[] | undefined, keys: any): Promise<Event[]> {
-        let dataSet = pcfContext.parameters.calendarDataSet;
-        let totalRecordCount = dataSet.sortedRecordIds.length;
+    const dataSet = pcfContext.parameters.calendarDataSet;
+    const totalRecordCount = dataSet.sortedRecordIds.length;
 
-        let newEvents: Event[] = [];
+    const newEvents: Event[] = [];
         for (let i = 0; i < totalRecordCount; i++) {
-			var recordId = dataSet.sortedRecordIds[i];
-            var record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+			const recordId = dataSet.sortedRecordIds[i];
+            const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
         
-            var name = record.getValue(keys.name) as string;
-			var start = record.getValue(keys.start);
-            var end = record.getValue(keys.end);                        
+            const name = record.getValue(keys.name) as string;
+			const start = record.getValue(keys.start);
+            const end = record.getValue(keys.end);                        
 
             if (!name || !start || !end) continue;
 
-            let newEvent: IEvent = {
+            const newEvent: IEvent = {
                 id: keys.id ? record.getValue(keys.id) as string || recordId : recordId,
                 start: new Date(start as number),
                 end: new Date(end as number),
                 title: name
             };
 
-            let color = record.getValue(keys.eventColor);
+            const color = record.getValue(keys.eventColor);
             if (color) newEvent.color = color as string;
 
             if (resources)
             {
-                var resourceId = record.getValue(keys.resource);
+                const resourceId = record.getValue(keys.resource);
                 if (resourceId){
                     //if model app get the id of the entity reference, otherwise use the id field provided
                     newEvent.resource = pcfContext.mode.allocatedHeight === -1 ? 
@@ -572,15 +588,16 @@ function formatDateAsParameterString(date: Date){
 }
 
 function getCalendarView(calendarViews: ViewsProps, viewName: string) : View {
-    let calView = Object.keys(calendarViews).find((x: string) => x === viewName.toLowerCase());
+    const calView = Object.keys(calendarViews).find((x: string) => x === viewName.toLowerCase());
     return calView ? calView as View : Object.keys(calendarViews)[0] as View;    
 }
 
 function getCalendarViews(pcfContext: ComponentFramework.Context<IInputs>) : ViewsProps {
-    let viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
-    let validViews = viewList.split(',').filter(x => allViews.indexOf(x.trim()) !== -1);
+    const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
+    const validViews = viewList.split(',').filter(x => allViews.indexOf(x.trim()) !== -1);
     
-    let selectedViews: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const selectedViews: any = {};
     if (validViews.length < 1){
         selectedViews.week = true;
     }

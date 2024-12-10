@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {CalendarControl, IProps} from "./CalendarControl"
 import * as Color from 'color'
-var isHexColor = require('is-hexcolor');
 
 export class Calendar implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -68,7 +67,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		}
 		
 		//add style tag that we will add custom calendar style options to.
-		let styleEl = document.createElement('style');
+		const styleEl = document.createElement('style');
 		styleEl.type = 'text/css';
 		styleEl.id = 'rbc-calendar-theme-style';
 		document.head.appendChild(styleEl);
@@ -77,7 +76,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			this._container.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
 		}
 		else{
-			///@ts-ignore
+			//@ts-expect-error - we are setting the height of the container to 100% if we are in a model driven app
 			this._container.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "100%"
 		}		
 		this._container.style.zIndex = "0";
@@ -101,7 +100,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 			return;
 		}
 
-		var dataSet = context.parameters.calendarDataSet
+		const dataSet = context.parameters.calendarDataSet
 		
 		if (dataSet.loading) return;
 
@@ -170,7 +169,7 @@ export class Calendar implements ComponentFramework.StandardControl<IInputs, IOu
 		this._updateFromOutput = true;
 		let notifyAgain = false;
 
-		var output: IOutputs = {
+		const output: IOutputs = {
 			currentRangeStart: this._currentRangeStart,
 			currentRangeEnd: this._currentRangeEnd,
 			currentCalendarDate: this._currentCalendarDate,

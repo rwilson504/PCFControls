@@ -3,27 +3,31 @@ import * as React from 'react';
 import clsx from 'clsx'
 import * as Color from 'color'
 import { ToolbarProps, NavigateAction, View, Messages } from 'react-big-calendar'
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { CommandBarButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { CommandBar, ICommandBarItemProps, ICommandBarData, } from 'office-ui-fabric-react/lib/CommandBar';
-import { IContextualMenuItemProps, IContextualMenuItem, ContextualMenuItem,  IContextualMenuItemStyles,  IContextualMenuStyles,} from 'office-ui-fabric-react/lib/ContextualMenu';
-import { getTheme, concatStyleSets } from 'office-ui-fabric-react/lib/Styling';
-import { IButtonStyles } from 'office-ui-fabric-react/lib/Button';
-import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
-import { initializeIcons } from '@uifabric/icons';
+import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { CommandBarButton, IButtonProps } from '@fluentui/react/lib/Button';
+import { CommandBar, ICommandBarItemProps, ICommandBarData, } from '@fluentui/react/lib/CommandBar';
+import { IContextualMenuItemProps, IContextualMenuItem, ContextualMenuItem,  IContextualMenuItemStyles,  IContextualMenuStyles,} from '@fluentui/react/lib/ContextualMenu';
+import { getTheme, concatStyleSets } from '@fluentui/react/lib/Styling';
+import { IButtonStyles } from '@fluentui/react/lib/Button';
+import { memoizeFunction } from '@fluentui/react/lib/Utilities';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
 import {useSwipeable} from 'react-swipeable';
 
 const overflowProps: IButtonProps = { ariaLabel: 'More commands' };
 
 initializeIcons();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const MobileToolbar: React.FC<ToolbarProps<Event, any>> = (props) =>  {
   const messages = props.localizer.messages;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getViewNamesGroup = (messages: any) : IContextualMenuItem[] => {
-    let viewNames: any = props.views
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const viewNames: any = props.views
     const view = props.view
 
     if (viewNames.length > 1) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return viewNames.map((name: any) => (
             {
                 key : name,
@@ -43,7 +47,7 @@ export const MobileToolbar: React.FC<ToolbarProps<Event, any>> = (props) =>  {
   }
 
   const getItems = (): ICommandBarItemProps[] => {
-    let items: ICommandBarItemProps[] = [{
+    const items: ICommandBarItemProps[] = [{
       key: 'today',
       text: `${messages.today}`,
       iconProps: { iconName: 'GotoToday' },
@@ -103,7 +107,6 @@ export const MobileToolbar: React.FC<ToolbarProps<Event, any>> = (props) =>  {
   const handlers = useSwipeable({
       onSwipedLeft: (eventData) => navigate.bind(null, 'PREV'),
       onSwipedRight: (eventData) => navigate.bind(null,'NEXT'),
-      preventDefaultTouchmoveEvent: true,
       trackMouse: true
     });
   const theme = getTheme();
@@ -150,17 +153,18 @@ export const MobileToolbar: React.FC<ToolbarProps<Event, any>> = (props) =>  {
     },
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _onReduceData = (data: ICommandBarData): any =>{
     if (data.primaryItems[0].key === 'dates') return undefined;
     if (data.primaryItems[0].iconOnly === true)
     {
-      let firstItem = data.primaryItems[0];
+      const firstItem = data.primaryItems[0];
       data.primaryItems.shift();
       data.overflowItems.push(firstItem);
     }
     else
     {
-      data.primaryItems.forEach(item => { if (item.iconProps) item.iconOnly = true});
+      data.primaryItems.forEach((item: ICommandBarItemProps) => { if (item.iconProps) item.iconOnly = true});
       return data;
     }
   }
