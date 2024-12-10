@@ -25,7 +25,6 @@ export class CanvasFileDownloader implements ComponentFramework.StandardControl<
 	{
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._container = container;		
-
 	}
 
 
@@ -35,11 +34,11 @@ export class CanvasFileDownloader implements ComponentFramework.StandardControl<
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var params = context.parameters;
+		const params = context.parameters;
 
 		if (!params.download?.raw) return;
 
-		let a = document.createElement('a');
+		const a = document.createElement('a');
 		a.href = params.fileContents.raw?.startsWith('data:') ? params.fileContents.raw : `data:${params.fileMIMEType.raw};base64,${params.fileContents.raw}`
 		a.download = params.fileName.raw || '';
 		document.body.appendChild(a)
