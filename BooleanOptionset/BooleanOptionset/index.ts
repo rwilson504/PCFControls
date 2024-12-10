@@ -50,7 +50,7 @@ private _container: HTMLDivElement;
 		this._selectControl = document.createElement("select");		
 		this._selectControl.className = "booleanOptionset";
 		
-		// @ts-ignore The Options will never actually be null so just ignore.
+		// @ts-expect-error The Options will never actually be null so just ignore.
 		this.generateOptionElements(context.parameters.inputValue.attributes.Options);
 		
 		// add event listeners
@@ -97,7 +97,7 @@ private _container: HTMLDivElement;
 	{
 		return {
 			inputValue: this._value
-		  };
+		};
 	}
 
 	/** 
@@ -133,14 +133,15 @@ private _container: HTMLDivElement;
 		}
 	}
 	
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private generateOptionElements(options: any[]): void {		
 			for(const option of options)
 			{
-				let optionElement: HTMLOptionElement = document.createElement("option");
+				const optionElement: HTMLOptionElement = document.createElement("option");
 				optionElement.value = option.Value;
 				optionElement.innerHTML = option.Label;
 				
-				let optionValue = option.Value === 1;
+				const optionValue = option.Value === 1;
 				if (optionValue === this._value)
 				{
 					optionElement.selected = true;
@@ -162,7 +163,7 @@ private _container: HTMLDivElement;
 	}
 
 	private changeControlSelectedOption(): void{
-		let selectValue = this._value ? "1" : "0";
+		const selectValue = this._value ? "1" : "0";
 		this._selectControl.value = selectValue;
 	}
 }
