@@ -7,10 +7,12 @@
 
 import * as React from "react";
 import {IInputs} from "./generated/ManifestTypes";
-var isValidHex  = require('hex-and-rgba').isValidHex;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const isValidHex  = require('hex-and-rgba').isValidHex;
 
 export interface IProps {
     pcfContext: ComponentFramework.Context<IInputs>,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     onClickEvent: Function
 }
 
@@ -43,10 +45,10 @@ export const RotationalImageComp: React.FC<IProps> = (props) => {
     }, [props.pcfContext.parameters.rotationTransitionTime.raw]);
 
     React.useEffect(() => {
-        var bgColor = props.pcfContext.parameters.color?.raw;
+        let bgColor = props.pcfContext.parameters.color?.raw;
         bgColor = bgColor && isValidHex(bgColor) ? bgColor : 'transparent';
 
-        let bgUrl = props.pcfContext.parameters.image?.raw ? props.pcfContext.parameters.image.raw.replace(/\"/g, "") : '';                
+        const bgUrl = props.pcfContext.parameters.image?.raw ? props.pcfContext.parameters.image.raw.replace(/"/g, "") : '';                
         let bgSize = 'contain';
         let bgPosition = 'center center';
         let bgRepeat = 'no-repeat';

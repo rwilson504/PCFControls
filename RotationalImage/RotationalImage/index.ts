@@ -76,7 +76,7 @@ export class RotationalImage implements ComponentFramework.StandardControl<IInpu
 		this._updateFromOutput = true;
 
 		//create the output
-		let output: IOutputs = {
+		const output: IOutputs = {
 			actionImageClicked: this._actionImageClicked
 		}		
 
