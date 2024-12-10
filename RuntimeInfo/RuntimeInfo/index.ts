@@ -30,7 +30,7 @@ export class RuntimeInfo implements ComponentFramework.StandardControl<IInputs, 
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		let ua = new UAParser();
+		const ua = new UAParser();
 		this._uaResults = ua.getResult();
 		
 		this._notifyOutputChanged();
