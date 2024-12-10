@@ -113,7 +113,7 @@ export const ColorPickerComp: React.FC<IColorPickerCompProps> = (props) => {
 
     //called when the color in the color picker has changed
     const _onChangeColorPicker = (ev: React.SyntheticEvent<HTMLElement>, colorObj: IColor) => {       
-        let fullHexColor = `#${colorObj.hex}`;
+        const fullHexColor = `#${colorObj.hex}`;
         setColorValue(fullHexColor);
     }
 

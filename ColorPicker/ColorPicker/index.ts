@@ -13,7 +13,7 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 	// Reference to ComponentFramework Context object
 	private _context: ComponentFramework.Context<IInputs>;
 	// Reference to the control container HTMLDivElement
- 	// This element contains all elements of our custom control example
+	// This element contains all elements of our custom control example
 	private _container: HTMLDivElement;
 	
 	private props: IColorPickerCompProps;
@@ -84,7 +84,7 @@ export class ColorPicker implements ComponentFramework.StandardControl<IInputs, 
 	{
 		return {
 			inputValue: this._value
-		  };
+		};
 	}
 
 	/** 
