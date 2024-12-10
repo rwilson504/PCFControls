@@ -28,7 +28,7 @@ export class DadJoke implements ComponentFramework.StandardControl<IInputs, IOut
 		
 		//text area for joke
 		this._theJokeLivesHere = document.createElement("textarea");		
-		this._theJokeLivesHere.readOnly;
+		this._theJokeLivesHere.readOnly = true;
 		this._theJokeLivesHere.setAttribute("autocomplete", "off");
 		this._theJokeLivesHere.setAttribute("class", "textAreaControl");
 		if (context.mode.allocatedHeight !== -1){
