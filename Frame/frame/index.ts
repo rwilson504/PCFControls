@@ -1,8 +1,11 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-var validUrl = require('valid-url');
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const validUrl = require('valid-url');
 
 export class frame implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	private _notifyOutputChanged: () => void;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private _returnMessageFromFrame: (e: any) => void;
 	private _context: ComponentFramework.Context<IInputs>;
 	private _iframe: HTMLIFrameElement;
@@ -35,13 +38,15 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 		this._iframe = document.createElement("iframe");
 		this._updateFromOutput = false;
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		this._returnMessageFromFrame = (e: any) => {		
 			if (!validUrl.isUri(context.parameters.src?.raw || '') ) return;			
 			const sourceUrl = new URL(context.parameters.src.raw as string);
+			// eslint-disable-next-line @typescript-eslint/no-this-alias
 			const me  = this;
 			Array.prototype.forEach.call(container.getElementsByTagName('iframe'), function (element) {
 				if (element.contentWindow === e.source) {
-					var returnData = e.data						
+					const returnData = e.data						
 					me._messageFromFrame = returnData;					
 					me._notifyOutputChanged()
 				}
@@ -52,10 +57,10 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 				
 		if(validUrl.isUri(context.parameters.src?.raw || ''))
 		{
-			let url = this._context.parameters.src.raw as string;
+			const url = this._context.parameters.src.raw as string;
 			this._url = url;
 			this._iframe.src = url; 
-		};
+		}
 
 		this.setStyles();
 
@@ -80,10 +85,10 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 		// the url is different from the original one or the user specifically chose to refresh the frame.
 		if(validUrl.isUri(context.parameters.src?.raw || '') && (context.parameters.src?.raw != this._url || this._context.parameters.refresh.raw))
 		{
-			let url =  this._context.parameters.src.raw as string;
+			const url =  this._context.parameters.src.raw as string;
 			this._url = url;
 			this._iframe.src = url;
-		};							
+		}			
 	}	
 
 	/** 
@@ -117,7 +122,7 @@ export class frame implements ComponentFramework.StandardControl<IInputs, IOutpu
 			this._iframe.style.width = this._context.mode.allocatedWidth.toString();
 		}
 		else {
-			///@ts-ignore
+			///@ts-expect-error need to check for rowSpan
 			this._iframe.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "calc(100% - 25px)";
 			this._iframe.style.width = "100%";
 		}
