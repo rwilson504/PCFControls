@@ -43,7 +43,7 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
     
     // Set the isDataLoaded state based upon the paging totalRecordCount
     React.useEffect(() => {
-        var dataSet = props.pcfContext.parameters.sampleDataSet;
+        const dataSet = props.pcfContext.parameters.sampleDataSet;
         if (dataSet.loading || props.isModelApp) return;
         setIsDataLoaded(dataSet.paging.totalResultCount !== -1);            
     },
@@ -74,9 +74,9 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
     // this will allow us to utilize the ribbon buttons since they need
     // that data set in order to do things such as delete/deactivate/activate/ect..
     const _setSelectedItemsOnDataSet = () => {
-        let selectedKeys = [];
-        let selections = _selection.getSelection();
-        for (let selection of selections)
+        const selectedKeys = [];
+        const selections = _selection.getSelection();
+        for (const selection of selections)
         {
             selectedKeys.push(selection.key as string);
         }
@@ -94,6 +94,7 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
         }
 
         // Reset the items and columns to match the state.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         setItems(copyAndSort(items, column?.fieldName!, props.pcfContext, isSortedDescending));
         setColumns(
             columns.map(col => {
@@ -166,26 +167,28 @@ export const DetailListGridControl: React.FC<IProps> = (props) => {
 };
 
 // navigates to the record when user clicks the link in the grid.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const navigate = (item: any, linkReference: string | undefined, pcfContext: ComponentFramework.Context<IInputs>) => {        
     pcfContext.parameters.sampleDataSet.openDatasetItem(item[linkReference + "_ref"])
 };
 
 // get the items from the dataset
 const getItems = (columns: IColumn[], pcfContext: ComponentFramework.Context<IInputs>) => {
-    let dataSet = pcfContext.parameters.sampleDataSet;
+    const dataSet = pcfContext.parameters.sampleDataSet;
 
-    var resultSet = dataSet.sortedRecordIds.map(function (key) {
-        var record = dataSet.records[key];
-        var newRecord: any = {
+    const resultSet = dataSet.sortedRecordIds.map(function (key) {
+        const record = dataSet.records[key];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const newRecord: any = {
             key: record.getRecordId()
         };
 
-        for (var column of columns)
+        for (const column of columns)
         {                
             newRecord[column.key] = record.getFormattedValue(column.key);
             if (isEntityReference(record.getValue(column.key)))
             {
-                var ref = record.getValue(column.key) as ComponentFramework.EntityReference;
+                const ref = record.getValue(column.key) as ComponentFramework.EntityReference;
                 newRecord[column.key + '_ref'] = ref;
             }
             else if(column.data.isPrimary)
@@ -202,13 +205,13 @@ const getItems = (columns: IColumn[], pcfContext: ComponentFramework.Context<IIn
 
  // get the columns from the dataset
 const getColumns = (pcfContext: ComponentFramework.Context<IInputs>) : IColumn[] => {
-    let dataSet = pcfContext.parameters.sampleDataSet;
-    let iColumns: IColumn[] = [];
+    const dataSet = pcfContext.parameters.sampleDataSet;
+    const iColumns: IColumn[] = [];
 
-    let columnWidthDistribution = getColumnWidthDistribution(pcfContext);
+    const columnWidthDistribution = getColumnWidthDistribution(pcfContext);
 
-    for (var column of dataSet.columns){
-        let iColumn: IColumn = {
+    for (const column of dataSet.columns){
+        const iColumn: IColumn = {
             key: column.name,
             name: column.displayName,
             fieldName: column.alias,
@@ -226,23 +229,26 @@ const getColumns = (pcfContext: ComponentFramework.Context<IInputs>) : IColumn[]
         //create links for primary field and entity reference.            
         if (column.dataType.startsWith('Lookup.') || column.isPrimary)
         {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             iColumn.onRender = (item: any, index: number | undefined, column: IColumn | undefined)=> (                                    
                 <Link key={item.key} onClick={() => navigate(item, column!.fieldName, pcfContext) }>{item[column!.fieldName!]}</Link>                    
             );
         }
         else if(column.dataType === 'SingleLine.Email'){
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             iColumn.onRender = (item: any, index: number | undefined, column: IColumn | undefined)=> (                                    
                 <Link href={`mailto:${item[column!.fieldName!]}`} >{item[column!.fieldName!]}</Link>  
             );
         }
         else if(column.dataType === 'SingleLine.Phone'){
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             iColumn.onRender = (item: any, index: number | undefined, column: IColumn | undefined)=> (                                    
                 <Link href={`skype:${item[column!.fieldName!]}?call`} >{item[column!.fieldName!]}</Link>                    
             );
         }
 
         //set sorting information
-        let isSorted = dataSet?.sorting?.findIndex(s => s.name === column.name) !== -1 || false
+        const isSorted = dataSet?.sorting?.findIndex(s => s.name === column.name) !== -1 || false
         iColumn.isSorted = isSorted;
         if (isSorted){
             iColumn.isSortedDescending = dataSet?.sorting?.find(s => s.name === column.name)?.sortDirection === 1 || false;
@@ -255,11 +261,11 @@ const getColumns = (pcfContext: ComponentFramework.Context<IInputs>) : IColumn[]
 
 const getColumnWidthDistribution = (pcfContext: ComponentFramework.Context<IInputs>): IColumnWidth[] => {
         
-    let widthDistribution: IColumnWidth[] = [];
-    let columnsOnView = pcfContext.parameters.sampleDataSet.columns;
+    const widthDistribution: IColumnWidth[] = [];
+    const columnsOnView = pcfContext.parameters.sampleDataSet.columns;
 
     // Considering need to remove border & padding length
-    let totalWidth:number = pcfContext.mode.allocatedWidth - 250;
+    const totalWidth:number = pcfContext.mode.allocatedWidth - 250;
     //console.log(`new total width: ${totalWidth}`);
     let widthSum = 0;
     
@@ -272,7 +278,7 @@ const getColumnWidthDistribution = (pcfContext: ComponentFramework.Context<IInpu
     columnsOnView.forEach(function (item, index) {
         let widthPerCell = 0;
         if (index !== columnsOnView.length - 1) {
-            let cellWidth = Math.round((item.visualSizeFactor / widthSum) * totalWidth);
+            const cellWidth = Math.round((item.visualSizeFactor / widthSum) * totalWidth);
             remainWidth = remainWidth - cellWidth;
             widthPerCell = cellWidth;
         }
@@ -288,13 +294,13 @@ const getColumnWidthDistribution = (pcfContext: ComponentFramework.Context<IInpu
 
 // Updates the column widths based upon the current side of the control on the form.
 const updateColumnWidths = (columns: IColumn[], pcfContext: ComponentFramework.Context<IInputs>) : IColumn[] => {
-    let columnWidthDistribution = getColumnWidthDistribution(pcfContext);        
-    let currentColumns = columns;    
+    const columnWidthDistribution = getColumnWidthDistribution(pcfContext);        
+    const currentColumns = columns;    
 
     //make sure to use map here which returns a new array, otherwise the state/grid will not update.
     return currentColumns.map(col => {           
 
-        var newMaxWidth = columnWidthDistribution.find(x => x.name === col.fieldName);
+        const newMaxWidth = columnWidthDistribution.find(x => x.name === col.fieldName);
         if (newMaxWidth) col.maxWidth = newMaxWidth.width;
 
         return col;
@@ -303,8 +309,9 @@ const updateColumnWidths = (columns: IColumn[], pcfContext: ComponentFramework.C
 
 //sort the items in the grid.
 const copyAndSort = <T, >(items: T[], columnKey: string, pcfContext: ComponentFramework.Context<IInputs>, isSortedDescending?: boolean): T[] =>  {
-    let key = columnKey as keyof T;
-    let sortedItems = items.slice(0);        
+    const key = columnKey as keyof T;
+    const sortedItems = items.slice(0);        
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sortedItems.sort((a: T, b: T) => (a[key] || '' as any).toString().localeCompare((b[key] || '' as any).toString(), getUserLanguage(pcfContext), { numeric: true }));
 
     if (isSortedDescending) {
@@ -315,11 +322,12 @@ const copyAndSort = <T, >(items: T[], columnKey: string, pcfContext: ComponentFr
 }
 
 const getUserLanguage = (pcfContext: ComponentFramework.Context<IInputs>): string => {
-    var language = lcid.from(pcfContext.userSettings.languageId);
+    const language = lcid.from(pcfContext.userSettings.languageId);
     return language.substring(0, language.indexOf('_'));
 } 
 
 // determine if object is an entity reference.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isEntityReference = (obj: any): obj is ComponentFramework.EntityReference => {
     return typeof obj?.etn === 'string';
 }

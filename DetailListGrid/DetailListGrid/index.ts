@@ -34,6 +34,7 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 
 		this._container = container;
 		this._context = context;
+		// eslint-disable-next-line no-prototype-builtins
 		this._isModelApp = window.hasOwnProperty('getGlobalContextObject');
 		this._dataSetVersion = 0;
 
@@ -63,7 +64,8 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 			// sets the height based upon the rowSpan which is there but not included in the Mode interace when
 			// the control is a subgrid.
 			// Then multiple by 1.5 em which is what MS uses per row.	
-			let rowspan = (this._context.mode as any).rowSpan;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const rowspan = (this._context.mode as any).rowSpan;
 			if (rowspan) this._detailList.style.height = `${(rowspan * 1.5).toString()}em`;
 		}
 
@@ -80,7 +82,7 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var dataSet = context.parameters.sampleDataSet;
+		const dataSet = context.parameters.sampleDataSet;
 		
 		if (dataSet.loading) return;
 
@@ -93,8 +95,8 @@ export class DetailListGrid implements ComponentFramework.StandardControl<IInput
 			//Setting the page size in a Canvas app works on the first load of the component.  If you navigate
 			// away from the page on which the component is located though the paging get reset to 25 when you
 			// navigate back.  In order to fix this we need to reset the paging to the count of the records that
-			// will come back and do a reset on the paging.  I beleive this is all due to a MS bug.	
-			//@ts-ignore
+			// will come back and do a reset on the paging.  I believe this is all due to a MS bug.	
+	
 			//console.log(`TS: updateView, dataSet.paging.pageSize ${dataSet.paging.pageSize}`);	
 			//console.log(`TS: updateView, dataSet.paging.totalResultCount ${dataSet.paging.totalResultCount}`)
 			dataSet.paging.setPageSize(dataSet.paging.totalResultCount);
