@@ -1,10 +1,9 @@
-/// <reference path="../node_modules/azure-maps-control/typings/index.d.ts" />
 import * as ReactDOM from 'react-dom';
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {AzureMapsGridControl} from "./AzureMapsGridControl"
 import {Spinner} from 'spin.js'
-import atlas = require("azure-maps-control");
+import * as atlas from "azure-maps-control";
 import { isNumber, isString } from "util";
 import { IProps } from "./AzureMapsGridControl";
 import * as React from 'react';
@@ -74,7 +73,7 @@ export class AzureMapsGrid implements ComponentFramework.StandardControl<IInputs
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{	
-		var dataSet = context.parameters.mapDataSet;				
+		const dataSet = context.parameters.mapDataSet;				
 
 		if (dataSet.loading) return;
 

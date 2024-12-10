@@ -11,8 +11,7 @@ import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyleSets, getTheme, FontWeights } from 'office-ui-fabric-react/lib/Styling';
 import { HoverCard, HoverCardType, IPlainCardProps } from 'office-ui-fabric-react/lib/HoverCard';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { isNumber } from "util";
-import atlas = require('azure-maps-control');
+import * as atlas from 'azure-maps-control';
 
 
 export interface IProps {
@@ -20,6 +19,7 @@ export interface IProps {
 }
 
 interface MyWindow extends Window {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 	myFunction: Function;
   }
 
@@ -71,17 +71,17 @@ const errorStyles = mergeStyleSets({
 	title: [
 		theme.fonts.xLarge,
 		{
-		  margin: 0,
-		  fontWeight: FontWeights.semilight
+			margin: 0,
+			fontWeight: FontWeights.semilight
 		}
-	  ],
-	  subtext: [
+	],
+	subtext: [
 		theme.fonts.small,
 		{
-		  margin: 0,
-		  fontWeight: FontWeights.semilight
+			margin: 0,
+			fontWeight: FontWeights.semilight
 		}
-	  ]	  
+	]	  
 });
 
 const invalidRecordsStyle = mergeStyleSets({
@@ -91,21 +91,21 @@ const invalidRecordsStyle = mergeStyleSets({
 		flexDirection: 'column',
 		padding: '10px',
 		height: '100%',		
-	  },
-	  item: {
+	},
+	item: {
 		textDecoration: 'underline',
 		cursor: 'default',
-  		color: '#3b79b7'
-	  },
-	  invalidItem: {
+		color: '#3b79b7'
+	},
+	invalidItem: {
 		color: '#333',
 		textDecoration: 'none',
-	  },
-	  title: {
+	},
+	title: {
 		color: '#333',
 		textDecoration: 'none',
 		fontWeight: FontWeights.bold	
-	  }
+	}
 });
 
 export const AzureMapsGridControl: React.FC<IProps> = (props) => {	
@@ -118,8 +118,8 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 	const [defaultMarkerColor, setDefaultMarkerColor] = React.useState(props.pcfContext.parameters?.defaultPushpinColor?.raw || "#4288f7");	
 
 	const _getKeys = () => {
-		let params = props.pcfContext.parameters;
-		let dataSet = props.pcfContext.parameters.mapDataSet;
+		const params = props.pcfContext.parameters;
+		const dataSet = props.pcfContext.parameters.mapDataSet;
 
 		return { 
 			lat: params.latFieldName.raw ? getFieldName(dataSet, params.latFieldName.raw) : "",
@@ -132,29 +132,29 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 	const [keys, setKeys] = React.useState(_getKeys);
 
 	const _getMarkers = () : {valid: DataSetInterfaces.EntityRecord[], invalid:string[], cameraOptions:CameraBoundsOptions} => {		
-		let dataSet = props.pcfContext.parameters.mapDataSet;
-		let _invalidRecords: string[] = [];
-		let _validRecords: DataSetInterfaces.EntityRecord[] = [];
-		var _cameraOptions: CameraBoundsOptions = { padding: 20 };
-		let returnData =  {valid: _validRecords, invalid: _invalidRecords, cameraOptions: _cameraOptions}
+		const dataSet = props.pcfContext.parameters.mapDataSet;
+		const _invalidRecords: string[] = [];
+		const _validRecords: DataSetInterfaces.EntityRecord[] = [];
+		const _cameraOptions: CameraBoundsOptions = { padding: 20 };
+		const returnData =  {valid: _validRecords, invalid: _invalidRecords, cameraOptions: _cameraOptions}
 		//if dataset is empty or the lat/long fields are not defined then end
 		if (!dataSet || !keys.lat || !keys.long) {
 			return returnData;
 		}
 
 		//store location results so that we can utilize them later to get the bounding box for the map		
-		let totalRecordCount = dataSet.sortedRecordIds.length;
+		const totalRecordCount = dataSet.sortedRecordIds.length;
 		
-		let locationResults: data.Position[] = [];
+		const locationResults: data.Position[] = [];
 
 		//loop through all the records to create the pushpins
 		for (let i = 0; i < totalRecordCount; i++) {
-			var recordId = dataSet.sortedRecordIds[i];
-			var record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+			const recordId = dataSet.sortedRecordIds[i];
+			const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
 			
-			var lat = record.getValue(keys.lat) as number;
-			var long = record.getValue(keys.long) as number;
-			var name = record.getValue(keys.name) as string;
+			const lat = record.getValue(keys.lat) as number;
+			const long = record.getValue(keys.long) as number;
+			const name = record.getValue(keys.name) as string;
 
 			//if incorrect lat or long values are in the data then continue;
 			if (!checkLatitude(lat) || !checkLongitude(long)) 
@@ -195,26 +195,27 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
             try{
                 await props.pcfContext.webAPI.retrieveMultipleRecords('raw_azuremapsconfig').then(
                     (results) => {
+                        // eslint-disable-next-line promise/always-return
                         if (results.entities.length > 0)
                         {
-                            setEnvironmentSettings({settings: results.entities[0], loading: false, errorTitle: '', errorMessage: ''});
+                        setEnvironmentSettings({settings: results.entities[0], loading: false, errorTitle: '', errorMessage: ''});
                         }
                         else
                         {
 							setEnvironmentSettings({
-								settings: {}, 								
-								loading: false, 
+								settings: {},
+								loading: false,
 								errorTitle: 'No Settings found for Azure Maps', 
 								errorMessage: 
 								`Please contact your administror and have then add a record in your system under the Azure Maps Config entity.`
 							});
-                        }
+                    }
                     },
                     (error) => {
 						setEnvironmentSettings({
 							settings: {}, 							 
 							loading: false,
-							errorTitle: 'Error retrieveing the Azure Maps Settings.',
+							errorTitle: 'Error retrieving the Azure Maps Settings.',
 							errorMessage: error.message
 						});
                     }
@@ -224,8 +225,8 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 				setEnvironmentSettings({
 					settings: {}, 					
 					loading: false, 
-					errorTitle: 'Error retrieveing the Azure Maps Settings.', 
-					errorMessage: error});
+					errorTitle: 'Error retrieving the Azure Maps Settings.', 
+					errorMessage: error as string});
             }
         }
 
@@ -237,7 +238,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 			
 			if (environmentSettings.errorTitle === '')
 			{
-				let updatedOptions = {...azureMapOptions, authOptions: _getAuthenticationOptions(environmentSettings.settings)}
+				const updatedOptions = {...azureMapOptions, authOptions: _getAuthenticationOptions(environmentSettings.settings)}
 				if (isAzureGoverment(environmentSettings.settings)){
 					updatedOptions.domain = 'atlas.azure.us';
 				}
@@ -263,9 +264,10 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 		}
 	}, [errorDetails]);       	
 	
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const _getAuthenticationOptions = (settings: any) : any => {
-		let authType = settings.raw_authenticationtype;
-		var authOptions = {};			
+		const authType = settings.raw_authenticationtype;
+		let authOptions = {};			
 
 		//load authentication information
 		switch(authType){
@@ -282,13 +284,15 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 				authOptions = {
 					authType: atlas.AuthenticationType.anonymous,					
 					clientId: settings.raw_clientid || '',					
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					getToken: function (resolve: any, reject: any, map: any){
-						var setError = (e: any) => setErrorDetails({hasError: true, errorTitle: 'Anonymous Authentication getToken Error', errorMessage: `${e.message}`})
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const setError = (e: any) => setErrorDetails({hasError: true, errorTitle: 'Anonymous Authentication getToken Error', errorMessage: `${e.message}`})
 						
 						try{
-							var userFunction = settings?.raw_anonymousgettokenfunction || '';
+							let userFunction = settings?.raw_anonymousgettokenfunction || '';
 							userFunction = userFunction.replace('url', `"${settings?.raw_anonymousurl}"`);																				
-							var evalFunction = `(${userFunction})(resolve, reject, map);`																																	
+							const evalFunction = `(${userFunction})(resolve, reject, map);`																																	
 							eval(evalFunction);
 						}
 						catch(error){
@@ -329,6 +333,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 	}
 
 	const _memoizedMarkerRender: IAzureDataSourceChildren = React.useMemo(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (): any => markers.valid.map(marker => renderPoint(marker, keys, defaultMarkerColor)),
         [markers]
 	);
@@ -356,6 +361,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 						LoaderComponent={() => loaderComponent}
 						cameraOptions={markers.cameraOptions}															
 						events={{							
+							// eslint-disable-next-line @typescript-eslint/no-explicit-any
 							ready: (e: any) => {
 								//console.log('ready', e);
 								e.map.setCamera({
@@ -394,11 +400,11 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 											properties: getPopupProperties(e), 
 											isVisible: true});			
 									}
-								  }
+								}
 							}}							
 						></AzureMapLayerProvider>
 						{_memoizedMarkerRender}           
-              		</AzureMapDataSourceProvider>
+            </AzureMapDataSourceProvider>
 					<AzureMapPopup								 					
 						isVisible={popupDetails.isVisible}
 						options={popupDetails.options}						
@@ -408,7 +414,7 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 									<div>{popupDetails.options.position![1]}, {popupDetails.options.position![0]}</div>
 									<div><a href={`main.aspx?etn=${popupDetails.properties.entityName}&pagetype=entityrecord&id=${popupDetails.properties.id}`} target="_blank">Open Record</a></div>
 									</div>}             
-            		/>
+            />
                 </AzureMap>
             </AzureMapsProvider>}
         </div>
@@ -427,6 +433,7 @@ const myFunction = () => {
 	alert("I am an alert box!");
   }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isAzureGoverment = (settings: any): boolean => {
 	return settings?.raw_azuregovernment === true || false;
 }  
@@ -435,11 +442,11 @@ const generateBoundingBox = (locationResults: data.Position[]): atlas.data.Bound
 		
 	if (locationResults.length > 0) {
 		locationResults.sort(compareLocationValues('latitude'));
-		let minLat = locationResults[0][1];
-		let maxLat = locationResults[locationResults.length - 1][1];
+		const minLat = locationResults[0][1];
+		const maxLat = locationResults[locationResults.length - 1][1];
 		locationResults.sort(compareLocationValues('longitude'));
-		let minLong = locationResults[0][0];
-		let maxLong = locationResults[locationResults.length - 1][0];
+		const minLong = locationResults[0][0];
+		const maxLong = locationResults[locationResults.length - 1][0];
 
 		//let box = Microsoft.Maps.LocationRect.fromEdges(maxLat, minLong, minLat, maxLong);
 		return atlas.data.BoundingBox.fromEdges(minLong, minLat, maxLong, maxLat)		
@@ -447,8 +454,9 @@ const generateBoundingBox = (locationResults: data.Position[]): atlas.data.Bound
 }
 
 const getPopupOptions = (e: MapMouseEvent): PopupOptions => {	
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const prop: any = e.shapes![0]		
-		let coordinates = prop.getCoordinates();				
+		const coordinates = prop.getCoordinates();				
 		return {
 			closeButton: true,
 			position: coordinates,
@@ -458,6 +466,7 @@ const getPopupOptions = (e: MapMouseEvent): PopupOptions => {
 }
 
 const getPopupProperties = (e: MapMouseEvent) => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const prop: any = e.shapes![0];
 	return prop.getProperties();
 }
@@ -465,29 +474,31 @@ const getPopupProperties = (e: MapMouseEvent) => {
 const onRenderPlainCard = (items: string[]): JSX.Element => {
 	return (
 	items.length > 0 ?	
-	  <div className={invalidRecordsStyle.compactCard}>
+	<div className={invalidRecordsStyle.compactCard}>
 		<div>Invalid Records</div>
 		{items.map((item, index) => <div className={invalidRecordsStyle.invalidItem} key={index}>{item}</div>)}
-	  </div>
-	  : <div></div>
+	</div>
+		: <div></div>
 	);
   };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderPoint = (record: DataSetInterfaces.EntityRecord, keys: any, defaultMarkerColor: string) => {        
 	return (
-	  <AzureMapFeature
+	<AzureMapFeature
 		key={record.getRecordId()}
 		id={record.getRecordId()}		
 		type="Point"				
 		coordinate={[record.getValue(keys.long) as number, record.getValue(keys.lat) as number]}		
 		properties={{
-		  id: record.getRecordId(),
-		  entityName: (record as any).getNamedReference().entityName,
-		  name: record.getValue(keys.name),
-		  description: keys.description && record.getValue(keys.description) ? record.getValue(keys.description) : "",
-		  color: keys.color && record.getValue(keys.color) ? record.getValue(keys.color).toString() : defaultMarkerColor
+			id: record.getRecordId(),
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			entityName: (record as any).getNamedReference().entityName,
+			name: record.getValue(keys.name),
+			description: keys.description && record.getValue(keys.description) ? record.getValue(keys.description) : "",
+			color: keys.color && record.getValue(keys.color) ? record.getValue(keys.color).toString() : defaultMarkerColor
 		}}
-	  />
+	/>
 	)
   }
 
@@ -496,11 +507,12 @@ const getFieldName = (dataSet: ComponentFramework.PropertyTypes.DataSet ,fieldNa
 	if (fieldName.indexOf('.') == -1) return fieldName;
 
 	//otherwise we need to determine the alias of the linked entity
-	var linkedFieldParts = fieldName.split('.');
+	const linkedFieldParts = fieldName.split('.');
 	linkedFieldParts[0] = dataSet.linking.getLinkedEntities().find(e => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
 	return linkedFieldParts.join('.');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const compareLocationValues = (key: 'latitude' | 'longitude', order: 'asc' | 'desc' = 'asc'): any => {
 	return function innerSort([a, b]: data.Position, [c, d]: data.Position): number {
 		
@@ -518,20 +530,21 @@ const compareLocationValues = (key: 'latitude' | 'longitude', order: 'asc' | 'de
 	}		
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkLatitude = (lat: any): boolean => {
 	//check for null or undefined
 	if (!lat) return false;
-	
-	lat = isNumber(lat) ? lat.toString() : lat;
-	let latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/;
+	lat = typeof lat === 'number' ? lat.toString() : lat;
+	const latExpression: RegExp = /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 	return latExpression.test(lat);		
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkLongitude = (long: any): boolean =>	{
 	//check for null or undefined
 	if (!long) return false;
 	
-	long = isNumber(long) ? long.toString() : long;
-	let longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/;
+	long = typeof long === 'number' ? long.toString() : long;
+	const longExpression: RegExp = /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/;
 	return longExpression.test(long);		
 }
