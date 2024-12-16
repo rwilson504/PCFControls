@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 12:08:42
+ * @Last Modified time: 2024-12-16 13:40:59
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -113,10 +113,42 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     })
     .toDate();
 
+  // State to manage min and max hours
+  const [minHour, setMinHour] = React.useState<number>(
+    props.pcfContext.parameters.calendarMinHour?.raw ?? 0
+  );
+  const [maxHour, setMaxHour] = React.useState<number>(
+    props.pcfContext.parameters.calendarMaxHour?.raw ?? 23
+  );
+
+  // Update minHour and maxHour when props change
+  React.useEffect(() => {
+    const newMinHour = props.pcfContext.parameters.calendarMinHour?.raw ?? 0;
+    const newMaxHour = props.pcfContext.parameters.calendarMaxHour?.raw ?? 23;
+
+    setMinHour(newMinHour);
+    setMaxHour(newMaxHour);
+  }, [
+    props.pcfContext.parameters.calendarMinHour?.raw,
+    props.pcfContext.parameters.calendarMaxHour?.raw,
+  ]);
+
+  // Convert minHour and maxHour to Date for Calendar component
+  const min = React.useMemo(
+    () => moment(`${minHour}:00`, "HH:mm").toDate(),
+    [minHour]
+  );
+  const max = React.useMemo(
+    () => moment(`${maxHour}:00`, "HH:mm").toDate(),
+    [maxHour]
+  );
+
   const calendarViews = getCalendarViews(
     props.pcfContext,
     localizer,
-    calendarScrollTo
+    calendarScrollTo,
+    min,
+    max
   );
 
   const [calendarView, setCalendarView] = React.useState(
@@ -413,6 +445,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       view={calendarView}
       views={calendarViews}
       scrollToTime={calendarScrollTo}
+      min={min}
+      max={max}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -440,6 +474,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       view={calendarView}
       views={calendarViews}
       scrollToTime={calendarScrollTo}
+      min={min}
+      max={max}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -755,7 +791,9 @@ function getCalendarView(calendarViews: ViewsProps, viewName: string): View {
 function getCalendarViews(
   pcfContext: ComponentFramework.Context<IInputs>,
   localizer: DateLocalizer,
-  scrollToTime: Date
+  scrollToTime: Date,
+  min: Date,
+  max: Date
 ): ViewsProps {
   const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
   const validViews = viewList
@@ -772,6 +810,8 @@ function getCalendarViews(
         selectedViews.work_week = CustomWorkWeek;
         selectedViews.work_week.localizer = localizer;
         selectedViews.work_week.scrollToTime = scrollToTime;
+        selectedViews.work_week.min = min;
+        selectedViews.work_week.max = max;
         selectedViews.work_week.includedDays =
           getWorkWeekIncludedDays(pcfContext);
       } else {
