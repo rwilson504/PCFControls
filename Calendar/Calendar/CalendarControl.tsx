@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 11:18:49
+ * @Last Modified time: 2024-12-16 12:08:42
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -205,25 +205,25 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     const root = document.documentElement;
     root.style.setProperty(
       "--calendar-text-color",
-      calendarTextColor.toString()
+      calendarTextColor.array().toString()
     );
     root.style.setProperty(
       "--calendar-text-color-grayscale",
-      calendarTextColor.grayscale().toString()
+      calendarTextColor.grayscale().array().toString()
     );
     root.style.setProperty(
       "--calendar-border-color",
-      calendarBorderColor.toString()
+      calendarBorderColor.array().toString()
     );
     root.style.setProperty(
       "--calendar-timebar-background-color",
-      calendarTimeBarBackgroundColor.toString()
+      calendarTimeBarBackgroundColor.array().toString()
     );
     root.style.setProperty(
       "--calendar-show-more-hover",
       calendarTextColor.isDark()
-        ? calendarTextColor.grayscale().fade(0.8).toString()
-        : calendarTextColor.grayscale().fade(0.2).toString()
+        ? calendarTextColor.grayscale().fade(0.8).array().toString()
+        : calendarTextColor.grayscale().fade(0.2).array().toString()
     );
     cssVars({
       preserveVars: true, // Keep original var() declarations

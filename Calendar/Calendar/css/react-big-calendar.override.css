@@ -29,44 +29,45 @@
   color: unset;
   background-color: unset;
   border-radius: 0px !important;
+  padding: .3rem .5rem !important;
 }
 
 .rbc-calendar,
 .rbc-toolbar button,
 .rbc-agenda-date-cell,
 .rbc-agenda-time-cell {
-  color: var(--calendar-text-color) !important;
+  color: rgb(var(--calendar-text-color)) !important;
 }
 
 .rbc-toolbar button:active,
 .rbc-toolbar button.rbc-active,
 .rbc-toolbar button:focus,
 .rbc-toolbar button:hover {
-  background-color: rgba(var(--calendar-text-color), 0.7) !important;
+  background-color: rgba(var(--calendar-text-color), 0.3) !important;
 }
 
 .rbc-toolbar button:active:hover,
 .rbc-toolbar button:active:focus,
 .rbc-toolbar button.rbc-active:hover,
 .rbc-toolbar button.rbc-active:focus {
-  background-color: rgba(var(--calendar-text-color), 0.6) !important;
+  background-color: rgba(var(--calendar-text-color), 0.4) !important;
 }
 
 .rbc-toolbar button:active:hover,
 .rbc-toolbar button:active:focus,
 .rbc-toolbar button.rbc-active:hover,
 .rbc-toolbar button.rbc-active:focus,
-rbc-toolbar button:focus,
+.rbc-toolbar.button:focus,
 .rbc-toolbar button:hover {
-  color: var(--calendar-text-color-grayscale) !important;
+  color: rgb(var(--calendar-text-color-grayscale)) !important;
 }
 
 .rbc-off-range-bg {
-  background-color: rgba(var(--calendar-text-color), 0.8) !important;
+  background-color: rgba(var(--calendar-text-color), 0.2) !important;
 }
 
 .rbc-off-range {
-  color: rgba(var(--calendar-text-color), 0.6) !important;
+  color: rgba(var(--calendar-text-color), 0.4) !important;
 }
 
 .rbc-button-link.rbc-show-more {
@@ -77,7 +78,7 @@ rbc-toolbar button:focus,
 }
 
 .rbc-button-link.rbc-show-more:hover {
-  background-color: var(--calendar-show-more-hover) !important;
+  background-color: rgb(var(--calendar-show-more-hover)) !important;
 }
 
 .rbc-header,
@@ -108,21 +109,24 @@ rbc-toolbar button:focus,
 .rbc-time-content > * + * > *,
 .rbc-rtl .rbc-time-content > * + * > *,
 .rbc-toolbar button {
-  border-color: var(--calendar-border-color) !important;
+  border-color: rgb(var(--calendar-border-color)) !important;
 }
 
 .rbc-event:focus,
 .rbc-toolbar button:focus {
-  outline: 5px auto var(--calendar-border-color) !important;
+  outline: 5px auto rgb(var(--calendar-border-color)) !important;
 }
 
 .rbc-day-slot .rbc-time-slot {
-  border-color: rgba(var(--calendar-border-color), 0.2) !important;
+  border-color: rgba(var(--calendar-border-color), 0.8) !important;
 }
 
 .rbc-time-view-resources .rbc-time-gutter,
 .rbc-time-view-resources .rbc-time-header-gutter {
-  background-color: var(--calendar-timebar-background-color) !important;
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 10 !important;
+  background-color: rgb(var(--calendar-timebar-background-color)) !important;
 }
 
 .rbc-time-header-gutter .rbc-time-header-gutter-all-day {
