@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 13:40:59
+ * @Last Modified time: 2024-12-16 16:05:26
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -143,12 +143,34 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     [maxHour]
   );
 
+   // State for step and timeslots
+   const [step, setStep] = React.useState<number>(
+    props.pcfContext.parameters.calendarStep?.raw ?? 30 // Default: 2 slots per hour (30 minutes)
+  );
+  const [timeslots, setTimeslots] = React.useState<number>(
+    props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2 // Default: 2
+  );
+
+  // Update step and timeslots when props change
+  React.useEffect(() => {
+    const newStep = props.pcfContext.parameters.calendarStep?.raw ?? 30;
+    const newTimeslots = props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2;
+    
+    setStep(newStep);
+    setTimeslots(newTimeslots);
+  }, [
+    props.pcfContext.parameters.calendarStep?.raw,
+    props.pcfContext.parameters.calendarTimeSlots?.raw,
+  ]);
+
   const calendarViews = getCalendarViews(
     props.pcfContext,
     localizer,
     calendarScrollTo,
     min,
-    max
+    max,
+    step,
+    timeslots
   );
 
   const [calendarView, setCalendarView] = React.useState(
@@ -447,6 +469,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       scrollToTime={calendarScrollTo}
       min={min}
       max={max}
+      step={step} // Controls the interval in minutes for each time slot
+      timeslots={timeslots} // Number of slots per hour
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -476,6 +500,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       scrollToTime={calendarScrollTo}
       min={min}
       max={max}
+      step={step} // Controls the interval in minutes for each time slot
+      timeslots={timeslots} // Number of slots per hour
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -793,7 +819,9 @@ function getCalendarViews(
   localizer: DateLocalizer,
   scrollToTime: Date,
   min: Date,
-  max: Date
+  max: Date,
+  step: number,
+  timeslots: number
 ): ViewsProps {
   const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
   const validViews = viewList
