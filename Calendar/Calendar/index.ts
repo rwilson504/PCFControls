@@ -4,7 +4,6 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {CalendarControl, IProps} from "./CalendarControl"
-import * as Color from 'color'
 
 export class Calendar implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 

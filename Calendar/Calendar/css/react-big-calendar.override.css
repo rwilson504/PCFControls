@@ -1,0 +1,175 @@
+.rbc-calendar {
+  font-family: "SegoeUI", "Segoe UI";
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+}
+
+.rbc-toolbar {
+  flex-wrap: nowrap !important;
+  flex-direction: row !important;
+  font-size: 14px !important;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 14px !important;
+  padding: unset;
+}
+
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
+  border-radius: unset !important;
+}
+
+.rbc-toolbar button {
+  color: unset;
+  background-color: unset;
+  border-radius: 0px !important;
+}
+
+.rbc-calendar,
+.rbc-toolbar button,
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell {
+  color: var(--calendar-text-color) !important;
+}
+
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button:focus,
+.rbc-toolbar button:hover {
+  background-color: rgba(var(--calendar-text-color), 0.7) !important;
+}
+
+.rbc-toolbar button:active:hover,
+.rbc-toolbar button:active:focus,
+.rbc-toolbar button.rbc-active:hover,
+.rbc-toolbar button.rbc-active:focus {
+  background-color: rgba(var(--calendar-text-color), 0.6) !important;
+}
+
+.rbc-toolbar button:active:hover,
+.rbc-toolbar button:active:focus,
+.rbc-toolbar button.rbc-active:hover,
+.rbc-toolbar button.rbc-active:focus,
+rbc-toolbar button:focus,
+.rbc-toolbar button:hover {
+  color: var(--calendar-text-color-grayscale) !important;
+}
+
+.rbc-off-range-bg {
+  background-color: rgba(var(--calendar-text-color), 0.8) !important;
+}
+
+.rbc-off-range {
+  color: rgba(var(--calendar-text-color), 0.6) !important;
+}
+
+.rbc-button-link.rbc-show-more {
+  color: rgba(var(--calendar-text-color), 0.7) !important;
+  width: 100% !important;
+  font-weight: normal !important;
+  text-align: left !important;
+}
+
+.rbc-button-link.rbc-show-more:hover {
+  background-color: var(--calendar-show-more-hover) !important;
+}
+
+.rbc-header,
+.rbc-header + .rbc-header,
+.rbc-rtl .rbc-header + .rbc-header,
+.rbc-month-view,
+.rbc-month-row,
+.rbc-day-bg + .rbc-day-bg,
+.rbc-rtl .rbc-day-bg + .rbc-day-bg,
+.rbc-agenda-view table.rbc-agenda-table,
+.rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
+.rbc-rtl .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
+.rbc-agenda-view table.rbc-agenda-table tbody > tr + tr,
+.rbc-agenda-view table.rbc-agenda-table thead > tr > th,
+.rbc-timeslot-group,
+.rbc-time-view-resources .rbc-time-gutter,
+.rbc-time-view-resources .rbc-time-header-gutter,
+.rbc-time-view,
+.rbc-time-view .rbc-allday-cell + .rbc-allday-cell,
+.rbc-time-header.rbc-overflowing,
+.rbc-rtl .rbc-time-header.rbc-overflowing,
+.rbc-time-header > .rbc-row:first-child,
+.rbc-time-header > .rbc-row.rbc-row-resource,
+.rbc-time-header-content,
+.rbc-rtl .rbc-time-header-content,
+.rbc-time-header-content > .rbc-row.rbc-row-resource,
+.rbc-time-content,
+.rbc-time-content > * + * > *,
+.rbc-rtl .rbc-time-content > * + * > *,
+.rbc-toolbar button {
+  border-color: var(--calendar-border-color) !important;
+}
+
+.rbc-event:focus,
+.rbc-toolbar button:focus {
+  outline: 5px auto var(--calendar-border-color) !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+  border-color: rgba(var(--calendar-border-color), 0.2) !important;
+}
+
+.rbc-time-view-resources .rbc-time-gutter,
+.rbc-time-view-resources .rbc-time-header-gutter {
+  background-color: var(--calendar-timebar-background-color) !important;
+}
+
+.rbc-time-header-gutter .rbc-time-header-gutter-all-day {
+  font-size: 12px !important;
+  padding-right: 8px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  position: absolute !important;
+  bottom: 0 !important;  
+}
+
+/* This fixes sizing issues in canvas apps */
+.rbc-time-view .rbc-time-header-gutter {
+  width: 70px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
+  position: relative;
+}
+
+.rbc-view-day .rbc-time-view .rbc-allday-cell {
+  /* width: 140px; */
+}
+
+.rbc-agenda-view table.rbc-agenda-table tbody > tr {
+  background-color: transparent !important;
+}
+
+.rbc-agenda-table th:nth-child(1) {
+  width: 100px !important;
+}
+
+.rbc-agenda-table th:nth-child(2) {
+  width: 160px !important;
+}
+
+.rbc-agenda-time-cell {
+  max-width: 160px !important;
+  min-width: 160px !important;
+  width: 160px !important;
+}
+
+.rbc-agenda-event-cell {
+  padding: 0 !important;
+  height: 1px;
+}
+
+.rbc-today .rbc-button-link span,
+.rbc-date-cell.rbc-now .rbc-button-link {
+  font-style: italic !important;
+}
