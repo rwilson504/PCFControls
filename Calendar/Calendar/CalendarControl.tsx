@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 16:05:26
+ * @Last Modified time: 2024-12-16 16:43:49
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -17,6 +17,7 @@ import {
   View,
   ViewsProps,
   DateLocalizer,
+  DayLayoutAlgorithm
 } from "react-big-calendar";
 import { StartOfWeek } from "date-arithmetic";
 import { Resource } from "./types/Resource";
@@ -162,6 +163,15 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext.parameters.calendarStep?.raw,
     props.pcfContext.parameters.calendarTimeSlots?.raw,
   ]);
+
+  const [dayLayoutAlgorithm, setDayLayoutAlgorithm] = React.useState<DayLayoutAlgorithm>(
+    (props.pcfContext.parameters.dayLayoutAlgorithm?.raw as DayLayoutAlgorithm) || "overlap"
+  );
+  
+  React.useEffect(() => {
+    const algorithm = (props.pcfContext.parameters.dayLayoutAlgorithm?.raw as DayLayoutAlgorithm) || "overlap";
+    setDayLayoutAlgorithm(algorithm);
+  }, [props.pcfContext.parameters.dayLayoutAlgorithm?.raw]);  
 
   const calendarViews = getCalendarViews(
     props.pcfContext,
@@ -471,6 +481,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       max={max}
       step={step} // Controls the interval in minutes for each time slot
       timeslots={timeslots} // Number of slots per hour
+      dayLayoutAlgorithm={dayLayoutAlgorithm}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -502,6 +513,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       max={max}
       step={step} // Controls the interval in minutes for each time slot
       timeslots={timeslots} // Number of slots per hour
+      dayLayoutAlgorithm={dayLayoutAlgorithm}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
       onSelectSlot={_handleSlotSelect}
@@ -837,9 +849,6 @@ function getCalendarViews(
       if (view === "work_week") {
         selectedViews.work_week = CustomWorkWeek;
         selectedViews.work_week.localizer = localizer;
-        selectedViews.work_week.scrollToTime = scrollToTime;
-        selectedViews.work_week.min = min;
-        selectedViews.work_week.max = max;
         selectedViews.work_week.includedDays =
           getWorkWeekIncludedDays(pcfContext);
       } else {

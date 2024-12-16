@@ -2,7 +2,7 @@
  * @Author: rwilson504
  * @Date: 2024-12-15 09:17:24
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 10:53:14
+ * @Last Modified time: 2024-12-16 16:45:01
  */
 
 import * as React from "react";
@@ -29,9 +29,6 @@ export interface CustomWeekViewProps {
 export default function CustomWorkWeek({
   date,
   localizer,
-  max = localizer.endOf(new Date(), "day"),
-  min = localizer.startOf(new Date(), "day"),
-  scrollToTime = localizer.startOf(new Date(), "day"),
   ...props
 }: CustomWeekViewProps) {
   const currRange = useMemo(
@@ -41,12 +38,8 @@ export default function CustomWorkWeek({
 
   return (
     <TimeGrid
-      eventOffset={15}
       localizer={localizer}
-      max={max}
-      min={min}
-      range={currRange}      
-      scrollToTime={scrollToTime}
+      range={currRange}
       enableAutoScroll={true}
       {...props}
     />
@@ -55,10 +48,7 @@ export default function CustomWorkWeek({
 
 CustomWorkWeek.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
-  localizer: PropTypes.object,
-  max: PropTypes.instanceOf(Date),
-  min: PropTypes.instanceOf(Date),
-  scrollToTime: PropTypes.instanceOf(Date),
+  localizer: PropTypes.object
 };
 
 CustomWorkWeek.range = (

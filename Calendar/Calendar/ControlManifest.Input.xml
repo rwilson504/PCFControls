@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.171" display-name-key="RAW! Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
+  <control namespace="RAW.Calendar" constructor="Calendar" version="0.0.173" display-name-key="RAW! Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
     <data-set name="calendarDataSet" display-name-key="Calendar Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
     </data-set>
     <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
@@ -27,6 +27,10 @@
     <property name="calendarMaxHour" display-name-key="Maximum Hour to Display" description-key="Specify the maximum hour (0-23) to display on the calendar. For example, enter 17 for 5:00 PM." usage="input" of-type="Whole.None" required="false" default-value="23" />
     <property name="calendarStep" display-name-key="Calendar Step" description-key="Specifies the interval (in minutes) for each time slot on the calendar. Default is 30 minutes." of-type="Whole.None" usage="input" required="false" default-value="30" />
     <property name="calendarTimeSlots" display-name-key="Calendar Time Slots" description-key="Specifies the number of time slots per hour on the calendar. Default is 2." of-type="Whole.None" usage="input" required="false" default-value="2" />
+    <property name="dayLayoutAlgorithm" display-name-key="Day Layout Algorithm" description-key="Sets the algorithm for arranging day events. Options are Overlap or No Overlap. Default is Overlap." of-type="Enum" usage="input" required="false" default-value="overlap">
+      <value name="Overlap" display-name-key="Overlap">overlap</value>
+      <value name="No Overlap" display-name-key="No Overlap">no-overlap</value>
+    </property>
     <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
     <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
