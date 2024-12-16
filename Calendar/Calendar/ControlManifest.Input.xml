@@ -35,10 +35,6 @@
     <property name="actionRecordSelected" display-name-key="(Output) Record was selected" description-key="Provides the Canvas app producer notification that a record was selected on the calendar." usage="output" of-type="TwoOptions" required="false" />
     <resources>
       <code path="index.ts" order="1" />
-      <!-- <css path="css/react-big-calendar.css" order="1" /> -->
-      <resx path="resources/CalendarControl.1031.resx" version="1.0.0" />
-      <resx path="resources/CalendarControl.1033.resx" version="1.0.0" />
-      <resx path="resources/CalendarControl.1036.resx" version="1.0.0" />
     </resources>
     <feature-usage>
       <uses-feature name="Utility" required="true" />

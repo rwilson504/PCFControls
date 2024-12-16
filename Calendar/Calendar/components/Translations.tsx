@@ -1,144 +1,277 @@
-import { Messages } from 'react-big-calendar'
+import { Messages } from "react-big-calendar";
 
-export default function GetMessages(lang: string): Messages{
-    //check to see if full localized language (en-US) was sent in.
-    lang = lang.indexOf('-') === -1 ? lang : lang.substring(0, lang.indexOf('-'));
+export default function GetMessages(lang: string): Messages {
+  //check to see if full localized language (en-US) was sent in.
+  lang = lang.indexOf("-") === -1 ? lang : lang.substring(0, lang.indexOf("-"));
 
-    switch(lang.toLowerCase()){
-        case 'fr':
-            return {
-                date: 'date',
-                time: 'heure',
-                event: 'événement',
-                allDay: 'jour entier',
-                week: 'semaine',
-                work_week: 'semaine de travail',
-                day: 'jour',
-                month: 'mois',
-                previous: 'précédent',
-                next: 'suivant',
-                yesterday: 'hier',
-                tomorrow: 'demain',
-                today: `aujourd'hui`,
-                agenda: 'ordre du jour',              
-                noEventsInRange: `Il n'y a aucun événement dans cette gamme.`,              
-                showMore: total => `+${total} événement(s) supplémentaire(s)`
-            }
-        case 'de':
-            return {
-                date: 'Datum',
-                time: 'Uhrzeit',
-                event: 'Ereignis',
-                allDay: 'ganztägig',
-                week: 'Woche',
-                work_week: 'Arbeitswoche',
-                day: 'Tag',
-                month: 'Monat',
-                previous: 'Zurück',
-                next: 'Weiter',
-                yesterday: 'Gestern',
-                tomorrow: 'Morgen',
-                today: 'Heute',
-                agenda: 'Agenda',              
-                noEventsInRange: 'Es gibt keine Ereignisse in diesem Bereich.',              
-                showMore: total => `Weitere +${total}`
-            }
-        case 'es':
-                return {
-                    date: 'Fecha',
-                    time: 'Hora',
-                    event: 'Evento',
-                    allDay: 'Todo el dia',
-                    week: 'Semana',
-                    work_week: 'Semana de trabajo',
-                    day: 'Día',
-                    month: 'Mes',
-                    previous: 'Atrás',
-                    next: 'Siguiente',
-                    yesterday: 'Ayer',
-                    tomorrow: 'Mañana',
-                    today: 'Hoy',
-                    agenda: 'Calendario',              
-                    noEventsInRange: 'No hay elementos programados en el intervalo de fechas.',              
-                    showMore: total => `+${total} más`
-                }
-        case 'it':
-            return {
-            date: 'Data',
-            time: 'Ora',
-            event: 'Evento',
-            allDay: 'Tutto il giorno',
-            week: 'Settimana',
-            work_week: 'Settimana lavorativa',
-            day: 'Giorno',
-            month: 'Mese',
-            previous: 'Indietro',
-            next: 'Avanti',
-            yesterday: 'Ieri',
-            tomorrow: 'Domani',
-            today: 'Oggi',
-            agenda: 'Calendario',
-            noEventsInRange: 'Non ci sono eventi in queste date.',
-            showMore: total => `+${total} altri`
-            }
-        case 'ru':
-            return {
-            date: 'Свидание',
-            time: 'Время',
-            event: 'Событие',
-            allDay: 'Весь день',
-            week: 'Неделя',
-            work_week: 'Рабочая неделя',
-            day: 'День',
-            month: 'Месяц',
-            previous: 'предыдущий',
-            next: 'следующий',
-            yesterday: 'Вчерашний день',
-            tomorrow: 'Завтра',
-            today: 'Cегодня',
-            agenda: 'Повестка дня',
-            noEventsInRange: 'В этом диапазоне нет событий.',
-            showMore: total => `Еще +${total} события`
-            }
-        case 'nl':
-            return {
-                date: 'Datum',
-                time: 'Tijdstip',
-                event: 'Evenement',
-                allDay: 'De hele dag',
-                week: 'Week',
-                work_week: 'Werk Week',
-                day: 'Dag',
-                month: 'Maand',
-                previous: 'Terug',
-                next: 'Naast',
-                yesterday: 'Gisteren',
-                tomorrow: 'Morgen',
-                today: 'Vandaag',
-                agenda: 'Agenda',              
-                noEventsInRange: 'Er zijn geen evenementen gepland in deze periode.',              
-                showMore: total => `+${total} meer`
-            }        
-        case 'en':
-        default:
-            return {
-                date: 'Date',
-                time: 'Time',
-                event: 'Event',
-                allDay: 'All Day',
-                week: 'Week',
-                work_week: 'Work Week',
-                day: 'Day',
-                month: 'Month',
-                previous: 'Back',
-                next: 'Next',
-                yesterday: 'Yesterday',
-                tomorrow: 'Tomorrow',
-                today: 'Today',
-                agenda: 'Agenda',              
-                noEventsInRange: 'There are no events in this range.',              
-                showMore: total => `+${total} more`
-            }
-
-    }
+  switch (lang.toLowerCase()) {
+    case "fr":
+      return {
+        date: "date",
+        time: "heure",
+        event: "événement",
+        allDay: "jour entier",
+        week: "semaine",
+        work_week: "semaine de travail",
+        day: "jour",
+        month: "mois",
+        previous: "précédent",
+        next: "suivant",
+        yesterday: "hier",
+        tomorrow: "demain",
+        today: `aujourd'hui`,
+        agenda: "ordre du jour",
+        noEventsInRange: `Il n'y a aucun événement dans cette gamme.`,
+        showMore: (total) => `+${total} événement(s) supplémentaire(s)`,
+      };
+    case "de":
+      return {
+        date: "Datum",
+        time: "Uhrzeit",
+        event: "Ereignis",
+        allDay: "ganztägig",
+        week: "Woche",
+        work_week: "Arbeitswoche",
+        day: "Tag",
+        month: "Monat",
+        previous: "Zurück",
+        next: "Weiter",
+        yesterday: "Gestern",
+        tomorrow: "Morgen",
+        today: "Heute",
+        agenda: "Agenda",
+        noEventsInRange: "Es gibt keine Ereignisse in diesem Bereich.",
+        showMore: (total) => `Weitere +${total}`,
+      };
+    case "es":
+      return {
+        date: "Fecha",
+        time: "Hora",
+        event: "Evento",
+        allDay: "Todo el dia",
+        week: "Semana",
+        work_week: "Semana de trabajo",
+        day: "Día",
+        month: "Mes",
+        previous: "Atrás",
+        next: "Siguiente",
+        yesterday: "Ayer",
+        tomorrow: "Mañana",
+        today: "Hoy",
+        agenda: "Calendario",
+        noEventsInRange:
+          "No hay elementos programados en el intervalo de fechas.",
+        showMore: (total) => `+${total} más`,
+      };
+    case "it":
+      return {
+        date: "Data",
+        time: "Ora",
+        event: "Evento",
+        allDay: "Tutto il giorno",
+        week: "Settimana",
+        work_week: "Settimana lavorativa",
+        day: "Giorno",
+        month: "Mese",
+        previous: "Indietro",
+        next: "Avanti",
+        yesterday: "Ieri",
+        tomorrow: "Domani",
+        today: "Oggi",
+        agenda: "Calendario",
+        noEventsInRange: "Non ci sono eventi in queste date.",
+        showMore: (total) => `+${total} altri`,
+      };
+    case "ru":
+      return {
+        date: "Свидание",
+        time: "Время",
+        event: "Событие",
+        allDay: "Весь день",
+        week: "Неделя",
+        work_week: "Рабочая неделя",
+        day: "День",
+        month: "Месяц",
+        previous: "предыдущий",
+        next: "следующий",
+        yesterday: "Вчерашний день",
+        tomorrow: "Завтра",
+        today: "Cегодня",
+        agenda: "Повестка дня",
+        noEventsInRange: "В этом диапазоне нет событий.",
+        showMore: (total) => `Еще +${total} события`,
+      };
+    case "zh":
+      return {
+        date: "日期",
+        time: "时间",
+        event: "事件",
+        allDay: "全天",
+        week: "周",
+        work_week: "工作周",
+        day: "日",
+        month: "月",
+        previous: "上一个",
+        next: "下一个",
+        yesterday: "昨天",
+        tomorrow: "明天",
+        today: "今天",
+        agenda: "议程",
+        noEventsInRange: "该范围内没有事件。",
+        showMore: (total) => `+${total} 更多`,
+      };
+    case "pt":
+      return {
+        date: "Data",
+        time: "Hora",
+        event: "Evento",
+        allDay: "Dia inteiro",
+        week: "Semana",
+        work_week: "Semana de trabalho",
+        day: "Dia",
+        month: "Mês",
+        previous: "Anterior",
+        next: "Próximo",
+        yesterday: "Ontem",
+        tomorrow: "Amanhã",
+        today: "Hoje",
+        agenda: "Agenda",
+        noEventsInRange: "Não há eventos nesse intervalo.",
+        showMore: (total) => `+${total} mais`,
+      };
+    case "ja":
+      return {
+        date: "日付",
+        time: "時間",
+        event: "イベント",
+        allDay: "終日",
+        week: "週間",
+        work_week: "稼働週",
+        day: "日",
+        month: "月",
+        previous: "前",
+        next: "次",
+        yesterday: "昨日",
+        tomorrow: "明日",
+        today: "今日",
+        agenda: "議題",
+        noEventsInRange: "この範囲内にイベントはありません。",
+        showMore: (total) => `+${total} もっと見る`,
+      };
+    case "ko":
+      return {
+        date: "날짜",
+        time: "시간",
+        event: "이벤트",
+        allDay: "하루 종일",
+        week: "주",
+        work_week: "근무 주",
+        day: "일",
+        month: "월",
+        previous: "이전",
+        next: "다음",
+        yesterday: "어제",
+        tomorrow: "내일",
+        today: "오늘",
+        agenda: "의제",
+        noEventsInRange: "이 범위에는 이벤트가 없습니다.",
+        showMore: (total) => `+${total} 더 보기`,
+      };
+    case "tr":
+      return {
+        date: "Tarih",
+        time: "Saat",
+        event: "Etkinlik",
+        allDay: "Tüm Gün",
+        week: "Hafta",
+        work_week: "Çalışma Haftası",
+        day: "Gün",
+        month: "Ay",
+        previous: "Önceki",
+        next: "Sonraki",
+        yesterday: "Dün",
+        tomorrow: "Yarın",
+        today: "Bugün",
+        agenda: "Ajanda",
+        noEventsInRange: "Bu aralıkta etkinlik yok.",
+        showMore: (total) => `+${total} daha fazla`,
+      };
+    case "vi":
+      return {
+        date: "Ngày",
+        time: "Thời gian",
+        event: "Sự kiện",
+        allDay: "Cả ngày",
+        week: "Tuần",
+        work_week: "Tuần làm việc",
+        day: "Ngày",
+        month: "Tháng",
+        previous: "Trước",
+        next: "Tiếp",
+        yesterday: "Hôm qua",
+        tomorrow: "Ngày mai",
+        today: "Hôm nay",
+        agenda: "Lịch trình",
+        noEventsInRange: "Không có sự kiện nào trong phạm vi này.",
+        showMore: (total) => `+${total} nữa`,
+      };
+    case "he":
+      return {
+        date: "תַאֲרִיך",
+        time: "זְמַן",
+        event: "אֵרוּעַ",
+        allDay: "כל היום",
+        week: "שָׁבוּעַ",
+        work_week: "שבוע עבודה",
+        day: "יוֹם",
+        month: "חוֹדֶשׁ",
+        previous: "הקודם",
+        next: "הבא",
+        yesterday: "אתמול",
+        tomorrow: "מחר",
+        today: "היום",
+        agenda: "סֵדֶר יוֹם",
+        noEventsInRange: "אין אירועים בטווח זה.",
+        showMore: (total) => `+${total} עוד`,
+      };
+    case "nl":
+      return {
+        date: "Datum",
+        time: "Tijdstip",
+        event: "Evenement",
+        allDay: "De hele dag",
+        week: "Week",
+        work_week: "Werk Week",
+        day: "Dag",
+        month: "Maand",
+        previous: "Terug",
+        next: "Naast",
+        yesterday: "Gisteren",
+        tomorrow: "Morgen",
+        today: "Vandaag",
+        agenda: "Agenda",
+        noEventsInRange: "Er zijn geen evenementen gepland in deze periode.",
+        showMore: (total) => `+${total} meer`,
+      };
+    case "en":
+    default:
+      return {
+        date: "Date",
+        time: "Time",
+        event: "Event",
+        allDay: "All Day",
+        week: "Week",
+        work_week: "Work Week",
+        day: "Day",
+        month: "Month",
+        previous: "Back",
+        next: "Next",
+        yesterday: "Yesterday",
+        tomorrow: "Tomorrow",
+        today: "Today",
+        agenda: "Agenda",
+        noEventsInRange: "There are no events in this range.",
+        showMore: (total) => `+${total} more`,
+      };
+  }
 }
