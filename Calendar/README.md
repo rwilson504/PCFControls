@@ -26,7 +26,8 @@ Make sure you have enabled PCF components for Canvas apps in your environment.  
 
 If you would like to try this component download the sample solution below which includes a Model and Canvas app you can utilize.  
 
-[Download Sample App](https://github.com/rwilson504/PCFControls/raw/master/Calendar/Sample/CanvasCalendar_1_0_0_4_managed.zip)
+[Download Sample App - Managed](https://github.com/rwilson504/PCFControls/raw/master/Calendar/Sample/CanvasCalendar_1_0_0_5_managed.zip)
+[Download Sample App - Unmanaged](https://github.com/rwilson504/PCFControls/raw/master/Calendar/Sample/CanvasCalendar_1_0_0_5.zip)
 
 # Model Configuration
 
