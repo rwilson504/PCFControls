@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 22:05:25
+ * @Last Modified time: 2024-12-17 13:16:53
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -110,7 +110,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     const color = isHexColor(
-      props.pcfContext.parameters.weekendBackgroundColor?.raw || "")
+      props.pcfContext.parameters.weekendBackgroundColor?.raw || ""
+    )
       ? props.pcfContext.parameters.weekendBackgroundColor.raw!
       : "#00000000";
     setWeekendColor(color);
@@ -193,15 +194,56 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     setDayLayoutAlgorithm(algorithm);
   }, [props.pcfContext.parameters.dayLayoutAlgorithm?.raw]);
 
-  const calendarViews = getCalendarViews(
-    props.pcfContext,
-    localizer,
-    calendarScrollTo,
-    min,
-    max,
-    step,
-    timeslots
+  const [calendarSelectable, setCalendarSelectable] = React.useState<boolean>(
+    props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
+      "false"
+      ? false
+      : true
   );
+
+  // useEffect to handle changes to the calendarSelectable property dynamically
+  React.useEffect(() => {
+    const selectableValue =
+      props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
+      "false"
+        ? false
+        : true;
+    setCalendarSelectable(selectableValue);
+  }, [props.pcfContext.parameters.calendarSelectable?.raw]);
+
+  const [isEventSelectable, setIsEventSelectable] = React.useState<boolean>(
+    props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() === "false"
+      ? false
+      : true
+  );
+
+  // UseEffect to monitor and update selectable state
+  React.useEffect(() => {
+    const selectableValue =
+      props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() ===
+      "false"
+        ? false
+        : true;
+
+    setIsEventSelectable(selectableValue);
+  }, [props.pcfContext.parameters.eventSelectable?.raw]);
+
+  const [calendarPopup, setCalendarPopup] = React.useState<boolean>(
+    props.pcfContext.parameters.calendarPopup?.raw?.toLowerCase() === "false"
+      ? false
+      : true
+  );
+
+  // useEffect to handle changes to the calendarPopup property dynamically
+  React.useEffect(() => {
+    const popupValue =
+      props.pcfContext.parameters.calendarPopup?.raw?.toLowerCase() === "false"
+        ? false
+        : true;
+    setCalendarPopup(popupValue);
+  }, [props.pcfContext.parameters.calendarPopup?.raw]);
+
+  const calendarViews = getCalendarViews(props.pcfContext, localizer);
 
   const [calendarView, setCalendarView] = React.useState(
     getCalendarView(
@@ -324,9 +366,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   //when an event is selected it return the events id in canvas and open the record in model app
   const _handleEventSelected = (event: IEvent) => {
-    const eventId = event.id as string;
-
-    props.onClickSelectedRecord(event.id as string);
+    // Check if the events are selectable
+    if (!isEventSelectable) {      
+      return;
+    }
+    
+    const eventId = event.id as string;    
+    props.onClickSelectedRecord(event.id as string);    
 
     //if we are in a model app open the record when it's selected.
     if (props.pcfContext.mode.allocatedHeight === -1) {
@@ -336,6 +382,17 @@ export const CalendarControl: React.FC<IProps> = (props) => {
           props.pcfContext.parameters.calendarDataSet.getTargetEntityType(),
         openInNewWindow: false,
       });
+    }
+  };
+
+  const _handleEventKeyPress = (
+    event: IEvent,
+    e: React.SyntheticEvent<HTMLElement>
+  ) => {
+    const keyboardEvent = e as unknown as React.KeyboardEvent<HTMLElement>;
+    const validKeys = ["Enter", " "]; // Keys to handle
+    if (validKeys.includes(keyboardEvent.key)) {
+      _handleEventSelected(event);
     }
   };
 
@@ -425,6 +482,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const eventPropsGetter = (event: IEvent) => {
     return {
       style: {
+        cursor: isEventSelectable ? "pointer" : "default",
         backgroundColor: event.color || eventDefaultBackgroundColor.toString(),
         color: Color(event.color || eventDefaultBackgroundColor).isDark()
           ? "#fff"
@@ -456,9 +514,10 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const agendaEvent = ({ event }: any) => {
     return (
-      <span
+      <span        
         title={event.title}
         style={{
+          cursor: isEventSelectable ? "pointer" : "default",
           overflow: "auto",
           display: "block",
           backgroundColor:
@@ -496,7 +555,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   return !calendarData?.resources ? (
     <Calendar
-      selectable
+      selectable={calendarSelectable}
+      popup={calendarPopup}
       localizer={localizer}
       date={calendarDate}
       culture={calendarCulture}
@@ -513,6 +573,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       dayLayoutAlgorithm={dayLayoutAlgorithm}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
+      onKeyPressEvent={_handleEventKeyPress}
       onSelectSlot={_handleSlotSelect}
       onNavigate={_handleNavigate}
       onView={_handleOnView}
@@ -529,7 +590,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     />
   ) : (
     <Calendar
-      selectable
+      selectable={calendarSelectable}
+      popup={calendarPopup}
       localizer={localizer}
       date={calendarDate}
       culture={calendarCulture}
@@ -545,6 +607,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       dayLayoutAlgorithm={dayLayoutAlgorithm}
       events={calendarData.events}
       onSelectEvent={_handleEventSelected}
+      onKeyPressEvent={_handleEventKeyPress}
       onSelectSlot={_handleSlotSelect}
       onNavigate={_handleNavigate}
       onView={_handleOnView}
@@ -857,12 +920,7 @@ function getCalendarView(calendarViews: ViewsProps, viewName: string): View {
 
 function getCalendarViews(
   pcfContext: ComponentFramework.Context<IInputs>,
-  localizer: DateLocalizer,
-  scrollToTime: Date,
-  min: Date,
-  max: Date,
-  step: number,
-  timeslots: number
+  localizer: DateLocalizer
 ): ViewsProps {
   const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
   const validViews = viewList
