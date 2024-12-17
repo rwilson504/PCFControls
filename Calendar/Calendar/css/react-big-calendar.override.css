@@ -146,10 +146,6 @@
   position: relative;
 }
 
-.rbc-view-day .rbc-time-view .rbc-allday-cell {
-  /* width: 140px; */
-}
-
 .rbc-agenda-view table.rbc-agenda-table tbody > tr {
   background-color: transparent !important;
 }

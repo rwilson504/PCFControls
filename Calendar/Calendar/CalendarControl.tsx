@@ -2,7 +2,7 @@
  * @Author: richard.wilson
  * @Date: 2020-05-09 07:38:02
  * @Last Modified by: Rick Wilson
- * @Last Modified time: 2024-12-16 16:43:49
+ * @Last Modified time: 2024-12-16 22:05:25
  */
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -17,7 +17,7 @@ import {
   View,
   ViewsProps,
   DateLocalizer,
-  DayLayoutAlgorithm
+  DayLayoutAlgorithm,
 } from "react-big-calendar";
 import { StartOfWeek } from "date-arithmetic";
 import { Resource } from "./types/Resource";
@@ -101,6 +101,21 @@ export const CalendarControl: React.FC<IProps> = (props) => {
           .raw as string)
       : "#ffffff"
   );
+
+  const [weekendColor, setWeekendColor] = React.useState<string>(
+    isHexColor(props.pcfContext.parameters.weekendBackgroundColor?.raw || "")
+      ? props.pcfContext.parameters.weekendBackgroundColor.raw!
+      : "#00000000"
+  );
+
+  React.useEffect(() => {
+    const color = isHexColor(
+      props.pcfContext.parameters.weekendBackgroundColor?.raw || "")
+      ? props.pcfContext.parameters.weekendBackgroundColor.raw!
+      : "#00000000";
+    setWeekendColor(color);
+  }, [props.pcfContext.parameters.weekendBackgroundColor?.raw]);
+
   const weekStartDay =
     props.pcfContext.parameters.calendarWeekStart?.raw || null;
   const calendarCulture = getISOLanguage(props.pcfContext);
@@ -144,8 +159,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     [maxHour]
   );
 
-   // State for step and timeslots
-   const [step, setStep] = React.useState<number>(
+  // State for step and timeslots
+  const [step, setStep] = React.useState<number>(
     props.pcfContext.parameters.calendarStep?.raw ?? 30 // Default: 2 slots per hour (30 minutes)
   );
   const [timeslots, setTimeslots] = React.useState<number>(
@@ -155,8 +170,9 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   // Update step and timeslots when props change
   React.useEffect(() => {
     const newStep = props.pcfContext.parameters.calendarStep?.raw ?? 30;
-    const newTimeslots = props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2;
-    
+    const newTimeslots =
+      props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2;
+
     setStep(newStep);
     setTimeslots(newTimeslots);
   }, [
@@ -164,14 +180,18 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext.parameters.calendarTimeSlots?.raw,
   ]);
 
-  const [dayLayoutAlgorithm, setDayLayoutAlgorithm] = React.useState<DayLayoutAlgorithm>(
-    (props.pcfContext.parameters.dayLayoutAlgorithm?.raw as DayLayoutAlgorithm) || "overlap"
-  );
-  
+  const [dayLayoutAlgorithm, setDayLayoutAlgorithm] =
+    React.useState<DayLayoutAlgorithm>(
+      (props.pcfContext.parameters.dayLayoutAlgorithm
+        ?.raw as DayLayoutAlgorithm) || "overlap"
+    );
+
   React.useEffect(() => {
-    const algorithm = (props.pcfContext.parameters.dayLayoutAlgorithm?.raw as DayLayoutAlgorithm) || "overlap";
+    const algorithm =
+      (props.pcfContext.parameters.dayLayoutAlgorithm
+        ?.raw as DayLayoutAlgorithm) || "overlap";
     setDayLayoutAlgorithm(algorithm);
-  }, [props.pcfContext.parameters.dayLayoutAlgorithm?.raw]);  
+  }, [props.pcfContext.parameters.dayLayoutAlgorithm?.raw]);
 
   const calendarViews = getCalendarViews(
     props.pcfContext,
@@ -415,13 +435,22 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   };
 
   const dayPropsGetter = (date: Date) => {
+    // Check if the day is today
     if (moment(date).startOf("day").isSame(moment().startOf("day")))
       return {
         style: {
           backgroundColor: calendarTodayBackgroundColor.toString(),
         },
       };
-    else return {};
+    // Check if the day is a weekend (Saturday or Sunday)
+    if (moment(date).day() === 0 || moment(date).day() === 6) {
+      return {
+        style: {
+          backgroundColor: weekendColor.toString(),
+        },
+      };
+    }
+    return {};
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
