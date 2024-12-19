@@ -190,7 +190,6 @@ Here is the data source selection on the control.
 Here are the input properties for the control  
 ![Input Properties](./images/CanvasCalendarResourcesWithEventsAdvancedProps.png)
 
-
 ### Return All Resources and Events
 
 To return all resources including those who don't have any events for the current time period you will need to perform some additional work on the Collection.
@@ -258,15 +257,15 @@ The data returned from the control will be attached to the Canvas Control elemen
 * RecordSelection, occurs whenever a user clicks on a calendar event.
     * .actionRecordSelected, This value will be set to true when the action happens.
     * .selectedRecordId, The id of the record selected.
-* TimSlotSelected, occurs when a user select an empty area on the calendar.  It will return the timespan for the selection. 
-    * .actionSlotSelected, This value will be set to true when the action happens. 
-    * .selectedSlotStart, The start time of the empty slot selected. 
-    * .selectedSlotEnd, The end time of the empty slot selected. 
+* TimSlotSelected, occurs when a user select an empty area on the calendar.  It will return the timespan for the selection.
+    * .actionSlotSelected, This value will be set to true when the action happens.
+    * .selectedSlotStart, The start time of the empty slot selected.
+    * .selectedSlotEnd, The end time of the empty slot selected.
     * .selectedSlotResourceId, If the time slot was on a view showing the resources the Id of that Resource will be provided.
 * RangeChange, when a user click on the next/back buttons or updates a view on the calendar
     * .currentRangeStart, The current start time show on the calendar view.
     * .currentRangeStart, The current end time show on the calendar view.
-* DateChange, when the current date of the calendar changes    
+* DateChange, when the current date of the calendar changes.
     * .currentCalendarDate, The current date of the calendar control
 
 This is an example of a text box with the Default values set the .selectedRecordId property of the control.  

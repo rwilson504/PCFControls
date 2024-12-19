@@ -9,27 +9,19 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./css/react-big-calendar.override.css";
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {
   Calendar,
   momentLocalizer,
-  Event,
   View,
-  ViewsProps,
-  DateLocalizer,
   DayLayoutAlgorithm,
 } from "react-big-calendar";
+import * as CalendarUtils from "./utils";
 import { StartOfWeek } from "date-arithmetic";
-import { Resource } from "./types/Resource";
-import { Keys } from "./types/Keys";
+import { Resource, Keys, IEvent } from "./types";
 import GetMessages from "./components/Translations";
 import * as moment from "moment";
-import * as lcid from "lcid";
 import * as Color from "color";
-
-import CustomWorkWeek from "./components/WorkWeek";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const isHexColor = require("is-hexcolor");
+import isHexColor from "is-hexcolor";
 
 export interface IProps {
   pcfContext: ComponentFramework.Context<IInputs>;
@@ -42,14 +34,6 @@ export interface IProps {
     view: View
   ) => void;
 }
-
-//extend the event interface to include additional properties we wil use.
-interface IEvent extends Event {
-  id?: string;
-  color?: string;
-}
-
-const allViews = ["month", "week", "work_week", "day", "agenda"] as string[];
 
 export const CalendarControl: React.FC<IProps> = (props) => {
   //set our moment to the current calendar culture for use of it outside the calendar.
@@ -74,24 +58,24 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const eventDefaultBackgroundColor = Color(
     isHexColor(props.pcfContext.parameters.eventDefaultColor?.raw || "")
       ? (props.pcfContext.parameters.eventDefaultColor.raw as string)
-      : "#3174ad"
+      : CalendarUtils.DEFAULT_EVENT_COLOR
   );
   const calendarTodayBackgroundColor = Color(
     isHexColor(
       props.pcfContext.parameters.calendarTodayBackgroundColor?.raw || ""
     )
       ? (props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string)
-      : "#eaf6ff"
+      : CalendarUtils.DEFAULT_TODAY_BACKGROUND_COLOR
   );
   const calendarTextColor = Color(
     isHexColor(props.pcfContext.parameters.calendarTextColor?.raw || "")
       ? (props.pcfContext.parameters.calendarTextColor.raw as string)
-      : "#666666"
+      : CalendarUtils.DEFAULT_TEXT_COLOR
   );
   const calendarBorderColor = Color(
     isHexColor(props.pcfContext.parameters.calendarBorderColor?.raw || "")
       ? (props.pcfContext.parameters.calendarBorderColor.raw as string)
-      : "#dddddd"
+      : CalendarUtils.DEFAULT_BORDER_COLOR
   );
   const calendarTimeBarBackgroundColor = Color(
     isHexColor(
@@ -99,13 +83,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     )
       ? (props.pcfContext.parameters.calendarTimeBarBackgroundColor
           .raw as string)
-      : "#ffffff"
+      : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
   );
 
   const [weekendColor, setWeekendColor] = React.useState<string>(
     isHexColor(props.pcfContext.parameters.weekendBackgroundColor?.raw || "")
       ? props.pcfContext.parameters.weekendBackgroundColor.raw!
-      : "#00000000"
+      : CalendarUtils.DEFAULT_WEEKEND_BACKGROUND_COLOR
   );
 
   React.useEffect(() => {
@@ -113,13 +97,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       props.pcfContext.parameters.weekendBackgroundColor?.raw || ""
     )
       ? props.pcfContext.parameters.weekendBackgroundColor.raw!
-      : "#00000000";
+      : CalendarUtils.DEFAULT_WEEKEND_BACKGROUND_COLOR;
     setWeekendColor(color);
   }, [props.pcfContext.parameters.weekendBackgroundColor?.raw]);
 
   const weekStartDay =
     props.pcfContext.parameters.calendarWeekStart?.raw || null;
-  const calendarCulture = getISOLanguage(props.pcfContext);
+  const calendarCulture = CalendarUtils.getISOLanguage(props.pcfContext);
   const calendarMessages = GetMessages(calendarCulture);
   const calendarRtl = props.pcfContext.userSettings.isRTL;
   const calendarScrollTo = moment()
@@ -132,16 +116,22 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   // State to manage min and max hours
   const [minHour, setMinHour] = React.useState<number>(
-    props.pcfContext.parameters.calendarMinHour?.raw ?? 0
+    props.pcfContext.parameters.calendarMinHour?.raw ??
+      CalendarUtils.DEFAULT_MIN_HOUR
   );
   const [maxHour, setMaxHour] = React.useState<number>(
-    props.pcfContext.parameters.calendarMaxHour?.raw ?? 23
+    props.pcfContext.parameters.calendarMaxHour?.raw ??
+      CalendarUtils.DEFAULT_MAX_HOUR
   );
 
   // Update minHour and maxHour when props change
   React.useEffect(() => {
-    const newMinHour = props.pcfContext.parameters.calendarMinHour?.raw ?? 0;
-    const newMaxHour = props.pcfContext.parameters.calendarMaxHour?.raw ?? 23;
+    const newMinHour =
+      props.pcfContext.parameters.calendarMinHour?.raw ??
+      CalendarUtils.DEFAULT_MIN_HOUR;
+    const newMaxHour =
+      props.pcfContext.parameters.calendarMaxHour?.raw ??
+      CalendarUtils.DEFAULT_MAX_HOUR;
 
     setMinHour(newMinHour);
     setMaxHour(newMaxHour);
@@ -162,17 +152,21 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   // State for step and timeslots
   const [step, setStep] = React.useState<number>(
-    props.pcfContext.parameters.calendarStep?.raw ?? 30 // Default: 2 slots per hour (30 minutes)
+    props.pcfContext.parameters.calendarStep?.raw ?? CalendarUtils.DEFAULT_STEP // Default: 2 slots per hour (30 minutes)
   );
   const [timeslots, setTimeslots] = React.useState<number>(
-    props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2 // Default: 2
+    props.pcfContext.parameters.calendarTimeSlots?.raw ??
+      CalendarUtils.DEFAULT_TIMESLOTS // Default: 2
   );
 
   // Update step and timeslots when props change
   React.useEffect(() => {
-    const newStep = props.pcfContext.parameters.calendarStep?.raw ?? 30;
+    const newStep =
+      props.pcfContext.parameters.calendarStep?.raw ??
+      CalendarUtils.DEFAULT_STEP;
     const newTimeslots =
-      props.pcfContext.parameters.calendarTimeSlots?.raw ?? 2;
+      props.pcfContext.parameters.calendarTimeSlots?.raw ??
+      CalendarUtils.DEFAULT_TIMESLOTS;
 
     setStep(newStep);
     setTimeslots(newTimeslots);
@@ -184,13 +178,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const [dayLayoutAlgorithm, setDayLayoutAlgorithm] =
     React.useState<DayLayoutAlgorithm>(
       (props.pcfContext.parameters.dayLayoutAlgorithm
-        ?.raw as DayLayoutAlgorithm) || "overlap"
+        ?.raw as DayLayoutAlgorithm) || CalendarUtils.DEFAULT_LAYOUT_ALGORITHM
     );
 
   React.useEffect(() => {
     const algorithm =
       (props.pcfContext.parameters.dayLayoutAlgorithm
-        ?.raw as DayLayoutAlgorithm) || "overlap";
+        ?.raw as DayLayoutAlgorithm) || CalendarUtils.DEFAULT_LAYOUT_ALGORITHM;
     setDayLayoutAlgorithm(algorithm);
   }, [props.pcfContext.parameters.dayLayoutAlgorithm?.raw]);
 
@@ -198,7 +192,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
       "false"
       ? false
-      : true
+      : CalendarUtils.DEFAULT_SELECTABLE
   );
 
   // useEffect to handle changes to the calendarSelectable property dynamically
@@ -207,14 +201,14 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
       "false"
         ? false
-        : true;
+        : CalendarUtils.DEFAULT_SELECTABLE;
     setCalendarSelectable(selectableValue);
   }, [props.pcfContext.parameters.calendarSelectable?.raw]);
 
   const [isEventSelectable, setIsEventSelectable] = React.useState<boolean>(
     props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() === "false"
       ? false
-      : true
+      : CalendarUtils.DEFAULT_EVENT_SELECTABLE
   );
 
   // UseEffect to monitor and update selectable state
@@ -223,7 +217,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() ===
       "false"
         ? false
-        : true;
+        : CalendarUtils.DEFAULT_EVENT_SELECTABLE;
 
     setIsEventSelectable(selectableValue);
   }, [props.pcfContext.parameters.eventSelectable?.raw]);
@@ -231,7 +225,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const [calendarPopup, setCalendarPopup] = React.useState<boolean>(
     props.pcfContext.parameters.calendarPopup?.raw?.toLowerCase() === "false"
       ? false
-      : true
+      : CalendarUtils.DEFAULT_POPUP
   );
 
   // useEffect to handle changes to the calendarPopup property dynamically
@@ -239,14 +233,17 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     const popupValue =
       props.pcfContext.parameters.calendarPopup?.raw?.toLowerCase() === "false"
         ? false
-        : true;
+        : CalendarUtils.DEFAULT_POPUP;
     setCalendarPopup(popupValue);
   }, [props.pcfContext.parameters.calendarPopup?.raw]);
 
-  const calendarViews = getCalendarViews(props.pcfContext, localizer);
+  const calendarViews = CalendarUtils.getCalendarViews(
+    props.pcfContext,
+    localizer
+  );
 
   const [calendarView, setCalendarView] = React.useState(
-    getCalendarView(
+    CalendarUtils.getCalendarView(
       calendarViews,
       props.pcfContext.parameters.calendarView?.raw || ""
     )
@@ -269,12 +266,12 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     async function asyncCalendarData() {
       let keys = calendarData.keys;
       if (!keys) {
-        keys = await getKeys(props.pcfContext);
+        keys = await CalendarUtils.getKeys(props.pcfContext);
       }
 
       const dataSet = props.pcfContext.parameters.calendarDataSet;
       if (dataSet.loading === false) {
-        const calendarDataResult = await getCalendarData(
+        const calendarDataResult = await CalendarUtils.getCalendarData(
           props.pcfContext,
           keys
         );
@@ -313,7 +310,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       calendarView != props.pcfContext.parameters.calendarView.raw
     ) {
       setCalendarView(
-        getCalendarView(
+        CalendarUtils.getCalendarView(
           calendarViews,
           props.pcfContext.parameters.calendarView.raw
         )
@@ -367,12 +364,12 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   //when an event is selected it return the events id in canvas and open the record in model app
   const _handleEventSelected = (event: IEvent) => {
     // Check if the events are selectable
-    if (!isEventSelectable) {      
+    if (!isEventSelectable) {
       return;
     }
-    
-    const eventId = event.id as string;    
-    props.onClickSelectedRecord(event.id as string);    
+
+    const eventId = event.id as string;
+    props.onClickSelectedRecord(event.id as string);
 
     //if we are in a model app open the record when it's selected.
     if (props.pcfContext.mode.allocatedHeight === -1) {
@@ -390,8 +387,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     e: React.SyntheticEvent<HTMLElement>
   ) => {
     const keyboardEvent = e as unknown as React.KeyboardEvent<HTMLElement>;
-    const validKeys = ["Enter", " "]; // Keys to handle
-    if (validKeys.includes(keyboardEvent.key)) {
+    if (CalendarUtils.VALID_KEYS.includes(keyboardEvent.key)) {
       _handleEventSelected(event);
     }
   };
@@ -410,12 +406,12 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       // Safely add properties for start and end
       if (calendarData.keys?.start) {
         newRecordProperties[calendarData.keys.start] =
-          formatDateAsParameterString(slotInfo.start);
+          CalendarUtils.formatDateAsParameterString(slotInfo.start);
       }
 
       if (calendarData.keys?.end) {
         newRecordProperties[calendarData.keys.end] =
-          formatDateAsParameterString(slotInfo.end);
+          CalendarUtils.formatDateAsParameterString(slotInfo.end);
       }
 
       // Handle resources
@@ -460,13 +456,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   };
 
   const _handleOnView = (view: string) => {
-    setCalendarView(getCalendarView(calendarViews, view));
+    setCalendarView(CalendarUtils.getCalendarView(calendarViews, view));
   };
 
   const _onCalendarChange = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ref = calendarRef.current as any;
-    const rangeDates = getCurrentRange(
+    const rangeDates = CalendarUtils.getCurrentRange(
       calendarDate,
       ref.props.view,
       ref.props.culture
@@ -514,7 +510,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const agendaEvent = ({ event }: any) => {
     return (
-      <span        
+      <span
         title={event.title}
         style={{
           cursor: isEventSelectable ? "pointer" : "default",
@@ -627,381 +623,3 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     />
   );
 };
-
-//gets all the fields names and other keys will will need while processing the data
-async function getKeys(
-  pcfContext: ComponentFramework.Context<IInputs>
-): Promise<Keys> {
-  const params = pcfContext.parameters;
-  const dataSet = pcfContext.parameters.calendarDataSet;
-
-  const resource = params.resourceField.raw
-    ? getFieldName(dataSet, params.resourceField.raw)
-    : "";
-  const resourceGetAllInModel =
-    params.resourceGetAllInModel.raw?.toLowerCase() === "true" ? true : false;
-  let resourceEtn = "";
-  let resourceName = params.resourceName.raw
-    ? getFieldName(dataSet, params.resourceName.raw)
-    : "";
-  let resourceId = "";
-
-  //if we are in a model app let's get additional info about the resource
-  if (
-    pcfContext.mode.allocatedHeight === -1 &&
-    resource &&
-    resourceGetAllInModel
-  ) {
-    //get the resource entity name
-    const eventMeta = await pcfContext.utils.getEntityMetadata(
-      ///@ts-expect-error contextInfo access
-      pcfContext.mode.contextInfo.entityTypeName,
-      [resource]
-    );
-    resourceEtn = eventMeta.Attributes.getByName(resource).Targets[0];
-    //get the resource primary name and id fields for resource.
-    const resourceMeta = await pcfContext.utils.getEntityMetadata(resourceEtn);
-    resourceName = resourceName
-      ? resourceName
-      : resourceMeta.PrimaryNameAttribute;
-    resourceId = resourceMeta.PrimaryIdAttribute;
-  }
-
-  return {
-    id: params.eventId.raw ? getFieldName(dataSet, params.eventId.raw) : "",
-    name: params.eventFieldName.raw
-      ? getFieldName(dataSet, params.eventFieldName.raw)
-      : "",
-    start: params.eventFieldStart.raw
-      ? getFieldName(dataSet, params.eventFieldStart.raw)
-      : "",
-    end: params.eventFieldEnd.raw
-      ? getFieldName(dataSet, params.eventFieldEnd.raw)
-      : "",
-    eventColor: params.eventColor.raw
-      ? getFieldName(dataSet, params.eventColor.raw)
-      : "",
-    resource: resource,
-    resourceName: resourceName,
-    resourceId: resourceId,
-    resourceGetAllInModel: resourceGetAllInModel,
-    resourceEtn: resourceEtn,
-  };
-}
-
-//gets fields name from the datsource columns and provides the necessary alias information for
-//related entities.
-function getFieldName(
-  dataSet: ComponentFramework.PropertyTypes.DataSet,
-  fieldName: string
-): string {
-  //if the field name does not contain a .  or linking is null which could be the case in a canvas app
-  // when using a collection  then just return the field name
-  if (fieldName.indexOf(".") === -1 || !dataSet.linking) return fieldName;
-
-  //otherwise we need to determine the alias of the linked entity
-  const linkedFieldParts = fieldName.split(".");
-  linkedFieldParts[0] =
-    dataSet.linking
-      .getLinkedEntities()
-      .find((e) => e.name === linkedFieldParts[0].toLowerCase())?.alias || "";
-  return linkedFieldParts.join(".");
-}
-
-//returns all the calendar data including the events and resources
-async function getCalendarData(
-  pcfContext: ComponentFramework.Context<IInputs>,
-  keys?: Keys
-): Promise<{
-  resources?: Resource[];
-  events: Event[];
-  keys?: Keys;
-}> {
-  if (!keys) {
-    // If keys is undefined, return empty data
-    return { resources: undefined, events: [], keys: undefined };
-  }
-  const resourceData = await getResources(pcfContext, keys);
-  const eventData = await getEvents(pcfContext, resourceData, keys);
-
-  //console.log(`getCalendarData: eventData.length: ${eventData?.length}`);
-  return { resources: resourceData, events: eventData, keys: keys };
-}
-
-//retrieves all the resources from the datasource
-async function getResources(
-  pcfContext: ComponentFramework.Context<IInputs>,
-  keys: Keys
-): Promise<Resource[] | undefined> {
-  const dataSet = pcfContext.parameters.calendarDataSet;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const resources: any[] = [];
-  //if the user did not put in resource then do not add them to the calendar.
-  if (!keys.resource) return undefined;
-
-  const totalRecordCount = dataSet.sortedRecordIds.length;
-
-  for (let i = 0; i < totalRecordCount; i++) {
-    const recordId = dataSet.sortedRecordIds[i];
-    const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
-
-    let resourceId = "";
-    let resourceName = "";
-    let resourceEtn = "";
-
-    //if this is a Model app we will be using a lookup reference for the Resources
-    if (pcfContext.mode.allocatedHeight === -1) {
-      const resourceRef = record.getValue(
-        keys.resource
-      ) as ComponentFramework.EntityReference;
-      if (resourceRef) {
-        resourceId = resourceRef.id.guid;
-        resourceName =
-          keys.resourceName && keys.resourceName.indexOf(".") !== -1
-            ? (record.getValue(keys.resourceName) as string) || ""
-            : resourceRef.name;
-        resourceEtn = resourceRef.etn as string;
-      }
-    }
-    //otherwise this is canvas and the user has supplied the data.
-    else {
-      resourceId = (record.getValue(keys.resource) as string) || "";
-      resourceName = keys.resourceName
-        ? (record.getValue(keys.resourceName) as string)
-        : "";
-    }
-
-    if (!resourceId) continue;
-
-    resources.push({ id: resourceId, title: resourceName, etn: resourceEtn });
-  }
-
-  if (
-    pcfContext.mode.allocatedHeight === -1 &&
-    keys.resource &&
-    keys.resourceGetAllInModel
-  ) {
-    await getAllResources(pcfContext, resources, keys);
-  }
-
-  const distinctResources = [];
-  const map = new Map();
-  for (const item of resources) {
-    if (!map.has(item.id)) {
-      map.set(item.id, true);
-      distinctResources.push({
-        id: item.id,
-        title: item.title || "",
-      });
-    }
-  }
-
-  return distinctResources;
-}
-
-async function getAllResources(
-  pcfContext: ComponentFramework.Context<IInputs>,
-  resources: Resource[],
-  keys: Keys
-): Promise<void> {
-  if (!keys || !keys.resourceName || !keys.resourceEtn || !keys.resourceId) {
-    return;
-  }
-
-  const resourceName =
-    keys.resourceName.indexOf(".") === -1
-      ? keys.resourceName
-      : keys.resourceName.split(".")[1];
-  const options = keys.resourceName ? `?$select=${resourceName}` : undefined;
-
-  //retrieve all the resources
-  const allResources = await pcfContext.webAPI.retrieveMultipleRecords(
-    keys.resourceEtn,
-    options,
-    5000
-  );
-
-  //loop through and push them to the resources array
-  allResources.entities.forEach((e) => {
-    if (keys.resourceId && resourceName in e && keys.resourceId in e) {
-      resources.push({
-        id: e[keys.resourceId],
-        title: e[resourceName],
-      });
-    }
-  });
-}
-
-//retrieves all the events from the datasource
-async function getEvents(
-  pcfContext: ComponentFramework.Context<IInputs>,
-  resources: Resource[] | undefined,
-  keys: Keys
-): Promise<Event[]> {
-  const dataSet = pcfContext.parameters.calendarDataSet;
-  const totalRecordCount = dataSet.sortedRecordIds.length;
-
-  const newEvents: Event[] = [];
-
-  for (let i = 0; i < totalRecordCount; i++) {
-    const recordId = dataSet.sortedRecordIds[i];
-    const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
-
-    // Ensure key properties are defined and retrieve their values safely
-    const name = keys.name
-      ? (record.getValue(keys.name) as string | undefined)
-      : undefined;
-    const start = keys.start ? record.getValue(keys.start) : undefined;
-    const end = keys.end ? record.getValue(keys.end) : undefined;
-
-    if (!name || !start || !end) {
-      // Skip this record if required fields are missing
-      continue;
-    }
-
-    const newEvent: IEvent = {
-      id: keys.id
-        ? (record.getValue(keys.id) as string | undefined) || recordId
-        : recordId,
-      start: new Date(start as number),
-      end: new Date(end as number),
-      title: name,
-    };
-
-    if (keys.eventColor) {
-      const color = record.getValue(keys.eventColor);
-      if (color && isHexColor(color)) {
-        newEvent.color = color as string;
-      }
-    }
-
-    if (resources && keys.resource) {
-      const resourceId = record.getValue(keys.resource);
-      if (resourceId) {
-        newEvent.resource =
-          pcfContext.mode.allocatedHeight === -1
-            ? (resourceId as ComponentFramework.EntityReference).id.guid
-            : (resourceId as string);
-      }
-    }
-
-    newEvents.push(newEvent);
-  }
-  console.log(`getEvents: newEvents.length: ${newEvents.length}`);
-  return newEvents;
-}
-
-//format the date/time so that it can be passed as a parameter to a Dynamics form
-function formatDateAsParameterString(date: Date) {
-  //months are zero index so don't forget to add one :)
-  return (
-    date.getMonth() +
-    1 +
-    "/" +
-    date.getDate() +
-    "/" +
-    date.getFullYear() +
-    " " +
-    date.getHours() +
-    ":" +
-    date.getMinutes() +
-    ":" +
-    date.getSeconds()
-  );
-}
-
-function getCalendarView(calendarViews: ViewsProps, viewName: string): View {
-  const calView = Object.keys(calendarViews).find(
-    (x: string) => x === viewName.toLowerCase()
-  );
-  return calView ? (calView as View) : (Object.keys(calendarViews)[0] as View);
-}
-
-function getCalendarViews(
-  pcfContext: ComponentFramework.Context<IInputs>,
-  localizer: DateLocalizer
-): ViewsProps {
-  const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
-  const validViews = viewList
-    .split(",")
-    .filter((x) => allViews.indexOf(x.trim()) !== -1);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectedViews: any = {};
-  if (validViews.length < 1) {
-    selectedViews.week = true;
-  } else {
-    validViews.forEach((view: string) => {
-      if (view === "work_week") {
-        selectedViews.work_week = CustomWorkWeek;
-        selectedViews.work_week.localizer = localizer;
-        selectedViews.work_week.includedDays =
-          getWorkWeekIncludedDays(pcfContext);
-      } else {
-        selectedViews[view] = true;
-      }
-    });
-  }
-  return selectedViews;
-}
-
-function getWorkWeekIncludedDays(
-  pcfContext: ComponentFramework.Context<IInputs>
-): number[] {
-  if (
-    pcfContext.parameters.calendarWorkWeekDays &&
-    pcfContext.parameters.calendarWorkWeekDays.raw
-  ) {
-    return pcfContext.parameters.calendarWorkWeekDays.raw
-      .split(",")
-      .map((x) => {
-        return +x - 1;
-      });
-  } else {
-    return [1, 2, 3, 4, 5];
-  }
-}
-
-function getCurrentRange(
-  date: Date,
-  view: string,
-  culture: string
-): { start: Date; end: Date } {
-  let start = moment().toDate(),
-    end = moment().toDate();
-  if (view === "day") {
-    start = moment(date).startOf("day").toDate();
-    end = moment(date).endOf("day").toDate();
-  } else if (view === "week") {
-    start = moment(date).startOf("week").toDate();
-    end = moment(date).endOf("week").toDate();
-  } else if (view === "work_week") {
-    start = moment(date).weekday(1).toDate();
-    end = moment(date).weekday(5).toDate();
-  } else if (view === "month") {
-    start = moment(date).startOf("month").startOf("week").toDate();
-    end = moment(date).endOf("month").endOf("week").toDate();
-  } else if (view === "agenda") {
-    start = moment(date).startOf("day").toDate();
-    end = moment(date).endOf("day").add(1, "month").toDate();
-  }
-  return { start, end };
-}
-
-function getISOLanguage(
-  pcfContext: ComponentFramework.Context<IInputs>
-): string {
-  //look for a language setting coming in from the parameters.
-  //if nothing was entered use an empty string which will default to en
-  let lang = pcfContext.parameters.calendarLanguage?.raw || "";
-
-  //if this is a model app and a language was not added as an input then user the current users
-  // language settings.
-  if (!lang && pcfContext.mode.allocatedHeight === -1) {
-    lang = lcid.from(pcfContext.userSettings.languageId);
-    return lang.substring(0, lang.indexOf("_"));
-  }
-
-  return lang;
-}
