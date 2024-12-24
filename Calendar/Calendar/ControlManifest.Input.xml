@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW.Calendar" constructor="Calendar" version="1.1.0" display-name-key="RAW! Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
+  <control namespace="RAW.Calendar" constructor="Calendar" version="1.1.10" display-name-key="RAW! Calendar" description-key="A Calendar view that can be used in both Model and Canvas apps. Ensure that any fields you define in the parameters are included in your view in a Model App or in your Collection in a Canvas app." control-type="standard">
     <data-set name="calendarDataSet" display-name-key="Calendar Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
     </data-set>
     <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the calendar. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
@@ -35,6 +35,7 @@
     <property name="calendarSelectable" display-name-key="Calendar Selectable" description-key="Allows users to select parts of the calendar. Disabling this prevents users from creating new records." of-type="SingleLine.Text" usage="input" required="false" default-value="true" />
     <property name="eventSelectable" display-name-key="Events Selectable" description-key="Specify if events should be selectable in Model-driven apps. Set to true or false." of-type="SingleLine.Text" usage="input" required="false" default-value="true" />
     <property name="calendarPopup" display-name-key="Show Popup for Truncated Events" description-key="When enabled, clicking on the +x more link will display events in a popup overlay." of-type="SingleLine.Text" usage="input" required="false" default-value="false" />
+    <property name="eventHeaderFormat" display-name-key="Event Header Format" description-key="Controls the display format of the event header (time) in the week and day views. Leave as 0 or empty for the default format, or set to 1 to hide the header" of-type="SingleLine.Text" usage="input" required="false" default-value="0" />
     <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
     <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />

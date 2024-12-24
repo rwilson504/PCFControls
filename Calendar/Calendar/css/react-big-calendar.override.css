@@ -25,6 +25,10 @@
   border-radius: unset !important;
 }
 
+.rbc-event-label {
+  display: var(--event-label-display, flex); /* Default is flex */
+}
+
 .rbc-toolbar button {
   color: unset;
   background-color: unset;

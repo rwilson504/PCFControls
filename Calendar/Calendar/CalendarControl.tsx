@@ -82,7 +82,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || ""
     )
       ? (props.pcfContext.parameters.calendarTimeBarBackgroundColor
-          .raw as string)
+        .raw as string)
       : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
   );
 
@@ -117,11 +117,11 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   // State to manage min and max hours
   const [minHour, setMinHour] = React.useState<number>(
     props.pcfContext.parameters.calendarMinHour?.raw ??
-      CalendarUtils.DEFAULT_MIN_HOUR
+    CalendarUtils.DEFAULT_MIN_HOUR
   );
   const [maxHour, setMaxHour] = React.useState<number>(
     props.pcfContext.parameters.calendarMaxHour?.raw ??
-      CalendarUtils.DEFAULT_MAX_HOUR
+    CalendarUtils.DEFAULT_MAX_HOUR
   );
 
   // Update minHour and maxHour when props change
@@ -156,7 +156,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   );
   const [timeslots, setTimeslots] = React.useState<number>(
     props.pcfContext.parameters.calendarTimeSlots?.raw ??
-      CalendarUtils.DEFAULT_TIMESLOTS // Default: 2
+    CalendarUtils.DEFAULT_TIMESLOTS // Default: 2
   );
 
   // Update step and timeslots when props change
@@ -199,7 +199,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     const selectableValue =
       props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
-      "false"
+        "false"
         ? false
         : CalendarUtils.DEFAULT_SELECTABLE;
     setCalendarSelectable(selectableValue);
@@ -215,7 +215,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     const selectableValue =
       props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() ===
-      "false"
+        "false"
         ? false
         : CalendarUtils.DEFAULT_EVENT_SELECTABLE;
 
@@ -241,6 +241,15 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext,
     localizer
   );
+
+  const [eventHeaderFormat, setEventHeaderFormat] = React.useState<string>(
+    props.pcfContext.parameters.eventHeaderFormat?.raw || "0"
+  );
+
+  React.useEffect(() => {
+    const formatValue = props.pcfContext.parameters.eventHeaderFormat?.raw || "0";
+    setEventHeaderFormat(formatValue);
+  }, [props.pcfContext.parameters.eventHeaderFormat?.raw]);
 
   const [calendarView, setCalendarView] = React.useState(
     CalendarUtils.getCalendarView(
@@ -280,7 +289,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
         setCalendarData({
           resources:
             calendarDataResult.resources &&
-            calendarDataResult.resources.length > 0
+              calendarDataResult.resources.length > 0
               ? calendarDataResult.resources
               : undefined,
           events: calendarDataResult.events || [],
@@ -348,6 +357,10 @@ export const CalendarControl: React.FC<IProps> = (props) => {
         ? calendarTextColor.grayscale().fade(0.8).array().toString()
         : calendarTextColor.grayscale().fade(0.2).array().toString()
     );
+    root.style.setProperty("--event-label-display",
+      eventHeaderFormat === "1"
+        ? "none"
+        : "flex")
     cssVars({
       preserveVars: true, // Keep original var() declarations
       watch: true, // Watch for changes in styles or DOM updates
@@ -359,6 +372,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext.parameters.calendarTextColor?.raw,
     props.pcfContext.parameters.calendarBorderColor?.raw,
     props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw,
+    eventHeaderFormat,
   ]);
 
   //when an event is selected it return the events id in canvas and open the record in model app
