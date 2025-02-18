@@ -177,3 +177,5 @@
 .rbc-date-cell.rbc-now .rbc-button-link {
   font-style: italic !important;
 }
+
+@import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';

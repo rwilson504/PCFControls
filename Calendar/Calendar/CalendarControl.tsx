@@ -7,6 +7,7 @@
 import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./css/react-big-calendar.override.css";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {
@@ -15,6 +16,7 @@ import {
   View,
   DayLayoutAlgorithm,
 } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import * as CalendarUtils from "./utils";
 import { StartOfWeek } from "date-arithmetic";
 import { Resource, Keys, IEvent } from "./types";
@@ -22,6 +24,9 @@ import GetMessages from "./components/Translations";
 import * as moment from "moment";
 import * as Color from "color";
 import isHexColor from "is-hexcolor";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DragAndDropCalendarComponent = withDragAndDrop(Calendar as any);
 
 export interface IProps {
   pcfContext: ComponentFramework.Context<IInputs>;
@@ -32,6 +37,30 @@ export interface IProps {
     rangeStart: Date,
     rangeEnd: Date,
     view: View
+  ) => void;
+  onResizedSelectedRecord: (
+    originalStart: Date | undefined,
+    originalEnd: Date | undefined,
+    updatedStart: Date,
+    updatedEnd: Date,
+    recordId: string | undefined,
+    name: string
+  ) => void;
+  onDropSelectedRecord: (
+    originalStart: Date | undefined,
+    originalEnd: Date | undefined,
+    updatedStart: Date,
+    updatedEnd: Date,
+    recordId: string | undefined,
+    name: string,
+    originalResourceId: string,
+    updatedResourceId: string
+  ) => void;
+  onDropOutsideRecord: (
+    start: Date,
+    end: Date,
+    name: string,
+    resourceId: string
   ) => void;
 }
 
@@ -82,7 +111,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || ""
     )
       ? (props.pcfContext.parameters.calendarTimeBarBackgroundColor
-        .raw as string)
+          .raw as string)
       : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
   );
 
@@ -117,11 +146,12 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   // State to manage min and max hours
   const [minHour, setMinHour] = React.useState<number>(
     props.pcfContext.parameters.calendarMinHour?.raw ??
-    CalendarUtils.DEFAULT_MIN_HOUR
+      CalendarUtils.DEFAULT_MIN_HOUR
   );
+
   const [maxHour, setMaxHour] = React.useState<number>(
     props.pcfContext.parameters.calendarMaxHour?.raw ??
-    CalendarUtils.DEFAULT_MAX_HOUR
+      CalendarUtils.DEFAULT_MAX_HOUR
   );
 
   // Update minHour and maxHour when props change
@@ -145,6 +175,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     () => moment(`${minHour}:00`, "HH:mm").toDate(),
     [minHour]
   );
+
   const max = React.useMemo(
     () => moment(`${maxHour}:00`, "HH:mm").toDate(),
     [maxHour]
@@ -154,9 +185,10 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const [step, setStep] = React.useState<number>(
     props.pcfContext.parameters.calendarStep?.raw ?? CalendarUtils.DEFAULT_STEP // Default: 2 slots per hour (30 minutes)
   );
+
   const [timeslots, setTimeslots] = React.useState<number>(
     props.pcfContext.parameters.calendarTimeSlots?.raw ??
-    CalendarUtils.DEFAULT_TIMESLOTS // Default: 2
+      CalendarUtils.DEFAULT_TIMESLOTS // Default: 2
   );
 
   // Update step and timeslots when props change
@@ -199,7 +231,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     const selectableValue =
       props.pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() ===
-        "false"
+      "false"
         ? false
         : CalendarUtils.DEFAULT_SELECTABLE;
     setCalendarSelectable(selectableValue);
@@ -211,11 +243,79 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       : CalendarUtils.DEFAULT_EVENT_SELECTABLE
   );
 
+  // useEffect to handle changes to the enableDragAndDrop property dynamically
+  React.useEffect(() => {
+    const dragAndDropValue =
+      props.pcfContext.parameters.enableDragAndDrop?.raw?.toLowerCase() ===
+      "true"
+        ? true
+        : CalendarUtils.DEFAULT_DND;
+    setIsDragAndDropEnabled(dragAndDropValue);
+  }, [props.pcfContext.parameters.enableDragAndDrop?.raw]);
+
+  const [isDragAndDropEnabled, setIsDragAndDropEnabled] =
+    React.useState<boolean>(
+      props.pcfContext.parameters.enableDragAndDrop?.raw?.toLowerCase() ===
+        "true"
+        ? true
+        : CalendarUtils.DEFAULT_DND
+    );
+
+  // useEffect to handle changes to the enableDragAndDrop property dynamically
+  React.useEffect(() => {
+    const dragAndDropRecordCopyValue =
+      props.pcfContext.parameters.enableDragAndDropRecordCopy?.raw?.toLowerCase() ===
+      "true"
+        ? true
+        : CalendarUtils.DEFAULT_DND_RECORD_COPY;
+    setIsDragAndDropRecordCopyEnabled(dragAndDropRecordCopyValue);
+  }, [props.pcfContext.parameters.enableDragAndDropRecordCopy?.raw]);
+
+  const [isDragAndDropRecordCopyEnabled, setIsDragAndDropRecordCopyEnabled] =
+    React.useState<boolean>(
+      props.pcfContext.parameters.enableDragAndDropRecordCopy?.raw?.toLowerCase() ===
+        "true"
+        ? true
+        : CalendarUtils.DEFAULT_DND_RECORD_COPY
+    );
+
+  React.useEffect(() => {
+    const outsideDropDataValue =
+      props.pcfContext.parameters.outsideDropData?.raw || "";
+    setOutsideDropData(outsideDropDataValue);
+  }, [props.pcfContext.parameters.outsideDropData?.raw]);
+
+  const [outsideDropData, setOutsideDropData] = React.useState<string>(
+    props.pcfContext.parameters.outsideDropData?.raw || ""
+  );
+
+  // const [draggedEvent, setDraggedEvent] = React.useState<IEvent | undefined>(
+  //   undefined
+  // );
+
+  // useEffect to handle changes to the displayDragItemInCell property dynamically
+  React.useEffect(() => {
+    const displayDragItemInCellValue =
+      props.pcfContext.parameters.displayDragItemInCell?.raw?.toLowerCase() ===
+      "true"
+        ? true
+        : CalendarUtils.DEFAULT_DISPLAY_DRAG_ITEM_IN_CELL; // default is true
+    setDisplayDragItemInCell(displayDragItemInCellValue);
+  }, [props.pcfContext.parameters.displayDragItemInCell?.raw]);
+
+  const [displayDragItemInCell, setDisplayDragItemInCell] =
+    React.useState<boolean>(
+      props.pcfContext.parameters.displayDragItemInCell?.raw?.toLowerCase() ===
+        "true"
+        ? true
+        : CalendarUtils.DEFAULT_DISPLAY_DRAG_ITEM_IN_CELL
+    );
+
   // UseEffect to monitor and update selectable state
   React.useEffect(() => {
     const selectableValue =
       props.pcfContext.parameters.eventSelectable?.raw?.toLowerCase() ===
-        "false"
+      "false"
         ? false
         : CalendarUtils.DEFAULT_EVENT_SELECTABLE;
 
@@ -247,7 +347,8 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   );
 
   React.useEffect(() => {
-    const formatValue = props.pcfContext.parameters.eventHeaderFormat?.raw || "0";
+    const formatValue =
+      props.pcfContext.parameters.eventHeaderFormat?.raw || "0";
     setEventHeaderFormat(formatValue);
   }, [props.pcfContext.parameters.eventHeaderFormat?.raw]);
 
@@ -263,11 +364,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     events: IEvent[];
     keys: Keys | undefined;
   }>({ resources: [], events: [], keys: undefined });
+
   const [calendarDate, setCalendarDate] = React.useState(
     props.pcfContext.parameters.calendarDate?.raw?.getTime() === 0
       ? moment().toDate()
       : props.pcfContext.parameters.calendarDate?.raw || moment().toDate()
   );
+
   const calendarRef = React.useRef(null);
 
   //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
@@ -289,7 +392,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
         setCalendarData({
           resources:
             calendarDataResult.resources &&
-              calendarDataResult.resources.length > 0
+            calendarDataResult.resources.length > 0
               ? calendarDataResult.resources
               : undefined,
           events: calendarDataResult.events || [],
@@ -357,10 +460,10 @@ export const CalendarControl: React.FC<IProps> = (props) => {
         ? calendarTextColor.grayscale().fade(0.8).array().toString()
         : calendarTextColor.grayscale().fade(0.2).array().toString()
     );
-    root.style.setProperty("--event-label-display",
-      eventHeaderFormat === "1"
-        ? "none"
-        : "flex")
+    root.style.setProperty(
+      "--event-label-display",
+      eventHeaderFormat === "1" ? "none" : "flex"
+    );
     cssVars({
       preserveVars: true, // Keep original var() declarations
       watch: true, // Watch for changes in styles or DOM updates
@@ -525,7 +628,9 @@ export const CalendarControl: React.FC<IProps> = (props) => {
   const agendaEvent = ({ event }: any) => {
     return (
       <span
-        title={event.title}
+        title={`${event.title}${
+          event.description ? ": " + event.description : ""
+        }`}
         style={{
           cursor: isEventSelectable ? "pointer" : "default",
           overflow: "auto",
@@ -537,6 +642,20 @@ export const CalendarControl: React.FC<IProps> = (props) => {
             ? "#fff"
             : "#000",
         }}
+      >
+        {event.title}
+      </span>
+    );
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Event = ({ event }: any) => {
+    console.log(event.title);
+    return (
+      <span
+        title={`${event.title}${
+          event.description ? ": " + event.description : ""
+        }`}
       >
         {event.title}
       </span>
@@ -563,77 +682,212 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     );
   };
 
-  return !calendarData?.resources ? (
-    <Calendar
-      selectable={calendarSelectable}
-      popup={calendarPopup}
-      localizer={localizer}
-      date={calendarDate}
-      culture={calendarCulture}
-      rtl={calendarRtl}
-      messages={calendarMessages}
-      defaultView={calendarView}
-      view={calendarView}
-      views={calendarViews}
-      scrollToTime={calendarScrollTo}
-      min={min}
-      max={max}
-      step={step} // Controls the interval in minutes for each time slot
-      timeslots={timeslots} // Number of slots per hour
-      dayLayoutAlgorithm={dayLayoutAlgorithm}
-      events={calendarData.events}
-      onSelectEvent={_handleEventSelected}
-      onKeyPressEvent={_handleEventKeyPress}
-      onSelectSlot={_handleSlotSelect}
-      onNavigate={_handleNavigate}
-      onView={_handleOnView}
-      ref={calendarRef}
-      className={`rbc-view-${calendarView}`}
-      eventPropGetter={eventPropsGetter}
-      dayPropGetter={dayPropsGetter}
-      components={{
-        agenda: {
-          event: agendaEvent,
-        },
-        timeGutterHeader: timeGutterHeader,
-      }}
-    />
-  ) : (
-    <Calendar
-      selectable={calendarSelectable}
-      popup={calendarPopup}
-      localizer={localizer}
-      date={calendarDate}
-      culture={calendarCulture}
-      messages={calendarMessages}
-      defaultView={calendarView}
-      view={calendarView}
-      views={calendarViews}
-      scrollToTime={calendarScrollTo}
-      min={min}
-      max={max}
-      step={step} // Controls the interval in minutes for each time slot
-      timeslots={timeslots} // Number of slots per hour
-      dayLayoutAlgorithm={dayLayoutAlgorithm}
-      events={calendarData.events}
-      onSelectEvent={_handleEventSelected}
-      onKeyPressEvent={_handleEventKeyPress}
-      onSelectSlot={_handleSlotSelect}
-      onNavigate={_handleNavigate}
-      onView={_handleOnView}
-      resources={calendarData.resources}
-      resourceAccessor="resource"
-      ref={calendarRef}
-      className={`rbc-view-${calendarView}`}
-      eventPropGetter={eventPropsGetter}
-      dayPropGetter={dayPropsGetter}
-      components={{
-        agenda: {
-          event: agendaEvent,
-        },
-        resourceHeader: resourceHeader,
-        timeGutterHeader: timeGutterHeader,
-      }}
-    />
-  );
+  const _handleEventDrop = async ({
+    event,
+    start,
+    end,
+    isAllDay,
+    resourceId,
+  }: {
+    event: IEvent;
+    start: Date;
+    end: Date;
+    isAllDay: boolean;
+    resourceId: string;
+  }) => {
+    const updatedEvent = {
+      ...event,
+      start,
+      end,
+      allDay: isAllDay ?? false, // fallback to false when isAllDay is undefined
+      resource: resourceId,
+    };
+    const updatedEvents = calendarData.events.map((evt) =>
+      evt.id === event.id ? updatedEvent : evt
+    );
+    setCalendarData({ ...calendarData, events: updatedEvents });
+
+    if (props.pcfContext.mode.allocatedHeight === -1) {
+      // Model-driven apps: Update record using Web API
+      const entityName =
+        props.pcfContext.parameters.calendarDataSet.getTargetEntityType();
+      const entityId = event.id as string;
+      const updateData: { [key: string]: string | Date } = {
+        [calendarData.keys?.start as string]: start,
+        [calendarData.keys?.end as string]: end,
+      };
+      if (resourceId) {
+        updateData[`${calendarData.keys?.resourceNavigationProperty as string}@odata.bind`] = `/${
+          calendarData.keys?.resourceEntitySetName as string
+        }(${resourceId})`;
+
+        await props.pcfContext.webAPI.updateRecord(
+          entityName,
+          entityId,
+          updateData
+        );
+      }
+    } else {
+      // Canvas apps: Output the updated event details
+      props.onDropSelectedRecord(
+        event.start,
+        event.end,
+        start,
+        end,
+        event.id,
+        event.title as string,
+        event.resource,
+        resourceId
+      );
+    }
+  };
+
+  const _handleEventResize = async ({
+    event,
+    start,
+    end,
+  }: {
+    event: IEvent;
+    start: Date;
+    end: Date;
+  }) => {
+    const updatedEvent = { ...event, start, end };
+    const updatedEvents = calendarData.events.map((evt) =>
+      evt.id === event.id ? updatedEvent : evt
+    );
+    setCalendarData({ ...calendarData, events: updatedEvents });
+
+    if (props.pcfContext.mode.allocatedHeight === -1) {
+      // Model-driven apps: Update record using Web API
+      const entityName =
+        props.pcfContext.parameters.calendarDataSet.getTargetEntityType();
+      const entityId = event.id as string;
+      const updateData: { [key: string]: string | Date } = {
+        [calendarData.keys?.start as string]: start,
+        [calendarData.keys?.end as string]: end,
+      };
+      await props.pcfContext.webAPI.updateRecord(
+        entityName,
+        entityId,
+        updateData
+      );
+    } else {
+      // Canvas apps: Output the updated event details
+      props.onResizedSelectedRecord(
+        event.start,
+        event.end,
+        start,
+        end,
+        event.id,
+        event.title as string
+      );
+    }
+  };
+
+  const _handleDropFromOutside = async ({
+    start,
+    end,
+    allDay,
+    resource,
+  }: {
+    start: Date;
+    end: Date;
+    allDay: boolean;
+    resource: string;
+  }) => {
+    const event = {
+      title: outsideDropData,
+      start,
+      end,
+      allDay,
+    };
+    const name = outsideDropData;
+    const updatedEvents = calendarData.events.concat(event);
+    setCalendarData({ ...calendarData, events: updatedEvents });
+    if (props.pcfContext.mode.allocatedHeight === -1) {
+      // Model-driven apps: Update record using Web API
+      const entityName =
+        props.pcfContext.parameters.calendarDataSet.getTargetEntityType();
+      const newData: { [key: string]: string | Date } = {
+        [calendarData.keys?.start as string]: start,
+        [calendarData.keys?.end as string]: end,
+        [calendarData.keys?.name as string]: name,
+      };
+      if (resource) {
+        newData[`${calendarData.keys?.resourceNavigationProperty as string}@odata.bind`] = `/${
+          calendarData.keys?.resourceEntitySetName as string
+        }(${resource})`;
+      }
+      await props.pcfContext.webAPI.createRecord(entityName, newData);
+    } else {
+      // Canvas apps: Output the updated event details
+      props.onDropOutsideRecord(start, end, name, resource);
+    }
+    console.log("Drop from outside");
+    console.log(start);
+    console.log(end);
+    console.log(outsideDropData);
+  };
+
+  const _handleDragFromOutsideItem = async () => {
+    console.log(outsideDropData);
+  };
+
+  const _handleDragOverFromOutside = async () => {
+    console.log("_handleDragOverFromOutside");
+  };
+
+  // Choose which calendar component to render based on drag and drop prop.
+  const CalendarComponent = isDragAndDropEnabled
+    ? DragAndDropCalendarComponent
+    : Calendar;
+
+  // Build a common props object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const calendarProps: any = {
+    selectable: calendarSelectable,
+    popup: calendarPopup,
+    localizer,
+    date: calendarDate,
+    culture: calendarCulture,
+    messages: calendarMessages,
+    defaultView: calendarView,
+    view: calendarView,
+    views: calendarViews,
+    scrollToTime: calendarScrollTo,
+    min: min,
+    max: max,
+    step: step,
+    timeslots: timeslots,
+    dayLayoutAlgorithm: dayLayoutAlgorithm,
+    events: calendarData.events,
+    onSelectEvent: _handleEventSelected,
+    onKeyPressEvent: _handleEventKeyPress,
+    onSelectSlot: _handleSlotSelect,
+    onNavigate: _handleNavigate,
+    onView: _handleOnView,
+    ref: calendarRef,
+    className: `rbc-view-${calendarView}`,
+    dragFromOutsideItem: _handleDragFromOutsideItem,
+    eventPropGetter: eventPropsGetter,
+    dayPropGetter: dayPropsGetter,
+    onEventDrop: _handleEventDrop,
+    onEventResize: _handleEventResize,
+    onDragOverFromOutside: _handleDragOverFromOutside,
+    onDropFromOutside: _handleDropFromOutside,
+    components: {
+      agenda: { event: agendaEvent },
+      event: Event,
+      timeGutterHeader: timeGutterHeader,
+    },
+  };
+
+  // If resources are available, add resource-specific props
+  if (calendarData.resources) {
+    calendarProps.resources = calendarData.resources;
+    calendarProps.resourceAccessor = "resource";
+    calendarProps.components.resourceHeader = resourceHeader;
+  }
+
+  return <CalendarComponent {...calendarProps} />;
 };

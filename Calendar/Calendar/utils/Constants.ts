@@ -18,3 +18,6 @@ export const VALID_KEYS = ["Enter", " "];
 export const DEFAULT_SELECTABLE = true;
 export const DEFAULT_EVENT_SELECTABLE = true;
 export const DEFAULT_POPUP = true;
+export const DEFAULT_DND = false;
+export const DEFAULT_DND_RECORD_COPY = false;
+export const DEFAULT_DISPLAY_DRAG_ITEM_IN_CELL = true;
