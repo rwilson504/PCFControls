@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+<xsd:element name="root" msdata:IsDataSet="true">
+<xsd:complexType>
+<xsd:choice maxOccurs="unbounded">
+  <xsd:element name="metadata">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" use="required" type="xsd:string" />
+	  <xsd:attribute name="type" type="xsd:string" />
+	  <xsd:attribute name="mimetype" type="xsd:string" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="assembly">
+	<xsd:complexType>
+	  <xsd:attribute name="alias" type="xsd:string" />
+	  <xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="data">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+	  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+	  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="resheader">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+  </xsd:element>
+</xsd:choice>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<resheader name="resmimetype">
+<value>text/microsoft-resx</value>
+</resheader>
+<resheader name="version">
+<value>2.0</value>
+</resheader>
+<resheader name="reader">
+<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+<resheader name="writer">
+<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+  <data name="Control_Name" xml:space="preserve">
+    <value>Power Pages ファイルマネージャー</value>
+  </data>
+  <data name="Control_Description" xml:space="preserve">
+    <value>このコントロールを使用すると、Power Pages と Azure Blob Storage に接続されたファイルのアップロード、ダウンロード、および管理が可能になります。</value>
+  </data>
+  <data name="sampleProperty_Name" xml:space="preserve">
+    <value>文字列フィールドバインディング</value>
+  </data>
+  <data name="sampleProperty_Description" xml:space="preserve">
+    <value>このコントロールがバインドされている文字列フィールド。</value>
+  </data>
+  <data name="allowMultipleFiles_Name" xml:space="preserve">
+    <value>複数ファイルを許可</value>
+  </data>
+  <data name="allowMultipleFiles_Description" xml:space="preserve">
+    <value>ユーザーが複数のファイルをアップロードできるようにします。</value>
+  </data>
+  <data name="allowedFileTypes_Name" xml:space="preserve">
+    <value>許可されるファイルタイプ</value>
+  </data>
+  <data name="allowedFileTypes_Description" xml:space="preserve">
+    <value>カンマで区切られたファイルタイプを入力します（例：.png、.jpg、.pdf）。デフォルトでは、特定のファイルタイプがここにリストされていない限り、すべてのファイルタイプが許可されます。</value>
+  </data>
+  <data name="allowedMimeTypes_Name" xml:space="preserve">
+    <value>許可される MIME タイプ</value>
+  </data>
+  <data name="allowedMimeTypes_Description" xml:space="preserve">
+    <value>カンマで区切られた MIME タイプを入力します（例：image/png、audio/*、application/pdf）。デフォルトでは、特定の MIME タイプがここにリストされていない限り、すべての MIME タイプが許可されます。</value>
+  </data>
+  <data name="uploadSizeLimitKB_Name" xml:space="preserve">
+    <value>アップロードサイズ制限（KB）</value>
+  </data>
+  <data name="uploadSizeLimitKB_Description" xml:space="preserve">
+    <value>ファイルごとの最大アップロードサイズ（最大 10485760 KB）。</value>
+  </data>
+  <data name="maxNumberOfFiles_Name" xml:space="preserve">
+    <value>最大ファイル数</value>
+  </data>
+  <data name="maxNumberOfFiles_Description" xml:space="preserve">
+    <value>最大ファイル数を入力します。値が 0 の場合、無制限のファイルアップロードが許可されます。</value>
+  </data>
+  <data name="maxGridHeight_Name" xml:space="preserve">
+    <value>最大グリッド高さ</value>
+  </data>
+  <data name="maxGridHeight_Description" xml:space="preserve">
+    <value>注釈グリッドの最大高さ（ピクセル単位）。無制限の高さに設定するには 0 に設定します。</value>
+  </data>
+    <data name="themeColor_Name" xml:space="preserve">
+    <value>テーマカラー</value>
+  </data>
+  <data name="themeColor_Description" xml:space="preserve">
+    <value>テーマを生成するための基本色。</value>
+  </data>
+  <data name="themeDarkMode_Name" xml:space="preserve">
+    <value>テーマのダークモード</value>
+  </data>
+  <data name="themeDarkMode_Description" xml:space="preserve">
+    <value>テーマがダークモードであるかどうかを決定します。</value>
+  </data>
+  <data name="language_Name" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="language_Description" xml:space="preserve">
+    <value>ローカライズの言語を選択します。</value>
+  </data>
+  <data name="language_en_DisplayName" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="language_es_DisplayName" xml:space="preserve">
+    <value>スペイン語</value>
+  </data>
+  <data name="language_fr_DisplayName" xml:space="preserve">
+    <value>フランス語</value>
+  </data>
+  <data name="language_de_DisplayName" xml:space="preserve">
+    <value>ドイツ語</value>
+  </data>
+  <data name="language_zh_DisplayName" xml:space="preserve">
+    <value>中国語</value>
+  </data>
+  <data name="language_ja_DisplayName" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="language_ko_DisplayName" xml:space="preserve">
+    <value>韓国語</value>
+  </data>
+  <data name="language_it_DisplayName" xml:space="preserve">
+    <value>イタリア語</value>
+  </data>
+  <data name="language_nl_DisplayName" xml:space="preserve">
+    <value>オランダ語</value>
+  </data>
+  <data name="language_pt_DisplayName" xml:space="preserve">
+    <value>ポルトガル語</value>
+  </data>
+  <data name="layout_Name" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="layout_Description" xml:space="preserve">
+    <value>グリッドとヘッダーボタンがドロップゾーンの下または右に表示されるかどうかを決定します。</value>
+  </data>
+  <data name="layout_Horizontal_DisplayName" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="layout_Vertical_DisplayName" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="displayAllFiles_Name" xml:space="preserve">
+    <value>显示所有文件</value>
+</data>
+<data name="displayAllFiles_Description" xml:space="preserve">
+    <value>确定控件是检索并显示记录的所有现有文件（注释），还是仅显示当前会话期间上传的文件。</value>
+</data>
+</root>

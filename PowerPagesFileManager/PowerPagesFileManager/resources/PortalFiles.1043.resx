@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+<xsd:element name="root" msdata:IsDataSet="true">
+<xsd:complexType>
+<xsd:choice maxOccurs="unbounded">
+  <xsd:element name="metadata">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" use="required" type="xsd:string" />
+	  <xsd:attribute name="type" type="xsd:string" />
+	  <xsd:attribute name="mimetype" type="xsd:string" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="assembly">
+	<xsd:complexType>
+	  <xsd:attribute name="alias" type="xsd:string" />
+	  <xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="data">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+	  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+	  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="resheader">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+  </xsd:element>
+</xsd:choice>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<resheader name="resmimetype">
+<value>text/microsoft-resx</value>
+</resheader>
+<resheader name="version">
+<value>2.0</value>
+</resheader>
+<resheader name="reader">
+<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+<resheader name="writer">
+<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+  <data name="Control_Name" xml:space="preserve">
+    <value>Power Pages Bestandsbeheerder</value>
+  </data>
+  <data name="Control_Description" xml:space="preserve">
+    <value>Deze controle maakt het mogelijk om bestanden te uploaden, downloaden en beheren in Power Pages die verbonden zijn met Azure Blob Storage.</value>
+  </data>
+  <data name="sampleProperty_Name" xml:space="preserve">
+    <value>Tekstveld Binding</value>
+  </data>
+  <data name="sampleProperty_Description" xml:space="preserve">
+    <value>Het tekstveld waaraan deze controle is gekoppeld.</value>
+  </data>
+  <data name="allowMultipleFiles_Name" xml:space="preserve">
+    <value>Meerdere Bestanden Toestaan</value>
+  </data>
+  <data name="allowMultipleFiles_Description" xml:space="preserve">
+    <value>Staat gebruikers toe meerdere bestanden te uploaden.</value>
+  </data>
+  <data name="allowedFileTypes_Name" xml:space="preserve">
+    <value>Toegestane Bestandstypen</value>
+  </data>
+  <data name="allowedFileTypes_Description" xml:space="preserve">
+    <value>Voer bestandstypen in, gescheiden door een komma (bijv. .png, .jpg, .pdf). Standaard zijn alle bestandstypen toegestaan, tenzij hier specifieke typen worden vermeld.</value>
+  </data>
+  <data name="allowedMimeTypes_Name" xml:space="preserve">
+    <value>Toegestane MIME-Typen</value>
+  </data>
+  <data name="allowedMimeTypes_Description" xml:space="preserve">
+    <value>Voer MIME-typen in, gescheiden door een komma (bijv. image/png, audio/*, application/pdf). Standaard zijn alle MIME-typen toegestaan, tenzij hier specifieke typen worden vermeld.</value>
+  </data>
+  <data name="uploadSizeLimitKB_Name" xml:space="preserve">
+    <value>Upload Grootte Limiet (KB)</value>
+  </data>
+  <data name="uploadSizeLimitKB_Description" xml:space="preserve">
+    <value>Maximale uploadgrootte per bestand in KB (maximaal 10485760).</value>
+  </data>
+  <data name="maxNumberOfFiles_Name" xml:space="preserve">
+    <value>Maximaal Aantal Bestanden</value>
+  </data>
+  <data name="maxNumberOfFiles_Description" xml:space="preserve">
+    <value>Voer het maximale aantal bestanden in. Een waarde van 0 staat onbeperkte bestandsuploads toe.</value>
+  </data>
+  <data name="maxGridHeight_Name" xml:space="preserve">
+    <value>Maximale Rasterhoogte</value>
+  </data>
+  <data name="maxGridHeight_Description" xml:space="preserve">
+    <value>Maximale hoogte van het annotatieraster in pixels. Stel in op 0 voor onbeperkte hoogte.</value>
+  </data>
+  <data name="themeColor_Name" xml:space="preserve">
+    <value>Themakleur</value>
+  </data>
+  <data name="themeColor_Description" xml:space="preserve">
+    <value>De basiskleur voor het genereren van het thema.</value>
+  </data>
+  <data name="themeDarkMode_Name" xml:space="preserve">
+    <value>Donkere Modus van het Thema</value>
+  </data>
+  <data name="themeDarkMode_Description" xml:space="preserve">
+    <value>Bepaalt of het thema donker moet zijn.</value>
+  </data>
+  <data name="language_Name" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="language_Description" xml:space="preserve">
+    <value>Selecteer de taal voor lokalisatie.</value>
+  </data>
+  <data name="language_en_DisplayName" xml:space="preserve">
+    <value>Engels</value>
+  </data>
+  <data name="language_es_DisplayName" xml:space="preserve">
+    <value>Spaans</value>
+  </data>
+  <data name="language_fr_DisplayName" xml:space="preserve">
+    <value>Frans</value>
+  </data>
+  <data name="language_de_DisplayName" xml:space="preserve">
+    <value>Duits</value>
+  </data>
+  <data name="language_zh_DisplayName" xml:space="preserve">
+    <value>Chinees</value>
+  </data>
+  <data name="language_ja_DisplayName" xml:space="preserve">
+    <value>Japans</value>
+  </data>
+  <data name="language_ko_DisplayName" xml:space="preserve">
+    <value>Koreaans</value>
+  </data>
+  <data name="language_it_DisplayName" xml:space="preserve">
+    <value>Italiaans</value>
+  </data>
+  <data name="language_nl_DisplayName" xml:space="preserve">
+    <value>Nederlands</value>
+  </data>
+  <data name="language_pt_DisplayName" xml:space="preserve">
+    <value>Portugees</value>
+  </data>
+  <data name="layout_Name" xml:space="preserve">
+    <value>Indeling</value>
+  </data>
+  <data name="layout_Description" xml:space="preserve">
+    <value>Bepaalt of het raster en de kopknoppen onder of rechts van de dropzone worden weergegeven.</value>
+  </data>
+  <data name="layout_Horizontal_DisplayName" xml:space="preserve">
+    <value>Horizontaal</value>
+  </data>
+  <data name="layout_Vertical_DisplayName" xml:space="preserve">
+    <value>Verticaal</value>
+  </data>
+  <data name="displayAllFiles_Name" xml:space="preserve">
+    <value>Alle bestanden weergeven</value>
+</data>
+<data name="displayAllFiles_Description" xml:space="preserve">
+    <value>Bepaalt of de besturing alle bestaande bestanden (annotaties) voor het record ophaalt en weergeeft of alleen de bestanden weergeeft die tijdens de huidige sessie zijn geüpload.</value>
+</data>
+</root>

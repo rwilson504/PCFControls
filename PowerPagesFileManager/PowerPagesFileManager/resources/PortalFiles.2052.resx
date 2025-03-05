@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+<xsd:element name="root" msdata:IsDataSet="true">
+<xsd:complexType>
+<xsd:choice maxOccurs="unbounded">
+  <xsd:element name="metadata">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" use="required" type="xsd:string" />
+	  <xsd:attribute name="type" type="xsd:string" />
+	  <xsd:attribute name="mimetype" type="xsd:string" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="assembly">
+	<xsd:complexType>
+	  <xsd:attribute name="alias" type="xsd:string" />
+	  <xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="data">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+	  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+	  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="resheader">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+  </xsd:element>
+</xsd:choice>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<resheader name="resmimetype">
+<value>text/microsoft-resx</value>
+</resheader>
+<resheader name="version">
+<value>2.0</value>
+</resheader>
+<resheader name="reader">
+<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+<resheader name="writer">
+<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+  <data name="Control_Name" xml:space="preserve">
+    <value>Power Pages 文件管理器</value>
+  </data>
+  <data name="Control_Description" xml:space="preserve">
+    <value>此控件允许您在连接到 Azure Blob Storage 的 Power Pages 中上传、下载和管理文件。</value>
+  </data>
+  <data name="sampleProperty_Name" xml:space="preserve">
+    <value>字符串字段绑定</value>
+  </data>
+  <data name="sampleProperty_Description" xml:space="preserve">
+    <value>此控件绑定的字符串字段。</value>
+  </data>
+  <data name="allowMultipleFiles_Name" xml:space="preserve">
+    <value>允许多个文件</value>
+  </data>
+  <data name="allowMultipleFiles_Description" xml:space="preserve">
+    <value>允许用户上传多个文件。</value>
+  </data>
+  <data name="allowedFileTypes_Name" xml:space="preserve">
+    <value>允许的文件类型</value>
+  </data>
+  <data name="allowedFileTypes_Description" xml:space="preserve">
+    <value>输入以逗号分隔的文件类型（例如，.png，.jpg，.pdf）。默认情况下，除非在此处列出特定类型，否则允许所有文件类型。</value>
+  </data>
+  <data name="allowedMimeTypes_Name" xml:space="preserve">
+    <value>允许的 MIME 类型</value>
+  </data>
+  <data name="allowedMimeTypes_Description" xml:space="preserve">
+    <value>输入以逗号分隔的 MIME 类型（例如，image/png，audio/*，application/pdf）。默认情况下，除非在此处列出特定类型，否则允许所有 MIME 类型。</value>
+  </data>
+  <data name="uploadSizeLimitKB_Name" xml:space="preserve">
+    <value>上传大小限制（KB）</value>
+  </data>
+  <data name="uploadSizeLimitKB_Description" xml:space="preserve">
+    <value>每个文件的最大上传大小（最大 10485760 KB）。</value>
+  </data>
+  <data name="maxNumberOfFiles_Name" xml:space="preserve">
+    <value>最大文件数</value>
+  </data>
+  <data name="maxNumberOfFiles_Description" xml:space="preserve">
+    <value>输入最大文件数。值为 0 将允许无限制的文件上传。</value>
+  </data>
+  <data name="maxGridHeight_Name" xml:space="preserve">
+    <value>最大网格高度</value>
+  </data>
+  <data name="maxGridHeight_Description" xml:space="preserve">
+    <value>注释网格的最大高度（以像素为单位）。设置为 0 表示无限高度。</value>
+  </data>
+  <data name="themeColor_Name" xml:space="preserve">
+    <value>主题颜色</value>
+  </data>
+  <data name="themeColor_Description" xml:space="preserve">
+    <value>用于生成主题的基础颜色。</value>
+  </data>
+  <data name="themeDarkMode_Name" xml:space="preserve">
+    <value>主题暗模式</value>
+  </data>
+  <data name="themeDarkMode_Description" xml:space="preserve">
+    <value>确定主题是否应为暗色。</value>
+  </data>
+  <data name="language_Name" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="language_Description" xml:space="preserve">
+    <value>选择本地化语言。</value>
+  </data>
+  <data name="language_en_DisplayName" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="language_es_DisplayName" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="language_fr_DisplayName" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="language_de_DisplayName" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="language_zh_DisplayName" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="language_ja_DisplayName" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="language_ko_DisplayName" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="language_it_DisplayName" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="language_nl_DisplayName" xml:space="preserve">
+    <value>荷兰语</value>
+  </data>
+  <data name="language_pt_DisplayName" xml:space="preserve">
+    <value>葡萄牙语</value>
+  </data>
+  <data name="layout_Name" xml:space="preserve">
+    <value>布局</value>
+  </data>
+  <data name="layout_Description" xml:space="preserve">
+    <value>确定网格和标题按钮是显示在拖放区域的下方还是右侧。</value>
+  </data>
+  <data name="layout_Horizontal_DisplayName" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="layout_Vertical_DisplayName" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="displayAllFiles_Name" xml:space="preserve">
+    <value>显示所有文件</value>
+</data>
+<data name="displayAllFiles_Description" xml:space="preserve">
+    <value>确定控件是检索并显示记录的所有现有文件（注释），还是仅显示当前会话期间上传的文件。</value>
+</data><data name="displayAllFiles_Name" xml:space="preserve">
+    <value>すべてのファイルを表示</value>
+</data>
+<data name="displayAllFiles_Description" xml:space="preserve">
+    <value>コントロールがレコードの既存のすべてのファイル（注釈）を取得して表示するか、現在のセッション中にアップロードされたファイルのみを表示するかを決定します。</value>
+</data>
+</root>

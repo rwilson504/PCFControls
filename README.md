@@ -38,6 +38,15 @@ Allows you to add an iframe to a canvas app and load an external web page.  Addi
 [More...](./Frame/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWframe_managed.zip)
 
+## Power Pages File Manager
+
+This component allows users to upload, download, and manage files stored in Azure Blob Storage within Power Pages. It supports multiple file uploads, configurable limits, responsive UI, progress indicators, error handling, security compliance, theming support, dynamic grid & sorting, multi-language support, and accessible interaction.
+
+![Power Pages File Manager](./PowerPagesFileManager/images/PowerPagesFileManager.gif)
+
+[More...](./PowerPagesFileManager/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/PowerPagesFileManagerSolution_managed.zip)
+
 ## PDF Form Fill (Canvas)
 This component will allow you to fill in a PDF Form within a Canvas App without the use of a premium flow connector.  The component utilizes the [PDF-LIB](https://pdf-lib.js.org/) open source library.
 
