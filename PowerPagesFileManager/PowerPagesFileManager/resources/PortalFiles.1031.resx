@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+<xsd:element name="root" msdata:IsDataSet="true">
+<xsd:complexType>
+<xsd:choice maxOccurs="unbounded">
+  <xsd:element name="metadata">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" use="required" type="xsd:string" />
+	  <xsd:attribute name="type" type="xsd:string" />
+	  <xsd:attribute name="mimetype" type="xsd:string" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="assembly">
+	<xsd:complexType>
+	  <xsd:attribute name="alias" type="xsd:string" />
+	  <xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="data">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+	  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+	  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="resheader">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+  </xsd:element>
+</xsd:choice>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<resheader name="resmimetype">
+<value>text/microsoft-resx</value>
+</resheader>
+<resheader name="version">
+<value>2.0</value>
+</resheader>
+<resheader name="reader">
+<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+<resheader name="writer">
+<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+  <data name="Control_Name" xml:space="preserve">
+    <value>Power Pages Datei-Manager</value>
+  </data>
+  <data name="Control_Description" xml:space="preserve">
+    <value>Mit dieser Steuerung können Sie Dateien in Power Pages hochladen, herunterladen und verwalten, die mit Azure Blob Storage verbunden sind.</value>
+  </data>
+  <data name="sampleProperty_Name" xml:space="preserve">
+    <value>Textfeldbindung</value>
+  </data>
+  <data name="sampleProperty_Description" xml:space="preserve">
+    <value>Das Textfeld, an das diese Steuerung gebunden ist.</value>
+  </data>
+  <data name="allowMultipleFiles_Name" xml:space="preserve">
+    <value>Mehrere Dateien zulassen</value>
+  </data>
+  <data name="allowMultipleFiles_Description" xml:space="preserve">
+    <value>Ermöglicht Benutzern das Hochladen mehrerer Dateien.</value>
+  </data>
+  <data name="allowedFileTypes_Name" xml:space="preserve">
+    <value>Erlaubte Dateitypen</value>
+  </data>
+  <data name="allowedFileTypes_Description" xml:space="preserve">
+    <value>Geben Sie die Dateitypen durch Kommas getrennt ein (z. B. .png, .jpg, .pdf). Standardmäßig sind alle Dateitypen erlaubt, es sei denn, hier sind bestimmte aufgeführt.</value>
+  </data>
+  <data name="allowedMimeTypes_Name" xml:space="preserve">
+    <value>Erlaubte MIME-Typen</value>
+  </data>
+  <data name="allowedMimeTypes_Description" xml:space="preserve">
+    <value>Geben Sie die MIME-Typen durch Kommas getrennt ein (z. B. image/png, audio/*, application/pdf). Standardmäßig sind alle MIME-Typen erlaubt, es sei denn, hier sind bestimmte aufgeführt.</value>
+  </data>
+  <data name="uploadSizeLimitKB_Name" xml:space="preserve">
+    <value>Upload-Größenlimit (KB)</value>
+  </data>
+  <data name="uploadSizeLimitKB_Description" xml:space="preserve">
+    <value>Maximale Upload-Größe pro Datei in KB (maximal 10485760).</value>
+  </data>
+  <data name="maxNumberOfFiles_Name" xml:space="preserve">
+    <value>Maximale Anzahl von Dateien</value>
+  </data>
+  <data name="maxNumberOfFiles_Description" xml:space="preserve">
+    <value>Geben Sie die maximale Anzahl von Dateien ein. Ein Wert von 0 ermöglicht unbegrenzte Datei-Uploads.</value>
+  </data>
+  <data name="maxGridHeight_Name" xml:space="preserve">
+    <value>Maximale Rasterhöhe</value>
+  </data>
+  <data name="maxGridHeight_Description" xml:space="preserve">
+    <value>Maximale Höhe des Annotationsrasters in Pixel. Auf 0 setzen für unbegrenzte Höhe.</value>
+  </data>
+  <data name="themeColor_Name" xml:space="preserve">
+    <value>Farbe des Themas</value>
+  </data>
+  <data name="themeColor_Description" xml:space="preserve">
+    <value>Die Basisfarbe zur Generierung des Themas.</value>
+  </data>
+  <data name="themeDarkMode_Name" xml:space="preserve">
+    <value>Dunkler Modus des Themas</value>
+  </data>
+  <data name="themeDarkMode_Description" xml:space="preserve">
+    <value>Bestimmt, ob das Thema dunkel sein soll.</value>
+  </data>
+  <data name="language_Name" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="language_Description" xml:space="preserve">
+    <value>Wählen Sie die Sprache für die Lokalisierung.</value>
+  </data>
+  <data name="language_en_DisplayName" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="language_es_DisplayName" xml:space="preserve">
+    <value>Spanisch</value>
+  </data>
+  <data name="language_fr_DisplayName" xml:space="preserve">
+    <value>Französisch</value>
+  </data>
+  <data name="language_de_DisplayName" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="language_zh_DisplayName" xml:space="preserve">
+    <value>Chinesisch</value>
+  </data>
+  <data name="language_ja_DisplayName" xml:space="preserve">
+    <value>Japanisch</value>
+  </data>
+  <data name="language_ko_DisplayName" xml:space="preserve">
+    <value>Koreanisch</value>
+  </data>
+  <data name="language_it_DisplayName" xml:space="preserve">
+    <value>Italienisch</value>
+  </data>
+  <data name="language_nl_DisplayName" xml:space="preserve">
+    <value>Niederländisch</value>
+  </data>
+  <data name="language_pt_DisplayName" xml:space="preserve">
+    <value>Portugiesisch</value>
+  </data>
+  <data name="layout_Name" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="layout_Description" xml:space="preserve">
+    <value>Bestimmt, ob Raster und Kopfzeilen-Schaltflächen unterhalb oder rechts des Drop-Bereichs angezeigt werden.</value>
+  </data>
+  <data name="layout_Horizontal_DisplayName" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="layout_Vertical_DisplayName" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="displayAllFiles_Name" xml:space="preserve">
+    <value>Display All Files</value>
+  </data>
+  <data name="displayAllFiles_Description" xml:space="preserve">
+    <value>Determines whether the control retrieves and displays all existing files (annotations) for the record or only shows files uploaded during the current session.</value>
+  </data>
+</root>

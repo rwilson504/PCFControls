@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="PowerPagesFileManager" version="0.0.30" display-name-key="Control_Name" description-key="Control_Description" control-type="standard">
+    <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
+    If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
+    Example1:
+      <external-service-usage enabled="true">
+        <domain>www.Microsoft.com</domain>
+      </external-service-usage>
+    Example2:
+      <external-service-usage enabled="false">
+      </external-service-usage>
+    -->
+    <external-service-usage enabled="false">
+      <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
+      <domain></domain>
+      <domain></domain>
+      -->
+    </external-service-usage>
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="sampleProperty" display-name-key="sampleProperty_Name" description-key="sampleProperty_Description" of-type="SingleLine.Text" usage="bound" required="true" />
+    <!-- New properties -->
+    <property name="allowMultipleFiles" display-name-key="allowMultipleFiles_Name" description-key="allowMultipleFiles_Description" of-type="TwoOptions" default-value="true" usage="input" />
+    <property name="allowedFileTypes" display-name-key="allowedFileTypes_Name" description-key="allowedFileTypes_Description" of-type="SingleLine.Text" usage="input" />
+    <property name="allowedMimeTypes" display-name-key="allowedMimeTypes_Name" description-key="allowedMimeTypes_Description" of-type="SingleLine.Text" usage="input" />
+    <property name="displayAllFiles" display-name-key="displayAllFiles_Name" description-key="displayAllFiles_Description" of-type="TwoOptions" default-value="true" usage="input" />
+    <property name="uploadSizeLimitKB" display-name-key="uploadSizeLimitKB_Name" description-key="uploadSizeLimitKB_Description" of-type="Whole.None" usage="input" required="true" default-value="10485760" />
+    <property name="maxNumberOfFiles" display-name-key="maxNumberOfFiles_Name" description-key="maxNumberOfFiles_Description" of-type="Whole.None" usage="input" required="true" default-value="0" />
+    <!-- New property for grid height control: set to 0 for unlimited height -->
+    <property name="maxGridHeight" display-name-key="maxGridHeight_Name" description-key="maxGridHeight_Description" of-type="Whole.None" usage="input" required="true" default-value="0" />
+    <!-- New property for theme as an Enum -->
+    <property name="themeColor" display-name-key="themeColor_Name" description-key="themeColor_Description" of-type="SingleLine.Text" usage="input" default-value="#0F6CBD" />
+    <property name="themeDarkMode" display-name-key="themeDarkMode_Name" description-key="themeDarkMode_Description" of-type="TwoOptions" usage="input" default-value="false" />
+    <!-- New property for language as an Enum -->
+    <property name="language" display-name-key="language_Name" description-key="language_Description" of-type="Enum" usage="input" default-value="en">
+      <value name="en" display-name-key="language_en_DisplayName">en</value>
+      <value name="es" display-name-key="language_es_DisplayName">es</value>
+      <value name="fr" display-name-key="language_fr_DisplayName">fr</value>
+      <value name="de" display-name-key="language_de_DisplayName">de</value>
+      <value name="zh" display-name-key="language_zh_DisplayName">zh</value>
+      <value name="ja" display-name-key="language_ja_DisplayName">ja</value>
+      <value name="ko" display-name-key="language_ko_DisplayName">ko</value>
+      <value name="it" display-name-key="language_it_DisplayName">it</value>
+      <value name="nl" display-name-key="language_nl_DisplayName">nl</value>
+      <value name="pt" display-name-key="language_pt_DisplayName">pt</value>
+    </property>
+    <property name="layout" display-name-key="layout_Name" description-key="layout_Description" of-type="Enum" usage="input" default-value="Vertical">
+      <value name="Horizontal" display-name-key="layout_Horizontal_DisplayName">Horizontal</value>
+      <value name="Vertical" display-name-key="layout_Vertical_DisplayName">Vertical</value>
+    </property>
+    <!--
+      Property node's of-type attribute can be of-type-group attribute.
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1" />
+      <!-- Added resource entries for localization -->
+      <resx path="resources/PortalFiles.1033.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.3082.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1036.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1031.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.2052.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1041.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1042.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1040.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1043.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1046.resx" version="1.0.0" />
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>

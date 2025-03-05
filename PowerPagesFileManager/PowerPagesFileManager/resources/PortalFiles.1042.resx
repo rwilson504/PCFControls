@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+<xsd:element name="root" msdata:IsDataSet="true">
+<xsd:complexType>
+<xsd:choice maxOccurs="unbounded">
+  <xsd:element name="metadata">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" use="required" type="xsd:string" />
+	  <xsd:attribute name="type" type="xsd:string" />
+	  <xsd:attribute name="mimetype" type="xsd:string" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="assembly">
+	<xsd:complexType>
+	  <xsd:attribute name="alias" type="xsd:string" />
+	  <xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="data">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+	  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+	  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+	  <xsd:attribute ref="xml:space" />
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="resheader">
+	<xsd:complexType>
+	  <xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+	  </xsd:sequence>
+	  <xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+  </xsd:element>
+</xsd:choice>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<resheader name="resmimetype">
+<value>text/microsoft-resx</value>
+</resheader>
+<resheader name="version">
+<value>2.0</value>
+</resheader>
+<resheader name="reader">
+<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+<resheader name="writer">
+<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+</resheader>
+  <data name="Control_Name" xml:space="preserve">
+    <value>파워 페이지 파일 관리자</value>
+  </data>
+  <data name="Control_Description" xml:space="preserve">
+    <value>이 컨트롤을 사용하면 Azure Blob Storage에 연결된 파워 페이지에서 파일을 업로드, 다운로드 및 관리할 수 있습니다.</value>
+  </data>
+  <data name="sampleProperty_Name" xml:space="preserve">
+    <value>문자열 필드 바인딩</value>
+  </data>
+  <data name="sampleProperty_Description" xml:space="preserve">
+    <value>이 컨트롤이 바인딩된 문자열 필드입니다.</value>
+  </data>
+  <data name="allowMultipleFiles_Name" xml:space="preserve">
+    <value>여러 파일 허용</value>
+  </data>
+  <data name="allowMultipleFiles_Description" xml:space="preserve">
+    <value>사용자가 여러 파일을 업로드할 수 있도록 허용합니다.</value>
+  </data>
+  <data name="allowedFileTypes_Name" xml:space="preserve">
+    <value>허용된 파일 유형</value>
+  </data>
+  <data name="allowedFileTypes_Description" xml:space="preserve">
+    <value>쉼표로 구분된 파일 유형을 입력합니다(예: .png, .jpg, .pdf). 기본적으로 특정 파일 유형이 여기에 나열되지 않는 한 모든 파일 유형이 허용됩니다.</value>
+  </data>
+  <data name="allowedMimeTypes_Name" xml:space="preserve">
+    <value>허용된 MIME 유형</value>
+  </data>
+  <data name="allowedMimeTypes_Description" xml:space="preserve">
+    <value>쉼표로 구분된 MIME 유형을 입력합니다(예: image/png, audio/*, application/pdf). 기본적으로 특정 MIME 유형이 여기에 나열되지 않는 한 모든 MIME 유형이 허용됩니다.</value>
+  </data>
+  <data name="uploadSizeLimitKB_Name" xml:space="preserve">
+    <value>업로드 크기 제한(KB)</value>
+  </data>
+  <data name="uploadSizeLimitKB_Description" xml:space="preserve">
+    <value>파일당 최대 업로드 크기(KB 단위, 최대 10485760).</value>
+  </data>
+  <data name="maxNumberOfFiles_Name" xml:space="preserve">
+    <value>최대 파일 수</value>
+  </data>
+  <data name="maxNumberOfFiles_Description" xml:space="preserve">
+    <value>최대 파일 수를 입력합니다. 값이 0이면 무제한 파일 업로드가 허용됩니다.</value>
+  </data>
+  <data name="maxGridHeight_Name" xml:space="preserve">
+    <value>최대 그리드 높이</value>
+  </data>
+  <data name="maxGridHeight_Description" xml:space="preserve">
+    <value>주석 그리드의 최대 높이(픽셀 단위). 무제한 높이로 설정하려면 0으로 설정합니다.</value>
+  </data>
+  <data name="themeColor_Name" xml:space="preserve">
+    <value>테마 색상</value>
+  </data>
+  <data name="themeColor_Description" xml:space="preserve">
+    <value>테마를 생성하기 위한 기본 색상입니다.</value>
+  </data>
+  <data name="themeDarkMode_Name" xml:space="preserve">
+    <value>테마 다크 모드</value>
+  </data>
+  <data name="themeDarkMode_Description" xml:space="preserve">
+    <value>테마가 다크 모드인지 여부를 결정합니다.</value>
+  </data>
+  <data name="language_Name" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="language_Description" xml:space="preserve">
+    <value>현지화 언어를 선택합니다.</value>
+  </data>
+  <data name="language_en_DisplayName" xml:space="preserve">
+    <value>영어</value>
+  </data>
+  <data name="language_es_DisplayName" xml:space="preserve">
+    <value>스페인어</value>
+  </data>
+  <data name="language_fr_DisplayName" xml:space="preserve">
+    <value>프랑스어</value>
+  </data>
+  <data name="language_de_DisplayName" xml:space="preserve">
+    <value>독일어</value>
+  </data>
+  <data name="language_zh_DisplayName" xml:space="preserve">
+    <value>중국어</value>
+  </data>
+  <data name="language_ja_DisplayName" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="language_ko_DisplayName" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="language_it_DisplayName" xml:space="preserve">
+    <value>이탈리아어</value>
+  </data>
+  <data name="language_nl_DisplayName" xml:space="preserve">
+    <value>네덜란드어</value>
+  </data>
+  <data name="language_pt_DisplayName" xml:space="preserve">
+    <value>포르투갈어</value>
+  </data>
+  <data name="layout_Name" xml:space="preserve">
+    <value>레이아웃</value>
+  </data>
+  <data name="layout_Description" xml:space="preserve">
+    <value>드롭 영역 아래 또는 오른쪽에 그리드와 헤더 버튼이 표시되는지 결정합니다.</value>
+  </data>
+  <data name="layout_Horizontal_DisplayName" xml:space="preserve">
+    <value>수평</value>
+  </data>
+  <data name="layout_Vertical_DisplayName" xml:space="preserve">
+    <value>수직</value>
+  </data>
+  <data name="displayAllFiles_Name" xml:space="preserve">
+    <value>모든 파일 표시</value>
+</data>
+<data name="displayAllFiles_Description" xml:space="preserve">
+    <value>컨트롤이 레코드의 기존 모든 파일(주석)을 검색하고 표시할지 또는 현재 세션 동안 업로드된 파일만 표시할지 결정합니다.</value>
+</data>
+</root>

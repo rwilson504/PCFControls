@@ -104,6 +104,11 @@ steps:
     command: 'install'
     workingDir: './DocxTemplatesCanvas/'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './PowerPagesFileManager/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -207,6 +212,12 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './DocxTemplatesCanvas/Solution/RAWDocxTemplatesCanvas/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './PowerPagesFileManager/Solution/PowerPagesFileManagerSolution/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
