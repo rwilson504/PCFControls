@@ -37,6 +37,8 @@ The techniques and methods used in this PCF component were inspired by the artic
 
 To install the PCF component, follow these steps using the **Maker Portal**:
 
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/PowerPagesFileManagerSolution_managed.zip)
+
 - Open **Power Apps Maker Portal** (`https://make.powerapps.com`).
 - Navigate to **Solutions** in the left-hand menu.
 - Click **Import Solution**.
