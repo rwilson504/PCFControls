@@ -28,7 +28,7 @@ The techniques and methods used in this PCF component were inspired by the artic
 - **Progress Indicators:** Displays real-time upload progress with progress bars and percentage updates.
 - **Error Handling:** Clear modal alerts and error messages for issues like unsupported file types and file size limits.
 - **Security Compliance:** This control uses the Power Page file API to ensure that all requests conform to Power Pages web role security.
-- **Theming Support:** Integrated Fluent UI theming (WebLight, WebDark, Teams variants) for a consistent look and feel.
+- **Theming Support:** Uses a primary color property to set the theme and a dark mode property to adjust the color palette accordingly for a dynamic look and feel.
 - **Dynamic Grid & Sorting:** Detailed grid view with sorting, selection, and a footer showing total and selected file counts.
 - **Multi-Language Support:** Provides translations for English (en), Spanish (es), French (fr), German (de), Chinese (zh), Japanese (ja), Korean (ko), Italian (it), Dutch (nl), and Portuguese (pt).
 - **Accessible Interaction:** Supports drag and drop along with a file selection button that includes proper aria labels for 508 compliance.
