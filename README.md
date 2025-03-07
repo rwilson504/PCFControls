@@ -44,7 +44,7 @@ This component ensures that users can only select from a filtered list of option
 
 ![Restricted Choice Control Screen Shot](./RestrictedChoice/images/2025-03-07_15-36-00.png)
 
-[More...](./RestrictedChoice/README.md)  
+[More...](./RestrictedChoice/README.MD)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RestrictedChoiceControl_managed.zip)
 
 ## Power Pages File Manager
@@ -53,7 +53,7 @@ This component allows users to upload, download, and manage files stored in Azur
 
 ![Power Pages File Manager](./PowerPagesFileManager/images/PowerPagesFileManager.gif)
 
-[More...](./PowerPagesFileManager/README.md)  
+[More...](./PowerPagesFileManager/README.MD)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/PowerPagesFileManagerSolution_managed.zip)
 
 ## PDF Form Fill (Canvas)
