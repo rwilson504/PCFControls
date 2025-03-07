@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/rickwilson/GitHub-rwilson504/_apis/build/status/rwilson504.PCFControls?branchName=master)](https://dev.azure.com/rickwilson/GitHub-rwilson504/_build/latest?definitionId=5&branchName=master)
+[![Build Status](https://dev.azure.com/rickwilson/GitHub-rwilson504/_apis/build/status/rwilson504.PCFControls?branchName=master)](https://dev.azure.com/rwilson/GitHub-rwilson504/_build/latest?definitionId=5&branchName=master)
 
 # Description
 Reusable PowerApps Component Framework (PCF) components.
@@ -37,6 +37,15 @@ Allows you to add an iframe to a canvas app and load an external web page.  Addi
 
 [More...](./Frame/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWframe_managed.zip)
+
+## Restricted Choice Control
+
+This component ensures that users can only select from a filtered list of options based on specified restrictions. It dynamically adjusts the available choices in real-time, providing a seamless and intuitive interface for users to interact with complex business rules.
+
+![Restricted Choice Control Screen Shot](./RestrictedChoice/images/2025-03-07_15-36-00.png)
+
+[More...](./RestrictedChoice/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RestrictedChoiceControl_managed.zip)
 
 ## Power Pages File Manager
 
