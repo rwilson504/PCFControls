@@ -9,25 +9,33 @@ import {
   DataGridRow,
   DataGridCell,
   DataGridBody,
-  DataGridHeaderCell
+  DataGridHeaderCell,
+  TableColumnDefinition,
+  createTableColumn,
+  TableCellLayout,
+  DataGridProps,
+  TableRowId
 } from "@fluentui/react-components";
 import { useStyles } from "../utils/styles";
 import { IPcfContextServiceProps } from "../services/PcfContextService";
 import { getEntities, hasUpdateAccess, getFirstPdfSetting, updatePdfSetting, updatePdfSettingsJson } from "../services/MetadataService";
 import { PdfSetting } from "../types/PdfSetting";
+import { PdfEntity } from "../types/PdfEntity";
 
 export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props) => {
   const pcfContext = usePcfContext();
   const styles = useStyles();
-  // Check if control is visible
   if (!pcfContext.isVisible()) return <></>;
 
   const isDisabled = pcfContext.isControlDisabled();
 
-  const [data, setData] = React.useState<{ displayName: string; logicalName: string }[]>([]);
+  const [data, setData] = React.useState<PdfEntity[]>([]);
   const [hasUpdateAccessState, setHasUpdateAccessState] = React.useState<boolean>(false);
   const [firstPdfSetting, setFirstPdfSetting] = React.useState<PdfSetting | null>(null);
   const [selectedEntities, setSelectedEntities] = React.useState<Record<string, boolean>>({});
+  const [selectedRows, setSelectedRows] = React.useState(
+    new Set<TableRowId>()
+  );
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +59,10 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
     };
     void fetchFirstPdfSetting();
   }, []);
+
+  const onSelectionChange: DataGridProps["onSelectionChange"] = (e, data) => {
+    setSelectedRows(data.selectedItems);
+  };
 
   const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     void (async () => {
@@ -78,10 +90,23 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
     })();
   };
 
-  // Define the columns for the DataGrid.
-  const columns = [
-    { key: "displayName", name: "Display Name" },
-    { key: "logicalName", name: "Logical Name" }
+  const columns: TableColumnDefinition<PdfEntity>[] = [
+    createTableColumn<PdfEntity>({
+      columnId: "displayName",
+      compare: (a, b) => a.displayName.localeCompare(b.displayName),
+      renderHeaderCell: () => "Display Name",
+      renderCell: (item) => (
+        <TableCellLayout>{item.displayName}</TableCellLayout>
+      ),
+    }),
+    createTableColumn<PdfEntity>({
+      columnId: "logicalName",
+      compare: (a, b) => a.logicalName.localeCompare(b.logicalName),
+      renderHeaderCell: () => "Logical Name",
+      renderCell: (item) => (
+        <TableCellLayout>{item.logicalName}</TableCellLayout>
+      ),
+    }),
   ];
 
   return (
@@ -94,7 +119,6 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
           disabled={!hasUpdateAccessState || isDisabled}
         />
       </div>
-      {/* Replaced Table with a DataGrid */}
       <DataGrid
         items={data}
         columns={columns}
@@ -103,14 +127,8 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
         getRowId={(item) => item.logicalName}
         focusMode="composite"
         style={{ minWidth: "550px", height: "500px", overflowY: "scroll" }}
-        onSelectionChange={(event, selectedItems) => {
-          // Update selectedEntities based on selection.
-          const newSelectedEntities: Record<string, boolean> = {};
-          selectedItems.forEach((item) => {
-            newSelectedEntities[item.logicalName] = true;
-          });
-          setSelectedEntities(newSelectedEntities);
-        }}
+        selectedItems={selectedRows}
+        onSelectionChange={onSelectionChange}
       >
         <DataGridHeader>
           <DataGridRow
@@ -121,12 +139,9 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
             )}
           </DataGridRow>
         </DataGridHeader>
-        <DataGridBody>
+        <DataGridBody<PdfEntity>>
           {({ item, rowId }) => (
-            <DataGridRow
-              key={rowId}
-              selectionCell={{ checkboxIndicator: { "aria-label": "Select row" } }}
-            >
+            <DataGridRow<PdfEntity> key={rowId} selectionCell={{ checkboxIndicator: { "aria-label": "Select row" } }}>
               {() => (
                 <>
                   <DataGridCell>{item.displayName}</DataGridCell>
