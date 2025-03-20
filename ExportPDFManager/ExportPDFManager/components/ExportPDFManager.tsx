@@ -1,25 +1,22 @@
 import * as React from "react";
 import { usePcfContext } from "../services/PcfContext";
 import {
-  Checkbox,
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableHeaderCell,
   Switch,
   Text,
   Button,
+  DataGrid,
+  DataGridHeader,
+  DataGridRow,
+  DataGridCell,
+  DataGridBody,
+  DataGridHeaderCell
 } from "@fluentui/react-components";
 import { useStyles } from "../utils/styles";
 import { IPcfContextServiceProps } from "../services/PcfContextService";
 import { getEntities, hasUpdateAccess, getFirstPdfSetting, updatePdfSetting, updatePdfSettingsJson } from "../services/MetadataService";
 import { PdfSetting } from "../types/PdfSetting";
 
-export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
-  props
-) => {
+export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props) => {
   const pcfContext = usePcfContext();
   const styles = useStyles();
   // Check if control is visible
@@ -68,18 +65,6 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     })();
   };
 
-  const handleCheckboxChange = (logicalName: string) => {
-    setSelectedEntities((prevSelectedEntities) => {
-      const newSelectedEntities = { ...prevSelectedEntities };
-      if (newSelectedEntities[logicalName]) {
-        delete newSelectedEntities[logicalName];
-      } else {
-        newSelectedEntities[logicalName] = true;
-      }
-      return newSelectedEntities;
-    });
-  };
-
   const handleSave = () => {
     void (async () => {
       if (firstPdfSetting) {
@@ -93,6 +78,12 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     })();
   };
 
+  // Define the columns for the DataGrid.
+  const columns = [
+    { key: "displayName", name: "Display Name" },
+    { key: "logicalName", name: "Logical Name" }
+  ];
+
   return (
     <>
       <div style={{ marginBottom: "10px" }}>
@@ -103,35 +94,49 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
           disabled={!hasUpdateAccessState || isDisabled}
         />
       </div>
-      
-        <Table 
-          role="table" 
-          style={{ width: "100%", tableLayout: "fixed" }}
-          noNativeElements={true}
-        >
-          <TableHeader>
-            <TableRow>
-              {/* Set first column width to 50px */}
-              <TableCell style={{ width: "50px", minWidth: "50px" }}></TableCell>
-              <TableCell>Display Name</TableCell>
-              <TableCell>Logical Name</TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody style={{ height: '500px', overflowY: 'scroll' }}>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell style={{ width: "50px", minWidth: "50px", position: "relative" }}>
-                  <Checkbox
-                    checked={selectedEntities[item.logicalName] || false}
-                    onChange={() => handleCheckboxChange(item.logicalName)}
-                  />
-                </TableCell>
-                <TableCell>{item.displayName}</TableCell>
-                <TableCell>{item.logicalName}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      {/* Replaced Table with a DataGrid */}
+      <DataGrid
+        items={data}
+        columns={columns}
+        sortable
+        selectionMode="multiselect"
+        getRowId={(item) => item.logicalName}
+        focusMode="composite"
+        style={{ minWidth: "550px", height: "500px", overflowY: "scroll" }}
+        onSelectionChange={(event, selectedItems) => {
+          // Update selectedEntities based on selection.
+          const newSelectedEntities: Record<string, boolean> = {};
+          selectedItems.forEach((item) => {
+            newSelectedEntities[item.logicalName] = true;
+          });
+          setSelectedEntities(newSelectedEntities);
+        }}
+      >
+        <DataGridHeader>
+          <DataGridRow
+            selectionCell={{ checkboxIndicator: { "aria-label": "Select all rows" } }}
+          >
+            {({ renderHeaderCell }) => (
+              <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
+            )}
+          </DataGridRow>
+        </DataGridHeader>
+        <DataGridBody>
+          {({ item, rowId }) => (
+            <DataGridRow
+              key={rowId}
+              selectionCell={{ checkboxIndicator: { "aria-label": "Select row" } }}
+            >
+              {() => (
+                <>
+                  <DataGridCell>{item.displayName}</DataGridCell>
+                  <DataGridCell>{item.logicalName}</DataGridCell>
+                </>
+              )}
+            </DataGridRow>
+          )}
+        </DataGridBody>
+      </DataGrid>
       <Button
         onClick={handleSave}
         disabled={!hasUpdateAccessState || isDisabled}
