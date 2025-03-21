@@ -14,28 +14,34 @@ import {
   createTableColumn,
   TableCellLayout,
   DataGridProps,
-  TableRowId
+  TableRowId,
 } from "@fluentui/react-components";
 import { useStyles } from "../utils/styles";
 import { IPcfContextServiceProps } from "../services/PcfContextService";
-import { getEntities, hasUpdateAccess, getFirstPdfSetting, updatePdfSetting, updatePdfSettingsJson } from "../services/MetadataService";
+import {
+  getEntities,
+  hasUpdateAccess,
+  getFirstPdfSetting,
+  updatePdfSetting,
+  updatePdfSettingsJson,
+} from "../services/MetadataService";
 import { PdfSetting } from "../types/PdfSetting";
 import { PdfEntity } from "../types/PdfEntity";
 
-export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props) => {
+export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
+  props
+) => {
   const pcfContext = usePcfContext();
   const styles = useStyles();
   if (!pcfContext.isVisible()) return <></>;
 
   const isDisabled = pcfContext.isControlDisabled();
-
   const [data, setData] = React.useState<PdfEntity[]>([]);
-  const [hasUpdateAccessState, setHasUpdateAccessState] = React.useState<boolean>(false);
-  const [firstPdfSetting, setFirstPdfSetting] = React.useState<PdfSetting | null>(null);
-  const [selectedEntities, setSelectedEntities] = React.useState<Record<string, boolean>>({});
-  const [selectedRows, setSelectedRows] = React.useState(
-    new Set<TableRowId>()
-  );
+  const [hasUpdateAccessState, setHasUpdateAccessState] =
+    React.useState<boolean>(false);
+  const [firstPdfSetting, setFirstPdfSetting] =
+    React.useState<PdfSetting | null>(null);
+  const [selectedRows, setSelectedRows] = React.useState(new Set<TableRowId>());
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -44,8 +50,8 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
     };
     void fetchData();
 
-    const checkUpdateAccess = () => {
-      const hasAccess = hasUpdateAccess(pcfContext.context);
+    const checkUpdateAccess = async () => {
+      const hasAccess = await hasUpdateAccess(pcfContext.context);
       setHasUpdateAccessState(hasAccess);
     };
     void checkUpdateAccess();
@@ -54,7 +60,11 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
       const pdfSetting = await getFirstPdfSetting(pcfContext.context);
       setFirstPdfSetting(pdfSetting);
       if (pdfSetting?.settings) {
-        setSelectedEntities(JSON.parse(pdfSetting.settings) as Record<string, boolean>);
+        const parsedSettings = JSON.parse(pdfSetting.settings) as Record<string, boolean>;
+        const savedRows = Object.entries(parsedSettings)
+          .filter(([key, value]) => value === true)
+          .map(([key]) => key);
+        setSelectedRows(new Set(savedRows));
       }
     };
     void fetchFirstPdfSetting();
@@ -68,7 +78,11 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
     void (async () => {
       if (firstPdfSetting) {
         try {
-          const updatedValue = await updatePdfSetting(pcfContext.context, firstPdfSetting.id, event.target.checked);
+          const updatedValue = await updatePdfSetting(
+            pcfContext.context,
+            firstPdfSetting.id,
+            event.target.checked
+          );
           setFirstPdfSetting({ ...firstPdfSetting, isEnabled: updatedValue });
         } catch (error) {
           console.error("Failed to update PDF setting:", error);
@@ -81,8 +95,12 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
     void (async () => {
       if (firstPdfSetting) {
         try {
-          const pdfSettingsJson = JSON.stringify(selectedEntities);
-          await updatePdfSettingsJson(pcfContext.context, firstPdfSetting.id, pdfSettingsJson);
+          const pdfSettingsJson = JSON.stringify(Array.from(selectedRows));
+          await updatePdfSettingsJson(
+            pcfContext.context,
+            firstPdfSetting.id,
+            pdfSettingsJson
+          );
         } catch (error) {
           console.error("Failed to save PDF settings:", error);
         }
@@ -116,12 +134,12 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
         <Switch
           checked={firstPdfSetting?.isEnabled ?? false}
           onChange={handleSwitchChange}
-          disabled={!hasUpdateAccessState || isDisabled}
+          {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
         />
       </div>
       <DataGrid
         items={data}
-        columns={columns}
+        columns={columns}        
         sortable
         selectionMode="multiselect"
         getRowId={(item) => item.logicalName}
@@ -132,7 +150,9 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
       >
         <DataGridHeader>
           <DataGridRow
-            selectionCell={{ checkboxIndicator: { "aria-label": "Select all rows" } }}
+            selectionCell={{
+              checkboxIndicator: { "aria-label": "Select all rows" },
+            }}
           >
             {({ renderHeaderCell }) => (
               <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
@@ -141,12 +161,14 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
         </DataGridHeader>
         <DataGridBody<PdfEntity>>
           {({ item, rowId }) => (
-            <DataGridRow<PdfEntity> key={rowId} selectionCell={{ checkboxIndicator: { "aria-label": "Select row" } }}>
-              {() => (
-                <>
-                  <DataGridCell>{item.displayName}</DataGridCell>
-                  <DataGridCell>{item.logicalName}</DataGridCell>
-                </>
+            <DataGridRow<PdfEntity>
+              key={rowId}
+              selectionCell={{
+                checkboxIndicator: { "aria-label": "Select row" },
+              }}
+            >
+              {({ renderCell }) => (
+                <DataGridCell>{renderCell(item)}</DataGridCell>
               )}
             </DataGridRow>
           )}
@@ -154,7 +176,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (props
       </DataGrid>
       <Button
         onClick={handleSave}
-        disabled={!hasUpdateAccessState || isDisabled}
+        {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
         style={{ marginTop: "10px" }}
       >
         Save

@@ -45,10 +45,12 @@ export const getEntities = async (
   }
 };
 
-export const hasUpdateAccess = (
+export const hasUpdateAccess = async (
   context: ComponentFramework.Context<IInputs>
-): boolean => {
-  return context.utils.hasEntityPrivilege("pdfsetting", 3, 3) as boolean; // Write = 3, Global = 3
+): Promise<boolean> => {
+  // loads the metadata for the entity in cache
+  await context.utils.getEntityMetadata("pdfsetting");
+  return context.utils.hasEntityPrivilege("pdfsetting", 3, 3); // Write = 3, Global = 3
 };
 
 export const getFirstPdfSetting = async (
