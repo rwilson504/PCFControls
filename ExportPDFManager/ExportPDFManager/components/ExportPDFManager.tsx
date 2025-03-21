@@ -42,6 +42,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
   const [firstPdfSetting, setFirstPdfSetting] =
     React.useState<PdfSetting | null>(null);
   const [selectedRows, setSelectedRows] = React.useState(new Set<TableRowId>());
+  const [hasChanges, setHasChanges] = React.useState<boolean>(false); // added state
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -72,41 +73,44 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
 
   const onSelectionChange: DataGridProps["onSelectionChange"] = (e, data) => {
     setSelectedRows(data.selectedItems);
+    setHasChanges(true); // mark changes occurred
   };
 
   const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    void (async () => {
-      if (firstPdfSetting) {
-        try {
-          const updatedValue = await updatePdfSetting(
-            pcfContext.context,
-            firstPdfSetting.id,
-            event.target.checked
-          );
-          setFirstPdfSetting({ ...firstPdfSetting, isEnabled: updatedValue });
-        } catch (error) {
-          console.error("Failed to update PDF setting:", error);
-        }
-      }
-    })();
+    // Update local switch value without calling updatePdfSetting
+    if (firstPdfSetting) {
+      setFirstPdfSetting({ ...firstPdfSetting, isEnabled: event.target.checked });
+      setHasChanges(true); // mark changes occurred
+    }
   };
 
   const handleSave = () => {
     void (async () => {
       if (firstPdfSetting) {
         try {
+          // Update the switch value via updatePdfSetting on save
+          const updatedValue = await updatePdfSetting(
+            pcfContext.context,
+            firstPdfSetting.id,
+            firstPdfSetting.isEnabled
+          );
+          setFirstPdfSetting({ ...firstPdfSetting, isEnabled: updatedValue });
+          // Save grid selection changes
           const pdfSettingsJson = JSON.stringify(Array.from(selectedRows));
           await updatePdfSettingsJson(
             pcfContext.context,
             firstPdfSetting.id,
             pdfSettingsJson
           );
+          setHasChanges(false); // reset changes after save
         } catch (error) {
           console.error("Failed to save PDF settings:", error);
         }
       }
     })();
   };
+
+  const isSaveDisabled = !hasChanges || !hasUpdateAccessState || isDisabled; // computed disabled
 
   const columns: TableColumnDefinition<PdfEntity>[] = [
     createTableColumn<PdfEntity>({
@@ -129,13 +133,21 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
 
   return (
     <>
-      <div style={{ marginBottom: "10px" }}>
-        <Text>Enable PDF Settings</Text>
-        <Switch
-          checked={firstPdfSetting?.isEnabled ?? false}
-          onChange={handleSwitchChange}
-          {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
-        />
+      {/* Top control container with switch on left and save button on right */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+        <div>
+          <Text>Enable PDF Settings</Text>
+          <Switch
+            checked={firstPdfSetting?.isEnabled ?? false}
+            onChange={handleSwitchChange}
+            {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
+          />
+        </div>
+        <div>
+          <Button onClick={handleSave} disabled={isSaveDisabled}>
+            Save
+          </Button>
+        </div>
       </div>
       <DataGrid
         items={data}
@@ -174,13 +186,15 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
           )}
         </DataGridBody>
       </DataGrid>
-      <Button
-        onClick={handleSave}
-        {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
-        style={{ marginTop: "10px" }}
-      >
-        Save
-      </Button>
+      {/* Bottom Save Button wrapped in flex container */}
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+        <Button
+          onClick={handleSave}
+          disabled={isSaveDisabled}
+        >
+          Save
+        </Button>
+      </div>
     </>
   );
 };
