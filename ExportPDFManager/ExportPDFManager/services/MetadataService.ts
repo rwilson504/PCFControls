@@ -48,9 +48,10 @@ export const getEntities = async (
 export const hasUpdateAccess = async (
   context: ComponentFramework.Context<IInputs>
 ): Promise<boolean> => {
-  // loads the metadata for the entity in cache
+  // Load the metadata for the entity in cache
   await context.utils.getEntityMetadata("pdfsetting");
-  return context.utils.hasEntityPrivilege("pdfsetting", 3, 3); // Write = 3, Global = 3
+  // Check if the user has write access to the entity, Write = 3, Global = 3
+  return context.utils.hasEntityPrivilege("pdfsetting", 3, 3) as boolean;
 };
 
 export const getFirstPdfSetting = async (

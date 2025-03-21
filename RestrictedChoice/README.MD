@@ -8,11 +8,13 @@ The Restricted Choice Control is a versatile component designed to enhance user 
 This control is particularly useful in scenarios where you have deprecated a choice value but need to leave it in place for existing records. By using this control, you can prevent users from selecting the deprecated value for future records while still maintaining the integrity of existing data. Additionally, you can use business rules or JavaScript to restrict values based on other data on the form, ensuring that users only see relevant options based on the context of their input.
 
 ## Shoutouts
-First, a shoutout to [Sahil Agarwal](https://www.linkedin.com/in/sk-agarwal/) who gave me this idea which he has on [pcf.gallery](https://pcf.gallery/choicerestrictor/). I love the idea but wanted to extend it to use FluentUI 9 and also include a few other features to turn on/off the restrictions.
+* [Sahil Agarwal](https://www.linkedin.com/in/sk-agarwal/) who gave me this idea which he has on [pcf.gallery](https://pcf.gallery/choicerestrictor/). I love the idea but wanted to extend it to use FluentUI 9 and also include a few other features to turn on/off the restrictions.
 
-Also, another shoutout to [Diana Birkelbach](https://www.linkedin.com/in/diana-birkelbach/) who posted this article on how to use the FluentUI 9 theming provided by the PCF context to more easily theme these components. [Read the article](https://dianabirkelbach.wordpress.com/2025/02/25/style-your-fluent-ui-9-pcfs-for-power-apps/).
+* [Diana Birkelbach](https://www.linkedin.com/in/diana-birkelbach/) who posted this article on how to use the FluentUI 9 theming provided by the PCF context to more easily theme these components. [Read the article](https://dianabirkelbach.wordpress.com/2025/02/25/style-your-fluent-ui-9-pcfs-for-power-apps/).
 
-Thank you to both of you for being such awesome contributors to the community!
+* [David Rivard](https://www.linkedin.com/in/davidrivard/) whose articles and code have helped me learn and advance my knowledge of PCF, Webpack, and React. Check out his blog: [itmustbecode.com](https://itmustbecode.com/)
+
+Thanks to all of you for being such awesome contributors to the community!
 
 ## Features
 - **Multi-select support**: Supports single and multi-select choice fields.
