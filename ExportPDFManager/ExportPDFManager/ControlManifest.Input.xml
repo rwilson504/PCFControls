@@ -35,18 +35,17 @@
       <code path="index.ts" order="1" />
       <platform-library name="React" version="16.14.0" />
       <platform-library name="Fluent" version="9.46.2" />
-      <resx path="resources/RestrictedChoice.1033.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.3082.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1031.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1043.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1041.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1042.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1036.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1025.resx" version="1.0.0" />
-      <resx path="resources/RestrictedChoice.1040.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1033.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.3082.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1031.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1043.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1041.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1042.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1036.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1025.resx" version="1.0.0" />
+      <resx path="resources/ExportPDFManager.1040.resx" version="1.0.0" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
-      <css path="css/RestrictedChoice.css" order="1" />
-      <resx path="strings/RestrictedChoice.1033.resx" version="1.0.0" />
+      <css path="css/ExportPDFManager.css" order="1" />
       -->
     </resources>
     <feature-usage>

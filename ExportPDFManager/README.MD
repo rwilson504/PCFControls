@@ -1,49 +1,58 @@
-# Restricted Choice Control
+# Export PDF Manager Control
 
-![Restricted Choice Control Screen Shot](./images/2025-03-07_15-36-00.png)
+![Export PDF Manager Control Screen Shot](./images/export-pdf-manager-screenshot.png)
 
 ## Introduction
-The Restricted Choice Control is a versatile component designed to enhance user experience by ensuring that users can only select from a filtered list of options based on specified restrictions. This control dynamically adjusts the available choices in real-time, providing a seamless and intuitive interface for users to interact with complex business rules.
+The Export PDF Manager Control is a Power Apps Component Framework (PCF) control designed to simplify the management and configuration of the "Export to PDF" functionality within model-driven apps. This control provides an intuitive interface to enable or disable PDF export capabilities, configure PDF generation settings, and manage visibility and availability of the Export to PDF button based on specific business requirements.
 
-This control is particularly useful in scenarios where you have deprecated a choice value but need to leave it in place for existing records. By using this control, you can prevent users from selecting the deprecated value for future records while still maintaining the integrity of existing data. Additionally, you can use business rules or JavaScript to restrict values based on other data on the form, ensuring that users only see relevant options based on the context of their input.
-
-## Shoutouts
-First, a shoutout to [Sahil Agarwal](https://www.linkedin.com/in/sk-agarwal/) who gave me this idea which he has on [pcf.gallery](https://pcf.gallery/choicerestrictor/). I love the idea but wanted to extend it to use FluentUI 9 and also include a few other features to turn on/off the restrictions.
-
-Also, another shoutout to [Diana Birkelbach](https://www.linkedin.com/in/diana-birkelbach/) who posted this article on how to use the FluentUI 9 theming provided by the PCF context to more easily theme these components. [Read the article](https://dianabirkelbach.wordpress.com/2025/02/25/style-your-fluent-ui-9-pcfs-for-power-apps/).
-
-Thank you to both of you for being such awesome contributors to the community!
+This control is particularly useful for administrators and developers who need to quickly adjust PDF export settings without manually editing XML or using complex scripts. It streamlines the process of enabling PDF export functionality, ensuring consistency and reducing the risk of errors.
 
 ## Features
-- **Multi-select support**: Supports single and multi-select choice fields.
-- **Dynamic filtering**: Dynamically filters options based on provided restrictions.
-- **Fluent UI integration**: Integrates seamlessly with Fluent UI components.
-- **Visibility configuration**: Allows configuring restricted options visibility: set to "hide" to filter them out or "disable" to show them disabled.
-- **Unselection handling**: If a record has a pre-selected restricted option, the user can unselect it; after unselection the value will be hidden or disabled so it cannot be selected again.
-- **Input properties**: Provides input properties for restricted values and restrictions, which can be set manually or bound to fields. This allows dynamic updates using business rules or JavaScript.
-- **Translations**: Supports multiple languages including English, Spanish, French, Korean, Japanese, German, Portuguese, and Arabic.
-- **Theme**: Utilizes the built-in model app theme or any applied themes in canvas apps to ensure consistent styling and appearance.
+- **Enable/Disable Export to PDF**: Quickly toggle the availability of the Export to PDF button.
+- **Dynamic Configuration**: Adjust PDF export settings dynamically based on form context or user roles.
+- **Ribbon Customization**: Easily manage ribbon visibility and button availability without manual XML editing.
+- **Integration with PowerShell and Ribbon Workbench**: Supports configuration via PowerShell scripts and Ribbon Workbench for advanced scenarios.
+- **Fluent UI Integration**: Built using Fluent UI 9 for a consistent and modern user experience.
+- **Multi-language Support**: Supports multiple languages including English, Spanish, French, Korean, Japanese, German, Portuguese, and Arabic.
+- **Theme Support**: Adapts seamlessly to the built-in model-driven app theme or custom themes applied in canvas apps.
 
 ## Available Properties
 
-| Property Name                | Description                                                                 | Type                | Default Value |
-|------------------------------|-----------------------------------------------------------------------------|---------------------|---------------|
-| choiceProperty               | The property representing the choice option set.                            | OptionSet, MultiSelectOptionSet | N/A           |
-| restrictedChoices            | A comma delimited list of values to restrict from the choice. eg. 100001,10002 | SingleLine.Text     | N/A           |
-| restrictChoices              | Enable or disable the restriction on choices.                               | TwoOptions          | true          |
-| restrictedChoiceVisibility   | Determines whether restricted choices appear as disabled (1) or hidden (0). | Enum                | 1             |
+| Property Name  | Description                                                | Type            | Default Value |
+|----------------|------------------------------------------------------------|-----------------|---------------|
+| boundProperty  | The primary bound property for the control context.        | SingleLine.Text | N/A           |
+| height         | Height of the control in pixels.                           | Whole.None      | 500           |
+
+## Configuration Methods
+You can configure the Export to PDF functionality using several methods:
+
+### Using PowerShell
+You can enable or disable the Export to PDF button using PowerShell scripts. Refer to the detailed instructions provided in the following article:
+[Enable Export to PDF Button using PowerShell](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#powershell)
+
+### Using Ribbon Workbench
+Ribbon Workbench allows you to visually manage ribbon buttons and commands. Follow the steps outlined here:
+[Enable Export to PDF Button using Ribbon Workbench](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#ribbonworkbench)
+
+### Manual XML Editing
+For advanced users, manual XML editing is also supported. Detailed instructions can be found here:
+[Enable Export to PDF Button using Manual XML Editing](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#manualxml)
 
 ## Installation
 
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RestrictedChoiceControl_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManager_managed.zip)
 
 [Import the solution file](https://learn.microsoft.com/en-us/power-apps/maker/data-platform/import-update-export-solutions)
 
-### Model Apps
-
-[Implementing code components for Model Apps](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/code-components-model-driven-apps#implementing-code-components)
+### Model-driven Apps
+[Implementing code components for Model-driven Apps](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/code-components-model-driven-apps#implementing-code-components)
 
 ### Canvas Apps
-Enable PCF for Canvas in your enviornment.  [Enable the Power Apps component framework feature](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps)
+Enable PCF for Canvas in your environment. [Enable the Power Apps component framework feature](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps)
 
 [Implementing code components in Canvas](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps#implementing-code-components)
+
+## Shoutouts
+Special thanks to the community contributors who inspired and supported this control development:
+- [Scott Durow](https://www.linkedin.com/in/scottdurow/) for the Ribbon Workbench tool.
+- [Microsoft Power Apps Community](https://powerusers.microsoft.com/) for continuous support and resources.

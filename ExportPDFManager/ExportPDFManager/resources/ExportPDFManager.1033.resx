@@ -61,35 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-   <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>Restricted Choice</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>Export PDF Manager</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>This control restricts the available choices based on configuration settings.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>Control for managing PDF export functionality in model driven apps.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>Choice Property</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>Bound Property</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>The property representing the choice option set.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>The single text property bound to the control.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>Restricted Choices</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>Height</value>
   </data>
-  <!-- Using same description key for restricted choices (update as needed) -->
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>A comma delimited list of values to restrict from the choice. eg. 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>Restrict Choices</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>Enable or disable the restriction on choices.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>Restricted Choice Visibility</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>Determines whether restricted choices appear as disabled (1) or hidden (0).</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>The height of the control in pixels.</value>
   </data>
 </root>

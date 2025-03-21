@@ -76,7 +76,6 @@ export class PcfContextService {
           colorCompoundBrandStrokeHover: defaultTheme?.colorNeutralStroke1Hover,
           colorCompoundBrandStrokePressed:
             defaultTheme?.colorNeutralStroke1Pressed,
-          //colorCompoundBrandStrokeSelected: props.theme?.colorNeutralStroke1Selected,
         }
       : defaultTheme;
   }
