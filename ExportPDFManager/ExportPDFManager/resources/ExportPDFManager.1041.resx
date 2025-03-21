@@ -91,4 +91,22 @@
   <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
     <value>制限付き選択肢が無効（1）または非表示（0）として表示されるかどうかを決定します。</value>
   </data>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>PDFエクスポートマネージャー</value>
+  </data>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>モデル駆動型アプリでPDFエクスポート機能を管理するためのコントロール。</value>
+  </data>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>バインドされたプロパティ</value>
+  </data>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>コントロールにバインドされた単一のテキストプロパティ。</value>
+  </data>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>高さ</value>
+  </data>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>コントロールの高さ（ピクセル単位）。</value>
+  </data>
 </root>

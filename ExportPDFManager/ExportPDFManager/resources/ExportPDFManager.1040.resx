@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>Scelta Ristretta</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>Gestore Esportazione PDF</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>Questo controllo limita le scelte disponibili in base alle impostazioni di configurazione.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>Controllo per gestire la funzionalità di esportazione PDF nelle app basate su modelli.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>Proprietà di Scelta</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>Proprietà Associata</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>La proprietà che rappresenta il set di opzioni di scelta.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>La singola proprietà di testo associata al controllo.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>Scelte Ristrette</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>Altezza</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>Un elenco di valori delimitati da virgole da limitare dalla scelta. es. 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>Limitare le Scelte</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>Abilita o disabilita la limitazione delle scelte.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>Visibilità delle Scelte Ristrette</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>Determina se le scelte ristrette appaiono come disabilitate (1) o nascoste (0).</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>L'altezza del controllo in pixel.</value>
   </data>
 </root>

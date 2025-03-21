@@ -5,7 +5,7 @@
 ## Introduction
 The Export PDF Manager Control is a Power Apps Component Framework (PCF) control designed to simplify the management and configuration of the "Export to PDF" functionality within model-driven apps. This control provides an intuitive interface to enable or disable PDF export capabilities, configure PDF generation settings, and manage visibility and availability of the Export to PDF button based on specific business requirements.
 
-This control is particularly useful for administrators and developers who need to quickly adjust PDF export settings without manually editing XML or using complex scripts. It streamlines the process of enabling PDF export functionality, ensuring consistency and reducing the risk of errors.
+This control is particularly useful for administrators and developers who need to quickly adjust PDF export settings without manually editing XML or using complex scripts. It streamlines the process of enabling PDF export functionality, ensuring consistency and reducing the risk of errors. While there are other ways to configure the Export to PDF functionality, as detailed in my [original article](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html), this PCF control makes it much easier, especially for those who are not using Dynamics but just Power Apps model apps.
 
 ## Features
 - **Enable/Disable Export to PDF**: Quickly toggle the availability of the Export to PDF button.
@@ -23,21 +23,6 @@ This control is particularly useful for administrators and developers who need t
 | boundProperty  | The primary bound property for the control context.        | SingleLine.Text | N/A           |
 | height         | Height of the control in pixels.                           | Whole.None      | 500           |
 
-## Configuration Methods
-You can configure the Export to PDF functionality using several methods:
-
-### Using PowerShell
-You can enable or disable the Export to PDF button using PowerShell scripts. Refer to the detailed instructions provided in the following article:
-[Enable Export to PDF Button using PowerShell](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#powershell)
-
-### Using Ribbon Workbench
-Ribbon Workbench allows you to visually manage ribbon buttons and commands. Follow the steps outlined here:
-[Enable Export to PDF Button using Ribbon Workbench](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#ribbonworkbench)
-
-### Manual XML Editing
-For advanced users, manual XML editing is also supported. Detailed instructions can be found here:
-[Enable Export to PDF Button using Manual XML Editing](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html#manualxml)
-
 ## Installation
 
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManager_managed.zip)
@@ -52,7 +37,8 @@ Enable PCF for Canvas in your environment. [Enable the Power Apps component fram
 
 [Implementing code components in Canvas](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps#implementing-code-components)
 
-## Shoutouts
-Special thanks to the community contributors who inspired and supported this control development:
-- [Scott Durow](https://www.linkedin.com/in/scottdurow/) for the Ribbon Workbench tool.
-- [Microsoft Power Apps Community](https://powerusers.microsoft.com/) for continuous support and resources.
+### Using a Settings Entity
+For model apps, it is recommended to create a Settings entity to store configuration values such as default queues for sending emails or teams used for specific processes. This entity can be used in workflows and flows to avoid defining these values in each one. To ensure the Settings entity only has one record, create a real-time workflow on creation to set the name to "Settings" and create a key on the Name field. This prevents admins from accidentally creating more than one record.
+
+You can place this PCF component on the Settings entity to manage the Export to PDF functionality centrally.
+

@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>Eingeschränkte Auswahl</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>PDF-Export-Manager</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>Diese Steuerung beschränkt die verfügbaren Auswahlmöglichkeiten basierend auf den Konfigurationseinstellungen.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>Steuerelement zur Verwaltung der PDF-Exportfunktionalität in modellgesteuerten Apps.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>Auswahl Eigenschaft</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>Gebundene Eigenschaft</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>Die Eigenschaft, die den Optionssatz darstellt.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>Die einzelne Texteigenschaft, die an das Steuerelement gebunden ist.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>Eingeschränkte Auswahlmöglichkeiten</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>Höhe</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>Eine durch Kommas getrennte Liste von Werten, die von der Auswahl ausgeschlossen werden sollen. z.B. 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>Auswahl einschränken</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>Aktivieren oder Deaktivieren der Einschränkung der Auswahlmöglichkeiten.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>Sichtbarkeit der eingeschränkten Auswahl</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>Bestimmt, ob eingeschränkte Auswahlmöglichkeiten als deaktiviert (1) oder ausgeblendet (0) angezeigt werden.</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>Die Höhe des Steuerelements in Pixeln.</value>
   </data>
 </root>

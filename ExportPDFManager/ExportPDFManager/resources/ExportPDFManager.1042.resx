@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>제한된 선택</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>PDF 내보내기 관리자</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>이 컨트롤은 설정에 따라 사용 가능한 선택 항목을 제한합니다.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>모델 기반 앱에서 PDF 내보내기 기능을 관리하는 컨트롤입니다.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>선택 속성</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>바인딩된 속성</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>선택 옵션 세트를 나타내는 속성입니다.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>컨트롤에 바인딩된 단일 텍스트 속성입니다.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>제한된 선택 항목</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>높이</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>선택에서 제한할 값의 쉼표로 구분된 목록입니다. 예: 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>선택 항목 제한</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>선택 항목 제한을 활성화하거나 비활성화합니다.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>제한된 선택 항목 가시성</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>제한된 선택 항목이 비활성화(1) 또는 숨김(0)으로 표시되는지 여부를 결정합니다.</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>컨트롤의 높이(픽셀)입니다.</value>
   </data>
 </root>

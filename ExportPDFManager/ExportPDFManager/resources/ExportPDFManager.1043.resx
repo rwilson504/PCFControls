@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>Beperkte Keuze</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>Export PDF Beheerder</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>Deze controle beperkt de beschikbare keuzes op basis van configuratie-instellingen.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>Besturingselement voor het beheren van PDF-exportfunctionaliteit in modelgestuurde apps.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>Keuze Eigenschap</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>Gebonden Eigenschap</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>De eigenschap die de keuzemogelijkheden vertegenwoordigt.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>De enkele teksteigenschap die aan het besturingselement is gebonden.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>Beperkte Keuzes</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>Hoogte</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>Een door komma's gescheiden lijst van waarden om uit de keuze te beperken. bijv. 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>Keuzes Beperken</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>Schakel de beperking van keuzes in of uit.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>Zichtbaarheid van Beperkte Keuzes</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>Bepaalt of beperkte keuzes worden weergegeven als uitgeschakeld (1) of verborgen (0).</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>De hoogte van het besturingselement in pixels.</value>
   </data>
 </root>

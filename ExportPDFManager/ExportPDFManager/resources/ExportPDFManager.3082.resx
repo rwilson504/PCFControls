@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>Elección Restringida</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>Administrador de Exportación PDF</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>Este control restringe las opciones disponibles según la configuración.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>Control para gestionar la funcionalidad de exportación de PDF en aplicaciones basadas en modelos.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>Propiedad de Elección</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>Propiedad Vinculada</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>La propiedad que representa el conjunto de opciones.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>La propiedad de texto única vinculada al control.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>Opciones Restringidas</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>Altura</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>Una lista delimitada por comas de valores a restringir de la elección. ej. 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>Restringir Opciones</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>Habilitar o deshabilitar la restricción de opciones.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>Visibilidad de Opciones Restringidas</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>Determina si las opciones restringidas aparecen como deshabilitadas (1) o ocultas (0).</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>La altura del control en píxeles.</value>
   </data>
 </root>

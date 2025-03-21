@@ -61,34 +61,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RestrictedChoice_Display_Key" xml:space="preserve">
-    <value>اختيار مقيد</value>
+  <data name="ExportPDFManager_Display_Key" xml:space="preserve">
+    <value>مدير تصدير PDF</value>
   </data>
-  <data name="RestrictedChoice_Desc_Key" xml:space="preserve">
-    <value>يقيد هذا التحكم الخيارات المتاحة بناءً على إعدادات التكوين.</value>
+  <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
+    <value>عنصر تحكم لإدارة وظيفة تصدير PDF في التطبيقات المستندة إلى النماذج.</value>
   </data>
-  <data name="choiceProperty_Display_Key" xml:space="preserve">
-    <value>خاصية الاختيار</value>
+  <data name="boundProperty_Display_Key" xml:space="preserve">
+    <value>الخاصية المرتبطة</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>الخاصية التي تمثل مجموعة خيارات الاختيار.</value>
+  <data name="boundProperty_Desc_Key" xml:space="preserve">
+    <value>خاصية النص الفردية المرتبطة بعنصر التحكم.</value>
   </data>
-  <data name="restrictedChoices_Display_Key" xml:space="preserve">
-    <value>خيارات مقيدة</value>
+  <data name="height_Display_Key" xml:space="preserve">
+    <value>الارتفاع</value>
   </data>
-  <data name="choiceProperty_Desc_Key" xml:space="preserve">
-    <value>قائمة القيم المفصولة بفواصل لتقييدها من الاختيار. على سبيل المثال 100001,10002)</value>
-  </data>
-  <data name="restrictChoices_Display_Key" xml:space="preserve">
-    <value>تقييد الخيارات</value>
-  </data>
-  <data name="restrictChoices_Desc_Key" xml:space="preserve">
-    <value>تمكين أو تعطيل التقييد على الخيارات.</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Display_Key" xml:space="preserve">
-    <value>رؤية الخيارات المقيدة</value>
-  </data>
-  <data name="restrictedChoiceVisibility_Desc_Key" xml:space="preserve">
-    <value>يحدد ما إذا كانت الخيارات المقيدة تظهر كمعطلة (1) أو مخفية (0).</value>
+  <data name="height_Desc_Key" xml:space="preserve">
+    <value>ارتفاع عنصر التحكم بالبكسل.</value>
   </data>
 </root>
