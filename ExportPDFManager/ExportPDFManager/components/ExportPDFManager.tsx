@@ -95,8 +95,12 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
             firstPdfSetting.isEnabled
           );
           setFirstPdfSetting({ ...firstPdfSetting, isEnabled: updatedValue });
-          // Save grid selection changes
-          const pdfSettingsJson = JSON.stringify(Array.from(selectedRows));
+          // Build settings JSON object with selected rows mapped to true
+          const pdfSettings: Record<string, boolean> = {};
+          selectedRows.forEach((row) => {
+            pdfSettings[row] = true;
+          });
+          const pdfSettingsJson = JSON.stringify(pdfSettings);
           await updatePdfSettingsJson(
             pcfContext.context,
             firstPdfSetting.id,
@@ -163,7 +167,8 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
         <DataGridHeader>
           <DataGridRow
             selectionCell={{
-              checkboxIndicator: { "aria-label": "Select all rows" },
+              // added disabled property to select all checkbox
+              checkboxIndicator: { "aria-label": "Select all rows", ...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {}) },
             }}
           >
             {({ renderHeaderCell }) => (
@@ -176,7 +181,8 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
             <DataGridRow<PdfEntity>
               key={rowId}
               selectionCell={{
-                checkboxIndicator: { "aria-label": "Select row" },
+                // added disabled property to each row checkbox
+                checkboxIndicator: { "aria-label": "Select row", ...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {}) },
               }}
             >
               {({ renderCell }) => (
