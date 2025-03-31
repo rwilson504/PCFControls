@@ -28,8 +28,22 @@ pool:
 #COLOR PICKER
 
 steps:
+# Step 1: Cache Global npm Modules
+- task: Cache@2
+  inputs:
+    key: 'npm-cache | "$(Agent.OS)" | package-lock.json'
+    path: $(npm_config_cache)
+    cacheHitVar: NPM_GLOBAL_CACHE_RESTORED
+
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/ColorPicker/package-lock.json'
+    path: '$(Build.SourcesDirectory)/ColorPicker/node_modules'
+    cacheHitVar: CACHE_RESTORED_COLORPICKER
+
 #Run npm install to get all required resources for the projectl
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_COLORPICKER'], 'true')
   inputs:
     command: 'install'
     workingDir: './ColorPicker/'

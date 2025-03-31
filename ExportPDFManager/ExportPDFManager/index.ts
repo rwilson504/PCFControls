@@ -55,7 +55,7 @@ export class ExportPDFManager
     this.props = {
       context: context,
       instanceid: this.contextInstanceId,
-      height: context.parameters.height?.raw || 500,   
+      height: context.parameters.height?.raw ?? 500,   
     };
 
     return React.createElement(ExportPDFManagerApp, this.props);

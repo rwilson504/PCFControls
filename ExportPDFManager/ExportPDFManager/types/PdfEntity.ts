@@ -1,4 +1,4 @@
-export type PdfEntity = {
+export interface PdfEntity {
   displayName: string;
   logicalName: string;
 };

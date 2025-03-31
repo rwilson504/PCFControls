@@ -54,6 +54,10 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     sortColumn: "displayName",
     sortDirection: "ascending",
   });
+  // Add a new state for the toggle
+const [isToggleEnabled, setIsToggleEnabled] = React.useState<boolean>(
+  firstPdfSetting?.isEnabled ?? false
+);
   
   React.useEffect(() => {
     const fetchData = async () => {
@@ -85,6 +89,10 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     void checkUpdateAccess();
   }, []);
 
+  React.useEffect(() => {
+    setIsToggleEnabled(firstPdfSetting?.isEnabled ?? false);
+  }, [firstPdfSetting]);
+
   const onSelectionChange: DataGridProps["onSelectionChange"] = (e, data) => {
     setSelectedRows(data.selectedItems);
     setHasChanges(true); // mark changes occurred
@@ -94,16 +102,11 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     setSortState(nextSortState);
   };
 
-  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Update local switch value without calling updatePdfSetting
-    if (firstPdfSetting) {
-      setFirstPdfSetting({
-        ...firstPdfSetting,
-        isEnabled: event.target.checked,
-      });
-      setHasChanges(true); // mark changes occurred
-    }
-  };
+  // Update the handleSwitchChange function to modify the local toggle state
+const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setIsToggleEnabled(event.target.checked); // Update the local toggle state
+  setHasChanges(true); // Mark that changes occurred
+};
 
   const handleSave = () => {
     void (async () => {
@@ -114,7 +117,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
           const updatedValue = await updatePdfSetting(
             pcfContext.context,
             firstPdfSetting.id,
-            firstPdfSetting.isEnabled
+            isToggleEnabled
           );
           setFirstPdfSetting({ ...firstPdfSetting, isEnabled: updatedValue });
           // Build settings JSON object with selected rows mapped to true
@@ -139,6 +142,8 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
       }
     })();
   };
+
+
 
   const isSaveDisabled =
     !hasChanges ||
@@ -181,7 +186,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
         <div>
           <Text>Enable PDF Settings</Text>
           <Switch
-            checked={firstPdfSetting?.isEnabled ?? false}
+            checked={isToggleEnabled}
             onChange={handleSwitchChange}
             {...(!hasUpdateAccessState || isDisabled ? { disabled: true } : {})}
           />
@@ -211,7 +216,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
           sortState={sortState}
           onSortChange={onSortChange}
           selectionMode="multiselect"
-          getRowId={(item) => item.logicalName}
+          getRowId={(item: PdfEntity) => item.logicalName}
           focusMode="composite"
           style={{ minWidth: "550px" }}
           selectedItems={selectedRows}
@@ -221,7 +226,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
             <DataGridRow
               style={{
                 pointerEvents:
-                  !hasUpdateAccessState || isDisabled || saveState === "loading"
+                  !hasUpdateAccessState || isDisabled || !isToggleEnabled || saveState === "loading"
                     ? "none"
                     : undefined,
               }}
@@ -230,7 +235,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
                 checkboxIndicator: {
                   "aria-label": "Select all rows",
                   ...(!hasUpdateAccessState ||
-                  isDisabled ||
+                  isDisabled ||  !isToggleEnabled ||
                   saveState === "loading"
                     ? { disabled: true }
                     : {}),
@@ -249,7 +254,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
                 style={{
                   pointerEvents:
                     !hasUpdateAccessState ||
-                    isDisabled ||
+                    isDisabled || !isToggleEnabled ||
                     saveState === "loading"
                       ? "none"
                       : undefined,
@@ -259,7 +264,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
                   checkboxIndicator: {
                     "aria-label": "Select row",
                     ...(!hasUpdateAccessState ||
-                    isDisabled ||
+                    isDisabled || !isToggleEnabled ||
                     saveState === "loading"
                       ? { disabled: true }
                       : {}),

@@ -62,7 +62,7 @@
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExportPDFManager_Display_Key" xml:space="preserve">
-    <value>Export PDF Manager</value>
+    <value>RAW! Export PDF Manager</value>
   </data>
   <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
     <value>Control for managing PDF export functionality in model driven apps.</value>
