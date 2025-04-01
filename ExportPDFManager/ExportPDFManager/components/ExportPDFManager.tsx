@@ -191,14 +191,14 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       >
         <div style={{ display: "flex", alignItems: "center", columnGap: "8px" }}>
           <Tooltip
-            content={tooltipContent}
-            positioning="above-start"
+            content={{children: tooltipContent, className: styles.tooltip, id: tooltipId}}
+            positioning="below-start"
             withArrow
             relationship="label"            
           >
             <Info16Regular tabIndex={0} aria-labelledby={tooltipId} />
           </Tooltip>
-          <Text>Enable PDF Settings</Text>
+          <Text>Enable PDF Output</Text>
           <Switch
             checked={isToggleEnabled}
             onChange={handleSwitchChange}
