@@ -16,8 +16,10 @@ import {
   TableCellLayout,
   DataGridProps,
   TableRowId,
+  Tooltip,
+  useId,
 } from "@fluentui/react-components";
-import { CheckmarkFilled } from "@fluentui/react-icons"; // new import
+import { CheckmarkFilled, Info16Regular } from "@fluentui/react-icons"; // new import
 import { useStyles } from "../utils/styles";
 import { IPcfContextServiceProps } from "../services/PcfContextService";
 import {
@@ -29,6 +31,7 @@ import {
 } from "../services/MetadataService";
 import { PdfSetting } from "../types/PdfSetting";
 import { PdfEntity } from "../types/PdfEntity";
+import parse from 'html-react-parser';
 
 type SaveState = "initial" | "loading" | "loaded";
 
@@ -143,7 +146,10 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     })();
   };
 
+  // Assume `tooltipContent` is fetched from the .resx file
+  const tooltipContent = parse(pcfContext.context.resources.getString("Tooltip_Content_Key"));
 
+  const tooltipId = useId("tooltip"); // unique ID for the tooltip
 
   const isSaveDisabled =
     !hasChanges ||
@@ -183,7 +189,15 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           marginBottom: "10px",
         }}
       >
-        <div>
+        <div style={{ display: "flex", alignItems: "center", columnGap: "8px" }}>
+          <Tooltip
+            content={tooltipContent}
+            positioning="above-start"
+            withArrow
+            relationship="label"            
+          >
+            <Info16Regular tabIndex={0} aria-labelledby={tooltipId} />
+          </Tooltip>
           <Text>Enable PDF Settings</Text>
           <Switch
             checked={isToggleEnabled}

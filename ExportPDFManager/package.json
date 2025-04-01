@@ -15,6 +15,7 @@
   "dependencies": {
     "@fluentui/react-components": "9.46.2",
     "axios": "^1.8.3",
+    "html-react-parser": "^5.2.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "uuidv4": "^6.2.13"

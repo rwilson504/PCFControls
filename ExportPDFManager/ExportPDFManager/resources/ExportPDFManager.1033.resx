@@ -79,4 +79,23 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>The height of the control in pixels.</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;What does it do?&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Generates a professional, read-only PDF of a record using Word templates configured for the entity.&lt;/li&gt;
+        &lt;li&gt;You can download the PDF or email it directly to your customer.&lt;/li&gt;
+        &lt;li&gt;Optionally, save the generated PDF to SharePoint (if enabled) or as a note in Dataverse.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;Limitations to be aware of:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;PDF generation works only with entities that have enabled Word templates.&lt;/li&gt;
+        &lt;li&gt;Only available in the web app for custom entity records.&lt;/li&gt;
+        &lt;li&gt;If multiple Word templates exist, the first one is selected by default.&lt;/li&gt;
+        &lt;li&gt;Preview functionality may not work if browser settings disable automatic PDF viewing.&lt;/li&gt;
+        &lt;li&gt;Saving to SharePoint requires SharePoint integration to be enabled.&lt;/li&gt;
+        &lt;li&gt;If the Export to PDF option is not visible, ensure that PDF generation is enabled for the entity in the list below.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
 </root>
