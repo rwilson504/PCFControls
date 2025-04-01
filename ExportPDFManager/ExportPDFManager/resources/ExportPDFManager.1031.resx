@@ -62,7 +62,7 @@
       Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExportPDFManager_Display_Key" xml:space="preserve">
-    <value>PDF-Export-Manager</value>
+    <value>RAW! PDF Export Manager</value>
   </data>
   <data name="ExportPDFManager_Desc_Key" xml:space="preserve">
     <value>Steuerelement zur Verwaltung der PDF-Exportfunktionalität in modellgesteuerten Apps.</value>
@@ -78,5 +78,39 @@
   </data>
   <data name="height_Desc_Key" xml:space="preserve">
     <value>Die Höhe des Steuerelements in Pixeln.</value>
+  </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;Was macht es?&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Erstellt eine professionelle, schreibgeschützte PDF-Datei eines Datensatzes mithilfe von Word-Vorlagen, die für die Entität konfiguriert sind.&lt;/li&gt;
+        &lt;li&gt;Sie können die PDF-Datei herunterladen oder direkt an Ihren Kunden senden.&lt;/li&gt;
+        &lt;li&gt;Optional können Sie die generierte PDF-Datei in SharePoint (falls aktiviert) oder als Notiz in Dataverse speichern.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;Einschränkungen, die zu beachten sind:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Die PDF-Erstellung funktioniert nur mit Entitäten, die Word-Vorlagen aktiviert haben.&lt;/li&gt;
+        &lt;li&gt;Nur in der Web-App für benutzerdefinierte Entitätsdatensätze verfügbar.&lt;/li&gt;
+        &lt;li&gt;Wenn mehrere Word-Vorlagen vorhanden sind, wird standardmäßig die erste ausgewählt.&lt;/li&gt;
+        &lt;li&gt;Die Vorschaufunktion funktioniert möglicherweise nicht, wenn die Browsereinstellungen das automatische Anzeigen von PDFs deaktivieren.&lt;/li&gt;
+        &lt;li&gt;Das Speichern in SharePoint erfordert, dass die SharePoint-Integration aktiviert ist.&lt;/li&gt;
+        &lt;li&gt;Wenn die Option "Exportieren nach PDF" nicht sichtbar ist, stellen Sie sicher, dass die PDF-Erstellung für die Entität in der unten stehenden Liste aktiviert ist.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>PDF-Ausgabe aktivieren</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>Anzeigename</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>Logischer Name</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>Alle Zeilen auswählen</value>
   </data>
 </root>

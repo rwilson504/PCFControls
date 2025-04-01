@@ -103,4 +103,8 @@ export class PcfContextService {
       return this.context.page.getClientUrl();
     }
   }
+
+  public getResourceString(key: string): string {    
+    return this.context.resources.getString(key) || key;
+  }
 }

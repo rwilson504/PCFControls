@@ -79,4 +79,38 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>L'altezza del controllo in pixel.</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;Cosa fa?&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Genera un PDF professionale e di sola lettura di un record utilizzando i modelli Word configurati per l'entità.&lt;/li&gt;
+        &lt;li&gt;Puoi scaricare il PDF o inviarlo direttamente al tuo cliente via email.&lt;/li&gt;
+        &lt;li&gt;Opzionalmente, salva il PDF generato su SharePoint (se abilitato) o come nota in Dataverse.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;Limitazioni da considerare:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;La generazione di PDF funziona solo con entità che hanno abilitato i modelli Word.&lt;/li&gt;
+        &lt;li&gt;Disponibile solo nell'app web per i record di entità personalizzate.&lt;/li&gt;
+        &lt;li&gt;Se esistono più modelli Word, viene selezionato per impostazione predefinita il primo.&lt;/li&gt;
+        &lt;li&gt;La funzionalità di anteprima potrebbe non funzionare se le impostazioni del browser disabilitano la visualizzazione automatica dei PDF.&lt;/li&gt;
+        &lt;li&gt;Il salvataggio su SharePoint richiede che l'integrazione con SharePoint sia abilitata.&lt;/li&gt;
+        &lt;li&gt;Se l'opzione Esporta in PDF non è visibile, assicurati che la generazione di PDF sia abilitata per l'entità nell'elenco sottostante.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>Abilita Output PDF</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>Nome visualizzato</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>Nome logico</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>Seleziona tutte le righe</value>
+  </data>
 </root>

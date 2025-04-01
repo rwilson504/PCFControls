@@ -109,4 +109,38 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>コントロールの高さ（ピクセル単位）。</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;それは何をしますか？&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;エンティティ用に構成されたWordテンプレートを使用して、レコードのプロフェッショナルで読み取り専用のPDFを生成します。&lt;/li&gt;
+        &lt;li&gt;PDFをダウンロードするか、直接顧客にメールで送信できます。&lt;/li&gt;
+        &lt;li&gt;オプションで、生成されたPDFをSharePoint（有効化されている場合）またはDataverseのノートとして保存します。&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;注意すべき制限事項：&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;PDF生成は、Wordテンプレートが有効化されているエンティティでのみ機能します。&lt;/li&gt;
+        &lt;li&gt;カスタムエンティティレコードのWebアプリでのみ利用可能です。&lt;/li&gt;
+        &lt;li&gt;複数のWordテンプレートが存在する場合、最初のテンプレートがデフォルトで選択されます。&lt;/li&gt;
+        &lt;li&gt;ブラウザ設定で自動PDF表示が無効になっている場合、プレビュー機能が動作しない可能性があります。&lt;/li&gt;
+        &lt;li&gt;SharePointへの保存には、SharePoint統合が有効である必要があります。&lt;/li&gt;
+        &lt;li&gt;「PDFにエクスポート」オプションが表示されない場合は、以下のリストでエンティティに対してPDF生成が有効になっていることを確認してください。&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>PDF出力を有効にする</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>表示名</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>論理名</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>すべての行を選択</value>
+  </data>
 </root>

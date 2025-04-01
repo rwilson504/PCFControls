@@ -79,4 +79,38 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>De hoogte van het besturingselement in pixels.</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;Wat doet het?&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Genereert een professionele, alleen-lezen PDF van een record met behulp van Word-sjablonen die voor de entiteit zijn geconfigureerd.&lt;/li&gt;
+        &lt;li&gt;U kunt de PDF downloaden of deze rechtstreeks naar uw klant e-mailen.&lt;/li&gt;
+        &lt;li&gt;Optioneel kunt u de gegenereerde PDF opslaan in SharePoint (indien ingeschakeld) of als een notitie in Dataverse.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;Beperkingen om rekening mee te houden:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;PDF-generatie werkt alleen met entiteiten waarvoor Word-sjablonen zijn ingeschakeld.&lt;/li&gt;
+        &lt;li&gt;Alleen beschikbaar in de webapp voor aangepaste entiteitsrecords.&lt;/li&gt;
+        &lt;li&gt;Als er meerdere Word-sjablonen bestaan, wordt standaard de eerste geselecteerd.&lt;/li&gt;
+        &lt;li&gt;De voorbeeldfunctionaliteit werkt mogelijk niet als browserinstellingen automatisch PDF-weergave uitschakelen.&lt;/li&gt;
+        &lt;li&gt;Opslaan in SharePoint vereist dat SharePoint-integratie is ingeschakeld.&lt;/li&gt;
+        &lt;li&gt;Als de optie Exporteren naar PDF niet zichtbaar is, controleer dan of PDF-generatie is ingeschakeld voor de entiteit in de onderstaande lijst.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>PDF-uitvoer inschakelen</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>Opslaan</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>Weergavenaam</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>Logische naam</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>Selecteer alle rijen</value>
+  </data>
 </root>

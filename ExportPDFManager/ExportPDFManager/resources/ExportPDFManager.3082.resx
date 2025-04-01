@@ -79,4 +79,38 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>La altura del control en píxeles.</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;¿Qué hace?&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Genera un PDF profesional y de solo lectura de un registro utilizando plantillas de Word configuradas para la entidad.&lt;/li&gt;
+        &lt;li&gt;Puede descargar el PDF o enviarlo directamente a su cliente por correo electrónico.&lt;/li&gt;
+        &lt;li&gt;Opcionalmente, guarde el PDF generado en SharePoint (si está habilitado) o como una nota en Dataverse.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;Limitaciones a tener en cuenta:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;La generación de PDF solo funciona con entidades que tienen plantillas de Word habilitadas.&lt;/li&gt;
+        &lt;li&gt;Solo disponible en la aplicación web para registros de entidades personalizadas.&lt;/li&gt;
+        &lt;li&gt;Si existen múltiples plantillas de Word, se selecciona la primera por defecto.&lt;/li&gt;
+        &lt;li&gt;La funcionalidad de vista previa puede no funcionar si la configuración del navegador desactiva la visualización automática de PDF.&lt;/li&gt;
+        &lt;li&gt;Guardar en SharePoint requiere que la integración con SharePoint esté habilitada.&lt;/li&gt;
+        &lt;li&gt;Si la opción Exportar a PDF no es visible, asegúrese de que la generación de PDF esté habilitada para la entidad en la lista a continuación.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>Habilitar salida PDF</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>Nombre para mostrar</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>Nombre lógico</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>Seleccionar todas las filas</value>
+  </data>
 </root>

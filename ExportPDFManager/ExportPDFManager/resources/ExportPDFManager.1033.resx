@@ -98,4 +98,19 @@
       &lt;/ul&gt;
     &lt;/div&gt;</value>
   </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>Enable PDF Output</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save"  xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName"  xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName"  xml:space="preserve">
+    <value>Logical name</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll"  xml:space="preserve">
+    <value>Select all rows</value>
+  </data>
 </root>

@@ -79,4 +79,38 @@
   <data name="height_Desc_Key" xml:space="preserve">
     <value>ارتفاع عنصر التحكم بالبكسل.</value>
   </data>
+  <data name="Tooltip_Content_Key" xml:space="preserve">
+    <value>&lt;div&gt;
+      &lt;strong&gt;ما الذي يفعله؟&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ينشئ ملف PDF احترافي للقراءة فقط لسجل باستخدام قوالب Word المكونة للكيان.&lt;/li&gt;
+        &lt;li&gt;يمكنك تنزيل ملف PDF أو إرساله بالبريد الإلكتروني مباشرة إلى عميلك.&lt;/li&gt;
+        &lt;li&gt;اختياريًا، احفظ ملف PDF الذي تم إنشاؤه في SharePoint (إذا تم تمكينه) أو كملاحظة في Dataverse.&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;strong&gt;القيود التي يجب الانتباه إليها:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;li&gt;يعمل إنشاء PDF فقط مع الكيانات التي تم تمكين قوالب Word لها.&lt;/li&gt;
+        &lt;li&gt;متاح فقط في تطبيق الويب لسجلات الكيانات المخصصة.&lt;/li&gt;
+        &lt;li&gt;إذا كانت هناك قوالب Word متعددة، يتم تحديد الأول افتراضيًا.&lt;/li&gt;
+        &lt;li&gt;قد لا تعمل وظيفة المعاينة إذا كانت إعدادات المتصفح تعطل عرض PDF التلقائي.&lt;/li&gt;
+        &lt;li&gt;يتطلب الحفظ في SharePoint تمكين تكامل SharePoint.&lt;/li&gt;
+        &lt;li&gt;إذا لم يكن خيار التصدير إلى PDF مرئيًا، فتأكد من تمكين إنشاء PDF للكيان في القائمة أدناه.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;</value>
+  </data>
+  <data name="ExportPDFManagerControl_toggle_EnablePDF" xml:space="preserve">
+    <value>تمكين إخراج PDF</value>
+  </data>
+  <data name="ExportPDFManagerControl_btn_Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_DisplayName" xml:space="preserve">
+    <value>اسم العرض</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_LogicalName" xml:space="preserve">
+    <value>الاسم المنطقي</value>
+  </data>
+  <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
+    <value>تحديد كل الصفوف</value>
+  </data>
 </root>

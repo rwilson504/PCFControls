@@ -29,11 +29,8 @@ import {
   updatePdfSetting,
   updatePdfSettingsJson,
 } from "../services/MetadataService";
-import { PdfSetting } from "../types/PdfSetting";
-import { PdfEntity } from "../types/PdfEntity";
+import { PdfSetting, PdfEntity, SaveState } from "../types"; // updated import
 import parse from 'html-react-parser';
-
-type SaveState = "initial" | "loading" | "loaded";
 
 export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
   props
@@ -147,7 +144,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   };
 
   // Assume `tooltipContent` is fetched from the .resx file
-  const tooltipContent = parse(pcfContext.context.resources.getString("Tooltip_Content_Key"));
+  const tooltipContent = parse(pcfContext.getResourceString("Tooltip_Content_Key"));
 
   const tooltipId = useId("tooltip"); // unique ID for the tooltip
 
@@ -161,7 +158,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     createTableColumn<PdfEntity>({
       columnId: "displayName",
       compare: (a, b) => a.displayName.localeCompare(b.displayName),
-      renderHeaderCell: () => "Display Name",
+      renderHeaderCell: () => {pcfContext.getResourceString('ExportPDFManagerControl_grid_header_DisplayName')},
       renderCell: (item) => (
         <TableCellLayout>{item.displayName}</TableCellLayout>
       ),
@@ -169,7 +166,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     createTableColumn<PdfEntity>({
       columnId: "logicalName",
       compare: (a, b) => a.logicalName.localeCompare(b.logicalName),
-      renderHeaderCell: () => "Logical Name",
+      renderHeaderCell: () => {pcfContext.getResourceString('ExportPDFManagerControl_grid_header_LogicalName')},
       renderCell: (item) => (
         <TableCellLayout>{item.logicalName}</TableCellLayout>
       ),
@@ -198,7 +195,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           >
             <Info16Regular tabIndex={0} aria-labelledby={tooltipId} />
           </Tooltip>
-          <Text>Enable PDF Output</Text>
+          <Text>{pcfContext.getResourceString('ExportPDFManagerControl_toggle_EnablePDF')}</Text>
           <Switch
             checked={isToggleEnabled}
             onChange={handleSwitchChange}
@@ -217,7 +214,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
               ) : undefined
             }
           >
-            Save
+            {pcfContext.getResourceString('ExportPDFManagerControl_btn_Save')}
           </Button>
         </div>
       </div>
@@ -247,7 +244,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
               selectionCell={{
                 // added saveState condition to disable the select all checkbox while saving
                 checkboxIndicator: {
-                  "aria-label": "Select all rows",
+                  "aria-label": pcfContext.getResourceString('ExportPDFManagerControl_grid_header_SelectAll'),
                   ...(!hasUpdateAccessState ||
                   isDisabled ||  !isToggleEnabled ||
                   saveState === "loading"
@@ -312,7 +309,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             ) : undefined
           }
         >
-          Save
+          {pcfContext.getResourceString('ExportPDFManagerControl_btn_Save')}
         </Button>
       </div>
     </div>
