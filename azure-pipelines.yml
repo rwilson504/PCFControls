@@ -25,16 +25,7 @@ variables:
 pool:
   vmImage: 'windows-latest'
 
-#COLOR PICKER
-
 steps:
-# Step 1: Cache Global npm Modules
-- task: Cache@2
-  inputs:
-    key: 'npm-cache | "$(Agent.OS)" | package-lock.json'
-    path: $(npm_config_cache)
-    cacheHitVar: NPM_GLOBAL_CACHE_RESTORED
-
 # ColorPicker
 - task: Cache@2
   inputs:

@@ -104,7 +104,19 @@ export class PcfContextService {
     }
   }
 
-  public getResourceString(key: string): string {    
+  public getResourceString(key: string): string {
     return this.context.resources.getString(key) || key;
+  }
+
+  // If the pcf is in full page mode such as when it's being loaded through the sitemap
+  // this will return any parameters that were passed in the URL.
+  public getFullPageParam(key: string): string {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const configuration = (<any>this.context.mode).fullPageParam;
+    const pageParam = configuration[key];
+    if (pageParam) {
+      return pageParam.raw;
+    }
+    return "";
   }
 }

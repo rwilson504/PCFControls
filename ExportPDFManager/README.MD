@@ -7,6 +7,8 @@ The Export PDF Manager Control is a Power Apps Component Framework (PCF) control
 
 This control is particularly useful for administrators and developers who need to quickly adjust PDF export settings without manually editing XML or using complex scripts. It streamlines the process of enabling PDF export functionality, ensuring consistency and reducing the risk of errors. While there are other ways to configure the Export to PDF functionality, as detailed in my [original article](https://www.richardawilson.com/2021/06/enable-export-to-pdf-button-ribbon.html), this PCF control makes it much easier, especially for those who are not using Dynamics but just Power Apps model apps.
 
+> **Note**: If you don't see your changes reflected after updating, the settings may be stored in the session storage. Make sure to run `sessionStorage.clear()` in your browser's developer console to ensure the buttons on the entities are updated or enabled.
+
 ## Features
 - **Enable/Disable Export to PDF**: Quickly toggle the availability of the Export to PDF button.
 - **Dynamic Configuration**: Adjust PDF export settings dynamically based on form context or user roles.
