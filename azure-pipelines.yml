@@ -35,95 +35,223 @@ steps:
     path: $(npm_config_cache)
     cacheHitVar: NPM_GLOBAL_CACHE_RESTORED
 
+# ColorPicker
 - task: Cache@2
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/ColorPicker/package-lock.json'
     path: '$(Build.SourcesDirectory)/ColorPicker/node_modules'
     cacheHitVar: CACHE_RESTORED_COLORPICKER
 
-#Run npm install to get all required resources for the projectl
 - task: Npm@1
   condition: ne(variables['CACHE_RESTORED_COLORPICKER'], 'true')
   inputs:
     command: 'install'
     workingDir: './ColorPicker/'
 
+# BooleanOptionset
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/BooleanOptionset/package-lock.json'
+    path: '$(Build.SourcesDirectory)/BooleanOptionset/node_modules'
+    cacheHitVar: CACHE_RESTORED_BOOLEANOPTIONSET
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_BOOLEANOPTIONSET'], 'true')
   inputs:
     command: 'install'
     workingDir: './BooleanOptionset/'
 
+# Example: BingMapsGrid
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/BingMapsGrid/package-lock.json'
+    path: '$(Build.SourcesDirectory)/BingMapsGrid/node_modules'
+    cacheHitVar: CACHE_RESTORED_BINGMAPSGRID
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_BINGMAPSGRID'], 'true')
   inputs:
     command: 'install'
     workingDir: './BingMapsGrid/'
 
+# Example: AzureMapsGrid
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/AzureMapsGrid/package-lock.json'
+    path: '$(Build.SourcesDirectory)/AzureMapsGrid/node_modules'
+    cacheHitVar: CACHE_RESTORED_AZUREMAPSGRID
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_AZUREMAPSGRID'], 'true')
   inputs:
     command: 'install'
     workingDir: './AzureMapsGrid/'
 
+# Example: WorldDaylightMap
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/WorldDaylightMap/package-lock.json'
+    path: '$(Build.SourcesDirectory)/WorldDaylightMap/node_modules'
+    cacheHitVar: CACHE_RESTORED_WORLDDAYLIGHTMAP
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_WORLDDAYLIGHTMAP'], 'true')
   inputs:
     command: 'install'
     workingDir: './WorldDaylightMap/'
 
+# DetailListGrid
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/DetailListGrid/package-lock.json'
+    path: '$(Build.SourcesDirectory)/DetailListGrid/node_modules'
+    cacheHitVar: CACHE_RESTORED_DETAILLISTGRID
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_DETAILLISTGRID'], 'true')
   inputs:
     command: 'install'
     workingDir: './DetailListGrid/'
 
+# Calendar
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/Calendar/package-lock.json'
+    path: '$(Build.SourcesDirectory)/Calendar/node_modules'
+    cacheHitVar: CACHE_RESTORED_CALENDAR
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_CALENDAR'], 'true')
   inputs:
     command: 'install'
     workingDir: './Calendar/'
 
+# CanvasFileDownloader
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/CanvasFileDownloader/package-lock.json'
+    path: '$(Build.SourcesDirectory)/CanvasFileDownloader/node_modules'
+    cacheHitVar: CACHE_RESTORED_CANVASFILEDOWNLOADER
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_CANVASFILEDOWNLOADER'], 'true')
   inputs:
     command: 'install'
     workingDir: './CanvasFileDownloader/'
 
+# CanvasFileUploader
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/CanvasFileUploader/package-lock.json'
+    path: '$(Build.SourcesDirectory)/CanvasFileUploader/node_modules'
+    cacheHitVar: CACHE_RESTORED_CANVASFILEUPLOADER
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_CANVASFILEUPLOADER'], 'true')
   inputs:
     command: 'install'
     workingDir: './CanvasFileUploader/'
 
+# RotationalImage
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/RotationalImage/package-lock.json'
+    path: '$(Build.SourcesDirectory)/RotationalImage/node_modules'
+    cacheHitVar: CACHE_RESTORED_ROTATIONALIMAGE
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_ROTATIONALIMAGE'], 'true')
   inputs:
     command: 'install'
     workingDir: './RotationalImage/'
 
+# RuntimeInfo
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/RuntimeInfo/package-lock.json'
+    path: '$(Build.SourcesDirectory)/RuntimeInfo/node_modules'
+    cacheHitVar: CACHE_RESTORED_RUNTIMEINFO
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_RUNTIMEINFO'], 'true')
   inputs:
     command: 'install'
     workingDir: './RuntimeInfo/'
 
+# PDFFormFillCanvas
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/PDFFormFillCanvas/package-lock.json'
+    path: '$(Build.SourcesDirectory)/PDFFormFillCanvas/node_modules'
+    cacheHitVar: CACHE_RESTORED_PDFFORMFILLCANVAS
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_PDFFORMFILLCANVAS'], 'true')
   inputs:
     command: 'install'
     workingDir: './PDFFormFillCanvas/'
 
+# Frame
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/Frame/package-lock.json'
+    path: '$(Build.SourcesDirectory)/Frame/node_modules'
+    cacheHitVar: CACHE_RESTORED_FRAME
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_FRAME'], 'true')
   inputs:
     command: 'install'
     workingDir: './Frame/'
 
+# DadJoke
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/DadJoke/package-lock.json'
+    path: '$(Build.SourcesDirectory)/DadJoke/node_modules'
+    cacheHitVar: CACHE_RESTORED_DADJOKE
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_DADJOKE'], 'true')
   inputs:
     command: 'install'
     workingDir: './DadJoke/'
 
+# DocxTemplatesCanvas
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/DocxTemplatesCanvas/package-lock.json'
+    path: '$(Build.SourcesDirectory)/DocxTemplatesCanvas/node_modules'
+    cacheHitVar: CACHE_RESTORED_DOCXTEMPLATESCANVAS
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_DOCXTEMPLATESCANVAS'], 'true')
   inputs:
     command: 'install'
     workingDir: './DocxTemplatesCanvas/'
 
+# PowerPagesFileManager
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/PowerPagesFileManager/package-lock.json'
+    path: '$(Build.SourcesDirectory)/PowerPagesFileManager/node_modules'
+    cacheHitVar: CACHE_RESTORED_POWERPAGESFILEMANAGER
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_POWERPAGESFILEMANAGER'], 'true')
   inputs:
     command: 'install'
     workingDir: './PowerPagesFileManager/'
 
+# RestrictedChoice
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/RestrictedChoice/package-lock.json'
+    path: '$(Build.SourcesDirectory)/RestrictedChoice/node_modules'
+    cacheHitVar: CACHE_RESTORED_RESTRICTEDCHOICE
+
 - task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_RESTRICTEDCHOICE'], 'true')
   inputs:
     command: 'install'
     workingDir: './RestrictedChoice/'
