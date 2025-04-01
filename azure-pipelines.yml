@@ -61,7 +61,7 @@ steps:
     command: 'install'
     workingDir: './BooleanOptionset/'
 
-# Example: BingMapsGrid
+# BingMapsGrid
 - task: Cache@2
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/BingMapsGrid/package-lock.json'
@@ -74,7 +74,7 @@ steps:
     command: 'install'
     workingDir: './BingMapsGrid/'
 
-# Example: AzureMapsGrid
+# AzureMapsGrid
 - task: Cache@2
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/AzureMapsGrid/package-lock.json'
@@ -87,7 +87,7 @@ steps:
     command: 'install'
     workingDir: './AzureMapsGrid/'
 
-# Example: WorldDaylightMap
+# WorldDaylightMap
 - task: Cache@2
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/WorldDaylightMap/package-lock.json'
