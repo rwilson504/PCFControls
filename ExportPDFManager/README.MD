@@ -32,13 +32,16 @@ This control is particularly useful for administrators and developers who need t
 ### Model-driven Apps
 [Implementing code components for Model-driven Apps](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/code-components-model-driven-apps#implementing-code-components)
 
-### Canvas Apps
-Enable PCF for Canvas in your environment. [Enable the Power Apps component framework feature](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps)
-
-[Implementing code components in Canvas](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/component-framework-for-canvas-apps#implementing-code-components)
-
 ### Using a Settings Entity
-For model apps, it is recommended to create a Settings entity to store configuration values such as default queues for sending emails or teams used for specific processes. This entity can be used in workflows and flows to avoid defining these values in each one. To ensure the Settings entity only has one record, create a real-time workflow on creation to set the name to "Settings" and create a key on the Name field. This prevents admins from accidentally creating more than one record.
+For model apps, it is recommended to create a Settings entity to store configuration values such as default queues for sending emails or teams used for specific processes. This entity can be used in workflows and flows to avoid defining these values in each one.
+
+1. **Set the Name Field to Optional**: When creating the Settings entity, set the Name field to optional. This ensures that it is not required during record creation.
+
+2. **Hide or Remove the Name Field from the Form**: After setting the Name field to optional, hide it or remove it from the form to prevent users from manually entering a value.
+
+3. **Create a Real-time Workflow**: Create a real-time workflow on creation to automatically set the Name field to "Settings". Ensure there is space here for an image illustrating the workflow configuration.
+
+4. **Add a Key on the Name Field**: Create a key on the Name field to prevent admins from accidentally creating more than one record. Below is an example of the Key screen:
 
 You can place this PCF component on the Settings entity to manage the Export to PDF functionality centrally.
 
