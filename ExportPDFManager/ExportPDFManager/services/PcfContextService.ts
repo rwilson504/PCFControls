@@ -4,7 +4,7 @@ import { IInputs } from "../generated/ManifestTypes";
 export interface IPcfContextServiceProps {
   context: ComponentFramework.Context<IInputs>;
   instanceid: string;
-  height: number;
+  height: number | string;
 }
 
 const SmallFormFactorMaxWidth = 350;
@@ -26,7 +26,7 @@ export class PcfContextService {
   context: ComponentFramework.Context<IInputs>;
   theme: Theme;
   formFactor: string;
-  height: number;
+  height: number | string;
 
   constructor(props: IPcfContextServiceProps) {
     this.instanceid = props.instanceid;
@@ -38,7 +38,7 @@ export class PcfContextService {
         ? "small"
         : "large";
     this.height = props.height;
-  }
+  }  
 
   public inDesignMode(): boolean {
     // Previously only handled commercial cloud.
@@ -111,12 +111,17 @@ export class PcfContextService {
   // If the pcf is in full page mode such as when it's being loaded through the sitemap
   // this will return any parameters that were passed in the URL.
   public getFullPageParam(key: string): string {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const configuration = (<any>this.context.mode).fullPageParam;
+    // @ts-expect-error fullPageParam is available in full page mode
+    const configuration = this.context.mode.fullPageParam as Record<
+      string,
+      string
+    >;
     const pageParam = configuration[key];
-    if (pageParam) {
-      return pageParam.raw;
+    if (pageParam && typeof pageParam === "string") {
+      return pageParam; // Return the raw value if it exists and is a string
     }
+
+    // Return an empty string if the key doesn't exist or the value is invalid
     return "";
   }
 }

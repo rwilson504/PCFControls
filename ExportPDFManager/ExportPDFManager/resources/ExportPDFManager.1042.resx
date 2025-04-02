@@ -113,4 +113,7 @@
   <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
     <value>모든 행 선택</value>
   </data>
+  <data name="ExportPDFManagerControl_grid_row_SelectRow" xml:space="preserve">
+    <value>행 선택</value>
+  </data>
 </root>

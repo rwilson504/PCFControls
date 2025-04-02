@@ -30,15 +30,25 @@ import {
   updatePdfSettingsJson,
 } from "../services/MetadataService";
 import { PdfSetting, PdfEntity, SaveState } from "../types"; // updated import
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
   props
 ) => {
   const pcfContext = usePcfContext();
   const styles = useStyles();
-  if (!pcfContext.isVisible()) return <></>;
+  const calculateHeight = (): number | string => {
+    const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
+    const padding = pcfContext.getFullPageParam("fullPage") === "true" ? 10 : 0; // Add padding if fullPage is true
+    return pcfContext.getFullPageParam("fullPage") === "true"
+      ? window.innerHeight - topBarHeight - padding * 2
+      : props.height;
+  };
 
+  const [height, setHeight] = React.useState<string | number>(
+    calculateHeight()
+  );
+  if (!pcfContext.isVisible()) return <></>;
   const isDisabled = pcfContext.isControlDisabled();
   const [data, setData] = React.useState<PdfEntity[]>([]);
   const [hasUpdateAccessState, setHasUpdateAccessState] =
@@ -55,10 +65,10 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
     sortDirection: "ascending",
   });
   // Add a new state for the toggle
-const [isToggleEnabled, setIsToggleEnabled] = React.useState<boolean>(
-  firstPdfSetting?.isEnabled ?? false
-);
-  
+  const [isToggleEnabled, setIsToggleEnabled] = React.useState<boolean>(
+    firstPdfSetting?.isEnabled ?? false
+  );
+
   React.useEffect(() => {
     const fetchData = async () => {
       const entities = await getEntities(pcfContext.getBaseUrl()!);
@@ -102,11 +112,15 @@ const [isToggleEnabled, setIsToggleEnabled] = React.useState<boolean>(
     setSortState(nextSortState);
   };
 
+  React.useEffect(() => {
+    setHeight(calculateHeight());
+  }, [props.height, window.innerHeight]);
+
   // Update the handleSwitchChange function to modify the local toggle state
-const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setIsToggleEnabled(event.target.checked); // Update the local toggle state
-  setHasChanges(true); // Mark that changes occurred
-};
+  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsToggleEnabled(event.target.checked); // Update the local toggle state
+    setHasChanges(true); // Mark that changes occurred
+  };
 
   const handleSave = () => {
     void (async () => {
@@ -144,7 +158,9 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   };
 
   // Assume `tooltipContent` is fetched from the .resx file
-  const tooltipContent = parse(pcfContext.getResourceString("Tooltip_Content_Key"));
+  const tooltipContent = parse(
+    pcfContext.getResourceString("Tooltip_Content_Key")
+  );
 
   const tooltipId = useId("tooltip"); // unique ID for the tooltip
 
@@ -158,7 +174,11 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     createTableColumn<PdfEntity>({
       columnId: "displayName",
       compare: (a, b) => a.displayName.localeCompare(b.displayName),
-      renderHeaderCell: () => {pcfContext.getResourceString('ExportPDFManagerControl_grid_header_DisplayName')},
+      renderHeaderCell: () => {
+        pcfContext.getResourceString(
+          "ExportPDFManagerControl_grid_header_DisplayName"
+        );
+      },
       renderCell: (item) => (
         <TableCellLayout>{item.displayName}</TableCellLayout>
       ),
@@ -166,7 +186,11 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     createTableColumn<PdfEntity>({
       columnId: "logicalName",
       compare: (a, b) => a.logicalName.localeCompare(b.logicalName),
-      renderHeaderCell: () => {pcfContext.getResourceString('ExportPDFManagerControl_grid_header_LogicalName')},
+      renderHeaderCell: () => {
+        pcfContext.getResourceString(
+          "ExportPDFManagerControl_grid_header_LogicalName"
+        );
+      },
       renderCell: (item) => (
         <TableCellLayout>{item.logicalName}</TableCellLayout>
       ),
@@ -175,7 +199,14 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div
-      style={{ height: props.height, display: "flex", flexDirection: "column" }}
+      style={{
+        height: height,
+        display: "flex",
+        flexDirection: "column",
+        ...(pcfContext.getFullPageParam("fullPage") === "true"
+          ? { padding: "10px" }
+          : {}), // Add padding if fullPage is true
+      }}
     >
       {/* Top control container with switch on left and save button on right */}
       <div
@@ -186,16 +217,26 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           marginBottom: "10px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", columnGap: "8px" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", columnGap: "8px" }}
+        >
           <Tooltip
-            content={{children: tooltipContent, className: styles.tooltip, id: tooltipId}}
+            content={{
+              children: tooltipContent,
+              className: styles.tooltip,
+              id: tooltipId,
+            }}
             positioning="below-start"
             withArrow
-            relationship="label"            
+            relationship="label"
           >
             <Info16Regular tabIndex={0} aria-labelledby={tooltipId} />
           </Tooltip>
-          <Text>{pcfContext.getResourceString('ExportPDFManagerControl_toggle_EnablePDF')}</Text>
+          <Text>
+            {pcfContext.getResourceString(
+              "ExportPDFManagerControl_toggle_EnablePDF"
+            )}
+          </Text>
           <Switch
             checked={isToggleEnabled}
             onChange={handleSwitchChange}
@@ -214,7 +255,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
               ) : undefined
             }
           >
-            {pcfContext.getResourceString('ExportPDFManagerControl_btn_Save')}
+            {pcfContext.getResourceString("ExportPDFManagerControl_btn_Save")}
           </Button>
         </div>
       </div>
@@ -237,16 +278,22 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             <DataGridRow
               style={{
                 pointerEvents:
-                  !hasUpdateAccessState || isDisabled || !isToggleEnabled || saveState === "loading"
+                  !hasUpdateAccessState ||
+                  isDisabled ||
+                  !isToggleEnabled ||
+                  saveState === "loading"
                     ? "none"
                     : undefined,
               }}
               selectionCell={{
                 // added saveState condition to disable the select all checkbox while saving
                 checkboxIndicator: {
-                  "aria-label": pcfContext.getResourceString('ExportPDFManagerControl_grid_header_SelectAll'),
+                  "aria-label": pcfContext.getResourceString(
+                    "ExportPDFManagerControl_grid_header_SelectAll"
+                  ),
                   ...(!hasUpdateAccessState ||
-                  isDisabled ||  !isToggleEnabled ||
+                  isDisabled ||
+                  !isToggleEnabled ||
                   saveState === "loading"
                     ? { disabled: true }
                     : {}),
@@ -265,7 +312,8 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 style={{
                   pointerEvents:
                     !hasUpdateAccessState ||
-                    isDisabled || !isToggleEnabled ||
+                    isDisabled ||
+                    !isToggleEnabled ||
                     saveState === "loading"
                       ? "none"
                       : undefined,
@@ -273,9 +321,12 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 selectionCell={{
                   // added saveState condition to disable each row checkbox while saving
                   checkboxIndicator: {
-                    "aria-label": "Select row",
+                    "aria-label": pcfContext.getResourceString(
+                      "ExportPDFManagerControl_grid_row_SelectRow"
+                    ),
                     ...(!hasUpdateAccessState ||
-                    isDisabled || !isToggleEnabled ||
+                    isDisabled ||
+                    !isToggleEnabled ||
                     saveState === "loading"
                       ? { disabled: true }
                       : {}),
@@ -309,7 +360,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             ) : undefined
           }
         >
-          {pcfContext.getResourceString('ExportPDFManagerControl_btn_Save')}
+          {pcfContext.getResourceString("ExportPDFManagerControl_btn_Save")}
         </Button>
       </div>
     </div>

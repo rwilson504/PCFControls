@@ -113,4 +113,7 @@
   <data name="ExportPDFManagerControl_grid_header_SelectAll" xml:space="preserve">
     <value>Seleziona tutte le righe</value>
   </data>
+  <data name="ExportPDFManagerControl_grid_row_SelectRow" xml:space="preserve">
+    <value>Seleziona riga</value>
+  </data>
 </root>
