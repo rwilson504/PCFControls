@@ -144,7 +144,7 @@ The Export PDF Manager Control simplifies the management and configuration of th
 ![Export PDF Manager Control](./ExportPDFManager/images/Export%20PDF%20Manager.gif)
 
 [More...](./ExportPDFManager/README.MD)  
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManager_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManagerControl_managed.zip)
 
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.

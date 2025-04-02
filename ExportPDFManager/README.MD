@@ -27,7 +27,7 @@ While there are other ways to configure the Export to PDF functionality, as deta
 
 ## Installation
 
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManager_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManagerControl_managed.zip)
 
 [Import the solution file](https://learn.microsoft.com/en-us/power-apps/maker/data-platform/import-update-export-solutions)
 
