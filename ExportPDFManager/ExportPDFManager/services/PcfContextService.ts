@@ -38,7 +38,7 @@ export class PcfContextService {
         ? "small"
         : "large";
     this.height = props.height;
-  }  
+  }
 
   public inDesignMode(): boolean {
     // Previously only handled commercial cloud.
@@ -116,11 +116,12 @@ export class PcfContextService {
       string,
       string
     >;
-    const pageParam = configuration[key];
-    if (pageParam && typeof pageParam === "string") {
-      return pageParam; // Return the raw value if it exists and is a string
+    if (configuration) {
+      const pageParam = configuration[key];
+      if (pageParam && typeof pageParam === "string") {
+        return pageParam; // Return the raw value if it exists and is a string
+      }
     }
-
     // Return an empty string if the key doesn't exist or the value is invalid
     return "";
   }

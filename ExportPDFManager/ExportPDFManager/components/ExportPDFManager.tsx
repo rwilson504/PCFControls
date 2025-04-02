@@ -37,10 +37,11 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
 ) => {
   const pcfContext = usePcfContext();
   const styles = useStyles();
+  const isFullPage = pcfContext.getFullPageParam("fullPage") === "true";
   const calculateHeight = (): number | string => {
-    const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
-    const padding = pcfContext.getFullPageParam("fullPage") === "true" ? 10 : 0; // Add padding if fullPage is true
-    return pcfContext.getFullPageParam("fullPage") === "true"
+    const topBarHeight = document.getElementById("topBar")?.offsetHeight ?? 0;
+    const padding = isFullPage ? 10 : 0; // Add padding if fullPage is true
+    return isFullPage
       ? window.innerHeight - topBarHeight - padding * 2
       : props.height;
   };
@@ -199,27 +200,17 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
 
   return (
     <div
+      className={styles.root}
       style={{
         height: height,
-        display: "flex",
-        flexDirection: "column",
-        ...(pcfContext.getFullPageParam("fullPage") === "true"
+        ...(isFullPage
           ? { padding: "10px" }
           : {}), // Add padding if fullPage is true
       }}
     >
       {/* Top control container with switch on left and save button on right */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "10px",
-        }}
-      >
-        <div
-          style={{ display: "flex", alignItems: "center", columnGap: "8px" }}
-        >
+      <div className={styles.header}>
+        <div className={styles.headerTitle}>
           <Tooltip
             content={{
               children: tooltipContent,
@@ -260,7 +251,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
         </div>
       </div>
       {/* DataGrid container fills remaining space */}
-      <div style={{ flexGrow: 1, overflowY: "auto" }}>
+      <div className={styles.gridDiv}>
         <DataGrid
           items={data}
           columns={columns}
@@ -270,7 +261,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
           selectionMode="multiselect"
           getRowId={(item: PdfEntity) => item.logicalName}
           focusMode="composite"
-          style={{ minWidth: "550px" }}
+          className={styles.dataGrid}
           selectedItems={selectedRows}
           onSelectionChange={onSelectionChange}
         >
@@ -342,13 +333,7 @@ export const ExportPDFManagerControl: React.FC<IPcfContextServiceProps> = (
         </DataGrid>
       </div>
       {/* Bottom Save Button wrapped in flex container */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginTop: "10px",
-        }}
-      >
+      <div className={styles.footer}>
         <Button
           onClick={handleSave}
           disabled={isSaveDisabled}

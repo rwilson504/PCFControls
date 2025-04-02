@@ -107,6 +107,5 @@ export const updatePdfSettingsJson = async (
 
 export const getBaseUrl = (): string | undefined => {
   // @ts-expect-error context is available in model apps
-  // eslint-disable-next-line
   return (context as any).page.getClientUrl() as string;
 };
