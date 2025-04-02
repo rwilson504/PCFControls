@@ -1,6 +1,5 @@
 # Export PDF Manager Control
 
-![Export PDF Manager Control Screen Shot](./images/export-pdf-manager-screenshot.png)
 
 ## Introduction
 The Export PDF Manager Control is a Power Apps Component Framework (PCF) control designed to simplify the management and configuration of the "Export to PDF" functionality within model-driven apps. This control provides an intuitive interface to enable or disable PDF export capabilities, configure PDF generation settings, and manage visibility and availability of the Export to PDF button based on specific business requirements.
