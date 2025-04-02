@@ -137,6 +137,15 @@ Allows you to utilize a drop down for Boolean fields on the Business Process Flo
 [More...](./BooleanOptionset/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/BooleanOptionsetControl_managed.zip)
 
+## Export PDF Manager
+
+The Export PDF Manager Control simplifies the management and configuration of the "Export to PDF" functionality within model-driven apps. It provides an intuitive interface to enable or disable PDF export capabilities, configure PDF generation settings, and manage visibility and availability of the Export to PDF button based on specific business requirements.
+
+![Export PDF Manager Control](./ExportPDFManager/images/Export%20PDF%20Manager.gif)
+
+[More...](./ExportPDFManager/README.MD)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManager_managed.zip)
+
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
 
