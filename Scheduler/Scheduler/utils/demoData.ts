@@ -1,13 +1,5 @@
 import dayjs from "dayjs";
-import {
-    Resource as SchedulerResource,
-    EventItem as SchedulerEventItem,
-} from "react-big-schedule";
-
-export interface DemoDataType {
-    resources: SchedulerResource[];
-    events: SchedulerEventItem[];
-}
+import { Resource, Event, DemoDataType } from "../types/schedulerTypes";
 
 function getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -15,17 +7,18 @@ function getRandomInt(min: number, max: number): number {
 
 export function generateDemoData(): DemoDataType {
     // Generate 10 resources
-    const resources: SchedulerResource[] = [];
+    const resources: Resource[] = [];
     for (let i = 0; i < 10; i++) {
         resources.push({
             id: `r${i}`,
             name: `Resource${i}`,
+            etn: "demo_resource",
             ...(i === 0 ? { groupOnly: true } : {}),
             ...(i > 0 ? { parentId: `r${Math.floor((i - 1) / 2)}` } : {}),
         });
     }
 
-    const events: SchedulerEventItem[] = [];
+    const events: Event[] = [];
     const today = dayjs().startOf("day");
     let eventId = 1;
 
@@ -46,9 +39,11 @@ export function generateDemoData(): DemoDataType {
 
             events.push({
                 id: eventId++,
+                eventId: `event${eventId}`,
+                resourceId: resources[r].id,
+                etn: "demo_event",
                 start: start.format("YYYY-MM-DD HH:mm:ss"),
                 end: end.format("YYYY-MM-DD HH:mm:ss"),
-                resourceId: resources[r].id,
                 title: `Event ${eventId} for ${resources[r].name}`,
                 bgColor: r % 2 === 0 ? "#D9D9D9" : r % 3 === 0 ? "#FA9E95" : undefined,
             });

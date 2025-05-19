@@ -5,14 +5,18 @@ import {
 } from "react-big-schedule";
 
 /**
- * Resource type for Scheduler, extend if you need custom fields.
+ * Resource type for Scheduler, extended with etn (entity type name).
  */
-export type Resource = SchedulerResource;
+export interface Resource extends SchedulerResource {
+    etn: string;
+}
 
 /**
- * Event type for Scheduler, extend if you need custom fields.
+ * Event type for Scheduler, extended with etn (entity type name).
  */
-export type Event = SchedulerEventItem;
+export interface Event extends SchedulerEventItem {
+    etn: string;
+}
 
 /**
  * Demo data structure for generated demo data.
