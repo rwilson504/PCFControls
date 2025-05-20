@@ -2,13 +2,14 @@ import * as React from "react";
 import { ViewType, SchedulerData } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
-import "react-big-schedule/dist/css/style.css";
-import { ISchedulerControlProps } from "../types/schedulerTypes";
+import "react-big-schedule/dist/css/style.css";import { ISchedulerControlProps } from "../types/schedulerTypes";
+
 import { SCHEDULER_VIEWS } from "../types/schedulerViews";
 import { getCustomDateFunc } from "../services/schedulerBehaviors";
 import { DEFAULT_VIEW_NAMES } from "../utils/constants";
 import { generateDemoData } from "../utils/demoData";
 import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
+import { IPcfContextServiceProps } from "../services/pcfContextService";
 
 
 const demoData = generateDemoData();

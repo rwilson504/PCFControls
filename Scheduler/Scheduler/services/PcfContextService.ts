@@ -1,6 +1,5 @@
 //import { Theme } from "@fluentui/react-components";
 import { IInputs } from "../generated/ManifestTypes";
-import { MockPCFContext } from "../mocks/MockPCFContext";
 
 export interface IPcfContextServiceProps {
   context: ComponentFramework.Context<IInputs>;

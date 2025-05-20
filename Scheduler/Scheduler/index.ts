@@ -9,8 +9,13 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     private _context: ComponentFramework.Context<IInputs>;
     private _notifyOutputChanged: () => void;
     private _instanceId: string;
+    private _currentRangeStart: Date;
+    private _currentRangeEnd: Date;
+    private _currentCalendarDate: Date;
+    private _updateFromOutput: boolean;
 
-    constructor() {}
+
+    constructor() { }
 
     public init(
         context: ComponentFramework.Context<IInputs>,
@@ -20,6 +25,7 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     ): void {
         context.mode.trackContainerResize(true);
         this._notifyOutputChanged = notifyOutputChanged;
+        this._updateFromOutput = false;
         this._context = context;
         this._container = container;
         this._instanceId = uuidv4();
@@ -29,7 +35,20 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         context.parameters.schedulerDataSet.paging.setPageSize(5000);
     }
 
+    public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date, view: string) {
+        this._currentCalendarDate = date;
+        this._currentRangeStart = rangeStart;
+        this._currentRangeEnd = rangeEnd;
+        this._notifyOutputChanged();
+    }
+
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+
+        if (this._updateFromOutput) {
+            this._updateFromOutput = false;
+            return;
+        }
+
         const dataSet = context.parameters.schedulerDataSet;
 
         if (this._context.mode.allocatedHeight !== -1) {
@@ -54,7 +73,19 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     }
 
     public getOutputs(): IOutputs {
-        return {};
+        this._updateFromOutput = true;
+        let notifyAgain = false;
+
+        const output: IOutputs = {
+            currentRangeStart: this._currentRangeStart,
+            currentRangeEnd: this._currentRangeEnd,
+            currentSchedulerDate: this._currentCalendarDate
+        }
+
+        if (notifyAgain) {
+            this._notifyOutputChanged();
+        }
+        return output;
     }
 
     public destroy(): void {

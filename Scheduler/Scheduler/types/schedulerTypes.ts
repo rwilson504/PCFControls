@@ -4,6 +4,8 @@ import {
     SchedulerProps,
     SchedulerData as SchedulerDataBase
 } from "react-big-schedule";
+import { IInputs, IOutputs } from "../generated/ManifestTypes";
+
 
 /**
  * Resource type for Scheduler, extended with etn (entity type name).
@@ -33,5 +35,7 @@ export interface DemoDataType {
  * Extend this interface with any additional props you want to pass.
  */
 export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
-    // Add custom props here if needed
+    context: ComponentFramework.Context<IInputs>;
+    instanceid: string;
+    height: number | string;    
 }
