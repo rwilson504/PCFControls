@@ -4,6 +4,7 @@ import {
     SchedulerProps,
     SchedulerData as SchedulerDataBase
 } from "react-big-schedule";
+import { View} from "./schedulerViews";
 import { IInputs, IOutputs } from "../generated/ManifestTypes";
 
 
@@ -37,5 +38,6 @@ export interface DemoDataType {
 export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     context: ComponentFramework.Context<IInputs>;
     instanceid: string;
-    height: number | string;    
+    height: number | string;
+    onDateChange?: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
 }

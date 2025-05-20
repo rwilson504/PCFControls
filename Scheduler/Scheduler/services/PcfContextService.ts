@@ -34,10 +34,14 @@ export class PcfContextService {
     //this.theme = this.getTheme();
     this.formFactor =
       props.context.client.getFormFactor() == (FormFactors.Phone as number) ||
-      props.context.mode.allocatedWidth < SmallFormFactorMaxWidth
+        props.context.mode.allocatedWidth < SmallFormFactorMaxWidth
         ? "small"
         : "large";
     this.height = props.height;
+  }
+
+  updateContext(context: ComponentFramework.Context<IInputs>) {
+    this.context = context;
   }
 
   public inDesignMode(): boolean {

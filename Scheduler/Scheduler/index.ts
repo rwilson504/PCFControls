@@ -3,17 +3,23 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { v4 as uuidv4 } from "uuid";
 import { SchedulerApp } from "./schedulerApp";
+import { View } from "./types/schedulerViews"
+import { PcfContextService } from "./services/pcfContextService";
 
 export class Scheduler implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
     private _context: ComponentFramework.Context<IInputs>;
     private _notifyOutputChanged: () => void;
     private _instanceId: string;
+    private _actionRecordSelected: boolean;
+	private _selectedRecordId: string;
+
     private _currentRangeStart: Date;
     private _currentRangeEnd: Date;
-    private _currentCalendarDate: Date;
+    private _currentSchedulerDate: Date;
+    private _currentSchedulerView: string;
     private _updateFromOutput: boolean;
-
+    private _reactRoot: ReactDOM.Root;
 
     constructor() { }
 
@@ -29,16 +35,26 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         this._context = context;
         this._container = container;
         this._instanceId = uuidv4();
+        this._reactRoot = ReactDOM.createRoot(this._container);
+		this._actionRecordSelected = false;
+	    this._selectedRecordId = '';
 
         this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
         this._container.style.zIndex = "0";
-        context.parameters.schedulerDataSet.paging.setPageSize(5000);
+        context.parameters.schedulerDataSet.paging.setPageSize(5000);       
     }
 
-    public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date, view: string) {
-        this._currentCalendarDate = date;
+    public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date, view: string): void {
+        this._currentSchedulerDate = date;
         this._currentRangeStart = rangeStart;
         this._currentRangeEnd = rangeEnd;
+        this._currentSchedulerView = view;
+        this._notifyOutputChanged();
+    }
+
+    public onClickSelectedRecord(recordId: string) {
+        this._selectedRecordId = recordId;
+        this._actionRecordSelected = true;
         this._notifyOutputChanged();
     }
 
@@ -62,12 +78,14 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
             return;
         }
 
+        //this._pcfContextService.updateContext(context);
         // Render the SchedulerApp with the generated instanceId
-        ReactDOM.createRoot(this._container).render(
+        this._reactRoot.render(
             React.createElement(SchedulerApp, {
                 context: this._context,
                 instanceid: this._instanceId,
-                height: this._context.mode.allocatedHeight
+                height: this._context.mode.allocatedHeight,
+                onDateChange: this.onDateChange.bind(this),
             })
         );
     }
@@ -79,9 +97,17 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         const output: IOutputs = {
             currentRangeStart: this._currentRangeStart,
             currentRangeEnd: this._currentRangeEnd,
-            currentSchedulerDate: this._currentCalendarDate
+            currentSchedulerDate: this._currentSchedulerDate,
+            currentSchedulerView: this._currentSchedulerView,
+            actionRecordSelected : this._actionRecordSelected
         }
 
+        if (this._actionRecordSelected){
+			notifyAgain = true;
+			output.selectedRecordId = this._selectedRecordId;
+			this._actionRecordSelected = false;
+		}
+        
         if (notifyAgain) {
             this._notifyOutputChanged();
         }

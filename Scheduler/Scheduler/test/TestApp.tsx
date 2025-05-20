@@ -63,10 +63,10 @@ const mockPcfContextService = new PcfContextService({
     height: 600,
 });
 
-const TestApp: React.FC = () => (
+const TestApp: React.FC = (props) => (
     <DndProvider backend={HTML5Backend}>
         <PcfContextProvider pcfcontext={mockPcfContextService}>
-            <SchedulerControl />
+            <SchedulerControl {...(props as any)} />
         </PcfContextProvider>
     </DndProvider>
 );
