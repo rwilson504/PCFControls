@@ -2,7 +2,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { v4 as uuidv4 } from "uuid";
-import { SchedulerApp } from "./SchedulerApp";
+import { SchedulerApp } from "./schedulerApp";
 
 export class Scheduler implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;

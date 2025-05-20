@@ -1,14 +1,14 @@
 import * as React from "react";
 import { ViewType, SchedulerData } from "react-big-schedule";
-import SchedulerWrapper from "./SchedulerWrapper";
-import { usePcfContext } from "../services/PcfContext";
+import SchedulerWrapper from "./schedulerWrapper";
+import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
 import { ISchedulerControlProps } from "../types/schedulerTypes";
 import { SCHEDULER_VIEWS } from "../types/schedulerViews";
 import { getCustomDateFunc } from "../services/schedulerBehaviors";
 import { DEFAULT_VIEW_NAMES } from "../utils/constants";
 import { generateDemoData } from "../utils/demoData";
-import { getKeys, getSchedulerData } from "../services/CalendarDataService"; // <-- Use your real data service
+import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
 
 
 const demoData = generateDemoData();
@@ -54,8 +54,21 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo(() => {
         return match?.viewType ?? availableViews[0]?.viewType ?? ViewType.Week;
     }, [pcfContext.context.parameters.schedulerDefaultView?.raw, availableViews]);
 
+    // Listen for changes to schedulerDate and update the calendar date
     React.useEffect(() => {
-let isMounted = true;
+        const newDate = pcfContext.context.parameters.schedulerDate?.raw as string | Date | undefined;
+        if (state.schedulerData && newDate) {
+            // Convert to ISO string if needed
+            const dateStr = typeof newDate === "string" ? newDate : newDate.toISOString().slice(0, 10);
+            state.schedulerData.setDate(dateStr);
+            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
+        }
+        // Only run when schedulerDate or schedulerData changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pcfContext.context.parameters.schedulerDate?.raw, state.schedulerData]);
+
+    React.useEffect(() => {
+        let isMounted = true;
         async function loadSchedulerData() {
             // Get keys for mapping fields
             const keys = await getKeys(pcfContext.context);
@@ -121,12 +134,12 @@ let isMounted = true;
     return (
         <div
             ref={parentRef}
-            style={{ width: "400px" }}
+            style={{ width: "100%" }}
             className="scheduler-container"
             role="region"
             aria-label="Scheduler"
         >
-            {state.showScheduler && state.schedulerData? (
+            {state.showScheduler && state.schedulerData ? (
                 <SchedulerWrapper
                     parentRef={parentRef}
                     schedulerData={state.schedulerData}

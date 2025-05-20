@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PcfContextService } from './PcfContextService'
+import { PcfContextService } from './pcfContextService'
 
 interface PcfContextProviderProps {
   pcfcontext: PcfContextService,

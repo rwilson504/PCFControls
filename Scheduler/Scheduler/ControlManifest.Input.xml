@@ -54,13 +54,13 @@
       description-key="When an empty time slot is selected this will return the resource id if one is available"
       usage="output" of-type="SingleLine.Text" required="false" />
     <property name="currentRangeStart" display-name-key="(Output) Scheduler Range Start"
-      description-key="When the current calendar range changes the new Start will be returned."
+      description-key="When the current scheduler range changes the new Start will be returned."
       usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="currentRangeEnd" display-name-key="(Output) Scheduler Range End"
-      description-key="When the current calendar range changes the new End will be returned."
+      description-key="When the current scheduler range changes the new End will be returned."
       usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="currentSchedulerDate" display-name-key="(Output) Scheduler Date"
-      description-key="Provides the current date the calendar is set to." usage="output"
+      description-key="Provides the current date the scheduler is set to." usage="output"
       of-type="DateAndTime.DateOnly" required="false" />
     <property name="onChangeAction" display-name-key="(Output) On Change Action"
       description-key="This will provide which action was taken for an OnChange Event"

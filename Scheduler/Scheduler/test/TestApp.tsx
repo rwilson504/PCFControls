@@ -2,13 +2,14 @@ import * as React from "react";
 import { IInputs, IOutputs } from "../generated/ManifestTypes";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import SchedulerControl from "../components/Scheduler";
-import { PcfContextProvider } from "../services/PcfContext";
-import { PcfContextService } from "../services/PcfContextService";
+import SchedulerControl from "../components/scheduler";
+import { PcfContextProvider } from "../services/pcfContext";
+import { PcfContextService } from "../services/pcfContextService";
 import { MockPCFContext } from "../mocks/MockPCFContext";
 import { MockPCFParameters } from "../mocks/MockPCFParameters";
 import { MockPCFMode } from "../mocks/MockPCFMode";
 import { MockPCFDataSet } from "../mocks/MockPCFDataSet";
+import { scheduler } from "timers/promises";
 
 // Use the new mock context for testing
 const mockContext = new MockPCFContext();// as unknown as ComponentFramework.Context<IInputs>;
@@ -43,7 +44,8 @@ mockContext.parameters = new MockPCFParameters({
     resourceName: { raw: "resourceName" },
     resourceGetAllInModel: { raw: "false" },
     entityType: { raw: "testEntity" },
-    schedulerAvailableViews: { raw: "Day,Week,Month" }
+    schedulerAvailableViews: { raw: "day,week,month" },
+    schedulerDefaultView: { raw: "week" },
 });
 
 
