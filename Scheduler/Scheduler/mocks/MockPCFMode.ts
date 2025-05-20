@@ -5,6 +5,12 @@ export interface MockPCFModeOptions {
   isControlDisabled?: boolean;
   isVisible?: boolean;
   label?: string;
+  contextInfo?: {
+    entityId?: string;
+    entityTypeName?: string;
+    entityRecordName?: string;
+    [key: string]: any;
+  };
 }
 
 export class MockPCFMode implements ComponentFramework.Mode {
@@ -13,6 +19,13 @@ export class MockPCFMode implements ComponentFramework.Mode {
   isControlDisabled: boolean;
   isVisible: boolean;
   label: string;
+  // Add contextInfo property for custom context usage
+  contextInfo?: {
+    entityId?: string;
+    entityTypeName?: string;
+    entityRecordName?: string;
+    [key: string]: any;
+  };
 
   constructor(options: MockPCFModeOptions = {}) {
     this.allocatedHeight = options.allocatedHeight ?? 600;
@@ -20,6 +33,7 @@ export class MockPCFMode implements ComponentFramework.Mode {
     this.isControlDisabled = options.isControlDisabled ?? false;
     this.isVisible = options.isVisible ?? true;
     this.label = options.label ?? "Mock Mode";
+    this.contextInfo = options.contextInfo;
   }
 
   setControlState(state: ComponentFramework.Dictionary): boolean {

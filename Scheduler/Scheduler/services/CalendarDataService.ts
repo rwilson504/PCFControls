@@ -3,8 +3,21 @@ import { Resource, Event } from "../types/schedulerTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import dayjs from "dayjs";
 
+export interface SchedulerKeys {
+    id: string;
+    name: string;
+    start: string;
+    end: string;
+    eventColor?: string;
+    resource?: string;
+    resourceName: string
+    resourceId: string;
+    resourceGetAllInModel?: boolean;
+    resourceEtn?: string;
+}
+
 // Gets all the field names and other keys needed while processing the data
-export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): Promise<any> {
+export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): Promise<SchedulerKeys> {
     const params = pcfContext.parameters;
     const dataSet = pcfContext.parameters.schedulerDataSet;
 

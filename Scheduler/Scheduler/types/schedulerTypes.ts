@@ -1,7 +1,8 @@
 import {
     Resource as SchedulerResource,
     EventItem as SchedulerEventItem,
-    SchedulerProps
+    SchedulerProps,
+    SchedulerData as SchedulerDataBase
 } from "react-big-schedule";
 
 /**
@@ -15,6 +16,7 @@ export interface Resource extends SchedulerResource {
  * Event type for Scheduler, extended with etn (entity type name).
  */
 export interface Event extends SchedulerEventItem {
+    id: number;
     etn: string;
 }
 

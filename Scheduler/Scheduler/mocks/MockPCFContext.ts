@@ -8,11 +8,12 @@ import { MockPCFResources } from "./MockPCFResources";
 import { MockPCFUserSettings } from "./MockPCFUserSettings";
 import { MockPCFUtility } from "./MockPCFUtility";
 import { MockPCFWebApi } from "./MockPCFWebApi";
+import { MockPCFParameters, MockPCFParameterValue } from "./MockPCFParameters";
 
 type IEvents = ComponentFramework.IEventBag;
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export class MockPCFContext implements ComponentFramework.Context<unknown> {
-  constructor() {
+
+export class MockPCFContext<TInputs = any> implements ComponentFramework.Context<TInputs> {
+  constructor(initialParams?: Record<string, MockPCFParameterValue>) {
     this.client = new MockPCFClient();
     this.device = new MockPCFDevice();
     this.factory = new MockPCFFactory();
@@ -24,6 +25,7 @@ export class MockPCFContext implements ComponentFramework.Context<unknown> {
     this.utils = new MockPCFUtility();
     this.webAPI = new MockPCFWebApi();
     this.events = {} as IEvents;
+    this.parameters = new MockPCFParameters(initialParams) as unknown as TInputs;
   }
   client: ComponentFramework.Client;
   device: ComponentFramework.Device;
@@ -35,7 +37,7 @@ export class MockPCFContext implements ComponentFramework.Context<unknown> {
   userSettings: ComponentFramework.UserSettings;
   utils: ComponentFramework.Utility;
   webAPI: ComponentFramework.WebApi;
-  parameters: unknown;
+  parameters: TInputs;
   updatedProperties: string[] = [];
   events: IEvents;
 }
