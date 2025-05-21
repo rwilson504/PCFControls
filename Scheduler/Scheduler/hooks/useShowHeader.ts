@@ -21,7 +21,7 @@ export function useShowHeader(
             state.schedulerData.config.headerEnabled = showHeader;
             dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
         }
-    }, [showHeader, state.schedulerData, dispatch]);
+    }, [showHeader]);
 
     return showHeader;
 }

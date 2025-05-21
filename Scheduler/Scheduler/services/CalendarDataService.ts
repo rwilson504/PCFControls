@@ -181,8 +181,8 @@ export async function getEvents(
             title: name
         };
 
-        // let color = record.getValue(keys.eventColor);
-        // if (color) newEvent.bgColor = color as string;
+        let color = record.getValue(keys.eventColor);
+        if (color) newEvent.bgColor = color as string;
 
         newEvents.push(newEvent);
     }

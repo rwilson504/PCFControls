@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { SCHEDULER_VIEWS } from "../types/schedulerViews";
+import { getLocalizedViewName } from "../utils/localization";
 import { DEFAULT_VIEW_NAMES } from "../utils/constants";
 import { SchedulerData } from "react-big-schedule";
 
@@ -8,21 +9,28 @@ export function useAvailableViews(
     state: { schedulerData: SchedulerData | null },
     dispatch: (action: any) => void
 ) {
-    const [availableViews, setAvailableViews] = useState(() => {
+    const getViews = () => {
         const raw = pcfContext.context.parameters.schedulerAvailableViews?.raw as string | undefined;
         const allowed = raw && raw.trim().length > 0
             ? raw.split(",").map(v => v.trim().toLowerCase())
             : DEFAULT_VIEW_NAMES;
-        return SCHEDULER_VIEWS.filter(view => allowed.includes(view.name.toLowerCase()));
-    });
+        const lang = state.schedulerData?.localeDayjs().locale() || "en";
+        return SCHEDULER_VIEWS
+            .filter(view => allowed.includes(view.name.toLowerCase()))
+            .map(view => ({
+                ...view,
+                viewName: getLocalizedViewName(lang, view.viewName) // <-- overwrite viewName with localized value
+            }));
+    };
+
+    const [availableViews, setAvailableViews] = useState(getViews);
 
     useEffect(() => {
-        const raw = pcfContext.context.parameters.schedulerAvailableViews?.raw as string | undefined;
-        const allowed = raw && raw.trim().length > 0
-            ? raw.split(",").map(v => v.trim().toLowerCase())
-            : DEFAULT_VIEW_NAMES;
-        setAvailableViews(SCHEDULER_VIEWS.filter(view => allowed.includes(view.name.toLowerCase())));
-    }, [pcfContext.context.parameters.schedulerAvailableViews?.raw]);
+        setAvailableViews(getViews());
+    }, [
+        pcfContext.context.parameters.schedulerAvailableViews?.raw,
+        state.schedulerData?.localeDayjs().locale()
+    ]);
 
     useEffect(() => {
         if (state.schedulerData) {

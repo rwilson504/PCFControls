@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
 import { Event } from "../types/schedulerTypes";
+import { parseDateOnly } from "../utils/formattingHelpers";
+import { parse } from "path";
 
 export function useSchedulerDate(
     pcfContext: any,
@@ -36,26 +38,26 @@ export function useSchedulerDate(
         if (schedulerDate !== newDate) {
             setSchedulerDate(newDate);
         }
-    }, [pcfContext.context.parameters.schedulerDate?.raw, schedulerDate]);
+    }, [pcfContext.context.parameters.schedulerDate?.raw]);
 
     // Update SchedulerData and call onDateChange when schedulerDate changes
     useEffect(() => {
         if (state.schedulerData && schedulerDate) {
-            state.schedulerData.setDate(schedulerDate);
-            state.schedulerData.setEvents(events);
-            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
-
             // Call onDateChange if provided
             if (onDateChange) {
                 onDateChange(
-                    new Date(schedulerDate),
+                    parseDateOnly(schedulerDate),
                     state.schedulerData.getViewStartDate().toDate(),
                     state.schedulerData.getViewEndDate().toDate(),
                     schedulerView
                 );
             }
+
+            state.schedulerData.setDate(schedulerDate);
+            state.schedulerData.setEvents(events);
+            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });            
         }
-    }, [schedulerDate, state.schedulerData, events, dispatch, onDateChange, schedulerView]);
+    }, [schedulerDate]);
 
     return [schedulerDate, setSchedulerDate];
 }

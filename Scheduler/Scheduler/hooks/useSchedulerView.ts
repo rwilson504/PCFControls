@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getViewByName } from "../types/schedulerViews";
 import { SchedulerData } from "react-big-schedule";
 import { Event } from "../types/schedulerTypes";
+import { on } from "events";
 
 export function useSchedulerView(
     pcfContext: any,
@@ -35,17 +36,14 @@ export function useSchedulerView(
         if (schedulerView !== newViewName) {
             setSchedulerView(newViewName);
         }
-    }, [pcfContext.context.parameters.schedulerView?.raw, availableViews]);
+    }, [pcfContext.context.parameters.schedulerView?.raw]);
 
     // Update SchedulerData and call onDateChange when schedulerView changes
     useEffect(() => {
         if (state.schedulerData) {
             const currentView = getViewByName(availableViews, schedulerView);
-            state.schedulerData.setViewType(currentView?.viewType ?? availableViews[0]?.viewType, false, false);
-            state.schedulerData.setEvents(events);
-            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
+            const currentViewObj = currentView ?? availableViews[0];
 
-            // Call onDateChange if provided
             if (onDateChange) {
                 onDateChange(
                     state.schedulerData.getViewStartDate().toDate(),
@@ -54,8 +52,16 @@ export function useSchedulerView(
                     schedulerView
                 );
             }
+
+            state.schedulerData.setViewType(
+                currentViewObj?.viewType,
+                currentViewObj?.showAgenda ?? false,
+                currentViewObj?.isEventPerspective ?? false
+            );
+            state.schedulerData.setEvents(events);
+            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
         }
-    }, [schedulerView, events, availableViews, state.schedulerData, dispatch, onDateChange]);
+    }, [schedulerView]);
 
     return [schedulerView, setSchedulerView];
 }

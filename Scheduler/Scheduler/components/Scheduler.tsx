@@ -1,13 +1,25 @@
 import * as React from "react";
-import { ViewType, SchedulerData } from "react-big-schedule";
+import { ViewType, SchedulerData,  } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
 import { ISchedulerControlProps, Resource, Event } from "../types";
 import { getViewByName } from "../types/schedulerViews";
-import { getCustomDateFunc } from "../services/schedulerBehaviors";
+import { getCustomDate } from "../services/schedulerBehaviors";
 import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
-import { useAvailableViews, useShowHeader, useSchedulerView, useSchedulerDate } from "../hooks";
+import { useAvailableViews, useShowHeader, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
+import { parseDateOnly, getLocaleFromLanguage } from "../utils/formattingHelpers";
+import 'dayjs/locale/en';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/de';
+import 'dayjs/locale/pt';
+import 'antd/locale/en_US';
+import 'antd/locale/es_ES';
+import 'antd/locale/fr_FR';
+import 'antd/locale/de_DE';
+import 'antd/locale/pt_PT';
+import { get } from "http";
 
 const initialState = {
     showScheduler: false,
@@ -39,13 +51,15 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
 
     const availableViews = useAvailableViews(pcfContext, state, dispatch);
     const showHeader = useShowHeader(pcfContext, state, dispatch);
+    const resourceNameHeader = useResourceNameHeader(pcfContext, state, dispatch);
+    const schedulerLanguage = useSchedulerLanguage(pcfContext.context, state.schedulerData, dispatch);
     const [schedulerView, setSchedulerView] = useSchedulerView(
         pcfContext,
         availableViews,
         state,
         events,
         dispatch,
-        props.onDateChange
+        props.onDateChange,
     );
     const [schedulerDate, setSchedulerDate] = useSchedulerDate(
         pcfContext,
@@ -77,6 +91,24 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     }, [state.showScheduler, props.context.parameters.schedulerDataSet.records]);
 
     React.useEffect(() => {
+        if (
+            state.schedulerData &&
+            schedulerDate &&
+            schedulerView &&
+            typeof props.onDateChange === "function"
+        ) {
+            props.onDateChange(
+                // Use your parseDateOnly helper if needed to avoid timezone issues
+                parseDateOnly(schedulerDate),
+                state.schedulerData.getViewStartDate().toDate(),
+                state.schedulerData.getViewEndDate().toDate(),
+                schedulerView
+            );
+        }
+        // Only run when schedulerData is initialized or relevant dependencies change
+    }, [events]);
+
+    React.useEffect(() => {
         let isMounted = true;
         async function loadSchedulerData() {
             if (!isMounted) return;
@@ -100,8 +132,11 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     views: availableViews,
                     headerEnabled: showHeader,
                     viewChangeSpinEnabled: true,
-                }, { getCustomDateFunc }
+                    resourceName: resourceNameHeader,
+                }, { getCustomDateFunc: getCustomDate }
             );
+            sd.setSchedulerLocale(schedulerLanguage);
+            sd.setCalendarPopoverLocale(getLocaleFromLanguage(schedulerLanguage));
             sd.setResources(resources);
             sd.setEvents(events);
             dispatch({ type: "INITIALIZE", payload: sd });
@@ -129,12 +164,14 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     }, [events, schedulerView, props.onDateChange]);
 
     const onViewChange = React.useCallback((schedulerData: SchedulerData, view: any) => {
-        setSchedulerView(view.name);
-    }, [events, props.onDateChange]);
-
+        const foundView = availableViews.find(v => v.viewType === view.viewType);
+        if (foundView) {
+            setSchedulerView(foundView.name);
+        }
+    }, [setSchedulerView, availableViews]);
     const onSelectDate = React.useCallback((schedulerData: SchedulerData, date: string) => {
         setSchedulerDate(date);
-    }, [events, props.onDateChange]);
+    }, [setSchedulerDate]);
 
     const eventClicked = React.useCallback((schedulerData: SchedulerData, event: any) => {
         //alert(`You just clicked an event: {id: ${event.id}, title: ${event.title}}`);
@@ -156,7 +193,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     nextClick={nextClick}
                     onSelectDate={onSelectDate}
                     onViewChange={onViewChange}
-                    eventItemClick={eventClicked}                    
+                    eventItemClick={eventClicked}
                 />
             ) : (
                 <div>Loading...</div>
