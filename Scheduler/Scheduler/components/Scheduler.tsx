@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ViewType, SchedulerData,  } from "react-big-schedule";
+import { ViewType, SchedulerData } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
@@ -7,7 +7,7 @@ import { ISchedulerControlProps, Resource, Event } from "../types";
 import { getViewByName } from "../types/schedulerViews";
 import { getCustomDate } from "../services/schedulerBehaviors";
 import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
-import { useAvailableViews, useShowHeader, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
+import { useAvailableViews, useShowHeader, useWorkWeekDays, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
 import { parseDateOnly, getLocaleFromLanguage } from "../utils/formattingHelpers";
 import 'dayjs/locale/en';
 import 'dayjs/locale/es';
@@ -19,7 +19,6 @@ import 'antd/locale/es_ES';
 import 'antd/locale/fr_FR';
 import 'antd/locale/de_DE';
 import 'antd/locale/pt_PT';
-import { get } from "http";
 
 const initialState = {
     showScheduler: false,
@@ -53,6 +52,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     const showHeader = useShowHeader(pcfContext, state, dispatch);
     const resourceNameHeader = useResourceNameHeader(pcfContext, state, dispatch);
     const schedulerLanguage = useSchedulerLanguage(pcfContext.context, state.schedulerData, dispatch);
+    const workWeekDays = useWorkWeekDays(pcfContext, state.schedulerData, dispatch);
     const [schedulerView, setSchedulerView] = useSchedulerView(
         pcfContext,
         availableViews,
@@ -117,23 +117,26 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             const currentView = getViewByName(availableViews, schedulerView);
             const viewType = currentView?.viewType ?? availableViews[0]?.viewType ?? ViewType.Week;
 
+            const config = {
+                responsiveByParent: true,
+                schedulerWidth: `100%` as `${number}%`,
+                besidesWidth: 0,
+                schedulerContentHeight: "100%",
+                schedulerMaxHeight: pcfContext.height as number,
+                eventItemPopoverTrigger: "click" as "click",
+                views: availableViews,
+                headerEnabled: showHeader,
+                viewChangeSpinEnabled: true,
+                resourceName: resourceNameHeader,
+            };
+            const schedulerConfig = { ...config, workWeekDays };
+
             const sd = new SchedulerData(
                 new Date().toISOString().slice(0, 10),
                 viewType,
                 false,
                 false,
-                {
-                    responsiveByParent: true,
-                    schedulerWidth: `100%`,
-                    besidesWidth: 0,
-                    schedulerContentHeight: "100%",
-                    schedulerMaxHeight: pcfContext.height as number,
-                    eventItemPopoverTrigger: "click",
-                    views: availableViews,
-                    headerEnabled: showHeader,
-                    viewChangeSpinEnabled: true,
-                    resourceName: resourceNameHeader,
-                }, { getCustomDateFunc: getCustomDate }
+                schedulerConfig, { getCustomDateFunc: getCustomDate }
             );
             sd.setSchedulerLocale(schedulerLanguage);
             sd.setCalendarPopoverLocale(getLocaleFromLanguage(schedulerLanguage));

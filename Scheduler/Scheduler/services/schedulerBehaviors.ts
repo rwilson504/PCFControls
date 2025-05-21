@@ -1,4 +1,5 @@
 import { ViewType, CellUnit, SchedulerData } from "react-big-schedule";
+import { ExtendedSchedulerData, ExtendedSchedulerDataConfig } from "../types";
 import { Dayjs } from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 
@@ -8,7 +9,7 @@ import dayjs from "dayjs";
 dayjs.extend(weekday);
 
 export const getCustomDate = (
-    schedulerData: SchedulerData,
+    schedulerData: ExtendedSchedulerData,
     num: number,
     date: string | Dayjs = schedulerData.startDate
 ): { startDate: string; endDate: string; cellUnit: CellUnit } => {
@@ -20,10 +21,16 @@ export const getCustomDate = (
     const baseDate = localeDayjs(date);
 
     if (viewType === ViewType.Custom) {
-        // Work Week: Monday–Friday
-        start = baseDate.weekday(0); // Monday
+        // Work Week: Use dynamic days from config
+        const days: number[] = schedulerData.config.workWeekDays || [1, 2, 3, 4, 5]; // Default: Mon-Fri
+       
+        const startDay = days[0] - 1; // Convert to Dayjs weekday
+        const endDay = days[days.length - 1] - 1;
+
+        // Find the start of the week, then move to the correct start day
+        start = baseDate.weekday(startDay);
         if (num !== 0) start = start.add(2 * num, 'weeks');
-        end = start.add(4, 'day'); // Friday
+        end = start.weekday(endDay);
         cellUnit = CellUnit.Day;
     } else if (viewType === ViewType.Custom1) {
         // Events: month-based

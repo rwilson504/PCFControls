@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { getViewByName } from "../types/schedulerViews";
 import { SchedulerData } from "react-big-schedule";
 import { Event } from "../types/schedulerTypes";
-import { on } from "events";
 
 export function useSchedulerView(
     pcfContext: any,

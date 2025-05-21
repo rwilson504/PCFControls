@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="Scheduler" version="0.0.10" display-name-key="Scheduler" description-key="Scheduler description" control-type="standard">
+  <control namespace="RAW" constructor="Scheduler" version="0.0.11" display-name-key="Scheduler" description-key="Scheduler description" control-type="standard">
     <external-service-usage enabled="false">
     </external-service-usage>
     <data-set name="schedulerDataSet" display-name-key="Scheduler Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
@@ -17,16 +17,11 @@
     <property name="schedulerAvailableViews" display-name-key="Available Views" description-key="Allows you to chose which scheduler view button show up for the user.  This is a comma delimited list of the view names which are day,week,month,quarter,year,work_week,event." usage="input" of-type="SingleLine.Text" required="false" default-value="day,week,month,year,event" />
     <property name="schedulerView" display-name-key="Default Claendar View" description-key="Choose the default scheduler view that will be shown. Options are day,week,month,quarter,year,work_week,agenda,event." usage="input" of-type="SingleLine.Text" required="false" default-value="week" />
     <property name="schedulerDate" display-name-key="Scheduler Date" description-key="Allows you to change the scheduler date from a Date Field in Canvas Apps" usage="input" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="schedulerWorkWeekStart" display-name-key="Work Week Start" description-key="Enter a number from 0 to 6 to select the first day of the work week. The meaning of 0 depends on the user's locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday." usage="input" of-type="Whole.None" required="false" default-value="1" />
+    <property name="schedulerWorkWeekEnd" display-name-key="Work Week End" description-key="Enter a number from 0 to 6 to select the last day of the work week. The meaning of 0 depends on the user's locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday." usage="input" of-type="Whole.None" required="false" default-value="5" />
     <property name="schedulerLanguage" display-name-key="Scheduler Language" description-key="Sets the language/culture of the scheduler. In Canvas apps set this to the Language() function.  In Model apps you can leave this blank and it will utilize the language set for the current users. Currently support lanuages are en, fr, de, es." usage="input" of-type="SingleLine.Text" required="false" default-value="en" />
     <property name="showSchedulerHeader" display-name-key="Show Scheduler Header" description-key="Show or hide the built-in scheduler header. This can be useful if you want to control the scheduler with your own controls in a canvas app." of-type="TwoOptions" usage="input" required="false" default-value="true" />
-    <property
-  name="resourceNameHeader"
-  display-name-key="Resource Name Header"
-  description-key="Text to display as the Resource Name column header. Leave blank to use the default."
-  of-type="SingleLine.Text"
-  usage="input"
-  required="false"
-/>
+    <property name="resourceNameHeader" display-name-key="Resource Name Header" description-key="Text to display as the Resource Name column header. Leave blank to use the default." of-type="SingleLine.Text" usage="input" required="false" />
     <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
     <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
     <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />

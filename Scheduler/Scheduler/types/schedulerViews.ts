@@ -8,6 +8,7 @@ export interface View extends SchedulerView {
     name: string; // This is the key for localization and internal use
     /** Display name for the view (will be localized at runtime) */
     viewName: string;
+    workWeekDays?: number[];
 }
 
 export const SCHEDULER_VIEWS: View[] = [
@@ -16,7 +17,7 @@ export const SCHEDULER_VIEWS: View[] = [
     { name: 'month', viewName: 'view_month', viewType: ViewType.Month, showAgenda: false, isEventPerspective: false },
     { name: 'quarter', viewName: 'view_quarter', viewType: ViewType.Quarter, showAgenda: false, isEventPerspective: false },
     { name: 'year', viewName: 'view_year', viewType: ViewType.Year, showAgenda: false, isEventPerspective: false },
-    { name: 'work_week', viewName: 'view_work_week', viewType: ViewType.Custom, showAgenda: false, isEventPerspective: false },
+    { name: 'work_week', viewName: 'view_work_week', viewType: ViewType.Custom, showAgenda: false, isEventPerspective: false}, // Monday to Friday
     { name: 'event', viewName: 'view_event', viewType: ViewType.Custom1, showAgenda: false, isEventPerspective: true }
 ];
 
