@@ -3,8 +3,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { v4 as uuidv4 } from "uuid";
 import { SchedulerApp } from "./schedulerApp";
-import { View } from "./types/schedulerViews"
-import { PcfContextService } from "./services/pcfContextService";
 
 export class Scheduler implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
@@ -89,6 +87,7 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
                 instanceid: this._instanceId,
                 height: this._context.mode.allocatedHeight,
                 onDateChange: this.onDateChange.bind(this),
+                onClickSelectedRecord: this.onClickSelectedRecord.bind(this),
             })
         );
     }

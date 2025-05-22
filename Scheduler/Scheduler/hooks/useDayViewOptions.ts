@@ -11,8 +11,8 @@ export interface DayViewOptions {
 
 export function useDayViewOptions(
     pcfContext: PcfContextService,
-    schedulerData?: SchedulerData | null,
-    dispatch?: (action: SchedulerAction) => void
+    schedulerData: SchedulerData | null,
+    dispatch: (action: SchedulerAction) => void
 ): DayViewOptions {
     const getOptions = (): DayViewOptions => ({
         startHour: Number(pcfContext.context.parameters.dayStartFrom?.raw ?? 0),

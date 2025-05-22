@@ -10,7 +10,7 @@ export function useSchedulerDate(
     events: Event[],
     dispatch: (action: SchedulerAction) => void,
     schedulerView: string,
-    onDateChange?: (
+    onDateChange: (
         date: Date,
         viewStart: Date,
         viewEnd: Date,

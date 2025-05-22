@@ -8,8 +8,8 @@ import { SchedulerAction } from "../types";
 
 export function useSchedulerLanguage(
     pcfContext: ComponentFramework.Context<IInputs>,
-    schedulerData?: SchedulerData | null,
-    dispatch?: (action: SchedulerAction) => void
+    schedulerData: SchedulerData | null,
+    dispatch: (action: SchedulerAction) => void
 ): string {
     const getISOLanguage: () => string = () => {
         const isCanvas = pcfContext.parameters?.isCanvas?.raw ?? false; 

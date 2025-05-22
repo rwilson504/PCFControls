@@ -22,7 +22,6 @@ export interface Resource extends SchedulerResource {
  * Used to represent a scheduled event or appointment.
  */
 export interface Event extends SchedulerEventItem {
-    id: number;
     etn: string;
 }
 
@@ -48,9 +47,9 @@ export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     /** Height of the control (number or string) */
     height: number | string;
     /** Callback when the date or view changes */
-    onDateChange?: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
+    onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
     /** Callback when a record is selected (clicked) */
-    onClickSelectedRecord?: (recordId: string) => void;
+    onClickSelectedRecord: (recordId: string) => void;
 }
 
 

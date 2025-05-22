@@ -11,7 +11,7 @@ import { PcfContextService } from "../services/pcfContextService";
 export function useWorkWeekDays(
     pcfContext: PcfContextService, 
     schedulerData: SchedulerData | null, 
-    dispatch?: (action: SchedulerAction) => void): number[] 
+    dispatch: (action: SchedulerAction) => void): number[] 
     {
     const parseDays = () => {
         // Default: Monday (1) to Friday (5) in 0-indexed (so 1=Monday, 5=Friday)

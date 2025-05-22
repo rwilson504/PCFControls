@@ -208,7 +208,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
 
     // Handler: Event item clicked
     const eventClicked = React.useCallback((schedulerData: SchedulerData, event: EventItem) => {
-        const eventId = event.id as string;        
+        const eventId = event.id as string;
         if (eventId) {
             props.onClickSelectedRecord?.(eventId);
         }

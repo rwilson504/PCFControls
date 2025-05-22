@@ -10,8 +10,8 @@ import { SchedulerAction } from "../types";
  */
 export function useDisplayWeekend(
     pcfContext: PcfContextService,
-    schedulerData?: SchedulerData | null,
-    dispatch?: (action: SchedulerAction) => void
+    schedulerData: SchedulerData | null,
+    dispatch: (action: SchedulerAction) => void
 ): boolean {
     const getValue = () => {
         return pcfContext.context.parameters?.schedulerDisplayWeekend?.raw || true;

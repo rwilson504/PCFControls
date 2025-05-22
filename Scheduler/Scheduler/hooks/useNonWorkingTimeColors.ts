@@ -12,8 +12,8 @@ export interface NonWorkingTimeColors {
 
 export function useNonWorkingTimeColors(
     pcfContext: PcfContextService,
-    schedulerData?: SchedulerData | null,
-    dispatch?: (action: SchedulerAction) => void
+    schedulerData: SchedulerData | null,
+    dispatch: (action: SchedulerAction) => void
 ): NonWorkingTimeColors {
     const getColors = (): NonWorkingTimeColors => ({
         headColor: pcfContext.context.parameters.nonWorkingTimeHeadColor?.raw || "#999999",
