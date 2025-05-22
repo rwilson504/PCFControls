@@ -29,7 +29,7 @@ export function useDisplayWeekend(
         if (schedulerData && schedulerData.config) {
             schedulerData.config.displayWeekend = displayWeekend;
             if (dispatch) {
-                dispatch({ type: "UPDATE_SCHEDULER_CONFIG", payload: { schedulerData } });
+                dispatch({ type: "UPDATE_SCHEDULER_CONFIG", payload: schedulerData });
             }
         }
     }, [displayWeekend]);
