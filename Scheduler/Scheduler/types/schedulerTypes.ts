@@ -39,6 +39,7 @@ export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     instanceid: string;
     height: number | string;
     onDateChange?: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
+    onClickSelectedRecord?: (recordId: string) => void;
 }
 
 export type SchedulerAction =

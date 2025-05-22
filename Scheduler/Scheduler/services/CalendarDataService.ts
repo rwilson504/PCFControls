@@ -31,7 +31,7 @@ export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): 
 
     // If we are in a model app, get additional info about the resource
     if (pcfContext.mode.allocatedHeight === -1) {
-        let eventMetaFields = [resource];
+        const eventMetaFields = [resource];
         if (colorFieldInfo?.etn) {
             eventMetaFields.push(colorFieldInfo.field);
         }
@@ -72,7 +72,7 @@ export function getColorFieldInfo(
     fieldName: string
 ): { etn: string, field: string } {
     // If the field name does not contain a '.', just return the field name
-    // @ts-ignore
+    // @ts-expect-error contextInfo is available in model apps
     if (fieldName.indexOf('.') === -1) return { etn: pcfContext.mode.contextInfo.entityTypeName, field: fieldName };
     const linkedFieldParts = fieldName.split('.');
     return { etn: linkedFieldParts[0], field: linkedFieldParts[1] };
@@ -81,8 +81,8 @@ export function getColorFieldInfo(
 // Returns all the scheduler data including the events and resources
 export async function getSchedulerData(
     pcfContext: ComponentFramework.Context<IInputs>,
-    keys: any
-): Promise<{ resources: Resource[], events: Event[], keys: any }> {
+    keys: SchedulerKeys
+): Promise<{ resources: Resource[], events: Event[], keys: SchedulerKeys }> {
     const resourceData = await getResources(pcfContext, keys);
     const eventData = await getEvents(pcfContext, resourceData, keys);
     return { resources: resourceData, events: eventData, keys: keys };
@@ -91,7 +91,7 @@ export async function getSchedulerData(
 // Retrieves all the resources from the datasource
 export async function getResources(
     pcfContext: ComponentFramework.Context<IInputs>,
-    keys: any
+    keys: SchedulerKeys
 ): Promise<Resource[]> {
     const dataSet = pcfContext.parameters.schedulerDataSet;
     const resources: Resource[] = [];
@@ -148,7 +148,7 @@ export async function getResources(
 export async function getEvents(
     pcfContext: ComponentFramework.Context<IInputs>,
     resources: Resource[] | undefined,
-    keys: any
+    keys: SchedulerKeys
 ): Promise<Event[]> {
     const dataSet = pcfContext.parameters.schedulerDataSet;
     const totalRecordCount = dataSet.sortedRecordIds.length;
@@ -161,7 +161,7 @@ export async function getEvents(
         const name = record.getValue(keys.name) as string;
         const start = record.getValue(keys.start);
         const end = record.getValue(keys.end);
-        const resourceId = record.getValue(keys.resource);
+        const resourceId = record.getValue(keys.resource ?? "");
 
         if (!name || !start || !end || !resourceId) continue;
 
@@ -181,7 +181,7 @@ export async function getEvents(
             title: name
         };
 
-        const color = record.getValue(keys.eventColor);
+        const color = record.getValue(keys.eventColor ?? "");
         if (color) newEvent.bgColor = color as string;
 
         newEvents.push(newEvent);
@@ -194,7 +194,7 @@ export async function getEvents(
 export async function getAllResources(
     pcfContext: ComponentFramework.Context<IInputs>,
     resources: Resource[],
-    keys: any
+    keys: SchedulerKeys
 ): Promise<void> {
     if (!keys || !keys.resourceName || !keys.resourceEtn || !keys.resourceId) {
         return;
@@ -212,12 +212,12 @@ export async function getAllResources(
         5000
     );
 
-    allResources.entities.forEach((e: any) => {
+    allResources.entities.forEach((e: ComponentFramework.WebApi.Entity) => {
         if (keys.resourceId && resourceName in e && keys.resourceId in e) {
             resources.push({
                 id: e[keys.resourceId],
                 name: e[resourceName],
-                etn: keys.resourceEtn
+                etn: keys.resourceEtn ?? ""
             });
         }
     });

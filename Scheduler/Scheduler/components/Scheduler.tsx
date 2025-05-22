@@ -122,7 +122,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                 besidesWidth: 0,
                 schedulerContentHeight: "100%",
                 schedulerMaxHeight: pcfContext.height as number,
-                eventItemPopoverTrigger: "click" as "click",
+                eventItemPopoverTrigger: "click" as "click", // eslint-disable-line @typescript-eslint/prefer-as-const
                 views: availableViews,
                 headerEnabled: showHeader,
                 viewChangeSpinEnabled: true,
@@ -177,11 +177,16 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             setSchedulerView(foundView.name);
         }
     }, [setSchedulerView, availableViews]);
+    
     const onSelectDate = React.useCallback((schedulerData: SchedulerData, date: string) => {
         setSchedulerDate(date);
     }, [setSchedulerDate]);
 
     const eventClicked = React.useCallback((schedulerData: SchedulerData, event: EventItem) => {
+        const eventId = event.id as string;        
+        if (eventId) {
+            props.onClickSelectedRecord?.(eventId);
+        }
     }, []);
 
     return (

@@ -21,7 +21,10 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     private _updateFromOutput: boolean;
     private _reactRoot: ReactDOM.Root;
 
-    constructor() { }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    constructor() { 
+
+    }
 
     public init(
         context: ComponentFramework.Context<IInputs>,

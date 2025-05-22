@@ -102,8 +102,7 @@ export class PcfContextService {
     if (this.isCanvasApp()) {
       return undefined;
     } else {
-      // @ts-expect-error context is available in model apps
-      // eslint-disable-next-line
+      // @ts-expect-error context is available in model apps      
       return this.context.page.getClientUrl();
     }
   }

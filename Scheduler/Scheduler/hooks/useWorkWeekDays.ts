@@ -45,8 +45,8 @@ export function useWorkWeekDays(
     // Effect to update the config when workWeekDays changes
     useEffect(() => {
         if (schedulerData && schedulerData.config) {
-            var config = schedulerData.config;
-            var updatedConfig = { ...config, workWeekDays: workWeekDays };
+            const config = schedulerData.config;
+            const updatedConfig = { ...config, workWeekDays: workWeekDays };
             schedulerData.config = updatedConfig;
             if (dispatch) {
                 dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });

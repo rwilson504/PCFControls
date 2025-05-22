@@ -19,10 +19,7 @@ export const SchedulerApp: React.FC<ISchedulerControlProps> = (props) => {
     <DndProvider backend={HTML5Backend}>
       <PcfContextProvider pcfcontext={pcfContextService}>
         <SchedulerControl
-          // Pass only the props defined in ISchedulerControlProps
-          // Example: id={props.instanceid} height={props.height}
-          // Replace the following with the actual ISchedulerControlProps fields
-          {...(props as any)}
+          {...props}
         />
       </PcfContextProvider>
     </DndProvider>
