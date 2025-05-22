@@ -20,11 +20,15 @@ import 'antd/locale/fr_FR';
 import 'antd/locale/de_DE';
 import 'antd/locale/pt_PT';
 
+
+// Initial state for the scheduler reducer
 const initialState = {
     showScheduler: false,
     schedulerData: null as SchedulerData | null,
 };
 
+
+// Reducer to manage scheduler state transitions
 function reducer(state: typeof initialState, action: SchedulerAction) {
     switch (action.type) {
         case "INITIALIZE":
@@ -36,14 +40,23 @@ function reducer(state: typeof initialState, action: SchedulerAction) {
     }
 }
 
+
+// SchedulerControl is the main visual component for the Scheduler PCF control.
+// It manages state, data loading, and event handlers for the scheduler UI.
 const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) => {
+    // Ref to the parent container div for sizing and focus management
     const parentRef = React.useRef<HTMLDivElement>(null);
+    // Access the PCF context service
     const pcfContext = usePcfContext();
+    // State management for scheduler data and visibility
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
+    // Local state for resources and events
     const [resources, setResources] = React.useState<Resource[]>([]);
     const [events, setEvents] = React.useState<Event[]>([]);
 
+
+    // Custom hooks for scheduler configuration and state
     const availableViews = useAvailableViews(pcfContext, state, dispatch);
     const showHeader = useShowHeader(pcfContext, state, dispatch);
     const resourceNameHeader = useResourceNameHeader(pcfContext, state, dispatch);
@@ -69,6 +82,8 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         props.onDateChange,
     );
 
+
+    // Effect: Fetch scheduler data (resources and events) when the scheduler is shown or data changes
     React.useEffect(() => {
         let isMounted = true;
         async function fetchSchedulerData() {
@@ -89,6 +104,8 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         return () => { isMounted = false; };
     }, [state.showScheduler, props.context.parameters.schedulerDataSet.records]);
 
+
+    // Effect: Notify parent when the date or view changes
     React.useEffect(() => {
         if (
             state.schedulerData &&
@@ -107,6 +124,8 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         // Only run when schedulerData is initialized or relevant dependencies change
     }, [events]);
 
+
+    // Effect: Initialize the scheduler data on mount
     React.useEffect(() => {
         let isMounted = true;
         async function loadSchedulerData() {
@@ -116,6 +135,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             const currentView = getViewByName(availableViews, schedulerView);
             const viewType = currentView?.viewType ?? availableViews[0]?.viewType ?? ViewType.Week;
 
+            // Scheduler configuration object
             const config: SchedulerDataConfig = {                
                 responsiveByParent: true,
                 schedulerWidth: `100%` as `${number}%`,
@@ -137,6 +157,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             };
             const schedulerConfig = { ...config, workWeekDays };
 
+            // Create the SchedulerData instance
             const sd = new SchedulerData(
                 new Date().toISOString().slice(0, 10),
                 viewType,
@@ -155,15 +176,16 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         return () => { isMounted = false; };
     }, []);
 
-    // Handler callbacks
+
+    // Handler: Go to previous date range
     const prevClick = React.useCallback((schedulerData: SchedulerData) => {
         schedulerData.prev();
         schedulerData.setEvents(events);
         dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
         props.onDateChange?.(schedulerData.getViewStartDate().toDate(), schedulerData.getViewStartDate().toDate(), schedulerData.getViewEndDate().toDate(), schedulerView);
-
     }, [events, schedulerView, props.onDateChange]);
 
+    // Handler: Go to next date range
     const nextClick = React.useCallback((schedulerData: SchedulerData) => {
         schedulerData.next();
         schedulerData.setEvents(events);
@@ -171,6 +193,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         props.onDateChange?.(schedulerData.getViewStartDate().toDate(), schedulerData.getViewStartDate().toDate(), schedulerData.getViewEndDate().toDate(), schedulerView);
     }, [events, schedulerView, props.onDateChange]);
 
+    // Handler: Change the scheduler view (day, week, etc.)
     const onViewChange = React.useCallback((schedulerData: SchedulerData, view: View) => {
         const foundView = availableViews.find(v => v.viewType === view.viewType);
         if (foundView) {
@@ -178,10 +201,12 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         }
     }, [setSchedulerView, availableViews]);
     
+    // Handler: Select a new date
     const onSelectDate = React.useCallback((schedulerData: SchedulerData, date: string) => {
         setSchedulerDate(date);
     }, [setSchedulerDate]);
 
+    // Handler: Event item clicked
     const eventClicked = React.useCallback((schedulerData: SchedulerData, event: EventItem) => {
         const eventId = event.id as string;        
         if (eventId) {
@@ -189,6 +214,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         }
     }, []);
 
+    // Render the scheduler UI or a loading state
     return (
         <div
             ref={parentRef}

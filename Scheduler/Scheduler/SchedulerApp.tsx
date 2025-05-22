@@ -5,7 +5,6 @@ import SchedulerControl from "./components/scheduler";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ISchedulerControlProps } from "./types/schedulerTypes";
-//import { useStyles } from "./utils/styles";
 
 export const SchedulerApp: React.FC<ISchedulerControlProps> = (props) => {
   // Create the context service.
@@ -15,6 +14,7 @@ export const SchedulerApp: React.FC<ISchedulerControlProps> = (props) => {
     height: props.height 
   });
 
+  // Wrap the SchedulerControl in providers for drag-and-drop and PCF context.
   return (
     <DndProvider backend={HTML5Backend}>
       <PcfContextProvider pcfcontext={pcfContextService}>

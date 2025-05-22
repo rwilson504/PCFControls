@@ -39,7 +39,7 @@ export function useAvailableViews(
             state.schedulerData.config.views = availableViews;
             dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
         }
-    }, [availableViews, state.schedulerData, dispatch]);
+    }, [availableViews]);
 
     return availableViews;
 }

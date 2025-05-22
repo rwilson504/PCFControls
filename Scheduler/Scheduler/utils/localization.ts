@@ -1,9 +1,13 @@
+
 // This file contains localization mappings for different views in a scheduler application.
 // It provides a way to retrieve localized names for different views based on the user's language preference.
 
 
 // The view names are mapped to their localized strings in different languages.
 // The localization is structured as a record where the keys are language codes and the values are objects containing the localized strings.
+/**
+ * Localization mapping for scheduler view names by language code
+ */
 export const VIEW_LOCALIZATION: Record<string, Record<string, string>> = {
     en: {
         view_day: "Day",
@@ -52,14 +56,21 @@ export const VIEW_LOCALIZATION: Record<string, Record<string, string>> = {
     }
 };
 
-// Function to get the localized view name based on the language and key
-// This function takes a language code and a key (like "view_day") and returns the localized name.
+
+/**
+ * Get the localized view name based on the language and key
+ * @param lang - language code (e.g., 'en', 'es')
+ * @param key - view key (e.g., 'view_day')
+ * @returns localized string for the view
+ */
 export function getLocalizedViewName(lang: string, key: string): string {
     const locale = lang.toLowerCase();
     return VIEW_LOCALIZATION[locale]?.[key] || VIEW_LOCALIZATION["en"][key] || key;
 }
 
-// Simple localization mapping for "Resource Name"
+/**
+ * Simple localization mapping for "Resource Name"
+ */
 export const RESOURCE_NAME_LOCALIZATION: Record<string, string> = {
     en: "Resource Name",
     es: "Nombre del recurso",
@@ -68,7 +79,12 @@ export const RESOURCE_NAME_LOCALIZATION: Record<string, string> = {
     pt: "Nome do recurso"
 };
 
-// Function to get the localized resource name based on the language
+
+/**
+ * Get the localized resource name based on the language
+ * @param lang - language code (e.g., 'en', 'es')
+ * @returns localized string for resource name
+ */
 export function getLocalizedResourceName(lang: string): string {
     return RESOURCE_NAME_LOCALIZATION[lang] || RESOURCE_NAME_LOCALIZATION["en"];
 }
