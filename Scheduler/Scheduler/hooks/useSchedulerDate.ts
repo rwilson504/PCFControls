@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
-import { Event } from "../types/schedulerTypes";
+import { Event, SchedulerAction } from "../types/schedulerTypes";
 import { parseDateOnly } from "../utils/formattingHelpers";
-import { parse } from "path";
+import { PcfContextService } from "../services/pcfContextService";
 
 export function useSchedulerDate(
-    pcfContext: any,
+    pcfContext: PcfContextService,
     state: { schedulerData: SchedulerData | null },
     events: Event[],
-    dispatch: (action: any) => void,
+    dispatch: (action: SchedulerAction) => void,
     schedulerView: string,
     onDateChange?: (
         date: Date,

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { SchedulerData } from "react-big-schedule";
+import { PcfContextService } from "../services/pcfContextService";
+import { SchedulerAction } from "../types";
 
 export interface DayViewOptions {
     startHour: number;
@@ -8,9 +10,9 @@ export interface DayViewOptions {
 }
 
 export function useDayViewOptions(
-    pcfContext: any,
+    pcfContext: PcfContextService,
     schedulerData?: SchedulerData | null,
-    dispatch?: (action: any) => void
+    dispatch?: (action: SchedulerAction) => void
 ): DayViewOptions {
     const getOptions = (): DayViewOptions => ({
         startHour: Number(pcfContext.context.parameters.dayStartFrom?.raw ?? 0),
@@ -35,7 +37,7 @@ export function useDayViewOptions(
             schedulerData.config.dayStopTo = dayViewOptions.endHour;
             schedulerData.config.minuteStep = dayViewOptions.minuteStep;
             if (dispatch) {
-                dispatch({ type: "UPDATE_SCHEDULER_CONFIG", payload: schedulerData });
+                dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
             }
         }
     }, [dayViewOptions]);

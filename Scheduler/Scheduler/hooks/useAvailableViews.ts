@@ -3,11 +3,13 @@ import { SCHEDULER_VIEWS } from "../types/schedulerViews";
 import { getLocalizedViewName } from "../utils/localization";
 import { DEFAULT_VIEW_NAMES } from "../utils/constants";
 import { SchedulerData } from "react-big-schedule";
+import { PcfContextService } from "../services/pcfContextService";
+import { SchedulerAction } from "../types";
 
 export function useAvailableViews(
-    pcfContext: any,
+    pcfContext: PcfContextService,
     state: { schedulerData: SchedulerData | null },
-    dispatch: (action: any) => void
+    dispatch: (action: SchedulerAction) => void
 ) {
     const getViews = () => {
         const raw = pcfContext.context.parameters.schedulerAvailableViews?.raw as string | undefined;

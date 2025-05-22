@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
+import { PcfContextService } from "../services/pcfContextService";
+import { SchedulerAction } from "../types";
 
 export function useShowHeader(
-    pcfContext: any,
+    pcfContext: PcfContextService,
     state: { schedulerData: SchedulerData | null },
-    dispatch: (action: any) => void
+    dispatch: (action: SchedulerAction) => void
 ): boolean {
     const [showHeader, setShowHeader] = useState<boolean>(
         pcfContext.context.parameters.showSchedulerHeader?.raw !== false

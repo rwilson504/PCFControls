@@ -4,11 +4,12 @@ import { SchedulerData } from "react-big-schedule";
 import { SUPPORTED_LANGUAGES } from "../utils/constants";
 import { IInputs } from "../generated/ManifestTypes";
 import { getLocaleFromLanguage } from "../utils/formattingHelpers";
+import { SchedulerAction } from "../types";
 
 export function useSchedulerLanguage(
     pcfContext: ComponentFramework.Context<IInputs>,
     schedulerData?: SchedulerData | null,
-    dispatch?: (action: any) => void
+    dispatch?: (action: SchedulerAction) => void
 ): string {
     const getISOLanguage: () => string = () => {
         const isCanvas = pcfContext.parameters?.isCanvas?.raw ?? false; 

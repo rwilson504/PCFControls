@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
-import { Event } from "../types/schedulerTypes";
+import { Event, SchedulerAction } from "../types/schedulerTypes";
+import { PcfContextService } from "../services/pcfContextService";
 
 /**
  * Returns an array of day numbers representing the work week range,
  * based on schedulerWorkWeekStart and schedulerWorkWeekEnd parameters.
  * 1=Sunday, 2=Monday, ..., 7=Saturday
  */
-export function useWorkWeekDays(pcfContext: any, schedulerData: SchedulerData | null, dispatch?: (action: any) => void): number[] {
+export function useWorkWeekDays(
+    pcfContext: PcfContextService, 
+    schedulerData: SchedulerData | null, 
+    dispatch?: (action: SchedulerAction) => void): number[] 
+    {
     const parseDays = () => {
         // Default: Monday (1) to Friday (5) in 0-indexed (so 1=Monday, 5=Friday)
         const start = Number(pcfContext.context.parameters.schedulerWorkWeekStart?.raw);
@@ -44,7 +49,7 @@ export function useWorkWeekDays(pcfContext: any, schedulerData: SchedulerData | 
             var updatedConfig = { ...config, workWeekDays: workWeekDays };
             schedulerData.config = updatedConfig;
             if (dispatch) {
-                dispatch({ type: "UPDATE_SCHEDULER_CONFIG", payload: schedulerData });
+                dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
             }
         }
     }, [workWeekDays]);

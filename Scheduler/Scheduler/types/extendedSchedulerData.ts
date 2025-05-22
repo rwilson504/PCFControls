@@ -1,4 +1,4 @@
-import { SchedulerData, SchedulerDataConfig, EventItem } from "react-big-schedule";
+import { SchedulerData, SchedulerDataConfig, EventItem, SchedulerDataBehaviors } from "react-big-schedule";
 
 export interface ExtendedSchedulerDataConfig extends SchedulerDataConfig {
     workWeekDays?: number[];
@@ -13,7 +13,7 @@ export class ExtendedSchedulerData<EventType extends EventItem = EventItem> exte
         showAgenda: boolean,
         isEventPerspective: boolean,
         config: ExtendedSchedulerDataConfig,
-        behaviors?: any
+        behaviors?: SchedulerDataBehaviors<EventType>
     ) {
         super(startDate, viewType, showAgenda, isEventPerspective, config, behaviors);
         this.config = config;

@@ -1,6 +1,8 @@
 import { secureHeapUsed } from "crypto";
 import { useEffect, useState } from "react";
 import { SchedulerData } from "react-big-schedule";
+import { PcfContextService } from "../services/pcfContextService";
+import { SchedulerAction } from "../types";
 
 export interface NonWorkingTimeColors {
     headColor: string;
@@ -9,9 +11,9 @@ export interface NonWorkingTimeColors {
 }
 
 export function useNonWorkingTimeColors(
-    pcfContext: any,
+    pcfContext: PcfContextService,
     schedulerData?: SchedulerData | null,
-    dispatch?: (action: any) => void
+    dispatch?: (action: SchedulerAction) => void
 ): NonWorkingTimeColors {
     const getColors = (): NonWorkingTimeColors => ({
         headColor: pcfContext.context.parameters.nonWorkingTimeHeadColor?.raw || "#999999",
@@ -36,7 +38,7 @@ export function useNonWorkingTimeColors(
             schedulerData.config.nonWorkingTimeHeadBgColor = nonWorkingTimeColors.headBgColor;
             schedulerData.config.nonWorkingTimeBodyBgColor = nonWorkingTimeColors.bodyBgColor;
             if (dispatch) {
-                dispatch({ type: "UPDATE_SCHEDULER_CONFIG", payload: schedulerData });
+                dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
             }
         }
     }, [nonWorkingTimeColors]);

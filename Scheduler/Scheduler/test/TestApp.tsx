@@ -10,6 +10,7 @@ import { MockPCFParameters } from "../mocks/MockPCFParameters";
 import { MockPCFMode } from "../mocks/MockPCFMode";
 import { MockPCFDataSet } from "../mocks/MockPCFDataSet";
 import { scheduler } from "timers/promises";
+import { ISchedulerControlProps } from "../types";
 
 // Use the new mock context for testing
 const mockContext = new MockPCFContext();// as unknown as ComponentFramework.Context<IInputs>;
@@ -66,7 +67,7 @@ const mockPcfContextService = new PcfContextService({
 const TestApp: React.FC = (props) => (
     <DndProvider backend={HTML5Backend}>
         <PcfContextProvider pcfcontext={mockPcfContextService}>
-            <SchedulerControl {...(props as any)} />
+            <SchedulerControl {...(props as ISchedulerControlProps)} />
         </PcfContextProvider>
     </DndProvider>
 );

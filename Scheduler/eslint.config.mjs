@@ -7,7 +7,7 @@ import typescriptEslint from "typescript-eslint";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ["**/generated/", "**/"],
+    ignores: ["**/generated/", "**/mocks/*.ts"],
   },
   eslintjs.configs.recommended,
   ...typescriptEslint.configs.recommended,
@@ -28,7 +28,7 @@ export default [
         ecmaVersion: 2020,
         sourceType: "module",
         projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: import.meta.dirname
       },
     },
 

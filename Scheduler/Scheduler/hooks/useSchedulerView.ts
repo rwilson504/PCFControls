@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { getViewByName } from "../types/schedulerViews";
+import { getViewByName, View } from "../types/schedulerViews";
 import { SchedulerData } from "react-big-schedule";
-import { Event } from "../types/schedulerTypes";
+import { Event, SchedulerAction } from "../types/schedulerTypes";
+import { PcfContextService } from "../services/pcfContextService";
 
 export function useSchedulerView(
-    pcfContext: any,
-    availableViews: any[],
+    pcfContext: PcfContextService,
+    availableViews: View[],
     state: { schedulerData: SchedulerData | null },
     events: Event[],
-    dispatch: (action: any) => void,
+    dispatch: (action: SchedulerAction) => void,
     onDateChange?: (
         date: Date,
         viewStart: Date,

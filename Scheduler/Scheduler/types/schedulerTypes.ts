@@ -2,10 +2,9 @@ import {
     Resource as SchedulerResource,
     EventItem as SchedulerEventItem,
     SchedulerProps,
-    SchedulerData as SchedulerDataBase
+    SchedulerData
 } from "react-big-schedule";
-import { View} from "./schedulerViews";
-import { IInputs, IOutputs } from "../generated/ManifestTypes";
+import { IInputs } from "../generated/ManifestTypes";
 
 
 /**
@@ -41,3 +40,7 @@ export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     height: number | string;
     onDateChange?: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
 }
+
+export type SchedulerAction =
+    | { type: "INITIALIZE"; payload: SchedulerData }
+    | { type: "UPDATE_SCHEDULER"; payload: SchedulerData };
