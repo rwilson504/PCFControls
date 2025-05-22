@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ViewType, SchedulerData } from "react-big-schedule";
+import { ViewType, SchedulerData, SchedulerDataConfig } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
@@ -7,7 +7,7 @@ import { ISchedulerControlProps, Resource, Event } from "../types";
 import { getViewByName } from "../types/schedulerViews";
 import { getCustomDate } from "../services/schedulerBehaviors";
 import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
-import { useAvailableViews, useShowHeader, useWorkWeekDays, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
+import { useAvailableViews, useShowHeader, useWorkWeekDays,useDisplayWeekend, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
 import { parseDateOnly, getLocaleFromLanguage } from "../utils/formattingHelpers";
 import 'dayjs/locale/en';
 import 'dayjs/locale/es';
@@ -53,6 +53,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     const resourceNameHeader = useResourceNameHeader(pcfContext, state, dispatch);
     const schedulerLanguage = useSchedulerLanguage(pcfContext.context, state.schedulerData, dispatch);
     const workWeekDays = useWorkWeekDays(pcfContext, state.schedulerData, dispatch);
+    const displayWeekend = useDisplayWeekend(pcfContext, state.schedulerData, dispatch);
     const [schedulerView, setSchedulerView] = useSchedulerView(
         pcfContext,
         availableViews,
@@ -117,7 +118,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             const currentView = getViewByName(availableViews, schedulerView);
             const viewType = currentView?.viewType ?? availableViews[0]?.viewType ?? ViewType.Week;
 
-            const config = {
+            const config: SchedulerDataConfig = {
                 responsiveByParent: true,
                 schedulerWidth: `100%` as `${number}%`,
                 besidesWidth: 0,
@@ -128,6 +129,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                 headerEnabled: showHeader,
                 viewChangeSpinEnabled: true,
                 resourceName: resourceNameHeader,
+                displayWeekend: displayWeekend,                
             };
             const schedulerConfig = { ...config, workWeekDays };
 
