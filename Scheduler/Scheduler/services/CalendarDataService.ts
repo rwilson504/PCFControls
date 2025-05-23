@@ -14,6 +14,7 @@ export interface SchedulerKeys {
     resourceId: string;
     resourceGetAllInModel?: boolean;
     resourceEtn?: string;
+    resourceParentId?: string;
 }
 
 // Gets all the field names and other keys needed while processing the data
@@ -54,7 +55,8 @@ export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): 
         resourceName: resourceName,
         resourceId: resourceId,
         resourceGetAllInModel: resourceGetAllInModel,
-        resourceEtn: resourceEtn
+        resourceEtn: resourceEtn,
+        resourceParentId: resourceParent
     };
 }
 
@@ -106,6 +108,7 @@ export async function getResources(
         let resourceId = "";
         let resourceName = "";
         let resourceEtn = "";
+        let resourceParentId = "";
 
         if (pcfContext.mode.allocatedHeight === -1) {
             const resourceRef = record.getValue(keys.resource) as ComponentFramework.EntityReference;
@@ -118,10 +121,13 @@ export async function getResources(
         } else {
             resourceId = record.getValue(keys.resource) as string;
             resourceName = record.getValue(keys.resourceName) as string;
+            if (keys.resourceParentId) {
+                resourceParentId = record.getValue(keys.resourceParentId) as string;
+            }
         }
 
         if (!resourceId) continue;
-        resources.push({ id: resourceId, name: resourceName, etn: resourceEtn });
+        resources.push({ id: resourceId, name: resourceName, etn: resourceEtn, parentId: resourceParentId });
     }
 
     if (pcfContext.mode.allocatedHeight === -1 && keys.resource && keys.resourceGetAllInModel) {
@@ -136,7 +142,8 @@ export async function getResources(
             distinctResources.push({
                 id: item.id,
                 name: item.name || '',
-                etn: item.etn
+                etn: item.etn,
+                parentId: item.parentId || ''
             });
         }
     }

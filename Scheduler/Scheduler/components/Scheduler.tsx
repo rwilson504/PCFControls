@@ -136,7 +136,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             const viewType = currentView?.viewType ?? availableViews[0]?.viewType ?? ViewType.Week;
 
             // Scheduler configuration object
-            const config: SchedulerDataConfig = {                
+            const config: SchedulerDataConfig = {
                 responsiveByParent: true,
                 schedulerWidth: `100%` as `${number}%`,
                 besidesWidth: 0,
@@ -200,7 +200,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             setSchedulerView(foundView.name);
         }
     }, [setSchedulerView, availableViews]);
-    
+
     // Handler: Select a new date
     const onSelectDate = React.useCallback((schedulerData: SchedulerData, date: string) => {
         setSchedulerDate(date);
@@ -213,6 +213,11 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
             props.onClickSelectedRecord?.(eventId);
         }
     }, []);
+
+    const toggleExpandFunc = React.useCallback((schedulerData: SchedulerData, slotId: string) => {
+        schedulerData.toggleExpandStatus(slotId);
+        dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
+    }, [dispatch]);
 
     // Render the scheduler UI or a loading state
     return (
@@ -232,6 +237,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     onSelectDate={onSelectDate}
                     onViewChange={onViewChange}
                     eventItemClick={eventClicked}
+                    toggleExpandFunc={toggleExpandFunc}
                 />
             ) : (
                 <div>Loading...</div>
