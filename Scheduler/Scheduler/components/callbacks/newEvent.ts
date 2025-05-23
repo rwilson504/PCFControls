@@ -12,11 +12,19 @@ export function createNewEventCallback(
         type: string,
         item: EventItem
     ) => {
+        let startDate = start;
+        let endDate = end;
+        if (typeof start === "string") {
+            startDate = new Date(start);
+        }
+        if (typeof end === "string") {
+            endDate = new Date(end);
+        }
         if (onNewEvent) {
             onNewEvent(
                 slotId,
-                start as Date,
-                end as Date
+                startDate as Date,
+                endDate as Date
             );
         }
     };

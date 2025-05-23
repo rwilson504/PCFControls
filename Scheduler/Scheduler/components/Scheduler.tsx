@@ -3,6 +3,7 @@ import { ViewType, SchedulerData, EventItem, SchedulerDataConfig, View, Resource
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
+import "../resources/schedulerOverrides.css";
 import { ISchedulerControlProps, Resource, Event, SchedulerAction } from "../types";
 import { getViewByName } from "../types/schedulerViews";
 import { getCustomDate } from "../services/schedulerBehaviors";
@@ -114,7 +115,6 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         // Only run when schedulerData is initialized or relevant dependencies change
     }, [events]);
 
-
     // Effect: Initialize the scheduler data on mount
     React.useEffect(() => {
         let isMounted = true;
@@ -219,7 +219,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     return (
         <div
             ref={parentRef}
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "100%" }}
             className="scheduler-container"
             role="region"
             aria-label="Scheduler"

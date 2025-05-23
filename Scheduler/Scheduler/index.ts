@@ -9,14 +9,14 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
      * Handler for new event requests from the Scheduler UI.
      * Passes slotId, start, and end to output for PCF consumers.
      */
-    
+
     private _container: HTMLDivElement;
+    private _calculatedHeight: number;
     private _context: ComponentFramework.Context<IInputs>;
     private _notifyOutputChanged: () => void;
     private _instanceId: string;
     private _actionRecordSelected: boolean;
     private _selectedRecordId: string;
-
     private _currentRangeStart: Date;
     private _currentRangeEnd: Date;
     private _currentSchedulerDate: Date;
@@ -30,7 +30,7 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     private _selectedSlotEnd: Date;
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() { 
+    constructor() {
 
     }
 
@@ -53,9 +53,16 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         this._selectedSlotId = '';
         this._actionNewEvent = false;
 
-        this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
+        if (this._context.mode.allocatedHeight !== -1){
+			this._container.style.height = `${(this._context.mode.allocatedHeight).toString()}px`;
+		}
+		else{
+			//@ts-expect-error - we are setting the height of the container to 100% if we are in a model driven app
+			this._container.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "100%"
+		}
+        
         this._container.style.zIndex = "0";
-        context.parameters.schedulerDataSet.paging.setPageSize(5000);       
+        context.parameters.schedulerDataSet.paging.setPageSize(5000);
     }
 
     public onDateChange(date: Date, rangeStart: Date, rangeEnd: Date, view: string): void {
@@ -78,13 +85,13 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         this._notifyOutputChanged();
     }
 
-    public onNewEvent = (slotId: string, start: Date, end: Date) => {
+    public onNewEvent(slotId: string, start: Date, end: Date) {
         this._selectedSlotId = slotId;
         this._selectedSlotStart = start;
         this._selectedSlotEnd = end;
-        this._actionSlotSelected = true;
+        this._actionNewEvent = true;
         this._notifyOutputChanged();
-    };
+    }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
 
@@ -95,9 +102,13 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
 
         const dataSet = context.parameters.schedulerDataSet;
 
-        if (this._context.mode.allocatedHeight !== -1) {
-            this._container.style.height = `${(this._context.mode.allocatedHeight - 25).toString()}px`;
-        }
+        if (this._context.mode.allocatedHeight !== -1){                            
+			this._container.style.height = `${(this._context.mode.allocatedHeight).toString()}px`;
+		}
+		else{
+			//@ts-expect-error - we are setting the height of the container to 100% if we are in a model driven app
+			this._container.style.height = this._context.mode?.rowSpan ? `${(this._context.mode.rowSpan * 1.5).toString()}em` : "100%"
+		}
 
         if (dataSet.loading) return;
 
@@ -112,11 +123,11 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
             React.createElement(SchedulerApp, {
                 context: this._context,
                 instanceid: this._instanceId,
-                height: this._context.mode.allocatedHeight,
+                height: this._context.parameters.showSchedulerHeader?.raw == true ? this._context.mode.allocatedHeight - 60 : this._context.mode.allocatedHeight,
                 onDateChange: this.onDateChange.bind(this),
                 onClickSelectedRecord: this.onClickSelectedRecord.bind(this),
                 onClickSelectedSlot: this.onClickSelectedSlot.bind(this),
-                onNewEvent: this.onNewEvent,
+                onNewEvent: this.onNewEvent.bind(this),
             })
         );
     }
@@ -130,22 +141,22 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
             currentRangeEnd: this._currentRangeEnd,
             currentSchedulerDate: this._currentSchedulerDate,
             currentSchedulerView: this._currentSchedulerView,
-            actionRecordSelected : this._actionRecordSelected
+            actionRecordSelected: this._actionRecordSelected
         }
 
-        if (this._actionRecordSelected){
+        if (this._actionRecordSelected) {
             notifyAgain = true;
             output.selectedRecordId = this._selectedRecordId;
             this._actionRecordSelected = false;
         }
 
-        if (this._actionSlotSelected){
+        if (this._actionSlotSelected) {
             notifyAgain = true;
             output.selectedSlotId = this._selectedSlotId;
             this._actionSlotSelected = false;
         }
 
-        if (this._actionNewEvent){
+        if (this._actionNewEvent) {
             notifyAgain = true;
             output.selectedSlotId = this._selectedSlotId;
             output.selectedSlotStart = this._selectedSlotStart;

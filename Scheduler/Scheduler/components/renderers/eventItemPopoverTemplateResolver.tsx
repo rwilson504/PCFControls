@@ -34,6 +34,16 @@ export function eventItemPopoverTemplateResolver(
         </button>
     );
 
+    // Ensure start and end are dayjs instances
+    let startValue = start;
+    let endValue = end;
+    if (typeof start === "string") {
+        startValue = schedulerData.localeDayjs(new Date(start));
+    }
+    if (typeof end === "string") {
+        endValue = schedulerData.localeDayjs(new Date(end));
+    }
+
     return (
         <div style={{ width: config.eventItemPopoverWidth }}>
             <Row align="middle">
@@ -65,21 +75,21 @@ export function eventItemPopoverTemplateResolver(
                     <div />
                 </Col>
                 <Col span={22}>
-                    <span className="header1-text">{start.format("HH:mm")}</span>
+                    <span className="header1-text">{startValue.format("HH:mm")}</span>
                     {config.eventItemPopoverDateFormat && (
                         <span className="help-text" style={{ marginLeft: "8px" }}>
-                            {start.format(config.eventItemPopoverDateFormat)}
+                            {startValue.format(config.eventItemPopoverDateFormat)}
                         </span>
                     )}
                     <span className="header2-text" style={{ marginLeft: "8px" }}>
                         -
                     </span>
                     <span className="header1-text" style={{ marginLeft: "8px" }}>
-                        {end.format("HH:mm")}
+                        {endValue.format("HH:mm")}
                     </span>
                     {config.eventItemPopoverDateFormat && (
                         <span className="help-text" style={{ marginLeft: "8px" }}>
-                            {end.format(config.eventItemPopoverDateFormat)}
+                            {endValue.format(config.eventItemPopoverDateFormat)}
                         </span>
                     )}
                 </Col>

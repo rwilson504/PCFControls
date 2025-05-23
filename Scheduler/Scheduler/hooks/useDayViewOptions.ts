@@ -34,8 +34,8 @@ export function useDayViewOptions(
     useEffect(() => {
         if (schedulerData && schedulerData.config) {
             schedulerData.config.dayStartFrom = dayViewOptions.startHour;
-            schedulerData.config.dayStopTo = dayViewOptions.endHour;
-            schedulerData.config.minuteStep = dayViewOptions.minuteStep;
+            schedulerData.config.dayStopTo = dayViewOptions.endHour; 
+            schedulerData.setMinuteStep(dayViewOptions.minuteStep);
             if (dispatch) {
                 dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
             }

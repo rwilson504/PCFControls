@@ -2,7 +2,9 @@ import {
     Resource as SchedulerResource,
     EventItem as SchedulerEventItem,
     SchedulerProps,
-    SchedulerData
+    SchedulerData,
+    ResourceEvent,
+    EventItem
 } from "react-big-schedule";
 import { IInputs } from "../generated/ManifestTypes";
 
@@ -26,6 +28,20 @@ export interface Event extends SchedulerEventItem {
     description?: string;
 }
 
+export interface Slot extends ResourceEvent<EventItem> {
+    slotId: string;
+    slotName: string;
+    slotTitle?: string;
+    parentId: string;
+    groupOnly?: boolean;
+    hasChildren: boolean;
+    hasSummary: boolean;
+    expanded: boolean;
+    render: boolean;
+    indent: number;
+    rowHeight: number;
+    rowMaxCount: number;    
+}
 
 /**
  * Demo data structure for generated demo data.
@@ -46,7 +62,7 @@ export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     /** Unique instance ID for the control */
     instanceid: string;
     /** Height of the control (number or string) */
-    height: number | string;
+    height: number;
     /** Callback when the date or view changes */
     onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
     /** Callback when a record is selected (clicked) */

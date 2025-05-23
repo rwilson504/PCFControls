@@ -6,7 +6,7 @@ import { IInputs } from "../generated/ManifestTypes";
 export interface IPcfContextServiceProps {
   context: ComponentFramework.Context<IInputs>;
   instanceid: string;
-  height: number | string;
+  height: number;
 }
 
 
@@ -36,7 +36,7 @@ export class PcfContextService {
   context: ComponentFramework.Context<IInputs>;
   //theme: Theme;
   formFactor: string;
-  height: number | string;
+  height: number;
 
   /**
    * Construct a new PcfContextService
