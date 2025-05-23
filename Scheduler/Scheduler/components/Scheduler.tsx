@@ -19,7 +19,15 @@ import 'antd/locale/es_ES';
 import 'antd/locale/fr_FR';
 import 'antd/locale/de_DE';
 import 'antd/locale/pt_PT';
-
+import Color from "color";
+import { createEventClickedCallback } from "./callbacks/eventClicked";
+import { createPrevClickCallback } from "./callbacks/prevClick";
+import { createNextClickCallback } from "./callbacks/nextClick";
+import { createSlotClickedFuncCallback } from "./callbacks/slotClickedFunc";
+import { createToggleExpandFuncCallback } from "./callbacks/toggleExpandFunc";
+import { createNewEventCallback } from "./callbacks/newEvent";
+import { createOnViewChangeCallback } from "./callbacks/onViewChange";
+import { eventItemTemplateResolver } from "./renderers/eventItemTemplateResolver";
 
 // Initial state for the scheduler reducer
 const initialState = {
@@ -154,6 +162,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                 dayStartFrom: dayViewHours.startHour,
                 dayStopTo: dayViewHours.endHour,
                 minuteStep: dayViewHours.minuteStep,
+                
             };
             const schedulerConfig = { ...config, workWeekDays };
 
@@ -177,29 +186,23 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     }, []);
 
 
-    // Handler: Go to previous date range
-    const prevClick = React.useCallback((schedulerData: SchedulerData) => {
-        schedulerData.prev();
-        schedulerData.setEvents(events);
-        dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
-        props.onDateChange?.(schedulerData.getViewStartDate().toDate(), schedulerData.getViewStartDate().toDate(), schedulerData.getViewEndDate().toDate(), schedulerView);
-    }, [events, schedulerView, props.onDateChange]);
+    // Handler: Go to previous date range (moved to callbacks/prevClick.ts)
+    const prevClick = React.useCallback(
+        createPrevClickCallback(events, schedulerView, dispatch, props.onDateChange),
+        [events, schedulerView, dispatch, props.onDateChange]
+    );
 
-    // Handler: Go to next date range
-    const nextClick = React.useCallback((schedulerData: SchedulerData) => {
-        schedulerData.next();
-        schedulerData.setEvents(events);
-        dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
-        props.onDateChange?.(schedulerData.getViewStartDate().toDate(), schedulerData.getViewStartDate().toDate(), schedulerData.getViewEndDate().toDate(), schedulerView);
-    }, [events, schedulerView, props.onDateChange]);
+    // Handler: Go to next date range (moved to callbacks/nextClick.ts)
+    const nextClick = React.useCallback(
+        createNextClickCallback(events, schedulerView, dispatch, props.onDateChange),
+        [events, schedulerView, dispatch, props.onDateChange]
+    );
 
-    // Handler: Change the scheduler view (day, week, etc.)
-    const onViewChange = React.useCallback((schedulerData: SchedulerData, view: View) => {
-        const foundView = availableViews.find(v => v.viewType === view.viewType);
-        if (foundView) {
-            setSchedulerView(foundView.name);
-        }
-    }, [setSchedulerView, availableViews]);
+    // Handler: Change the scheduler view (day, week, etc.) (moved to callbacks/onViewChange.ts)
+    const onViewChange = React.useCallback(
+        createOnViewChangeCallback(availableViews, setSchedulerView),
+        [availableViews, setSchedulerView]
+    );
 
     // Handler: Select a new date
     const onSelectDate = React.useCallback((schedulerData: SchedulerData, date: string) => {
@@ -207,51 +210,29 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
     }, [setSchedulerDate]);
 
 
-    // Handler: Event item clicked
-    const eventClicked = React.useCallback((schedulerData: SchedulerData, event: EventItem) => {
-        const eventId = event.id as string;
-        if (eventId) {
-            props.onClickSelectedRecord?.(eventId);
-        }
-    }, []);
-
-    // Handler: Slot item clicked (resource row)
-    const slotClickedFunc = React.useCallback((schedulerData: SchedulerData, slot: ResourceEvent<EventItem>) => {
-        // You can return any data you want from the slot/resource here
-        // For example, return the resource id and name
-        if (slot && slot.id) {
-            const resourceId = slot.id.toString();
-            const resourceName = slot.name as string;
-            props.onClickSelectedSlot?.(resourceId);
-        }
-    }, []);
-
-    const toggleExpandFunc = React.useCallback((schedulerData: SchedulerData, slotId: string) => {
-        schedulerData.toggleExpandStatus(slotId);
-        dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
-    }, [dispatch]);
-
-    const newEvent = React.useCallback(
-        (
-            schedulerData: SchedulerData,
-            slotId: string,
-            slotName: string,
-            start: string | Date,
-            end: string | Date,
-            type: string,
-            item: any
-        ) => {
-            if (props.onNewEvent) {
-                props.onNewEvent(
-                    slotId,
-                    start as Date,
-                    end as Date
-                );
-            }
-        },
-        [props.onNewEvent]
+    // Handler: Event item clicked (moved to callbacks/eventClicked.ts)
+    const eventClicked = React.useCallback(
+        createEventClickedCallback(props.onClickSelectedRecord),
+        [props.onClickSelectedRecord]
     );
 
+    // Handler: Slot item clicked (resource row) (moved to callbacks/slotClickedFunc.ts)
+    const slotClickedFunc = React.useCallback(
+        createSlotClickedFuncCallback(props.onClickSelectedSlot),
+        [props.onClickSelectedSlot]
+    );
+
+    // Handler: Toggle expand/collapse for resource rows (moved to callbacks/toggleExpandFunc.ts)
+    const toggleExpandFunc = React.useCallback(
+        createToggleExpandFuncCallback(dispatch),
+        [dispatch]
+    );
+
+    // Handler: New event creation (moved to callbacks/newEvent.ts)
+    const newEvent = React.useCallback(
+        createNewEventCallback(props.onNewEvent),
+        [props.onNewEvent]
+    );
 
     // Render the scheduler UI or a loading state
     return (
@@ -273,7 +254,8 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     eventItemClick={eventClicked}
                     toggleExpandFunc={toggleExpandFunc}
                     slotClickedFunc={slotClickedFunc}
-                    newEvent={newEvent}   
+                    newEvent={newEvent}
+                    eventItemTemplateResolver={eventItemTemplateResolver}
                 />
             ) : (
                 <div>Loading...</div>
