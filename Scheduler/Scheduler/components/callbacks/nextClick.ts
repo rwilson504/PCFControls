@@ -1,9 +1,10 @@
 import { SchedulerData } from "react-big-schedule";
+import { SchedulerAction, Event } from "../../types";
 
 export function createNextClickCallback(
-    events: any[],
+    events: Event[],
     schedulerView: string,
-    dispatch: (action: any) => void,
+    dispatch: (action: SchedulerAction) => void,
     onDateChange: (start: Date, viewStart: Date, viewEnd: Date, view: string) => void
 ) {
     return (schedulerData: SchedulerData) => {

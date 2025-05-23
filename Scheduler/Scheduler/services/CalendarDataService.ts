@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 export interface SchedulerKeys {
     id: string;
     name: string;
+    description?: string;
     start: string;
     end: string;
     eventColor?: string;
@@ -29,7 +30,7 @@ export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): 
     let resourceName = params.resourceName.raw ? getFieldName(dataSet, params.resourceName.raw) : "";
     let resourceId = '';
     const colorFieldInfo = params.eventColor.raw ? getColorFieldInfo(pcfContext, params.eventColor.raw) : undefined;
-
+    
     // If we are in a model app, get additional info about the resource
     if (pcfContext.mode.allocatedHeight === -1) {
         const eventMetaFields = [resource];
@@ -48,6 +49,7 @@ export async function getKeys(pcfContext: ComponentFramework.Context<IInputs>): 
     return {
         id: params.eventId.raw ? getFieldName(dataSet, params.eventId.raw) : "",
         name: params.eventFieldName.raw ? getFieldName(dataSet, params.eventFieldName.raw) : "",
+        description: params.eventFieldDescription.raw ? getFieldName(dataSet, params.eventFieldDescription.raw) : "",
         start: params.eventFieldStart.raw ? getFieldName(dataSet, params.eventFieldStart.raw) : "",
         end: params.eventFieldEnd.raw ? getFieldName(dataSet, params.eventFieldEnd.raw) : "",
         eventColor: params.eventColor.raw ? getFieldName(dataSet, params.eventColor.raw) : "",

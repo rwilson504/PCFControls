@@ -9,32 +9,15 @@ import { getCustomDate } from "../services/schedulerBehaviors";
 import { getKeys, getSchedulerData } from "../services/calendarDataService"; // <-- Use your real data service
 import { useAvailableViews, useShowHeader, useNonWorkingTimeColors, useWorkWeekDays, useDayViewOptions, useDisplayWeekend, useSchedulerView, useSchedulerDate, useSchedulerLanguage, useResourceNameHeader } from "../hooks";
 import { parseDateOnly, getLocaleFromLanguage } from "../utils/formattingHelpers";
-import 'dayjs/locale/en';
-import 'dayjs/locale/es';
-import 'dayjs/locale/fr';
-import 'dayjs/locale/de';
-import 'dayjs/locale/pt';
-import 'antd/locale/en_US';
-import 'antd/locale/es_ES';
-import 'antd/locale/fr_FR';
-import 'antd/locale/de_DE';
-import 'antd/locale/pt_PT';
-import Color from "color";
-import { createEventClickedCallback } from "./callbacks/eventClicked";
-import { createPrevClickCallback } from "./callbacks/prevClick";
-import { createNextClickCallback } from "./callbacks/nextClick";
-import { createSlotClickedFuncCallback } from "./callbacks/slotClickedFunc";
-import { createToggleExpandFuncCallback } from "./callbacks/toggleExpandFunc";
-import { createNewEventCallback } from "./callbacks/newEvent";
-import { createOnViewChangeCallback } from "./callbacks/onViewChange";
-import { eventItemTemplateResolver } from "./renderers/eventItemTemplateResolver";
+import '../utils/locales';
+import { createEventClickedCallback, createNewEventCallback, createOnViewChangeCallback, createPrevClickCallback, createNextClickCallback, createSlotClickedFuncCallback, createToggleExpandFuncCallback } from "./callbacks";
+import { eventItemTemplateResolver, eventItemPopoverTemplateResolver } from "./renderers";
 
 // Initial state for the scheduler reducer
 const initialState = {
     showScheduler: false,
     schedulerData: null as SchedulerData | null,
 };
-
 
 // Reducer to manage scheduler state transitions
 function reducer(state: typeof initialState, action: SchedulerAction) {
@@ -47,7 +30,6 @@ function reducer(state: typeof initialState, action: SchedulerAction) {
             return state;
     }
 }
-
 
 // SchedulerControl is the main visual component for the Scheduler PCF control.
 // It manages state, data loading, and event handlers for the scheduler UI.
@@ -162,7 +144,6 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                 dayStartFrom: dayViewHours.startHour,
                 dayStopTo: dayViewHours.endHour,
                 minuteStep: dayViewHours.minuteStep,
-                
             };
             const schedulerConfig = { ...config, workWeekDays };
 
@@ -256,6 +237,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     slotClickedFunc={slotClickedFunc}
                     newEvent={newEvent}
                     eventItemTemplateResolver={eventItemTemplateResolver}
+                    eventItemPopoverTemplateResolver={eventItemPopoverTemplateResolver}
                 />
             ) : (
                 <div>Loading...</div>

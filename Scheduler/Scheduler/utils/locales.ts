@@ -1,0 +1,10 @@
+import 'dayjs/locale/en';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/de';
+import 'dayjs/locale/pt';
+import 'antd/locale/en_US';
+import 'antd/locale/es_ES';
+import 'antd/locale/fr_FR';
+import 'antd/locale/de_DE';
+import 'antd/locale/pt_PT';

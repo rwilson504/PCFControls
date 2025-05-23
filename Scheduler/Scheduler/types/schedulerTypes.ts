@@ -23,6 +23,7 @@ export interface Resource extends SchedulerResource {
  */
 export interface Event extends SchedulerEventItem {
     etn: string;
+    description?: string;
 }
 
 

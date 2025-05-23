@@ -12,7 +12,7 @@ export function eventItemTemplateResolver(
     mustBeHeight: number,
     agendaMaxEventWidth: number
 ): React.ReactNode {
-    let additionalClass = 'round-all';
+    const additionalClass = 'round-all';
 
     // Use Color to determine if background is dark or light
     let textColor = "#000";

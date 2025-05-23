@@ -1,4 +1,4 @@
-import { SchedulerData } from "react-big-schedule";
+import { SchedulerData, EventItem } from "react-big-schedule";
 
 export function createNewEventCallback(
     onNewEvent: (slotId: string, start: Date, end: Date) => void
@@ -10,7 +10,7 @@ export function createNewEventCallback(
         start: string | Date,
         end: string | Date,
         type: string,
-        item: any
+        item: EventItem
     ) => {
         if (onNewEvent) {
             onNewEvent(

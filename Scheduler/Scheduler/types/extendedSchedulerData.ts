@@ -2,6 +2,7 @@ import { SchedulerData, SchedulerDataConfig, EventItem, SchedulerDataBehaviors }
 
 export interface ExtendedSchedulerDataConfig extends SchedulerDataConfig {
     workWeekDays?: number[];
+    eventItemPopoverShowColor?: boolean; // <-- add this line
 }
 
 export class ExtendedSchedulerData<EventType extends EventItem = EventItem> extends SchedulerData<EventType> {

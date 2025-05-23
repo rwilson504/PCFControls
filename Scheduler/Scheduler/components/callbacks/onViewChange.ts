@@ -1,7 +1,8 @@
-import { SchedulerData, View } from "react-big-schedule";
+import { SchedulerData } from "react-big-schedule";
+import { View } from "../../types";
 
 export function createOnViewChangeCallback(
-    availableViews: any[],
+    availableViews: View[],
     setSchedulerView: (viewName: string) => void
 ) {
     return (schedulerData: SchedulerData, view: View) => {

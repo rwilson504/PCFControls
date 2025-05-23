@@ -1,7 +1,8 @@
 import { SchedulerData } from "react-big-schedule";
+import { SchedulerAction } from "../../types";
 
 export function createToggleExpandFuncCallback(
-    dispatch: (action: any) => void
+    dispatch: (action: SchedulerAction) => void
 ) {
     return (schedulerData: SchedulerData, slotId: string) => {
         schedulerData.toggleExpandStatus(slotId);
