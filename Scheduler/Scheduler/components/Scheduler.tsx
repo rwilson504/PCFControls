@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ViewType, SchedulerData, EventItem, SchedulerDataConfig, View } from "react-big-schedule";
+import { ViewType, SchedulerData, EventItem, SchedulerDataConfig, View, ResourceEvent } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";
@@ -206,6 +206,7 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         setSchedulerDate(date);
     }, [setSchedulerDate]);
 
+
     // Handler: Event item clicked
     const eventClicked = React.useCallback((schedulerData: SchedulerData, event: EventItem) => {
         const eventId = event.id as string;
@@ -214,10 +215,43 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         }
     }, []);
 
+    // Handler: Slot item clicked (resource row)
+    const slotClickedFunc = React.useCallback((schedulerData: SchedulerData, slot: ResourceEvent<EventItem>) => {
+        // You can return any data you want from the slot/resource here
+        // For example, return the resource id and name
+        if (slot && slot.id) {
+            const resourceId = slot.id.toString();
+            const resourceName = slot.name as string;
+            props.onClickSelectedSlot?.(resourceId);
+        }
+    }, []);
+
     const toggleExpandFunc = React.useCallback((schedulerData: SchedulerData, slotId: string) => {
         schedulerData.toggleExpandStatus(slotId);
         dispatch({ type: "UPDATE_SCHEDULER", payload: schedulerData });
     }, [dispatch]);
+
+    const newEvent = React.useCallback(
+        (
+            schedulerData: SchedulerData,
+            slotId: string,
+            slotName: string,
+            start: string | Date,
+            end: string | Date,
+            type: string,
+            item: any
+        ) => {
+            if (props.onNewEvent) {
+                props.onNewEvent(
+                    slotId,
+                    start as Date,
+                    end as Date
+                );
+            }
+        },
+        [props.onNewEvent]
+    );
+
 
     // Render the scheduler UI or a loading state
     return (
@@ -238,6 +272,8 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
                     onViewChange={onViewChange}
                     eventItemClick={eventClicked}
                     toggleExpandFunc={toggleExpandFunc}
+                    slotClickedFunc={slotClickedFunc}
+                    newEvent={newEvent}   
                 />
             ) : (
                 <div>Loading...</div>

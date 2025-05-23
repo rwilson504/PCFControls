@@ -50,6 +50,10 @@ export interface ISchedulerControlProps extends Partial<SchedulerProps<Event>> {
     onDateChange: (date: Date, rangeStart: Date, rangeEnd: Date, view: string) => void;
     /** Callback when a record is selected (clicked) */
     onClickSelectedRecord: (recordId: string) => void;
+    /** Callback when a slot is selected (clicked) */
+    onClickSelectedSlot: (slotId: string) => void;
+    /** Callback when a new event is requested (slot selection) */
+    onNewEvent?: (slotId: string, start: Date, end: Date ) => void;
 }
 
 

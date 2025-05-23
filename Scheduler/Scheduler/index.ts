@@ -5,12 +5,17 @@ import { v4 as uuidv4 } from "uuid";
 import { SchedulerApp } from "./schedulerApp";
 
 export class Scheduler implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+    /**
+     * Handler for new event requests from the Scheduler UI.
+     * Passes slotId, start, and end to output for PCF consumers.
+     */
+    
     private _container: HTMLDivElement;
     private _context: ComponentFramework.Context<IInputs>;
     private _notifyOutputChanged: () => void;
     private _instanceId: string;
     private _actionRecordSelected: boolean;
-	private _selectedRecordId: string;
+    private _selectedRecordId: string;
 
     private _currentRangeStart: Date;
     private _currentRangeEnd: Date;
@@ -18,6 +23,11 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
     private _currentSchedulerView: string;
     private _updateFromOutput: boolean;
     private _reactRoot: ReactDOM.Root;
+    private _actionSlotSelected: boolean;
+    private _actionNewEvent: boolean;
+    private _selectedSlotId: string;
+    private _selectedSlotStart: Date;
+    private _selectedSlotEnd: Date;
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() { 
@@ -37,8 +47,11 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         this._container = container;
         this._instanceId = uuidv4();
         this._reactRoot = ReactDOM.createRoot(this._container);
-		this._actionRecordSelected = false;
-	    this._selectedRecordId = '';
+        this._actionRecordSelected = false;
+        this._selectedRecordId = '';
+        this._actionSlotSelected = false;
+        this._selectedSlotId = '';
+        this._actionNewEvent = false;
 
         this._container.style.height = this._context.mode.allocatedHeight !== -1 ? `${(this._context.mode.allocatedHeight - 25).toString()}px` : "100%";
         this._container.style.zIndex = "0";
@@ -58,6 +71,20 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         this._actionRecordSelected = true;
         this._notifyOutputChanged();
     }
+
+    public onClickSelectedSlot(slotId: string) {
+        this._selectedSlotId = slotId;
+        this._actionSlotSelected = true;
+        this._notifyOutputChanged();
+    }
+
+    public onNewEvent = (slotId: string, start: Date, end: Date) => {
+        this._selectedSlotId = slotId;
+        this._selectedSlotStart = start;
+        this._selectedSlotEnd = end;
+        this._actionSlotSelected = true;
+        this._notifyOutputChanged();
+    };
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
 
@@ -88,6 +115,8 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
                 height: this._context.mode.allocatedHeight,
                 onDateChange: this.onDateChange.bind(this),
                 onClickSelectedRecord: this.onClickSelectedRecord.bind(this),
+                onClickSelectedSlot: this.onClickSelectedSlot.bind(this),
+                onNewEvent: this.onNewEvent,
             })
         );
     }
@@ -105,11 +134,25 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
         }
 
         if (this._actionRecordSelected){
-			notifyAgain = true;
-			output.selectedRecordId = this._selectedRecordId;
-			this._actionRecordSelected = false;
-		}
-        
+            notifyAgain = true;
+            output.selectedRecordId = this._selectedRecordId;
+            this._actionRecordSelected = false;
+        }
+
+        if (this._actionSlotSelected){
+            notifyAgain = true;
+            output.selectedSlotId = this._selectedSlotId;
+            this._actionSlotSelected = false;
+        }
+
+        if (this._actionNewEvent){
+            notifyAgain = true;
+            output.selectedSlotId = this._selectedSlotId;
+            output.selectedSlotStart = this._selectedSlotStart;
+            output.selectedSlotEnd = this._selectedSlotEnd;
+            this._actionNewEvent = false;
+        }
+
         if (notifyAgain) {
             this._notifyOutputChanged();
         }
