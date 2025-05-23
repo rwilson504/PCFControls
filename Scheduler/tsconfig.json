@@ -1,0 +1,12 @@
+{
+    "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
+    "compilerOptions": {
+        "typeRoots": [
+            "node_modules/@types"
+        ],        
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "jsx": "react-jsx"
+    },
+    "exclude": ["./out"]
+}

@@ -14,6 +14,15 @@ Provides calendar and resource management in both Model and Canvas Apps.  Canvas
 [More...](./Calendar/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CalendarControl_managed.zip)
 
+## Scheduler
+
+The Scheduler control provides a flexible, interactive calendar and resource scheduling experience for both Model-driven and Canvas Power Apps. It supports multiple languages, custom event templates, and integration with Dataverse or custom data sources.
+
+![Calendar Component](./Scheduler/images/scheduler-demo.gif)
+
+[More...](./Scheduler/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWSchedulerComponent_managed.zip)
+
 ## Canvas File Downloader
 This component will allow you to download a file to the client computer in a Canvas Power App by supplying it's Base64 content string instead of a Url.
 

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="RAW" constructor="Scheduler" version="0.0.18" display-name-key="Scheduler" description-key="Scheduler description" control-type="standard">
+    <external-service-usage enabled="false">
+    </external-service-usage>
+    <data-set name="schedulerDataSet" display-name-key="Scheduler Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
+    </data-set>
+    <property name="eventFieldName" display-name-key="Event Name Field" description-key="Enter the Event Name Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="name" />
+    <property name="eventFieldStart" display-name-key="Event Start Field" description-key="Enter the Event Start Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="start" />
+    <property name="eventFieldEnd" display-name-key="Event End Field" description-key="Enter the Event End Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="true" default-value="end" />
+    <property name="eventColor" display-name-key="Event Color Field" description-key="Enter the Event Color Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="eventId" display-name-key="Event Id Field" description-key="For Model Apps this is not required but if you are using Canvas you will need to put in the Id field for the Events if you wish to use them." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="eventFieldDescription" display-name-key="Event Description Field" description-key="Enter the Event Description Field schema name which will be used to display as the event description. For related entities use the following format (new_entityname.new_fieldname)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceField" display-name-key="Resource Field" description-key="For a Model App put in the Lookup field of the Resource, for a Canvas app put in the field name that holds the Id of the resource." of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="resourceParentField" display-name-key="Resource Parent Field" description-key="For a Model App put in the Lookup field of the Resources Parent Resource if you want to utilize nested resources, for a Canvas app put in the field name that holds the Id of the parent resource." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceName" display-name-key="Resource Name" description-key="For a Model App this is not required but for Canvas apps if you are using resources enter the field name containing the Resources name." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="resourceGetAllInModel" display-name-key="Get All Resources" description-key="For Model apps only.  If you select true and are using resources then this will ensure that all resources get returned, even those without events in the dataset" of-type="SingleLine.Text" usage="input" required="false" default-value="false" />
+    <property name="schedulerAvailableViews" display-name-key="Available Views" description-key="Allows you to chose which scheduler view button show up for the user.  This is a comma delimited list of the view names which are day,week,month,quarter,year,work_week,event." usage="input" of-type="SingleLine.Text" required="false" default-value="day,week,month,year,event" />
+    <property name="schedulerView" display-name-key="Default Claendar View" description-key="Choose the default scheduler view that will be shown. Options are day,week,month,quarter,year,work_week,agenda,event." usage="input" of-type="SingleLine.Text" required="false" default-value="week" />
+    <property name="schedulerDate" display-name-key="Scheduler Date" description-key="Allows you to change the scheduler date from a Date Field in Canvas Apps" usage="input" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="schedulerWorkWeekStart" display-name-key="Work Week Start" description-key="Enter a number from 0 to 6 to select the first day of the work week. The meaning of 0 depends on the users locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday." usage="input" of-type="Whole.None" required="false" default-value="1" />
+    <property name="schedulerWorkWeekEnd" display-name-key="Work Week End" description-key="Enter a number from 0 to 6 to select the last day of the work week. The meaning of 0 depends on the users locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday." usage="input" of-type="Whole.None" required="false" default-value="5" />
+    <property name="schedulerDisplayWeekend" display-name-key="Display Weekend" description-key="Controls whether the scheduler displays weekends in non-agenda views. Default is true." usage="input" of-type="TwoOptions" required="false" default-value="true" />
+    <property name="dayStartFrom" display-name-key="Day Start Hour" description-key="Start hour rendered from in Day view (resource and task views). Enter a value from 0 to 23. Default is 0." usage="input" of-type="Whole.None" required="false" default-value="0" />
+    <property name="dayStopTo" display-name-key="Day End Hour" description-key="End hour rendered to in Day view (resource and task views). Enter a value from 0 to 23. Default is 23." usage="input" of-type="Whole.None" required="false" default-value="23" />
+    <property name="minuteStep" display-name-key="Minute Step" description-key="Minute step for Day view in non-agenda view. Enter a value such as 10, 12, 15, 20, 30, 60, etc. Default is 30." usage="input" of-type="Whole.None" required="false" default-value="30" />
+    <property name="schedulerLanguage" display-name-key="Scheduler Language" description-key="Sets the language/culture of the scheduler. In Canvas apps set this to the Language() function.  In Model apps you can leave this blank and it will utilize the language set for the current users. Currently support lanuages are en, fr, de, es." usage="input" of-type="SingleLine.Text" required="false" default-value="en" />
+    <property name="showSchedulerHeader" display-name-key="Show Scheduler Header" description-key="Show or hide the built-in scheduler header. This can be useful if you want to control the scheduler with your own controls in a canvas app." of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="resourceNameHeader" display-name-key="Resource Name Header" description-key="Text to display as the Resource Name column header. Leave blank to use the default." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="nonWorkingTimeHeadColor" display-name-key="Weekend Head Text Color" description-key="Color of weekend (non working time) head cells. For example, #999999 or red." usage="input" of-type="SingleLine.Text" required="false" default-value="#999999" />
+    <property name="nonWorkingTimeHeadBgColor" display-name-key="Weekend Head Background" description-key="Background color of weekend (non working time) head cells. For example, #fff0f6." usage="input" of-type="SingleLine.Text" required="false" default-value="#fff0f6" />
+    <property name="nonWorkingTimeBodyBgColor" display-name-key="Weekend Body Background" description-key="Background color of weekend (non working time) body cells. For example, #fff0f6." usage="input" of-type="SingleLine.Text" required="false" default-value="#fff0f6" />
+    <property name="selectedRecordId" display-name-key="(Output) Selected Record Id" description-key="When a record is selected this will be updated." usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="selectedSlotStart" display-name-key="(Output) Selected Slot Start" description-key="When an empty time slot is selected this will return the start date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotEnd" display-name-key="(Output) Selected Slot End" description-key="When an empty time slot is selected this will return the end date." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="selectedSlotId" display-name-key="(Output) Selected Slot Id" description-key="When an empty time slot is selected or a slot is clicked this will return the resource id if one is available" usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="currentRangeStart" display-name-key="(Output) Scheduler Range Start" description-key="When the current scheduler range changes the new Start will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="currentRangeEnd" display-name-key="(Output) Scheduler Range End" description-key="When the current scheduler range changes the new End will be returned." usage="output" of-type="DateAndTime.DateAndTime" required="false" />
+    <property name="currentSchedulerDate" display-name-key="(Output) Scheduler Date" description-key="Provides the current date the scheduler is set to." usage="output" of-type="DateAndTime.DateOnly" required="false" />
+    <property name="currentSchedulerView" display-name-key="(Output) Scheduler View" description-key="Provides the current view the scheduler is set to." usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="onChangeAction" display-name-key="(Output) On Change Action" description-key="This will provide which action was taken for an OnChange Event" usage="output" of-type="SingleLine.Text" required="false" />
+    <property name="actionRecordSelected" display-name-key="(Output) Record was selected" description-key="Provides the Canvas app producer notification that a record was selected on the calendar." usage="output" of-type="TwoOptions" required="false" />
+    <property name="isCanvas" display-name-key="Is canvas" description-key="Is canvas" of-type="TwoOptions" usage="input" required="false" default-value="false" pfx-default-value="true" hidden="true" />
+    <resources>
+      <code path="index.ts" order="1" />
+    </resources>
+    <feature-usage>
+      <!--
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      -->
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

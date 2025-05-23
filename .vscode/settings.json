@@ -1,0 +1,6 @@
+{
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+    "chat.instructionsFilesLocations": {
+        ".github": true
+    },
+}
