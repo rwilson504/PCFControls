@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="Scheduler" version="0.0.17" display-name-key="Scheduler" description-key="Scheduler description" control-type="standard">
+  <control namespace="RAW" constructor="Scheduler" version="0.0.18" display-name-key="Scheduler" description-key="Scheduler description" control-type="standard">
     <external-service-usage enabled="false">
     </external-service-usage>
     <data-set name="schedulerDataSet" display-name-key="Scheduler Data" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:false">
@@ -43,8 +43,6 @@
     <property name="isCanvas" display-name-key="Is canvas" description-key="Is canvas" of-type="TwoOptions" usage="input" required="false" default-value="false" pfx-default-value="true" hidden="true" />
     <resources>
       <code path="index.ts" order="1" />
-      <css path="resources/schedulerOverrides.css" order="1" />
-      <!-- <resx path="strings/Scheduler.1033.resx" version="1.0.0" /> -->
     </resources>
     <feature-usage>
       <!--

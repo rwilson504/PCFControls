@@ -185,6 +185,7 @@ export async function getEvents(
                 ? (resourceId as ComponentFramework.EntityReference).id.guid
                 : (resourceId as string),
             etn: "",
+            description: keys.description ? (record.getValue(keys.description) as string) : "",
             start: dayjs(start as number).format('YYYY-MM-DD HH:mm:ss'),
             end: dayjs(end as number).format('YYYY-MM-DD HH:mm:ss'),
             title: name
