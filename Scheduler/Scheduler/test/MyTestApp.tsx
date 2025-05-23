@@ -1,5 +1,4 @@
 import * as React from "react";
-import { IInputs, IOutputs } from "../generated/ManifestTypes";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SchedulerControl from "../components/scheduler";
@@ -9,7 +8,6 @@ import { MockPCFContext } from "../mocks/MockPCFContext";
 import { MockPCFParameters } from "../mocks/MockPCFParameters";
 import { MockPCFMode } from "../mocks/MockPCFMode";
 import { MockPCFDataSet } from "../mocks/MockPCFDataSet";
-import { scheduler } from "timers/promises";
 import { ISchedulerControlProps } from "../types";
 
 // Use the new mock context for testing
