@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ViewType, SchedulerData, EventItem, SchedulerDataConfig, View, ResourceEvent } from "react-big-schedule";
+import { ViewType, SchedulerData, SchedulerDataConfig } from "react-big-schedule";
 import SchedulerWrapper from "./schedulerWrapper";
 import { usePcfContext } from "../services/pcfContext";
 import "react-big-schedule/dist/css/style.css";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PcfContextProvider } from "./services/pcfContext";
-import { PcfContextService, IPcfContextServiceProps } from "./services/pcfContextService";
+import { PcfContextService } from "./services/pcfContextService";
 import SchedulerControl from "./components/scheduler";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
