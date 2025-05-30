@@ -80,7 +80,7 @@ Add the Scheduler control to your form or app and configure the required propert
 
 A sample solution is available for testing and demonstration:
 
-[Download Sample App - Managed](https://github.com/rwilson504/PCFControls/raw/master/Scheduler/Sample/SchedulerSample_managed.zip)
+[Download Sample App](https://github.com/rwilson504/PCFControls/raw/refs/heads/master/Scheduler/Sample/RAW!%20Scheduler%20Sample.msapp)
 
 ## Resources
 
