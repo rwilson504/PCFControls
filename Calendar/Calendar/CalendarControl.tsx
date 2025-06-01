@@ -4,7 +4,6 @@
  * @Last Modified by: Rick Wilson
  * @Last Modified time: 2024-12-17 13:16:53
  */
-import cssVars from "css-vars-ponyfill";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./css/react-big-calendar.override.css";
 import * as React from "react";
@@ -16,12 +15,10 @@ import {
 } from "react-big-calendar";
 import * as CalendarUtils from "./utils";
 import { StartOfWeek } from "date-arithmetic";
-import { Resource, Keys, IEvent } from "./types";
+import { IEvent } from "./types";
 import GetMessages from "./components/Translations";
 import * as moment from "moment";
-import * as Color from "color";
-import isHexColor from "is-hexcolor";
-import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCalendarSelectable, useCalendarStepAndTimeslots, useCalendarDate, useCalendarPopup, useEventHeaderFormat, useCalendarView, useCalendarData } from "./hooks";
+import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCalendarSelectable, useCalendarStepAndTimeslots, useCalendarDate, useCalendarPopup, useEventHeaderFormat, useCalendarView, useCalendarData, useCalendarColors } from "./hooks";
 import { eventPropsGetter, dayPropsGetter } from "./getters";
 import { handleSlotSelect, handleEventSelected, handleEventKeyPress, handleOnView, handleNavigate } from "./handlers";
 import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer } from "./renderers";
@@ -59,51 +56,6 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     return weekStart;
   };
 
-  const eventDefaultBackgroundColor = Color(
-    isHexColor(props.pcfContext.parameters.eventDefaultColor?.raw || "")
-      ? (props.pcfContext.parameters.eventDefaultColor.raw as string)
-      : CalendarUtils.DEFAULT_EVENT_COLOR
-  );
-  const calendarTodayBackgroundColor = Color(
-    isHexColor(
-      props.pcfContext.parameters.calendarTodayBackgroundColor?.raw || ""
-    )
-      ? (props.pcfContext.parameters.calendarTodayBackgroundColor.raw as string)
-      : CalendarUtils.DEFAULT_TODAY_BACKGROUND_COLOR
-  );
-  const calendarTextColor = Color(
-    isHexColor(props.pcfContext.parameters.calendarTextColor?.raw || "")
-      ? (props.pcfContext.parameters.calendarTextColor.raw as string)
-      : CalendarUtils.DEFAULT_TEXT_COLOR
-  );
-  const calendarBorderColor = Color(
-    isHexColor(props.pcfContext.parameters.calendarBorderColor?.raw || "")
-      ? (props.pcfContext.parameters.calendarBorderColor.raw as string)
-      : CalendarUtils.DEFAULT_BORDER_COLOR
-  );
-  const calendarTimeBarBackgroundColor = Color(
-    isHexColor(
-      props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || ""
-    )
-      ? (props.pcfContext.parameters.calendarTimeBarBackgroundColor
-        .raw as string)
-      : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
-  );
-
-  const [weekendColor, setWeekendColor] = React.useState<string>(
-    isHexColor(props.pcfContext.parameters.weekendBackgroundColor?.raw || "")
-      ? props.pcfContext.parameters.weekendBackgroundColor.raw!
-      : CalendarUtils.DEFAULT_WEEKEND_BACKGROUND_COLOR
-  );
-
-  React.useEffect(() => {
-    const color = isHexColor(
-      props.pcfContext.parameters.weekendBackgroundColor?.raw || ""
-    )
-      ? props.pcfContext.parameters.weekendBackgroundColor.raw!
-      : CalendarUtils.DEFAULT_WEEKEND_BACKGROUND_COLOR;
-    setWeekendColor(color);
-  }, [props.pcfContext.parameters.weekendBackgroundColor?.raw]);
 
   const weekStartDay =
     props.pcfContext.parameters.calendarWeekStart?.raw || null;
@@ -156,47 +108,14 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     }
   }, [calendarDate, calendarView]);
 
-  React.useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty(
-      "--calendar-text-color",
-      calendarTextColor.array().toString()
-    );
-    root.style.setProperty(
-      "--calendar-text-color-grayscale",
-      calendarTextColor.grayscale().array().toString()
-    );
-    root.style.setProperty(
-      "--calendar-border-color",
-      calendarBorderColor.array().toString()
-    );
-    root.style.setProperty(
-      "--calendar-timebar-background-color",
-      calendarTimeBarBackgroundColor.array().toString()
-    );
-    root.style.setProperty(
-      "--calendar-show-more-hover",
-      calendarTextColor.isDark()
-        ? calendarTextColor.grayscale().fade(0.8).array().toString()
-        : calendarTextColor.grayscale().fade(0.2).array().toString()
-    );
-    root.style.setProperty("--event-label-display",
-      eventHeaderFormat === "1"
-        ? "none"
-        : "flex")
-    cssVars({
-      preserveVars: true, // Keep original var() declarations
-      watch: true, // Watch for changes in styles or DOM updates
-      onlyLegacy: true, // Run only in browsers that lack native CSS variable support
-    });
-  }, [
-    props.pcfContext.parameters.eventDefaultColor?.raw,
-    props.pcfContext.parameters.calendarTodayBackgroundColor?.raw,
-    props.pcfContext.parameters.calendarTextColor?.raw,
-    props.pcfContext.parameters.calendarBorderColor?.raw,
-    props.pcfContext.parameters.calendarTimeBarBackgroundColor?.raw,
-    eventHeaderFormat,
-  ]);
+  const {
+    eventDefaultBackgroundColor,
+    calendarTodayBackgroundColor,
+    calendarTextColor,
+    calendarBorderColor,
+    calendarTimeBarBackgroundColor,
+    weekendColor,
+  } = useCalendarColors(props.pcfContext, eventHeaderFormat);
 
   // Use handleEventSelected from handlers
   const _handleEventSelected = handleEventSelected(

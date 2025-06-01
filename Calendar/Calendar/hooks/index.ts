@@ -8,3 +8,4 @@ export * from "./useCalendarDate"
 export * from "./useEventHeaderFormat";
 export * from "./useCalendarView";
 export * from "./useCalendarData";
+export * from "./useCalendarColors";
