@@ -1,7 +1,6 @@
-import * as CalendarUtils from "../utils";
-
-export function handleOnView(setCalendarView: (view: any) => void, calendarViews: any) {
+// No transformation, just set the view from the event
+export function handleOnView(setCalendarView: (view: string) => void) {
   return (view: string) => {
-    setCalendarView(CalendarUtils.getCalendarView(calendarViews, view));
+    setCalendarView(view);
   };
 }

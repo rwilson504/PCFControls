@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import * as CalendarUtils from "../utils";
 
-export function useCalendarHourRange(pcfContext: any) {
+export function useCalendarHourRange(pcfContext: any, momentInstance: typeof import("moment")) {
   const [minHour, setMinHour] = useState<number>(
     pcfContext.parameters.calendarMinHour?.raw ?? CalendarUtils.DEFAULT_MIN_HOUR
   );
@@ -22,5 +22,14 @@ export function useCalendarHourRange(pcfContext: any) {
     pcfContext.parameters.calendarMaxHour?.raw,
   ]);
 
-  return { minHour, maxHour };
+  const min = useMemo(
+    () => momentInstance(`${minHour}:00`, "HH:mm").toDate(),
+    [minHour, momentInstance]
+  );
+  const max = useMemo(
+    () => momentInstance(`${maxHour}:59:59`, "HH:mm:ss").toDate(),
+    [maxHour, momentInstance]
+  );
+
+  return { min, max };
 }

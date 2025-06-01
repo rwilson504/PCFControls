@@ -15,7 +15,9 @@ export function useCalendarDate(pcfContext: any, momentInstance: (input?: any) =
     ) {
       setCalendarDate(pcfContext.parameters.calendarDate.raw as Date);
     }
-  }, [pcfContext.parameters.calendarDate?.raw?.getTime(), calendarDate, momentInstance]);
+    // Only update from prop if prop changes and is different from state
+    // This allows navigation to work without being overwritten by the prop
+  }, [pcfContext.parameters.calendarDate?.raw?.getTime()]);
 
   return [calendarDate, setCalendarDate] as const;
 }

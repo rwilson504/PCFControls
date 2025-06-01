@@ -21,7 +21,7 @@ import GetMessages from "./components/Translations";
 import * as moment from "moment";
 import * as Color from "color";
 import isHexColor from "is-hexcolor";
-import { useCalendarHourRange, useDayLayoutAlgorithm,useEventSelectable,useCalendarSelectable,useCalendarStepAndTimeslots,useCalendarDate, useCalendarPopup } from "./hooks";
+import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCalendarSelectable, useCalendarStepAndTimeslots, useCalendarDate, useCalendarPopup, useEventHeaderFormat, useCalendarView, useCalendarData } from "./hooks";
 import { eventPropsGetter, dayPropsGetter } from "./getters";
 import { handleSlotSelect, handleEventSelected, handleEventKeyPress, handleOnView, handleNavigate } from "./handlers";
 import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer } from "./renderers";
@@ -118,17 +118,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     })
     .toDate();
 
-  const { minHour, maxHour } = useCalendarHourRange(props.pcfContext);
-
-  // Convert minHour and maxHour to Date for Calendar component
-  const min = React.useMemo(
-    () => moment(`${minHour}:00`, "HH:mm").toDate(),
-    [minHour]
-  );
-  const max = React.useMemo(
-    () => moment(`${maxHour}:59:59`, "HH:mm:ss").toDate(),
-    [maxHour]
-  );
+  const { min, max } = useCalendarHourRange(props.pcfContext, moment);
 
   // Use custom hook for step and timeslots
   const { step, timeslots } = useCalendarStepAndTimeslots(props.pcfContext);
@@ -146,76 +136,19 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     localizer
   );
 
-  const [eventHeaderFormat, setEventHeaderFormat] = React.useState<string>(
-    props.pcfContext.parameters.eventHeaderFormat?.raw || "0"
+  const eventHeaderFormat = useEventHeaderFormat(props.pcfContext);
+
+  const [calendarView, setCalendarView] = useCalendarView(
+    calendarViews,
+    props.pcfContext.parameters.calendarView?.raw || ""
   );
-
-  React.useEffect(() => {
-    const formatValue = props.pcfContext.parameters.eventHeaderFormat?.raw || "0";
-    setEventHeaderFormat(formatValue);
-  }, [props.pcfContext.parameters.eventHeaderFormat?.raw]);
-
-  const [calendarView, setCalendarView] = React.useState(
-    CalendarUtils.getCalendarView(
-      calendarViews,
-      props.pcfContext.parameters.calendarView?.raw || ""
-    )
-  );
-
-  const [calendarData, setCalendarData] = React.useState<{
-    resources: Resource[] | undefined;
-    events: IEvent[];
-    keys: Keys | undefined;
-  }>({ resources: [], events: [], keys: undefined });
+  // Adapter for setCalendarView to match (view: string) => void signature
+  const setCalendarViewString = (view: string) => setCalendarView(view as any);
 
   // Use custom hook for calendarDate, pass localized moment
   const [calendarDate, setCalendarDate] = useCalendarDate(props.pcfContext, moment);
   const calendarRef = React.useRef(null);
-
-  //sets the keys and calendar data when the control is loaded or the calendarDataSet changes.
-  React.useEffect(() => {
-    async function asyncCalendarData() {
-      let keys = calendarData.keys;
-      if (!keys) {
-        keys = await CalendarUtils.getKeys(props.pcfContext);
-      }
-
-      const dataSet = props.pcfContext.parameters.calendarDataSet;
-      if (dataSet.loading === false) {
-        const calendarDataResult = await CalendarUtils.getCalendarData(
-          props.pcfContext,
-          keys
-        );
-
-        // Ensure all required fields are defined
-        setCalendarData({
-          resources:
-            calendarDataResult.resources &&
-              calendarDataResult.resources.length > 0
-              ? calendarDataResult.resources
-              : undefined,
-          events: calendarDataResult.events || [],
-          keys: calendarDataResult.keys || undefined,
-        });
-      }
-    }
-    asyncCalendarData();
-  }, [props.pcfContext.parameters.calendarDataSet.records]);
-
-  //allows for changing the calendar view if a user decides to add in custom button for the view in canvas
-  React.useEffect(() => {
-    if (
-      props.pcfContext.parameters.calendarView?.raw &&
-      calendarView != props.pcfContext.parameters.calendarView.raw
-    ) {
-      setCalendarView(
-        CalendarUtils.getCalendarView(
-          calendarViews,
-          props.pcfContext.parameters.calendarView.raw
-        )
-      );
-    }
-  }, [props.pcfContext.parameters.calendarView?.raw]);
+  const [calendarData, setCalendarData] = useCalendarData(props.pcfContext);
 
   React.useEffect(() => {
     if (calendarDate && calendarView) {
@@ -280,10 +213,10 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     handleSlotSelect(props.onClickSlot, props.pcfContext, calendarData)(slotInfo);
 
   // Use handleNavigate from handlers
-  const _handleNavigate = handleNavigate(setCalendarDate);
+  const _handleNavigate = handleNavigate(setCalendarDate, setCalendarViewString);
 
   // Use handleOnView from handlers
-  const _handleOnView = handleOnView(setCalendarView, calendarViews);
+  const _handleOnView = handleOnView(setCalendarViewString);
 
   const _onCalendarChange = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

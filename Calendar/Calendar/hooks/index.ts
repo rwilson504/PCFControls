@@ -5,3 +5,6 @@ export * from "./useCalendarStepAndTimeslots";
 export * from "./useCalendarSelectable";
 export * from "./useCalendarPopup"
 export * from "./useCalendarDate"
+export * from "./useEventHeaderFormat";
+export * from "./useCalendarView";
+export * from "./useCalendarData";
