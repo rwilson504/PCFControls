@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Moment } from "moment";
+import { IInputs } from "../generated/ManifestTypes";
 
-export function useCalendarDate(pcfContext: any, momentInstance: (input?: any) => Moment) {
+export function useCalendarDate(pcfContext: ComponentFramework.Context<IInputs>, momentInstance: (input?: any) => Moment) {
   const [calendarDate, setCalendarDate] = useState(
     pcfContext.parameters.calendarDate?.raw?.getTime() === 0
       ? momentInstance().toDate()

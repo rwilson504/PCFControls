@@ -1,9 +1,10 @@
 import * as CalendarUtils from "../utils";
 import { Resource, Keys } from "../types";
 
-interface SlotInfo {
-  start: Date;
-  end: Date;
+import { SlotInfo as RBCSlotInfo } from "react-big-calendar";
+
+// Accepts the normalized SlotInfo with resourceId as string | undefined
+export interface SlotInfo extends Omit<RBCSlotInfo, "resourceId"> {
   resourceId?: string;
 }
 
@@ -18,6 +19,7 @@ export function handleSlotSelect(
   calendarData: CalendarData
 ) {
   return (slotInfo: SlotInfo) => {
+    // slotInfo.resourceId is always string | undefined here
     onClickSlot(slotInfo.start, slotInfo.end, slotInfo.resourceId || "");
 
     if (pcfContext.mode.allocatedHeight === -1) {

@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import * as CalendarUtils from "../utils";
+import { IInputs } from "../generated/ManifestTypes";
 
-export function useCalendarHourRange(pcfContext: any, momentInstance: typeof import("moment")) {
+export function useCalendarHourRange(pcfContext: ComponentFramework.Context<IInputs>, momentInstance: typeof import("moment")) {
   const [minHour, setMinHour] = useState<number>(
     pcfContext.parameters.calendarMinHour?.raw ?? CalendarUtils.DEFAULT_MIN_HOUR
   );

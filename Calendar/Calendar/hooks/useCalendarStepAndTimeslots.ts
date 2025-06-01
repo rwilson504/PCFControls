@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import * as CalendarUtils from "../utils";
+import { IInputs } from "../generated/ManifestTypes";
 
-export function useCalendarStepAndTimeslots(pcfContext: any) {
+export function useCalendarStepAndTimeslots(pcfContext: ComponentFramework.Context<IInputs>) {
   const [step, setStep] = useState<number>(
     pcfContext.parameters.calendarStep?.raw ?? CalendarUtils.DEFAULT_STEP
   );

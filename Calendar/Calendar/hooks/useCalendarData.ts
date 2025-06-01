@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Resource, Keys, IEvent } from "../types";
 import * as CalendarUtils from "../utils";
+import { IInputs } from "../generated/ManifestTypes";
 
-export function useCalendarData(pcfContext: any) {
+export function useCalendarData(pcfContext: ComponentFramework.Context<IInputs>) {
   const [calendarData, setCalendarData] = useState<{
     resources: Resource[] | undefined;
     events: IEvent[];

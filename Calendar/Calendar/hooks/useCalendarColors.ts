@@ -3,9 +3,9 @@ import * as Color from "color";
 import isHexColor from "is-hexcolor";
 import * as CalendarUtils from "../utils";
 import cssVars from "css-vars-ponyfill";
+import { IInputs } from "../generated/ManifestTypes";
 
-
-export function useCalendarColors(pcfContext: any, eventHeaderFormat: string) {
+export function useCalendarColors(pcfContext: ComponentFramework.Context<IInputs>, eventHeaderFormat: string) {
   const eventDefaultBackgroundColor = Color(
     isHexColor(pcfContext.parameters.eventDefaultColor?.raw || "")
       ? (pcfContext.parameters.eventDefaultColor.raw as string)

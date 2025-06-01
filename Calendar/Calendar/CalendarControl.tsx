@@ -12,17 +12,18 @@ import {
   Calendar,
   momentLocalizer,
   View,
+  SlotInfo,
+  EventProps,ResourceHeaderProps
 } from "react-big-calendar";
 import * as CalendarUtils from "./utils";
 import { StartOfWeek } from "date-arithmetic";
-import { IEvent } from "./types";
+import { IEvent, Resource } from "./types";
 import GetMessages from "./components/Translations";
 import * as moment from "moment";
 import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCalendarSelectable, useCalendarStepAndTimeslots, useCalendarDate, useCalendarPopup, useEventHeaderFormat, useCalendarView, useCalendarData, useCalendarColors } from "./hooks";
 import { eventPropsGetter, dayPropsGetter } from "./getters";
 import { handleSlotSelect, handleEventSelected, handleEventKeyPress, handleOnView, handleNavigate } from "./handlers";
 import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer } from "./renderers";
-
 
 export interface IProps {
   pcfContext: ComponentFramework.Context<IInputs>;
@@ -55,7 +56,6 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
     return weekStart;
   };
-
 
   const weekStartDay =
     props.pcfContext.parameters.calendarWeekStart?.raw || null;
@@ -95,7 +95,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     props.pcfContext.parameters.calendarView?.raw || ""
   );
   // Adapter for setCalendarView to match (view: string) => void signature
-  const setCalendarViewString = (view: string) => setCalendarView(view as any);
+  const setCalendarViewString = (view: string) => setCalendarView(view as View);
 
   // Use custom hook for calendarDate, pass localized moment
   const [calendarDate, setCalendarDate] = useCalendarDate(props.pcfContext, moment);
@@ -128,8 +128,11 @@ export const CalendarControl: React.FC<IProps> = (props) => {
 
   // Use handleSlotSelect from handlers
   // Adapter function to ensure correct typing for react-big-calendar
-  const _handleSlotSelect = (slotInfo: any) =>
-    handleSlotSelect(props.onClickSlot, props.pcfContext, calendarData)(slotInfo);
+  const _handleSlotSelect = (slotInfo: SlotInfo) =>
+    handleSlotSelect(props.onClickSlot, props.pcfContext, calendarData)({
+      ...slotInfo,
+      resourceId: slotInfo.resourceId ? String(slotInfo.resourceId) : undefined,
+    });
 
   // Use handleNavigate from handlers
   const _handleNavigate = handleNavigate(setCalendarDate, setCalendarViewString);
@@ -153,23 +156,25 @@ export const CalendarControl: React.FC<IProps> = (props) => {
     );
   };
 
-
   // Adapter functions to match react-big-calendar signatures
   const _eventPropsGetter = (event: IEvent, start: Date, end: Date, isSelected: boolean) =>
     eventPropsGetter(event, isEventSelectable, eventDefaultBackgroundColor, calendarBorderColor);
 
-  const _dayPropsGetter = (date: Date, ..._args: any[]) =>
+  const _dayPropsGetter = (date: Date, _resourceId?: string | number) =>
     dayPropsGetter(date, calendarTodayBackgroundColor, weekendColor, moment);
 
+
   // Use agendaEventRenderer from renderers
-  const agendaEvent = (args: any) => agendaEventRenderer(args, isEventSelectable, eventDefaultBackgroundColor);
+  const agendaEvent: React.ComponentType<EventProps<IEvent>> = (props) =>
+    agendaEventRenderer(props, isEventSelectable, eventDefaultBackgroundColor);
 
   // Use resourceHeaderRenderer from renderers
-  const resourceHeader = (args: any) => resourceHeaderRenderer(args);
+  const resourceHeader: React.ComponentType<ResourceHeaderProps<Resource>> = (props) =>
+    resourceHeaderRenderer(props);
 
   // Use timeGutterHeaderRenderer from renderers
-  const timeGutterHeader = () => {
-    const ref = calendarRef.current as any;
+  const timeGutterHeader: React.ComponentType = () => {
+    const ref = calendarRef.current// as any;
     return timeGutterHeaderRenderer(ref);
   };
 

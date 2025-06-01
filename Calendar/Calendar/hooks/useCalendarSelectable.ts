@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import * as CalendarUtils from "../utils";
+import { IInputs } from "../generated/ManifestTypes";
 
-export function useCalendarSelectable(pcfContext: any) {
+export function useCalendarSelectable(pcfContext: ComponentFramework.Context<IInputs>) {
   const [calendarSelectable, setCalendarSelectable] = useState<boolean>(
     pcfContext.parameters.calendarSelectable?.raw?.toLowerCase() === "false"
       ? false
