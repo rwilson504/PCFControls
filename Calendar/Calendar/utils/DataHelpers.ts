@@ -51,6 +51,9 @@ export async function getKeys(
     name: params.eventFieldName.raw
       ? getFieldName(dataSet, params.eventFieldName.raw)
       : "",
+    description: params.eventFieldDescription && params.eventFieldDescription.raw
+      ? getFieldName(dataSet, params.eventFieldDescription.raw)
+      : "",
     start: params.eventFieldStart.raw
       ? getFieldName(dataSet, params.eventFieldStart.raw)
       : "",
@@ -223,50 +226,58 @@ export async function getCalendarData(
   
     const newEvents: IEvent[] = [];
   
-    for (let i = 0; i < totalRecordCount; i++) {
-      const recordId = dataSet.sortedRecordIds[i];
-      const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
-  
-      // Ensure key properties are defined and retrieve their values safely
-      const name = keys.name
-        ? (record.getValue(keys.name) as string | undefined)
-        : undefined;
-      const start = keys.start ? record.getValue(keys.start) : undefined;
-      const end = keys.end ? record.getValue(keys.end) : undefined;
-  
-      if (!name || !start || !end) {
-        // Skip this record if required fields are missing
-        continue;
-      }
-  
-      const newEvent: IEvent = {
-        id: keys.id
-          ? (record.getValue(keys.id) as string | undefined) || recordId
-          : recordId,
-        start: new Date(start as number),
-        end: new Date(end as number),
-        title: name,
-      };
-  
-      if (keys.eventColor) {
-        const color = record.getValue(keys.eventColor);
-        if (color && isHexColor(color)) {
-          newEvent.color = color as string;
-        }
-      }
-  
-      if (resources && keys.resource) {
-        const resourceId = record.getValue(keys.resource);
-        if (resourceId) {
-          newEvent.resource =
-            pcfContext.mode.allocatedHeight === -1
-              ? (resourceId as ComponentFramework.EntityReference).id.guid
-              : (resourceId as string);
-        }
-      }
-  
-      newEvents.push(newEvent);
+  for (let i = 0; i < totalRecordCount; i++) {
+    const recordId = dataSet.sortedRecordIds[i];
+    const record = dataSet.records[recordId] as DataSetInterfaces.EntityRecord;
+
+    // Ensure key properties are defined and retrieve their values safely
+    const name = keys.name
+      ? (record.getValue(keys.name) as string | undefined)
+      : undefined;
+    const start = keys.start ? record.getValue(keys.start) : undefined;
+    const end = keys.end ? record.getValue(keys.end) : undefined;
+
+    if (!name || !start || !end) {
+      // Skip this record if required fields are missing
+      continue;
     }
+
+    const newEvent: IEvent & { description?: string } = {
+      id: keys.id
+        ? (record.getValue(keys.id) as string | undefined) || recordId
+        : recordId,
+      start: new Date(start as number),
+      end: new Date(end as number),
+      title: name,
+    };
+
+    // Add description if the key is present and value exists
+    if (keys.description) {
+      const descriptionValue = record.getValue(keys.description);
+      if (descriptionValue) {
+        newEvent.description = descriptionValue as string;
+      }
+    }
+
+    if (keys.eventColor) {
+      const color = record.getValue(keys.eventColor);
+      if (color && isHexColor(color)) {
+        newEvent.color = color as string;
+      }
+    }
+
+    if (resources && keys.resource) {
+      const resourceId = record.getValue(keys.resource);
+      if (resourceId) {
+        newEvent.resource =
+          pcfContext.mode.allocatedHeight === -1
+            ? (resourceId as ComponentFramework.EntityReference).id.guid
+            : (resourceId as string);
+      }
+    }
+
+    newEvents.push(newEvent);
+  }
     console.log(`getEvents: newEvents.length: ${newEvents.length}`);
     return newEvents;
   }

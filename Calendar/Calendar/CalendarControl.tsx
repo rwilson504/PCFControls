@@ -24,7 +24,7 @@ import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCal
 import { eventPropsGetter, dayPropsGetter } from "./getters";
 import { handleSlotSelect, handleEventSelected, handleEventKeyPress, handleOnView, handleNavigate } from "./handlers";
 import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer } from "./renderers";
-
+import { tooltipAccessor } from "./accessors/tooltipAccessor";
 export interface IProps {
   pcfContext: ComponentFramework.Context<IInputs>;
   onClickSelectedRecord: (recordId: string) => void;
@@ -206,6 +206,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       className={`rbc-view-${calendarView}`}
       eventPropGetter={_eventPropsGetter}
       dayPropGetter={_dayPropsGetter}
+      tooltipAccessor= {tooltipAccessor}
       components={{
         agenda: {
           event: agendaEvent,
@@ -242,6 +243,7 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       className={`rbc-view-${calendarView}`}
       eventPropGetter={_eventPropsGetter}
       dayPropGetter={_dayPropsGetter}
+      tooltipAccessor= {tooltipAccessor}
       components={{
         agenda: {
           event: agendaEvent,

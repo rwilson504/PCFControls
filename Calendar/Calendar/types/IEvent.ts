@@ -4,4 +4,5 @@ import { Event } from "react-big-calendar";
 export interface IEvent extends Event {
   id?: string;
   color?: string;
+  description?: string;
 }
