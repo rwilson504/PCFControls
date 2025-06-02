@@ -26,7 +26,7 @@ export function formatDateAsParameterString(date: Date) {
 }
 
 export function getCalendarView(
-  calendarViews: ViewProps<Event, Resource>,
+  calendarViews: View[],
   viewName: string
 ): View {
   const calView = Object.keys(calendarViews).find(
@@ -38,7 +38,7 @@ export function getCalendarView(
 export function getCalendarViews(
   pcfContext: ComponentFramework.Context<IInputs>,
   localizer: DateLocalizer
-): ViewsProps<Event, Resource> {
+): View[] {
   const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
   const validViews = viewList
     .split(",")
@@ -60,7 +60,7 @@ export function getCalendarViews(
       }
     });
   }
-  return selectedViews;
+  return selectedViews as View[];
 }
 
 export function getWorkWeekIncludedDays(

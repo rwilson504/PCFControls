@@ -3,7 +3,7 @@ import { getCalendarView } from "../utils/CalendarHelpers";
 import { View, ViewProps } from "react-big-calendar";
 import { Resource } from "../types";
 
-export function useCalendarView(calendarViews: ViewProps<Event, Resource>, calendarViewRaw: string) {
+export function useCalendarView(calendarViews: View[], calendarViewRaw: string) {
   const [calendarView, setCalendarView] = useState(
     getCalendarView(calendarViews, calendarViewRaw || "")
   );
