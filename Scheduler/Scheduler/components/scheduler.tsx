@@ -115,6 +115,14 @@ const SchedulerControl: React.FC<ISchedulerControlProps> = React.memo((props) =>
         // Only run when schedulerData is initialized or relevant dependencies change
     }, [events]);
 
+    React.useEffect(() => {
+        if (state.schedulerData && state.schedulerData.config) { 
+            const newConfig = { ...state.schedulerData.config, schedulerMaxHeight: pcfContext.context.mode.allocatedHeight - 100 };
+            state.schedulerData.config = newConfig;
+            dispatch({ type: "UPDATE_SCHEDULER", payload: state.schedulerData });
+        }
+    }, [pcfContext.context.mode.allocatedHeight]);
+
     // Effect: Initialize the scheduler data on mount
     React.useEffect(() => {
         let isMounted = true;
