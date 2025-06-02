@@ -4,8 +4,8 @@ import * as Color from "color";
 export function eventPropsGetter(
   event: IEvent,
   isEventSelectable: boolean,
-  eventDefaultBackgroundColor: any,
-  calendarBorderColor: any
+  eventDefaultBackgroundColor: Color<string> | string,
+  calendarBorderColor: Color<string> | string
 ) {
   return {
     style: {

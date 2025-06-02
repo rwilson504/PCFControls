@@ -1,9 +1,10 @@
 import { IInputs } from "../generated/ManifestTypes";
 import * as moment from "moment";
-import { View, ViewsProps, DateLocalizer } from "react-big-calendar";
+import { View, ViewsProps, DateLocalizer, ViewProps } from "react-big-calendar";
 import * as lcid from "lcid";
 import CustomWorkWeek from "../components/WorkWeek";
 import * as Constants from "./Constants"
+import { Resource } from "../types";
 
 //format the date/time so that it can be passed as a parameter to a Dynamics form
 export function formatDateAsParameterString(date: Date) {
@@ -25,7 +26,7 @@ export function formatDateAsParameterString(date: Date) {
 }
 
 export function getCalendarView(
-  calendarViews: ViewsProps,
+  calendarViews: ViewProps<Event, Resource>,
   viewName: string
 ): View {
   const calView = Object.keys(calendarViews).find(
@@ -37,7 +38,7 @@ export function getCalendarView(
 export function getCalendarViews(
   pcfContext: ComponentFramework.Context<IInputs>,
   localizer: DateLocalizer
-): ViewsProps {
+): ViewsProps<Event, Resource> {
   const viewList = pcfContext.parameters.calendarAvailableViews?.raw || "month";
   const validViews = viewList
     .split(",")

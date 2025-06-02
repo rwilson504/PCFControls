@@ -1,9 +1,10 @@
+import { IInputs } from "../generated/ManifestTypes";
 import { IEvent } from "../types";
 
 export function handleEventSelected(
   isEventSelectable: boolean,
   onClickSelectedRecord: (id: string) => void,
-  pcfContext: any
+  pcfContext: ComponentFramework.Context<IInputs>
 ) {
   return (event: IEvent) => {
     if (!isEventSelectable) {

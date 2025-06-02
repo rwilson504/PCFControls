@@ -36,7 +36,6 @@ export function useCalendarData(pcfContext: ComponentFramework.Context<IInputs>)
       }
     }
     asyncCalendarData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pcfContext.parameters.calendarDataSet.records]);
 
   return [calendarData, setCalendarData] as const;

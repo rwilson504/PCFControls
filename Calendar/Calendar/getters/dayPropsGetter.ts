@@ -1,10 +1,11 @@
-import { Moment } from "moment";
+import { Moment, MomentInput } from "moment";
+import * as Color from "color";
 
 export function dayPropsGetter(
   date: Date,
-  calendarTodayBackgroundColor: any,
-  weekendColor: any,
-  momentInstance: (input?: any) => Moment
+  calendarTodayBackgroundColor: Color<string> | string,
+  weekendColor: Color<string> | string,
+  momentInstance: (input?: MomentInput) => Moment
 ) {
   // Check if the day is today
   if (momentInstance(date).startOf("day").isSame(momentInstance().startOf("day")))
