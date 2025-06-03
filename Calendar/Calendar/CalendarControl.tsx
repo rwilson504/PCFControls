@@ -13,7 +13,7 @@ import {
   momentLocalizer,
   View,
   SlotInfo,
-  EventProps,ResourceHeaderProps
+  EventProps, ResourceHeaderProps
 } from "react-big-calendar";
 import * as CalendarUtils from "./utils";
 import { StartOfWeek } from "date-arithmetic";
@@ -23,7 +23,7 @@ import * as moment from "moment";
 import { useCalendarHourRange, useDayLayoutAlgorithm, useEventSelectable, useCalendarSelectable, useCalendarStepAndTimeslots, useCalendarDate, useCalendarPopup, useEventHeaderFormat, useCalendarView, useCalendarData, useCalendarColors } from "./hooks";
 import { eventPropsGetter, dayPropsGetter } from "./getters";
 import { handleSlotSelect, handleEventSelected, handleEventKeyPress, handleOnView, handleNavigate } from "./handlers";
-import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer } from "./renderers";
+import { timeGutterHeaderRenderer, resourceHeaderRenderer, agendaEventRenderer,timeSlotWrapperRenderer } from "./renderers";
 import { tooltipAccessor } from "./accessors/tooltipAccessor";
 export interface IProps {
   pcfContext: ComponentFramework.Context<IInputs>;
@@ -206,12 +206,13 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       className={`rbc-view-${calendarView}`}
       eventPropGetter={_eventPropsGetter}
       dayPropGetter={_dayPropsGetter}
-      tooltipAccessor= {tooltipAccessor}
+      tooltipAccessor={tooltipAccessor}
       components={{
         agenda: {
           event: agendaEvent,
         },
         timeGutterHeader: timeGutterHeader,
+        timeSlotWrapper: (props) => timeSlotWrapperRenderer({ ...props, timeslots }),
       }}
     />
   ) : (
@@ -243,13 +244,14 @@ export const CalendarControl: React.FC<IProps> = (props) => {
       className={`rbc-view-${calendarView}`}
       eventPropGetter={_eventPropsGetter}
       dayPropGetter={_dayPropsGetter}
-      tooltipAccessor= {tooltipAccessor}
+      tooltipAccessor={tooltipAccessor}
       components={{
         agenda: {
           event: agendaEvent,
         },
         resourceHeader: resourceHeader,
         timeGutterHeader: timeGutterHeader,
+        timeSlotWrapper: (props) => timeSlotWrapperRenderer({ ...props, timeslots }),
       }}
     />
   );
