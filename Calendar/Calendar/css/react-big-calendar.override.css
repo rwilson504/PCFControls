@@ -116,6 +116,10 @@
   border-color: rgb(var(--calendar-border-color)) !important;
 }
 
+.rbc-timeslot-group {
+  min-width: 70px !important;
+}
+
 .rbc-event:focus,
 .rbc-toolbar button:focus {
   outline: 5px auto rgb(var(--calendar-border-color)) !important;
