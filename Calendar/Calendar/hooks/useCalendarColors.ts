@@ -6,30 +6,45 @@ import cssVars from "css-vars-ponyfill";
 import { IInputs } from "../generated/ManifestTypes";
 
 export function useCalendarColors(pcfContext: ComponentFramework.Context<IInputs>, eventHeaderFormat: string) {
-  const eventDefaultBackgroundColor = Color(
-    isHexColor(pcfContext.parameters.eventDefaultColor?.raw || "")
-      ? (pcfContext.parameters.eventDefaultColor.raw as string)
-      : CalendarUtils.DEFAULT_EVENT_COLOR
+
+  const [eventDefaultBackgroundColor, setEventDefaultBackgroundColor] = useState<Color>(
+    Color(
+      isHexColor(pcfContext.parameters.eventDefaultColor?.raw || "")
+        ? (pcfContext.parameters.eventDefaultColor.raw as string)
+        : CalendarUtils.DEFAULT_EVENT_COLOR
+    )
   );
-  const calendarTodayBackgroundColor = Color(
-    isHexColor(pcfContext.parameters.calendarTodayBackgroundColor?.raw || "")
-      ? (pcfContext.parameters.calendarTodayBackgroundColor.raw as string)
-      : CalendarUtils.DEFAULT_TODAY_BACKGROUND_COLOR
+  
+  const [calendarTodayBackgroundColor, setCalendarTodayBackgroundColor] = useState<Color>(
+    Color(
+      isHexColor(pcfContext.parameters.calendarTodayBackgroundColor?.raw || "")
+        ? (pcfContext.parameters.calendarTodayBackgroundColor.raw as string)
+        : CalendarUtils.DEFAULT_TODAY_BACKGROUND_COLOR
+    )
   );
-  const calendarTextColor = Color(
-    isHexColor(pcfContext.parameters.calendarTextColor?.raw || "")
-      ? (pcfContext.parameters.calendarTextColor.raw as string)
-      : CalendarUtils.DEFAULT_TEXT_COLOR
+
+  const [calendarTextColor, setCalendarTextColor] = useState<Color>(
+    Color(
+      isHexColor(pcfContext.parameters.calendarTextColor?.raw || "")
+        ? (pcfContext.parameters.calendarTextColor.raw as string)
+        : CalendarUtils.DEFAULT_TEXT_COLOR
+    )
   );
-  const calendarBorderColor = Color(
-    isHexColor(pcfContext.parameters.calendarBorderColor?.raw || "")
-      ? (pcfContext.parameters.calendarBorderColor.raw as string)
-      : CalendarUtils.DEFAULT_BORDER_COLOR
+
+  const [calendarBorderColor, setCalendarBorderColor] = useState<Color>(
+    Color(
+      isHexColor(pcfContext.parameters.calendarBorderColor?.raw || "")
+        ? (pcfContext.parameters.calendarBorderColor.raw as string)
+        : CalendarUtils.DEFAULT_BORDER_COLOR
+    )
   );
-  const calendarTimeBarBackgroundColor = Color(
-    isHexColor(pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || "")
-      ? (pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string)
-      : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
+
+  const [calendarTimeBarBackgroundColor, setCalendarTimeBarBackgroundColor] = useState<Color>(
+    Color(
+      isHexColor(pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || "")
+        ? (pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string)
+        : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
+    )
   );
 
   const [weekendColor, setWeekendColor] = useState<string>(
@@ -37,6 +52,56 @@ export function useCalendarColors(pcfContext: ComponentFramework.Context<IInputs
       ? pcfContext.parameters.weekendBackgroundColor.raw!
       : CalendarUtils.DEFAULT_WEEKEND_BACKGROUND_COLOR
   );
+
+  useEffect(() => {
+    setEventDefaultBackgroundColor(
+      Color(
+        isHexColor(pcfContext.parameters.eventDefaultColor?.raw || "")
+          ? (pcfContext.parameters.eventDefaultColor.raw as string)
+          : CalendarUtils.DEFAULT_EVENT_COLOR
+      )
+    );
+  }, [pcfContext.parameters.eventDefaultColor?.raw]);
+
+  useEffect(() => {
+    setCalendarTodayBackgroundColor(
+      Color(
+        isHexColor(pcfContext.parameters.calendarTodayBackgroundColor?.raw || "")
+          ? (pcfContext.parameters.calendarTodayBackgroundColor.raw as string)
+          : CalendarUtils.DEFAULT_TODAY_BACKGROUND_COLOR
+      )
+    );
+  }, [pcfContext.parameters.calendarTodayBackgroundColor?.raw]);
+
+  useEffect(() => {
+    setCalendarTextColor(
+      Color(
+        isHexColor(pcfContext.parameters.calendarTextColor?.raw || "")
+          ? (pcfContext.parameters.calendarTextColor.raw as string)
+          : CalendarUtils.DEFAULT_TEXT_COLOR
+      )
+    );
+  }, [pcfContext.parameters.calendarTextColor?.raw]);
+
+  useEffect(() => {
+    setCalendarBorderColor(
+      Color(
+        isHexColor(pcfContext.parameters.calendarBorderColor?.raw || "")
+          ? (pcfContext.parameters.calendarBorderColor.raw as string)
+          : CalendarUtils.DEFAULT_BORDER_COLOR
+      )
+    );
+  }, [pcfContext.parameters.calendarBorderColor?.raw]);
+
+  useEffect(() => {
+    setCalendarTimeBarBackgroundColor(
+      Color(
+        isHexColor(pcfContext.parameters.calendarTimeBarBackgroundColor?.raw || "")
+          ? (pcfContext.parameters.calendarTimeBarBackgroundColor.raw as string)
+          : CalendarUtils.DEFAULT_TIMEBAR_BACKGROUND_COLOR
+      )
+    );
+  }, [pcfContext.parameters.calendarTimeBarBackgroundColor?.raw]);
 
   useEffect(() => {
     const color = isHexColor(pcfContext.parameters.weekendBackgroundColor?.raw || "")
