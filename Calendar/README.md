@@ -132,8 +132,7 @@ The following code can be added to the OnVisible event of the Canvas form or to 
 ![OnLoad of Screen](./images/CanvasCalendarEventsOnlyOnLoad.png)
 
 ```
-ClearCollect(calendarEvents, Events)
-);
+ClearCollect(calendarEvents, Events);
 ```
 
 Here is the data source selection on the control.  
