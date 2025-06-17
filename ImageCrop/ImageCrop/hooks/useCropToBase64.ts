@@ -1,0 +1,68 @@
+import { useEffect, RefObject } from "react";
+import { PixelCrop } from "react-image-crop";
+
+export function useCropToBase64(
+  imgRef: RefObject<HTMLImageElement | null>,
+  completedCrop: PixelCrop | undefined,
+  onCropComplete: (base64: string) => void,
+  rotation: number = 0,
+  scaling: number = 1
+) {
+  useEffect(() => {
+    if (!completedCrop || !imgRef.current) return;
+    const image = imgRef.current;
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    const pixelRatio = window.devicePixelRatio || 1;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.floor(completedCrop.width * scaleX * pixelRatio);
+    canvas.height = Math.floor(completedCrop.height * scaleY * pixelRatio);
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.scale(pixelRatio, pixelRatio);
+    ctx.imageSmoothingQuality = "high";
+
+    const cropX = completedCrop.x * scaleX;
+    const cropY = completedCrop.y * scaleY;
+    const rotateRads = (rotation * Math.PI) / 180;
+    const centerX = image.naturalWidth / 2;
+    const centerY = image.naturalHeight / 2;
+
+    ctx.save();
+    ctx.translate(-cropX, -cropY); // 5) Move crop origin to canvas origin
+    ctx.translate(centerX, centerY); // 4) Move origin to image center
+    ctx.rotate(rotateRads); // 3) Rotate
+    ctx.scale(scaling, scaling); // 2) Scale
+    ctx.translate(-centerX, -centerY); // 1) Move image center to origin
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      image.naturalWidth,
+      image.naturalHeight,
+      0,
+      0,
+      image.naturalWidth,
+      image.naturalHeight
+    );
+    ctx.restore();
+
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") {
+            onCropComplete(reader.result);
+          }
+        };
+        reader.readAsDataURL(blob);
+      },
+      "image/png"
+    );
+  }, [completedCrop, imgRef, onCropComplete, rotation, scaling]);
+}
