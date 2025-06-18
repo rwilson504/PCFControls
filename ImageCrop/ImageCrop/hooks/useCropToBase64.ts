@@ -1,5 +1,5 @@
 import { useEffect, RefObject } from "react";
-import { PixelCrop } from "react-image-crop";
+import { Crop, PixelCrop } from "react-image-crop";
 
 export function useCropToBase64(
   imgRef: RefObject<HTMLImageElement | null>,
@@ -30,11 +30,12 @@ export function useCropToBase64(
     if (circularCrop) {
       ctx.save();
       ctx.beginPath();
-      const radius = Math.min(canvas.width, canvas.height) / (2 * pixelRatio);
-      ctx.arc(
+      ctx.ellipse(
         canvas.width / (2 * pixelRatio),
         canvas.height / (2 * pixelRatio),
-        radius,
+        canvas.width / (2 * pixelRatio),
+        canvas.height / (2 * pixelRatio),
+        0,
         0,
         2 * Math.PI
       );
@@ -85,5 +86,5 @@ export function useCropToBase64(
       },
       "image/png"
     );
-  }, [completedCrop, imgRef, onCropComplete, rotation, scaling, circularCrop]);
+  }, [completedCrop, imgRef, rotation, scaling, circularCrop]);
 }

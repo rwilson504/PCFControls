@@ -13,3 +13,4 @@ export * from "./useCropToBase64";
 export * from "./useKeepSelection";
 export * from "./useRotation";
 export * from "./useScaling";
+export * from "./useImageLoaded"
