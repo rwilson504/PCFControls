@@ -6,7 +6,8 @@ export function useCropToBase64(
   completedCrop: PixelCrop | undefined,
   onCropComplete: (base64: string) => void,
   rotation: number = 0,
-  scaling: number = 1
+  scaling: number = 1,
+  circularCrop: boolean = false
 ) {
   useEffect(() => {
     if (!completedCrop || !imgRef.current) return;
@@ -24,6 +25,22 @@ export function useCropToBase64(
 
     ctx.scale(pixelRatio, pixelRatio);
     ctx.imageSmoothingQuality = "high";
+
+    // Circular crop: set a circular clipping path
+    if (circularCrop) {
+      ctx.save();
+      ctx.beginPath();
+      const radius = Math.min(canvas.width, canvas.height) / (2 * pixelRatio);
+      ctx.arc(
+        canvas.width / (2 * pixelRatio),
+        canvas.height / (2 * pixelRatio),
+        radius,
+        0,
+        2 * Math.PI
+      );
+      ctx.closePath();
+      ctx.clip();
+    }
 
     const cropX = completedCrop.x * scaleX;
     const cropY = completedCrop.y * scaleY;
@@ -51,6 +68,10 @@ export function useCropToBase64(
     );
     ctx.restore();
 
+    if (circularCrop) {
+      ctx.restore(); // Restore after clipping
+    }
+
     canvas.toBlob(
       (blob) => {
         if (!blob) return;
@@ -64,5 +85,5 @@ export function useCropToBase64(
       },
       "image/png"
     );
-  }, [completedCrop, imgRef, onCropComplete, rotation, scaling]);
+  }, [completedCrop, imgRef, onCropComplete, rotation, scaling, circularCrop]);
 }

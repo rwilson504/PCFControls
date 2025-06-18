@@ -30,7 +30,7 @@ export function useAspect(
   useEffect(() => {    
     const currentAspect = getAspect();
     setAspect(currentAspect);
-
+    
     if (!currentAspect || currentAspect === 0) return;
 
     if (imgRef?.current && setCrop) {

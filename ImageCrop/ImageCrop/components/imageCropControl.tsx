@@ -62,9 +62,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const scaling = useScaling(pcfContext.context);
 
     // Use custom hook to handle crop-to-base64 conversion and callback
-    useCropToBase64(imgRef, completedCrop, props.onCropComplete, rotation, scaling);
-
-    // Optionally, recenter crop when aspect changes (already handled in hook)
+    useCropToBase64(imgRef, completedCrop, props.onCropComplete, rotation, scaling, circularCrop);
 
     return (
         <CropWrapper                 
