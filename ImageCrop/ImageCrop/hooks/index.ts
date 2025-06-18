@@ -14,3 +14,4 @@ export * from "./useKeepSelection";
 export * from "./useRotation";
 export * from "./useScaling";
 export * from "./useImageLoaded"
+export * from "./useDefaultCrop";

@@ -14,27 +14,27 @@ import {
     useRuleOfThirds,
     useCircularCrop,
     useDisabled,
-    useResponsiveAppScaling,
     useCropToBase64,
     useKeepSelection,
     useRotation,
     useScaling,
-    useImageLoaded
+    useImageLoaded,
+    useDefaultCrop
 } from "../hooks";
-import { getDefaultCrop, useDefaultCrop } from "../hooks/useDefaultCrop";
 import CropWrapper from "./imageCropWrapper";
 
 const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
+    // Get the PCF context using the custom hook
     const pcfContext = usePcfContext();
+    // State to hold the completed crop object, initialized as undefined
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>()
+    // Crop state for the image, initialized as undefined
     const [crop, setCrop] = React.useState<Crop>();
-
     // Image loaded state (modular)
     const [imageLoaded, handleImageLoad, handleImageError, handleImageSrcChange] = useImageLoaded();
-
+    // Reference to the image element for scaling and cropping
     const imgRef = React.useRef<HTMLImageElement>(null) as React.RefObject<HTMLImageElement>;
-    const appScaling = useResponsiveAppScaling(pcfContext.context, imgRef);
-
+    //const appScaling = useResponsiveAppScaling(pcfContext.context, imgRef);
     // Get the locked property from PCF context
     const locked = useLocked(pcfContext.context);
     // Get the disabled property from PCF context
@@ -49,7 +49,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const minHeight = useMinHeight(pcfContext.context);
     const maxHeight = useMaxHeight(pcfContext.context);
     // Get the aspect ratio from PCF context and helper to center crop
-    const [aspect, centerCropIfNeeded] = useAspect(pcfContext.context, imgRef, setCrop);
+    const [aspect] = useAspect(pcfContext.context, imgRef, setCrop);
     // Get the keepSelection property from PCF context
     const keepSelection = useKeepSelection(pcfContext.context);
     // Get the image from the PCF context property (should be base64)
@@ -58,9 +58,10 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const rotation = useRotation(pcfContext.context);
     // Get the scaling property from PCF context
     const scaling = useScaling(pcfContext.context);
-
     // Get the default crop object (not a hook)
     const defaultCrop = useDefaultCrop(pcfContext.context);
+    // Use custom hook to handle crop-to-base64 conversion and callback
+    useCropToBase64(imgRef, completedCrop, props.onCropComplete, rotation, scaling, circularCrop);
 
     // Reset imageLoaded state and crop when imageSrc changes
     React.useEffect(() => {
@@ -76,11 +77,8 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
         }
     }, [imageLoaded]);
 
-    // Use custom hook to handle crop-to-base64 conversion and callback
-    useCropToBase64(imgRef, completedCrop, props.onCropComplete, rotation, scaling, circularCrop);
-
     return (
-        <CropWrapper                 
+        <CropWrapper
             crop={crop}
             onChange={(c: Crop) => setCrop(c)}
             onDragStart={(e: PointerEvent) => props.onDragStart(e)}
@@ -96,7 +94,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
             maxHeight={maxHeight}
             aspect={aspect}
             keepSelection={keepSelection}
-            style={{display: imageSrc && pcfContext.isVisible() ? 'block' : 'none',}}            
+            style={{ display: imageSrc && pcfContext.isVisible() ? 'block' : 'none', }}
         >
             <img
                 ref={imgRef}
@@ -106,9 +104,9 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
                 onError={handleImageError}
                 style={{
                     maxWidth: '100%',
-                    maxHeight: '100%',                    
+                    maxHeight: '100%',
                     transform: `rotate(${rotation}deg) scale(${scaling})`
-                }}                
+                }}
             />
         </CropWrapper>
     );

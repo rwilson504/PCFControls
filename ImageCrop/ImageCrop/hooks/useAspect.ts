@@ -1,4 +1,4 @@
-import { useState, useEffect, RefObject,MutableRefObject } from "react";
+import { useState, useEffect} from "react";
 import { IInputs } from "../generated/ManifestTypes";
 import { centerAspectCrop } from "../utils/cropUtils";
 import { Crop } from "react-image-crop";
@@ -16,7 +16,7 @@ export function useAspect(
   context: ComponentFramework.Context<IInputs>,
   imgRef: React.RefObject<HTMLImageElement | null>,
   setCrop: (crop: Crop) => void
-): [number | undefined, () => void] {
+): [number | undefined] {
   const getAspect = () => {
     const raw = context.parameters.aspect?.raw;
     if (raw === undefined || raw === null) return undefined;
@@ -40,14 +40,5 @@ export function useAspect(
     }
   }, [context.parameters.aspect?.raw]); // Note: no dependency on imageLoaded
 
-  const centerCropIfNeeded = () => {
-    if (!aspect || aspect === 0) return;
-    if (imgRef?.current && setCrop) {
-      const img = imgRef.current;
-      const newCrop = centerAspectCrop(img.width, img.height, aspect);
-      setCrop(newCrop);
-    }
-  };
-
-  return [aspect, centerCropIfNeeded];
+  return [aspect];
 }
