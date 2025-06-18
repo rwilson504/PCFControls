@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
+import { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { usePcfContext } from "../services/pcfContext";
 import { IImageCropControlProps } from "../types/imageCropTypes";
@@ -14,7 +14,7 @@ import {
     useRuleOfThirds,
     useCircularCrop,
     useDisabled,
-    useBrowserScaling,
+    useResponsiveAppScaling,
     useCropToBase64,
     useKeepSelection,
     useRotation,
@@ -27,7 +27,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const [crop, setCrop] = React.useState<Crop>();
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>()
     const imgRef = React.useRef<HTMLImageElement>(null) as React.RefObject<HTMLImageElement>;
-    const browserScaling = useBrowserScaling(imgRef);
+    const appScaling = useResponsiveAppScaling(pcfContext.context, imgRef);
 
     // Get the locked property from PCF context
     const locked = useLocked(pcfContext.context);
@@ -42,10 +42,10 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const circularCrop = useCircularCrop(pcfContext.context);
 
     // Get min/max width/height from PCF context, scaled for browser
-    const minWidth = useMinWidth(pcfContext.context, browserScaling);
-    const maxWidth = useMaxWidth(pcfContext.context, browserScaling);
-    const minHeight = useMinHeight(pcfContext.context, browserScaling);
-    const maxHeight = useMaxHeight(pcfContext.context, browserScaling);
+    const minWidth = useMinWidth(pcfContext.context);
+    const maxWidth = useMaxWidth(pcfContext.context);
+    const minHeight = useMinHeight(pcfContext.context);
+    const maxHeight = useMaxHeight(pcfContext.context);
 
     // Get the aspect ratio from PCF context and helper to center crop
     const [aspect, centerCropIfNeeded] = useAspect(pcfContext.context, imgRef, setCrop);
@@ -67,7 +67,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     // Optionally, recenter crop when aspect changes (already handled in hook)
 
     return (
-        <CropWrapper
+        <CropWrapper                 
             crop={crop}
             onChange={(c: Crop) => setCrop(c)}
             onDragStart={(e: PointerEvent) => props.onDragStart(e)}

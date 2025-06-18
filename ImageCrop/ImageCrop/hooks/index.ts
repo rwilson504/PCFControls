@@ -8,7 +8,7 @@ export * from "./useLocked";
 export * from "./useRuleOfThirds";
 export * from "./useCircularCrop";
 export * from "./useDisabled";
-export * from "./useBrowserScaling";
+export * from "./useResponsiveAppScaling";
 export * from "./useCropToBase64";
 export * from "./useKeepSelection";
 export * from "./useRotation";
