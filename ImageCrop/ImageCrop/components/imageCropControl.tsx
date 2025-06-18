@@ -52,30 +52,16 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const [aspect] = useAspect(pcfContext.context, imgRef, setCrop);
     // Get the keepSelection property from PCF context
     const keepSelection = useKeepSelection(pcfContext.context);
+    // Get the default crop object (not a hook)
+    const defaultCrop = useDefaultCrop(pcfContext.context);
     // Get the image from the PCF context property (should be base64)
-    const imageSrc = useImageSrc(pcfContext.context);
+    const imageSrc = useImageSrc(pcfContext.context, imgRef, defaultCrop, setCrop, setCompletedCrop);
     // Get the rotation property from PCF context
     const rotation = useRotation(pcfContext.context);
     // Get the scaling property from PCF context
     const scaling = useScaling(pcfContext.context);
-    // Get the default crop object (not a hook)
-    const defaultCrop = useDefaultCrop(pcfContext.context);
     // Use custom hook to handle crop-to-base64 conversion and callback
     useCropToBase64(imgRef, completedCrop, props.onCropComplete, rotation, scaling, circularCrop);
-
-    // Reset imageLoaded state and crop when imageSrc changes
-    React.useEffect(() => {
-        handleImageSrcChange(imageSrc);
-        setCrop(undefined);
-    }, [imageSrc]);
-
-    // Set crop to default when image is loaded and crop is undefined
-    React.useEffect(() => {
-        if (imageLoaded && !crop && defaultCrop) {
-            setCrop(defaultCrop);
-            setCompletedCrop(convertToPixelCrop(defaultCrop, imgRef.current.width, imgRef.current.height));
-        }
-    }, [imageLoaded]);
 
     return (
         <CropWrapper
