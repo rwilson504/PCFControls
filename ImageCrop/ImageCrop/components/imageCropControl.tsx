@@ -20,11 +20,14 @@ import {
     useRotation,
     useScaling
 } from "../hooks";
+import { useDefaultCrop } from "../hooks/useDefaultCrop";
 import CropWrapper from "./imageCropWrapper";
 
 const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const pcfContext = usePcfContext();
     const [crop, setCrop] = React.useState<Crop>();
+    // Set crop from manifest defaults on first load (modular)
+    useDefaultCrop(pcfContext.context, setCrop, crop);
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>()
     const imgRef = React.useRef<HTMLImageElement>(null) as React.RefObject<HTMLImageElement>;
     const appScaling = useResponsiveAppScaling(pcfContext.context, imgRef);
@@ -89,7 +92,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
                 style={{
                     maxWidth: '100%',
                     maxHeight: '100%',
-                    display: imageSrc ? 'block' : 'none',
+                    display: imageSrc && pcfContext.isVisible() ? 'block' : 'none',
                     transform: `rotate(${rotation}deg) scale(${scaling})`
                 }}
                 onError={(e) => {

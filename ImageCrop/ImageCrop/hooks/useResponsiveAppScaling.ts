@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { IInputs } from "../generated/ManifestTypes";
 
 /**
  * Calculates the scaling factor applied by Power Apps' responsive layout.
  * Compares allocated size (from context) to rendered size (via getBoundingClientRect).
  */
 export function useResponsiveAppScaling(
-  context: ComponentFramework.Context<any>,
+  context: ComponentFramework.Context<IInputs>,
   elementRef: React.RefObject<HTMLElement | null>
 ): number {
   const [appScaling, setAppScaling] = useState(1);

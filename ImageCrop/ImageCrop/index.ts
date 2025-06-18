@@ -4,6 +4,7 @@ import * as ReactDOM from "react-dom/client";
 import { PercentCrop, PixelCrop } from "react-image-crop";
 import { v4 as uuidv4 } from "uuid";
 import ImageCropApp from "./imageCropApp";
+import { ActionOutputSchema } from "./types/actionOutputSchema";
 
 export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -51,6 +52,12 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
         this._reactRoot = ReactDOM.createRoot(this._container);
     }
 
+    public async getOutputSchema(context: ComponentFramework.Context<IInputs>): Promise<Record<string, unknown>> {
+        return Promise.resolve({
+            Data: ActionOutputSchema
+        });
+    }
+
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
@@ -81,7 +88,7 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
     };
 
     // Callback for drag start
-    public onDragStart = (e: PointerEvent) => {        
+    public onDragStart = (e: PointerEvent) => {
         this._actionDragStart = true;
         this._notifyOutputChanged();
     };
@@ -100,7 +107,11 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
         this._updateFromOutput = true;
         let notifyAgain = false;
 
-        const output: IOutputs = {}
+        const output: IOutputs = {
+            actionOutput: {
+                action: "TEST"
+            }
+        };
 
         if (this._actionCropComplete) {
             notifyAgain = true;

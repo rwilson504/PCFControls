@@ -104,4 +104,62 @@
   <data name="ImageCrop_Description" xml:space="preserve">
     <value>A simple Power Apps PCF control for cropping images and returning the cropped image as base64.</value>
   </data>
+  <data name="ImageCrop_ActionOutput_DisplayName" xml:space="preserve">
+    <value>Action Output</value>
+  </data>
+  <data name="ImageCrop_ActionOutput_Description" xml:space="preserve">
+    <value>The most recent action and its data, output as an object.</value>
+  </data>
+  <data name="ImageCrop_ActionSchema_DisplayName" xml:space="preserve">
+    <value>Action Schema</value>
+  </data>
+  <data name="ImageCrop_ActionSchema_Description" xml:space="preserve">
+    <value>Defines the schema for the action output object (internal use).</value>
+  </data>
+  <!-- Default Crop Properties Display Names -->
+  <data name="ImageCrop_DefaultUnit_DisplayName" xml:space="preserve">
+    <value>Default Crop Unit</value>
+  </data>
+  <data name="ImageCrop_DefaultX_DisplayName" xml:space="preserve">
+    <value>Default Crop X</value>
+  </data>
+  <data name="ImageCrop_DefaultY_DisplayName" xml:space="preserve">
+    <value>Default Crop Y</value>
+  </data>
+  <data name="ImageCrop_DefaultWidth_DisplayName" xml:space="preserve">
+    <value>Default Crop Width</value>
+  </data>
+  <data name="ImageCrop_DefaultHeight_DisplayName" xml:space="preserve">
+    <value>Default Crop Height</value>
+  </data>
+  <!-- DefaultUnit Enum Display Names -->
+  <data name="ImageCrop_DefaultUnit_Enum_px" xml:space="preserve">
+    <value>Pixels (px)</value>
+  </data>
+  <data name="ImageCrop_DefaultUnit_Enum_percent" xml:space="preserve">
+    <value>Percent (%)</value>
+  </data>
+  <!-- Default Crop Properties Descriptions -->
+  <data name="ImageCrop_DefaultUnit_Description" xml:space="preserve">
+    <value>The unit for the default crop (px or %).</value>
+  </data>
+  <data name="ImageCrop_DefaultX_Description" xml:space="preserve">
+    <value>The default X position for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultY_Description" xml:space="preserve">
+    <value>The default Y position for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultWidth_Description" xml:space="preserve">
+    <value>The default width for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultHeight_Description" xml:space="preserve">
+    <value>The default height for the crop. Set to -1 to ignore.</value>
+  </data>
+  <!-- DefaultUnit Enum Descriptions -->
+  <data name="ImageCrop_DefaultUnit_Enum_px_Description" xml:space="preserve">
+    <value>Use pixels for the crop unit.</value>
+  </data>
+  <data name="ImageCrop_DefaultUnit_Enum_percent_Description" xml:space="preserve">
+    <value>Use percent for the crop unit.</value>
+  </data>
 </root>

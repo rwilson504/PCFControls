@@ -5,9 +5,9 @@ export function useCropToBase64(
   imgRef: RefObject<HTMLImageElement | null>,
   completedCrop: PixelCrop | undefined,
   onCropComplete: (base64: string) => void,
-  rotation: number = 0,
-  scaling: number = 1,
-  circularCrop: boolean = false
+  rotation = 0,
+  scaling = 1,
+  circularCrop = false
 ) {
   useEffect(() => {
     if (!completedCrop || !imgRef.current) return;

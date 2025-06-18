@@ -8,7 +8,7 @@ export function makeAspectCrop(
 ): Crop {
   if (!aspect || !mediaWidth || !mediaHeight) return crop as Crop;
   let width = crop.width ?? 100;
-  let unit = crop.unit ?? "%";
+  const unit = crop.unit ?? "%";
   let height = width / aspect;
   if (unit === "%") {
     width = (mediaWidth * width) / 100;
