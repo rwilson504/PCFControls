@@ -84,6 +84,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
             maxHeight={maxHeight}
             aspect={aspect}
             keepSelection={keepSelection}
+            style={{display: imageSrc && pcfContext.isVisible() ? 'block' : 'none',}}            
         >
             <img
                 ref={imgRef}
@@ -91,13 +92,9 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
                 src={imageSrc || ''}
                 style={{
                     maxWidth: '100%',
-                    maxHeight: '100%',
-                    display: imageSrc && pcfContext.isVisible() ? 'block' : 'none',
+                    maxHeight: '100%',                    
                     transform: `rotate(${rotation}deg) scale(${scaling})`
-                }}
-                onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                }}
+                }}                
             />
         </CropWrapper>
     );
