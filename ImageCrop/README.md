@@ -22,7 +22,7 @@ The Image Cropper control provides a modern, accessible, and highly configurable
 
 ## Installation
 
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW!ImageCropControl_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW.ImageCropControl_managed.zip)
 
 Import the managed solution into your environment.
 Ensure PCF controls are enabled. [Enable PCF](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)

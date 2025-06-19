@@ -162,7 +162,8 @@ A modern, accessible, and highly configurable image cropping control for both Mo
 ![Image Cropper Demo](./ImageCrop/images/image-cropper-demo.gif)
 
 [More...](./ImageCrop/README.md)  
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW!ImageCropControl_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW.ImageCropControl_managed.zip
+)
 
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
