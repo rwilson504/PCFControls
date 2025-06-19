@@ -50,6 +50,12 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
         this._reactRoot = ReactDOM.createRoot(this._container);
     }
 
+    /**
+     * Returns the output schema for the control, used by Power Apps to validate the shape of output properties.
+     * This is required for controls with object-typed outputs (e.g., actionOutput).
+     * @param context The PCF context object
+     * @returns A promise resolving to the output schema object
+     */
     public async getOutputSchema(context: ComponentFramework.Context<IInputs>): Promise<Record<string, unknown>> {
         return Promise.resolve({
             actionOutput: ActionOutputSchema
@@ -74,14 +80,22 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
         );
     }
 
-    // Callback for crop complete
+    /**
+     * Callback invoked when a crop operation is completed.
+     * Sets the crop result and triggers output notification.
+     * @param results The base64 string of the cropped image
+     */
     public onCropComplete = (results: string) => {
         this._actionCropComplete = true;
         this._cropResults = results;
         this._notifyOutputChanged();
     };
 
-    // Callback for drag start
+    /**
+     * Callback invoked when a drag operation starts on the crop area.
+     * Sets the action output to 'dragStart' and pointer coordinates, then notifies output change.
+     * @param e PointerEvent from the drag start
+     */
     public onDragStart = (e: PointerEvent) => {
         this._actionDragStart = true;
         this._actionOutput = {
@@ -92,7 +106,11 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
         this._notifyOutputChanged();
     };
 
-    // Callback for drag end
+    /**
+     * Callback invoked when a drag operation ends on the crop area.
+     * Sets the action output to 'dragEnd' and pointer coordinates, then notifies output change.
+     * @param e PointerEvent from the drag end
+     */
     public onDragEnd = (e: PointerEvent) => {
         this._actionDragEnd = true;
         this._actionOutput = {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { convertToPixelCrop, Crop, PixelCrop } from "react-image-crop";
+import { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { usePcfContext } from "../services/pcfContext";
 import { IImageCropControlProps } from "../types/imageCropTypes";
