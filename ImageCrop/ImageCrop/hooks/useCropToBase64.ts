@@ -1,5 +1,5 @@
 import { useEffect, RefObject } from "react";
-import { Crop, PixelCrop } from "react-image-crop";
+import { PixelCrop } from "react-image-crop";
 
 export function useCropToBase64(
   imgRef: RefObject<HTMLImageElement | null>,
@@ -10,7 +10,10 @@ export function useCropToBase64(
   circularCrop = false
 ) {
   useEffect(() => {
-    if (!completedCrop || !imgRef.current) return;
+    if (!completedCrop || !imgRef.current || completedCrop.width <= 0 || completedCrop.height <= 0) {      
+      onCropComplete(getBlankImageBase64());
+      return;
+    }
     const image = imgRef.current;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -87,4 +90,15 @@ export function useCropToBase64(
       "image/png"
     );
   }, [completedCrop, imgRef, rotation, scaling, circularCrop]);
+}
+
+function getBlankImageBase64(width = 1, height = 1): string {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+        ctx.clearRect(0, 0, width, height); // transparent
+    }
+    return canvas.toDataURL("image/png");
 }

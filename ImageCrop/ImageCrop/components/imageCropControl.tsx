@@ -18,7 +18,6 @@ import {
     useKeepSelection,
     useRotation,
     useScaling,
-    useImageLoaded,
     useDefaultCrop
 } from "../hooks";
 import CropWrapper from "./imageCropWrapper";
@@ -30,8 +29,6 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>()
     // Crop state for the image, initialized as undefined
     const [crop, setCrop] = React.useState<Crop>();
-    // Image loaded state (modular)
-    const [imageLoaded, handleImageLoad, handleImageError, handleImageSrcChange] = useImageLoaded();
     // Reference to the image element for scaling and cropping
     const imgRef = React.useRef<HTMLImageElement>(null) as React.RefObject<HTMLImageElement>;
     //const appScaling = useResponsiveAppScaling(pcfContext.context, imgRef);
@@ -85,9 +82,7 @@ const ImageCropControl: React.FC<IImageCropControlProps> = (props) => {
             <img
                 ref={imgRef}
                 alt="Crop"
-                src={imageSrc || ''}
-                onLoad={handleImageLoad}
-                onError={handleImageError}
+                src={imageSrc}
                 style={{
                     maxWidth: '100%',
                     maxHeight: '100%',
