@@ -1,6 +1,17 @@
 import { useEffect, RefObject } from "react";
 import { PixelCrop } from "react-image-crop";
 
+/**
+ * Custom hook to convert a cropped region of an image to a base64 PNG string.
+ * Handles scaling, rotation, and optional circular/elliptical cropping using canvas.
+ * Returns a blank transparent image if crop or image is invalid.
+ * @param imgRef Ref to the image element
+ * @param completedCrop The crop region in pixels
+ * @param onCropComplete Callback to receive the base64 PNG string
+ * @param rotation Image rotation in degrees (default 0)
+ * @param scaling Image scaling factor (default 1)
+ * @param circularCrop Whether to apply a circular/elliptical crop mask (default false)
+ */
 export function useCropToBase64(
   imgRef: RefObject<HTMLImageElement | null>,
   completedCrop: PixelCrop | undefined,

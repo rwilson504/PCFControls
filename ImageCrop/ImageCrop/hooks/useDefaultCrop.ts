@@ -3,6 +3,12 @@ import { IInputs } from "../generated/ManifestTypes";
 import { useState, useEffect } from "react";
 
 export function useDefaultCrop(context: ComponentFramework.Context<IInputs>) {
+  /**
+   * Custom hook to compute and track the default crop object from PCF context property defaults.
+   * Updates whenever any default crop property changes.
+   * @param context The PCF context object
+   * @returns The current default crop object, or undefined if not all defaults are set
+   */
   const [defaultCrop, setDefaultCrop] = useState<Crop | undefined>(() => getDefaultCrop(context));
 
   useEffect(() => {

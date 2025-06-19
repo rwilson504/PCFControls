@@ -9,11 +9,9 @@ import { ActionOutputSchema } from "./types/actionOutputSchema";
 export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private _container: HTMLDivElement;
-    private _calculatedHeight: number;
     private _context: ComponentFramework.Context<IInputs>;
     private _notifyOutputChanged: () => void;
     private _instanceId: string;
-    private _updateFromOutput: boolean;
     private _reactRoot: ReactDOM.Root;
     private _actionDragStart: boolean;
     private _actionDragEnd: boolean;
@@ -44,7 +42,6 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
     ): void {
         context.mode.trackContainerResize(true);
         this._notifyOutputChanged = notifyOutputChanged;
-        this._updateFromOutput = false;
         this._context = context;
         this._container = container;
         this._container.style.width = "100%";
@@ -64,10 +61,10 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {        
-
+        this._context = context;
         this._reactRoot.render(
             React.createElement(ImageCropApp, {
-                context: context,
+                context: this._context,
                 instanceid: this._instanceId,
                 height: context.mode.allocatedHeight,
                 onDragStart: this.onDragStart.bind(this),
@@ -111,7 +108,6 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        this._updateFromOutput = true;
 
         const output: IOutputs = {
             actionOutput: null
