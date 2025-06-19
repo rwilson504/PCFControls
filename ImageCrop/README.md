@@ -2,7 +2,7 @@
 
 A Power Apps Component Framework (PCF) control for cropping, rotating, and transforming images, built with React and designed for robust, modular, and Power Apps-compliant use.
 
-![Image Cropper Demo](./ImageCrop/images/image-cropper-demo.gif)
+![Image Cropper Demo](./images/image-cropper-demo.gif)
 
 ## Overview
 
@@ -22,7 +22,7 @@ The Image Cropper control provides a modern, accessible, and highly configurable
 
 ## Installation
 
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ImageCropperControl_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW!ImageCropControl_managed.zip)
 
 Import the managed solution into your environment.
 Ensure PCF controls are enabled. [Enable PCF](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)
@@ -31,7 +31,7 @@ Ensure PCF controls are enabled. [Enable PCF](https://docs.microsoft.com/en-us/p
 
 A sample solution is available for testing and demonstration:
 
-[Download Sample App](./Sample/RAW!%20ImageCropper%20Sample.msapp)
+[Download Sample App](./Sample/RAW%20Image%20Crop.msapp)
 
 ## Configuration
 

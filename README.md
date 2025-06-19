@@ -155,6 +155,15 @@ The Export PDF Manager Control simplifies the management and configuration of th
 [More...](./ExportPDFManager/README.MD)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ExportPDFManagerControl_managed.zip)
 
+## Image Cropper
+
+A modern, accessible, and highly configurable image cropping control for both Model-driven and Canvas Power Apps. Supports aspect ratio locking, scaling, rotation, circular/elliptical cropping, and robust browser scaling handling. Built with React functional components and custom hooks for maintainability and extensibility.
+
+![Image Cropper Demo](./ImageCrop/images/image-cropper-demo.gif)
+
+[More...](./ImageCrop/README.md)  
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAW!ImageCropControl_managed.zip)
+
 # Build
 The projects within the solution were built utilizing the [XrmToolBox](https://www.xrmtoolbox.com/) - [PCF Custom Component Builder](https://www.xrmtoolbox.com/plugins/Maverick.PCF.Builder/) by Danish Naglekar.
 
