@@ -273,6 +273,19 @@ steps:
     command: 'install'
     workingDir: './Scheduler/'
 
+# Image Crop
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/ImageCrop/package-lock.json'
+    path: '$(Build.SourcesDirectory)/ImageCrop/node_modules'
+    cacheHitVar: CACHE_RESTORED_IMAGECROP
+
+- task: Npm@1
+  condition: ne(variables['CACHE_RESTORED_IMAGECROP'], 'true')
+  inputs:
+    command: 'install'
+    workingDir: './ImageCrop/'
+
 #PowerApps controls can be build using MSBuild and do not require the PCF CLI to be downloaded.
 #The build command will utilize NuGet to go out and get all the resource packages it needs.
 - task: MSBuild@1
@@ -400,6 +413,12 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: './Scheduler/Solution/RAWSchedulerComponent/bin/Release/'
+    Contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './ImageCrop/Solution/RAW!ImageCropControl/bin/Release/'
     Contents: '*.zip'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 

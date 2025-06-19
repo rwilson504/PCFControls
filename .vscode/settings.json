@@ -3,4 +3,5 @@
     "chat.instructionsFilesLocations": {
         ".github": true
     },
+    "azureAutomation.directory.basePath": "c:\\Users\\ricwilson",
 }

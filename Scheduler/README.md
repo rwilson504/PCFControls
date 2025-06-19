@@ -20,7 +20,7 @@ The Scheduler control provides a flexible, interactive calendar and resource sch
 
 ## Installation
 
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/CalendarControl_managed.zip)
+[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/RAWSchedulerComponent_managed.zip)
 
 Import the managed solution into your environment.  
 For Canvas apps, ensure PCF controls are enabled. [Enable PCF for Canvas](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/component-framework-for-canvas-apps)

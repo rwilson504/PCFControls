@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, ...</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, ...</value>
+  </resheader>
+  <!-- Display Names -->
+  <data name="ImageCrop_Aspect_DisplayName" xml:space="preserve">
+    <value>Aspect Ratio</value>
+  </data>
+  <data name="ImageCrop_MinWidth_DisplayName" xml:space="preserve">
+    <value>Minimum Width</value>
+  </data>
+  <data name="ImageCrop_MinHeight_DisplayName" xml:space="preserve">
+    <value>Minimum Height</value>
+  </data>
+  <data name="ImageCrop_MaxWidth_DisplayName" xml:space="preserve">
+    <value>Maximum Width</value>
+  </data>
+  <data name="ImageCrop_MaxHeight_DisplayName" xml:space="preserve">
+    <value>Maximum Height</value>
+  </data>
+  <data name="ImageCrop_KeepSelection_DisplayName" xml:space="preserve">
+    <value>Keep Selection</value>
+  </data>
+  <data name="ImageCrop_Disabled_DisplayName" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="ImageCrop_Locked_DisplayName" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="ImageCrop_RuleOfThirds_DisplayName" xml:space="preserve">
+    <value>Rule of Thirds</value>
+  </data>
+  <data name="ImageCrop_CircularCrop_DisplayName" xml:space="preserve">
+    <value>Circular Crop</value>
+  </data>
+  <data name="ImageCrop_ImageInput_DisplayName" xml:space="preserve">
+    <value>Image Input (Base64)</value>
+  </data>
+  <data name="ImageCrop_ImageOutput_DisplayName" xml:space="preserve">
+    <value>Image Output (Base64)</value>
+  </data>
+  <data name="ImageCrop_DisplayName" xml:space="preserve">
+    <value>RAW! Image Crop</value>
+  </data>
+  <data name="ImageCrop_Rotation_DisplayName" xml:space="preserve">
+    <value>Rotation (degrees)</value>
+  </data>
+  <data name="ImageCrop_Scaling_DisplayName" xml:space="preserve">
+    <value>Scaling (zoom)</value>
+  </data>
+  <!-- Descriptions -->
+  <data name="ImageCrop_Aspect_Description" xml:space="preserve">
+    <value>The aspect ratio of the crop, e.g. 1 for a square or 16/9 for landscape. Leave blank for freeform crop.</value>
+  </data>
+  <data name="ImageCrop_MinWidth_Description" xml:space="preserve">
+    <value>The minimum crop width in pixels.</value>
+  </data>
+  <data name="ImageCrop_MinHeight_Description" xml:space="preserve">
+    <value>The minimum crop height in pixels.</value>
+  </data>
+  <data name="ImageCrop_MaxWidth_Description" xml:space="preserve">
+    <value>The maximum crop width in pixels.</value>
+  </data>
+  <data name="ImageCrop_MaxHeight_Description" xml:space="preserve">
+    <value>The maximum crop height in pixels.</value>
+  </data>
+  <data name="ImageCrop_KeepSelection_Description" xml:space="preserve">
+    <value>If true, the crop selection cannot be disabled by clicking outside the area.</value>
+  </data>
+  <data name="ImageCrop_Disabled_Description" xml:space="preserve">
+    <value>If true, the user cannot resize or draw a new crop.</value>
+  </data>
+  <data name="ImageCrop_Locked_Description" xml:space="preserve">
+    <value>If true, the user cannot create or resize a crop, but can still drag the existing crop.</value>
+  </data>
+  <data name="ImageCrop_RuleOfThirds_Description" xml:space="preserve">
+    <value>Show rule of thirds lines in the crop area.</value>
+  </data>
+  <data name="ImageCrop_CircularCrop_Description" xml:space="preserve">
+    <value>Show the crop area as a circle. If aspect is not 1, the circle will be an oval.</value>
+  </data>
+  <data name="ImageCrop_ImageInput_Description" xml:space="preserve">
+    <value>The Base64 content of the image to be cropped.</value>
+  </data>
+  <data name="ImageCrop_ImageOutput_Description" xml:space="preserve">
+    <value>The cropped image as a Base64 string.</value>
+  </data>
+  <data name="ImageCrop_Rotation_Description" xml:space="preserve">
+    <value>Rotate the image by the specified number of degrees (e.g. 0, 90, 180, 270).</value>
+  </data>
+  <data name="ImageCrop_Scaling_Description" xml:space="preserve">
+    <value>Scale (zoom) the image in the crop area. 1 is normal, 2 is 2x zoom, 0.5 is half size, etc.</value>
+  </data>
+  <data name="ImageCrop_Description" xml:space="preserve">
+    <value>A simple Power Apps PCF control for cropping images and returning the cropped image as base64.</value>
+  </data>
+  <data name="ImageCrop_ActionOutput_DisplayName" xml:space="preserve">
+    <value>Action Output</value>
+  </data>
+  <data name="ImageCrop_ActionOutput_Description" xml:space="preserve">
+    <value>The most recent action and its data, output as an object.</value>
+  </data>
+  <data name="ImageCrop_ActionSchema_DisplayName" xml:space="preserve">
+    <value>Action Schema</value>
+  </data>
+  <data name="ImageCrop_ActionSchema_Description" xml:space="preserve">
+    <value>Defines the schema for the action output object (internal use).</value>
+  </data>
+  <!-- Default Crop Properties Display Names -->
+  <data name="ImageCrop_DefaultUnit_DisplayName" xml:space="preserve">
+    <value>Default Crop Unit</value>
+  </data>
+  <data name="ImageCrop_DefaultX_DisplayName" xml:space="preserve">
+    <value>Default Crop X</value>
+  </data>
+  <data name="ImageCrop_DefaultY_DisplayName" xml:space="preserve">
+    <value>Default Crop Y</value>
+  </data>
+  <data name="ImageCrop_DefaultWidth_DisplayName" xml:space="preserve">
+    <value>Default Crop Width</value>
+  </data>
+  <data name="ImageCrop_DefaultHeight_DisplayName" xml:space="preserve">
+    <value>Default Crop Height</value>
+  </data>
+  <!-- DefaultUnit Enum Display Names -->
+  <data name="ImageCrop_DefaultUnit_Enum_px" xml:space="preserve">
+    <value>Pixels (px)</value>
+  </data>
+  <data name="ImageCrop_DefaultUnit_Enum_percent" xml:space="preserve">
+    <value>Percent (%)</value>
+  </data>
+  <!-- Default Crop Properties Descriptions -->
+  <data name="ImageCrop_DefaultUnit_Description" xml:space="preserve">
+    <value>The unit for the default crop (px or %).</value>
+  </data>
+  <data name="ImageCrop_DefaultX_Description" xml:space="preserve">
+    <value>The default X position for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultY_Description" xml:space="preserve">
+    <value>The default Y position for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultWidth_Description" xml:space="preserve">
+    <value>The default width for the crop. Set to -1 to ignore.</value>
+  </data>
+  <data name="ImageCrop_DefaultHeight_Description" xml:space="preserve">
+    <value>The default height for the crop. Set to -1 to ignore.</value>
+  </data>
+  <!-- DefaultUnit Enum Descriptions -->
+  <data name="ImageCrop_DefaultUnit_Enum_px_Description" xml:space="preserve">
+    <value>Use pixels for the crop unit.</value>
+  </data>
+  <data name="ImageCrop_DefaultUnit_Enum_percent_Description" xml:space="preserve">
+    <value>Use percent for the crop unit.</value>
+  </data>
+</root>
