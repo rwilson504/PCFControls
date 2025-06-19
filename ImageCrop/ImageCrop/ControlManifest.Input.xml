@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="ImageCrop" version="0.0.6" display-name-key="ImageCrop_DisplayName" description-key="ImageCrop_Description" control-type="standard">
+  <control namespace="RAW" constructor="ImageCrop" version="0.0.12" display-name-key="ImageCrop_DisplayName" description-key="ImageCrop_Description" control-type="standard">
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -40,7 +40,7 @@
     <property name="DefaultY" display-name-key="ImageCrop_DefaultY_DisplayName" description-key="ImageCrop_DefaultY_Description" of-type="Decimal" usage="input" required="false" default-value="-1" />
     <property name="DefaultWidth" display-name-key="ImageCrop_DefaultWidth_DisplayName" description-key="ImageCrop_DefaultWidth_Description" of-type="Decimal" usage="input" required="false" default-value="-1" />
     <property name="DefaultHeight" display-name-key="ImageCrop_DefaultHeight_DisplayName" description-key="ImageCrop_DefaultHeight_Description" of-type="Decimal" usage="input" required="false" default-value="-1" />
-    <property name="actionSchema" display-name-key="ImageCrop_ActionSchema_DisplayName" description-key="ImageCrop_ActionSchema_Description" of-type="SingleLine.Text" usage="input" hidden="true" />
+    <property name="actionSchema" display-name-key="ImageCrop_ActionSchema_DisplayName" description-key="ImageCrop_ActionSchema_Description" of-type="SingleLine.Text" usage="bound" hidden="true" />
     <property name="actionOutput" display-name-key="ImageCrop_ActionOutput_DisplayName" description-key="ImageCrop_ActionOutput_Description" of-type="Object" usage="output" default-value="" />
     <property-dependencies>
       <property-dependency input="actionSchema" output="actionOutput" required-for="schema" />

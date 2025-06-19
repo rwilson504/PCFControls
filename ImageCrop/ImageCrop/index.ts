@@ -19,6 +19,7 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
     private _actionDragEnd: boolean;
     private _actionCropComplete: boolean;
     private _cropResults: string | undefined;
+    private _actionOutput: { action: string, x: number, y: number } | null;
 
     /**
      * Empty constructor.
@@ -54,7 +55,7 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
 
     public async getOutputSchema(context: ComponentFramework.Context<IInputs>): Promise<Record<string, unknown>> {
         return Promise.resolve({
-            Data: ActionOutputSchema
+            actionOutput: ActionOutputSchema
         });
     }
 
@@ -62,11 +63,7 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
-    public updateView(context: ComponentFramework.Context<IInputs>): void {
-        // if (this._updateFromOutput) {
-        //     this._updateFromOutput = false;
-        //     return;
-        // }
+    public updateView(context: ComponentFramework.Context<IInputs>): void {        
 
         this._reactRoot.render(
             React.createElement(ImageCropApp, {
@@ -90,12 +87,22 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
     // Callback for drag start
     public onDragStart = (e: PointerEvent) => {
         this._actionDragStart = true;
+        this._actionOutput = {
+            action: "dragStart",
+            x: e.clientX,
+            y: e.clientY
+        };
         this._notifyOutputChanged();
     };
 
     // Callback for drag end
     public onDragEnd = (e: PointerEvent) => {
         this._actionDragEnd = true;
+        this._actionOutput = {
+            action: "dragEnd",
+            x: e.clientX,
+            y: e.clientY
+        };
         this._notifyOutputChanged();
     };
 
@@ -105,34 +112,22 @@ export class ImageCrop implements ComponentFramework.StandardControl<IInputs, IO
      */
     public getOutputs(): IOutputs {
         this._updateFromOutput = true;
-        let notifyAgain = false;
 
         const output: IOutputs = {
-            actionOutput: {
-                action: "TEST"
-            }
+            actionOutput: null
         };
 
         if (this._actionCropComplete) {
-            notifyAgain = true;
+            //notifyAgain = true;
             output.imageOutput = this._cropResults ? this._cropResults : undefined;
             this._actionCropComplete = false;
         }
 
-        if (this._actionDragStart) {
-            notifyAgain = true;
-            this._actionDragStart = false;
+        if (this._actionDragStart || this._actionDragEnd) {
+            output.actionOutput = this._actionOutput;
+            this._actionOutput = null;
         }
-
-        if (this._actionDragEnd) {
-            notifyAgain = true;
-            this._actionDragEnd = false;
-        }
-
-        if (notifyAgain) {
-            this._notifyOutputChanged();
-        }
-
+       
         return output;
     }
 

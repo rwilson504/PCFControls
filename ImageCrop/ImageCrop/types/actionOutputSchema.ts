@@ -4,6 +4,12 @@ export const ActionOutputSchema = {
     properties: {
         action:{
             type: "string"
-        }
+        },
+        x:{
+            type: "number"
+        },
+        y:{
+            type: "number"
+        },
     }
 };
