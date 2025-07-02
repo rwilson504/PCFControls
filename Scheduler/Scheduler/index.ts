@@ -172,6 +172,6 @@ export class Scheduler implements ComponentFramework.StandardControl<IInputs, IO
 
     public destroy(): void {
         // Unmount the React app
-        ReactDOM.createRoot(this._container).unmount();
+        this._reactRoot.unmount();
     }
 }
