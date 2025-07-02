@@ -1,5 +1,21 @@
+
 PCF/REACT BING MAPS
 ================
+
+> **Important Announcement!**
+>
+> **Bing Maps for Enterprise is deprecated and will be retired.**
+>
+> - **Enterprise account customers** can continue to use Bing Maps for Enterprise services until **June 30th, 2028**.
+> - **Free (Basic) account customers** can continue to use Bing Maps for Enterprise services until **June 30th, 2025**.
+>
+> To avoid service disruptions, all implementations using Bing Maps for Enterprise REST APIs and SDKs will need to be updated to use **Azure Maps** by the retirement date that applies to your Bing Maps for Enterprise account type.
+>
+> **I will no longer be supporting this control.**
+>
+> 👉 **Please use my [Azure Maps Grid control](../AzureMapsGrid/README.md) as the recommended alternative for new and existing projects.**
+>
+> For more details on the retirement, see the [announcement on the Bing Maps Blog](https://www.bingmapsportal.com/).
 
 # Overview
 A PCF Control that allows you to display view information containing latitude and longitude information with Bing Maps.  The Info Box for each pushpin that is created on the map also gives you the ability to open the selected record.
