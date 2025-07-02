@@ -41,3 +41,6 @@ If you would like to try this component download the sample solution which inclu
         {name: "Photo", data: ImageJSON});
     ``
     * OnChange: Use this to output the final pdf to a variable that be can used by another component such as the PDF Preview.
+    * pdfOutput (string, output): Contains the completed PDF as a Base64 string.
+    * outputErrorMessage (string, output): Error message if the fill process fails.
+    * outputError (bool, output): Will be **true** when an error occurs during filling.

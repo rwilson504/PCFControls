@@ -60,12 +60,14 @@ Add the Image Cropper control to your form or app and configure the required pro
 | DefaultY            | input    | Whole.Number     | No       | -1      | Default crop Y position                                          |
 | DefaultWidth        | input    | Whole.Number     | No       | -1      | Default crop width                                               |
 | DefaultHeight       | input    | Whole.Number     | No       | -1      | Default crop height                                              |
+| actionSchema        | bound    | SingleLine.Text  | No       |         | Defines the schema for the action output object (hidden)         |
 
 ### Output Properties
 
-| Name         | Type           | Description                                 |
-|--------------|----------------|---------------------------------------------|
-| croppedImage | SingleLine.Text| Cropped image as base64 PNG (data URL)      |
+| Name         | Type                | Description                                 |
+|--------------|--------------------|---------------------------------------------|
+| imageOutput  | Multiple Lines Text | Cropped image as base64 PNG (data URL)      |
+| actionOutput | Object             | The most recent action and its data         |
 
 ## Advanced Usage
 
