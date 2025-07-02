@@ -5,8 +5,12 @@
   "scripts": {
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
+    "lint": "pcf-scripts lint",
+    "lint:fix": "pcf-scripts lint fix",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start"
+    "start": "pcf-scripts start",
+    "start:watch": "pcf-scripts start watch",
+    "refreshTypes": "pcf-scripts refreshTypes"
   },
   "dependencies": {
     "@types/node": "^10.17.24",

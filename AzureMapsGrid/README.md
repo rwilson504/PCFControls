@@ -62,6 +62,18 @@ Pushpin Color Field - Enter the Pushpin Color field schema name if available, th
 
 Default Pushpin Color - Enter a hex value for the default color of the Pushpins(example: #ffffff).  Otherwise the default Azure Maps color will be used.  Also this default color will be overwritten with specific colors if the Pushpin Color Field is also utilized and that field contains data.
 
+# Configuring for Subgrid Usage
+
+To use the Azure Maps control within a subgrid:
+
+1. Open the form in the Classic view (not the modern form designer).
+2. Select the subgrid where you want to add the Azure Maps control.
+3. In the subgrid properties, update the number of rows to your desired value.
+4. Make sure to **uncheck** the "Auto expand to use available space" option. This ensures the map displays correctly and does not stretch unexpectedly.
+5. Save and publish your changes.
+
+![Subgrid Configuration Example](./images/azuremaps-subgrid-settings.png)
+
 # Useful Links
 
 [Github react-azure-maps](https://github.com/WiredSolutions/react-azure-maps)
