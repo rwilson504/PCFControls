@@ -116,8 +116,12 @@ This color picker component utilizes React and the Office-UI-Fabric controls.
 [More...](./ColorPicker/README.md)  
 [Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/ColorPicker_managed.zip)
 
+
 ## Bing Maps Component
-Connect to bing maps and display information from a Dynamics View.
+
+> **Notice:** Bing Maps for Enterprise is deprecated and will be retired. This control is no longer supported. Please use the [Azure Maps Grid control](./AzureMapsGrid/README.md) for new and existing projects.
+
+Connect to Bing Maps and display information from a Dynamics View.
 
 ![Bing Maps Control Demonstration](https://github.com/rwilson504/Blogger/blob/master/Bing-Maps-Control/images/bing-maps-control.gif?raw=true)
 
