@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="https://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="https://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Scheduler_Display_Key" xml:space="preserve">
+    <value>RAW! Scheduler</value>
+  </data>
+  <data name="Scheduler_Desc_Key" xml:space="preserve">
+    <value>Control for scheduling events and resources in Power Apps.</value>
+  </data>
+  <data name="schedulerDataSet_Display_Key" xml:space="preserve">
+    <value>Scheduler Data</value>
+  </data>
+  <data name="eventFieldName_Display_Key" xml:space="preserve">
+    <value>Event Name Field</value>
+  </data>
+  <data name="eventFieldName_Desc_Key" xml:space="preserve">
+    <value>Enter the Event Name Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)</value>
+  </data>
+  <data name="eventFieldStart_Display_Key" xml:space="preserve">
+    <value>Event Start Field</value>
+  </data>
+  <data name="eventFieldStart_Desc_Key" xml:space="preserve">
+    <value>Enter the Event Start Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)</value>
+  </data>
+  <data name="eventFieldEnd_Display_Key" xml:space="preserve">
+    <value>Event End Field</value>
+  </data>
+  <data name="eventFieldEnd_Desc_Key" xml:space="preserve">
+    <value>Enter the Event End Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)</value>
+  </data>
+  <data name="eventColor_Display_Key" xml:space="preserve">
+    <value>Event Color Field</value>
+  </data>
+  <data name="eventColor_Desc_Key" xml:space="preserve">
+    <value>Enter the Event Color Field schema name which will be used to display on the scheduler. For related entities use the following format (new_entityname.new_fieldname)</value>
+  </data>
+  <data name="eventId_Display_Key" xml:space="preserve">
+    <value>Event Id Field</value>
+  </data>
+  <data name="eventId_Desc_Key" xml:space="preserve">
+    <value>For Model Apps this is not required but if you are using Canvas you will need to put in the Id field for the Events if you wish to use them.</value>
+  </data>
+  <data name="eventFieldDescription_Display_Key" xml:space="preserve">
+    <value>Event Description Field</value>
+  </data>
+  <data name="eventFieldDescription_Desc_Key" xml:space="preserve">
+    <value>Enter the Event Description Field schema name which will be used to display as the event description. For related entities use the following format (new_entityname.new_fieldname)</value>
+  </data>
+  <data name="resourceField_Display_Key" xml:space="preserve">
+    <value>Resource Field</value>
+  </data>
+  <data name="resourceField_Desc_Key" xml:space="preserve">
+    <value>For a Model App put in the Lookup field of the Resource, for a Canvas app put in the field name that holds the Id of the resource.</value>
+  </data>
+  <data name="resourceParentField_Display_Key" xml:space="preserve">
+    <value>Resource Parent Field</value>
+  </data>
+  <data name="resourceParentField_Desc_Key" xml:space="preserve">
+    <value>For a Model App put in the Lookup field of the Resources Parent Resource if you want to utilize nested resources, for a Canvas app put in the field name that holds the Id of the parent resource.</value>
+  </data>
+  <data name="resourceName_Display_Key" xml:space="preserve">
+    <value>Resource Name</value>
+  </data>
+  <data name="resourceName_Desc_Key" xml:space="preserve">
+    <value>For a Model App this is not required but for Canvas apps if you are using resources enter the field name containing the Resources name.</value>
+  </data>
+  <data name="resourceGetAllInModel_Display_Key" xml:space="preserve">
+    <value>Get All Resources</value>
+  </data>
+  <data name="resourceGetAllInModel_Desc_Key" xml:space="preserve">
+    <value>For Model apps only.  If you select true and are using resources then this will ensure that all resources get returned, even those without events in the dataset</value>
+  </data>
+  <data name="schedulerAvailableViews_Display_Key" xml:space="preserve">
+    <value>Available Views</value>
+  </data>
+  <data name="schedulerAvailableViews_Desc_Key" xml:space="preserve">
+    <value>Allows you to chose which scheduler view button show up for the user.  This is a comma delimited list of the view names which are day,week,month,quarter,year,work_week,event.</value>
+  </data>
+  <data name="schedulerView_Display_Key" xml:space="preserve">
+    <value>Default Claendar View</value>
+  </data>
+  <data name="schedulerView_Desc_Key" xml:space="preserve">
+    <value>Choose the default scheduler view that will be shown. Options are day,week,month,quarter,year,work_week,agenda,event.</value>
+  </data>
+  <data name="schedulerDate_Display_Key" xml:space="preserve">
+    <value>Scheduler Date</value>
+  </data>
+  <data name="schedulerDate_Desc_Key" xml:space="preserve">
+    <value>Allows you to change the scheduler date from a Date Field in Canvas Apps</value>
+  </data>
+  <data name="schedulerWorkWeekStart_Display_Key" xml:space="preserve">
+    <value>Work Week Start</value>
+  </data>
+  <data name="schedulerWorkWeekStart_Desc_Key" xml:space="preserve">
+    <value>Enter a number from 0 to 6 to select the first day of the work week. The meaning of 0 depends on the users locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday.</value>
+  </data>
+  <data name="schedulerWorkWeekEnd_Display_Key" xml:space="preserve">
+    <value>Work Week End</value>
+  </data>
+  <data name="schedulerWorkWeekEnd_Desc_Key" xml:space="preserve">
+    <value>Enter a number from 0 to 6 to select the last day of the work week. The meaning of 0 depends on the users locale: for example, if Sunday is the first day of the week, 0=Sunday; if Monday is the first day, 0=Monday.</value>
+  </data>
+  <data name="schedulerDisplayWeekend_Display_Key" xml:space="preserve">
+    <value>Display Weekend</value>
+  </data>
+  <data name="schedulerDisplayWeekend_Desc_Key" xml:space="preserve">
+    <value>Controls whether the scheduler displays weekends in non-agenda views. Default is true.</value>
+  </data>
+  <data name="dayStartFrom_Display_Key" xml:space="preserve">
+    <value>Day Start Hour</value>
+  </data>
+  <data name="dayStartFrom_Desc_Key" xml:space="preserve">
+    <value>Start hour rendered from in Day view (resource and task views). Enter a value from 0 to 23. Default is 0.</value>
+  </data>
+  <data name="dayStopTo_Display_Key" xml:space="preserve">
+    <value>Day End Hour</value>
+  </data>
+  <data name="dayStopTo_Desc_Key" xml:space="preserve">
+    <value>End hour rendered to in Day view (resource and task views). Enter a value from 0 to 23. Default is 23.</value>
+  </data>
+  <data name="minuteStep_Display_Key" xml:space="preserve">
+    <value>Minute Step</value>
+  </data>
+  <data name="minuteStep_Desc_Key" xml:space="preserve">
+    <value>Minute step for Day view in non-agenda view. Enter a value such as 10, 12, 15, 20, 30, 60, etc. Default is 30.</value>
+  </data>
+  <data name="schedulerLanguage_Display_Key" xml:space="preserve">
+    <value>Scheduler Language</value>
+  </data>
+  <data name="schedulerLanguage_Desc_Key" xml:space="preserve">
+    <value>Sets the language/culture of the scheduler. In Canvas apps set this to the Language() function.  In Model apps you can leave this blank and it will utilize the language set for the current users. Currently support lanuages are en, fr, de, es.</value>
+  </data>
+  <data name="showSchedulerHeader_Display_Key" xml:space="preserve">
+    <value>Show Scheduler Header</value>
+  </data>
+  <data name="showSchedulerHeader_Desc_Key" xml:space="preserve">
+    <value>Show or hide the built-in scheduler header. This can be useful if you want to control the scheduler with your own controls in a canvas app.</value>
+  </data>
+  <data name="resourceNameHeader_Display_Key" xml:space="preserve">
+    <value>Resource Name Header</value>
+  </data>
+  <data name="resourceNameHeader_Desc_Key" xml:space="preserve">
+    <value>Text to display as the Resource Name column header. Leave blank to use the default.</value>
+  </data>
+  <data name="nonWorkingTimeHeadColor_Display_Key" xml:space="preserve">
+    <value>Weekend Head Text Color</value>
+  </data>
+  <data name="nonWorkingTimeHeadColor_Desc_Key" xml:space="preserve">
+    <value>Color of weekend (non working time) head cells. For example, #999999 or red.</value>
+  </data>
+  <data name="nonWorkingTimeHeadBgColor_Display_Key" xml:space="preserve">
+    <value>Weekend Head Background</value>
+  </data>
+  <data name="nonWorkingTimeHeadBgColor_Desc_Key" xml:space="preserve">
+    <value>Background color of weekend (non working time) head cells. For example, #fff0f6.</value>
+  </data>
+  <data name="nonWorkingTimeBodyBgColor_Display_Key" xml:space="preserve">
+    <value>Weekend Body Background</value>
+  </data>
+  <data name="nonWorkingTimeBodyBgColor_Desc_Key" xml:space="preserve">
+    <value>Background color of weekend (non working time) body cells. For example, #fff0f6.</value>
+  </data>
+  <data name="selectedRecordId_Display_Key" xml:space="preserve">
+    <value>(Output) Selected Record Id</value>
+  </data>
+  <data name="selectedRecordId_Desc_Key" xml:space="preserve">
+    <value>When a record is selected this will be updated.</value>
+  </data>
+  <data name="selectedSlotStart_Display_Key" xml:space="preserve">
+    <value>(Output) Selected Slot Start</value>
+  </data>
+  <data name="selectedSlotStart_Desc_Key" xml:space="preserve">
+    <value>When an empty time slot is selected this will return the start date.</value>
+  </data>
+  <data name="selectedSlotEnd_Display_Key" xml:space="preserve">
+    <value>(Output) Selected Slot End</value>
+  </data>
+  <data name="selectedSlotEnd_Desc_Key" xml:space="preserve">
+    <value>When an empty time slot is selected this will return the end date.</value>
+  </data>
+  <data name="selectedSlotId_Display_Key" xml:space="preserve">
+    <value>(Output) Selected Slot Id</value>
+  </data>
+  <data name="selectedSlotId_Desc_Key" xml:space="preserve">
+    <value>When an empty time slot is selected or a slot is clicked this will return the resource id if one is available</value>
+  </data>
+  <data name="currentRangeStart_Display_Key" xml:space="preserve">
+    <value>(Output) Scheduler Range Start</value>
+  </data>
+  <data name="currentRangeStart_Desc_Key" xml:space="preserve">
+    <value>When the current scheduler range changes the new Start will be returned.</value>
+  </data>
+  <data name="currentRangeEnd_Display_Key" xml:space="preserve">
+    <value>(Output) Scheduler Range End</value>
+  </data>
+  <data name="currentRangeEnd_Desc_Key" xml:space="preserve">
+    <value>When the current scheduler range changes the new End will be returned.</value>
+  </data>
+  <data name="currentSchedulerDate_Display_Key" xml:space="preserve">
+    <value>(Output) Scheduler Date</value>
+  </data>
+  <data name="currentSchedulerDate_Desc_Key" xml:space="preserve">
+    <value>Provides the current date the scheduler is set to.</value>
+  </data>
+  <data name="currentSchedulerView_Display_Key" xml:space="preserve">
+    <value>(Output) Scheduler View</value>
+  </data>
+  <data name="currentSchedulerView_Desc_Key" xml:space="preserve">
+    <value>Provides the current view the scheduler is set to.</value>
+  </data>
+  <data name="onChangeAction_Display_Key" xml:space="preserve">
+    <value>(Output) On Change Action</value>
+  </data>
+  <data name="onChangeAction_Desc_Key" xml:space="preserve">
+    <value>This will provide which action was taken for an OnChange Event</value>
+  </data>
+  <data name="actionRecordSelected_Display_Key" xml:space="preserve">
+    <value>(Output) Record was selected</value>
+  </data>
+  <data name="actionRecordSelected_Desc_Key" xml:space="preserve">
+    <value>Provides the Canvas app producer notification that a record was selected on the calendar.</value>
+  </data>
+  <data name="isCanvas_Display_Key" xml:space="preserve">
+    <value>Is canvas</value>
+  </data>
+  <data name="isCanvas_Desc_Key" xml:space="preserve">
+    <value>Is canvas</value>
+  </data>
+</root>
