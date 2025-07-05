@@ -3,10 +3,15 @@
     "compilerOptions": {
         "typeRoots": [
             "node_modules/@types"
-        ],        
+        ],
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": "./Scheduler",
+        "paths": {
+            "pcf-context-service": ["../../packages/pcf-context-service/src"],
+            "pcf-mocks": ["../../packages/pcf-mocks/src"]
+        }
     },
     "exclude": ["./out"]
 }
