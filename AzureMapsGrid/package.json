@@ -17,10 +17,9 @@
     "@types/node": "^10.17.24",
     "@types/powerapps-component-framework": "^1.3",
     "azure-maps-control": "^2.0.25",
-    "office-ui-fabric-react": "^7.117.4",
+    "@fluentui/react-components": "^9.59.0",
     "react": "^16.13.1",
-    "react-azure-maps": "0.0.6",
-    "spin.js": "^4.1.0"
+    "react-azure-maps": "1.0.3"
   },
   "devDependencies": {
     "@microsoft/eslint-plugin-power-apps": "^0.2.51",

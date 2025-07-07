@@ -19,12 +19,13 @@ import {
   ControlOptions,
   PopupOptions,
 } from 'azure-maps-control';
-import { Stack } from 'office-ui-fabric-react/lib/Stack';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
-import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
-import { mergeStyleSets, getTheme, FontWeights } from 'office-ui-fabric-react/lib/Styling';
-import { HoverCard, HoverCardType, IPlainCardProps } from 'office-ui-fabric-react/lib/HoverCard';
-import { Label } from 'office-ui-fabric-react/lib/Label';
+import {
+  Spinner,
+  Label,
+  Popover,
+  PopoverTrigger,
+  PopoverSurface,
+} from '@fluentui/react-components';
 import * as atlas from 'azure-maps-control';
 import { usePcfContext } from '../services/pcfContext';
 import { useMapKeys, useMarkers, useEnvironmentSettings } from '../hooks';
@@ -58,18 +59,28 @@ const azureMapsControls: IAzureMapControls[] = [
   },
 ];
 
-const loaderComponent = <Spinner styles={{ root: { height: '100%' } }} size={SpinnerSize.large} label="Loading..." />;
+const loaderComponent = (
+  <Spinner style={{ height: '100%' }} size="large" label="Loading..." />
+);
 
-const theme = getTheme();
+const errorStyles: {
+  stack: React.CSSProperties;
+  icon: React.CSSProperties;
+  title: React.CSSProperties;
+  subtext: React.CSSProperties;
+} = {
+  stack: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' },
+  icon: { fontSize: 50, height: 50, width: 50, margin: '0 25px', color: 'red' },
+  title: { margin: 0, fontSize: 20, fontWeight: 300 },
+  subtext: { margin: 0, fontSize: 12, fontWeight: 300 },
+};
 
-const errorStyles = mergeStyleSets({
-  stack: [{ justifyContent: 'center', alignItems: 'center', height: '100%' }],
-  icon: [{ fontSize: 50, height: 50, width: 50, margin: '0 25px', color: 'red' }],
-  title: [theme.fonts.xLarge, { margin: 0, fontWeight: FontWeights.semilight }],
-  subtext: [theme.fonts.small, { margin: 0, fontWeight: FontWeights.semilight }],
-});
-
-const invalidRecordsStyle = mergeStyleSets({
+const invalidRecordsStyle: {
+  compactCard: React.CSSProperties;
+  item: React.CSSProperties;
+  invalidItem: React.CSSProperties;
+  title: React.CSSProperties;
+} = {
   compactCard: {
     display: 'flex',
     cursor: 'text',
@@ -79,8 +90,8 @@ const invalidRecordsStyle = mergeStyleSets({
   },
   item: { textDecoration: 'underline', cursor: 'default', color: '#3b79b7' },
   invalidItem: { color: '#333', textDecoration: 'none' },
-  title: { color: '#333', textDecoration: 'none', fontWeight: FontWeights.bold },
-});
+  title: { color: '#333', textDecoration: 'none', fontWeight: 700 },
+};
 
 const renderPoint = (record: DataSetInterfaces.EntityRecord, keys: MapKeys, defaultMarkerColor: string) => (
   <AzureMapFeature
@@ -193,41 +204,34 @@ export const AzureMapsGridControl: React.FC<IAzureMapsGridControlProps> = () => 
     });
   }, [popupDetails.properties]);
 
-  const memoizedMarkerRender: IAzureDataSourceChildren = React.useMemo(
+  const memoizedMarkerRender = React.useMemo(
     () => markers.valid.map((marker) => renderPoint(marker, keys, defaultMarkerColor)),
     [markers]
   );
 
-  const expandingCardProps: IPlainCardProps = {
-    onRenderPlainCard: (items: string[]): JSX.Element => (
-      items.length > 0 ? (
-        <div className={invalidRecordsStyle.compactCard}>
-          <div>Invalid Records</div>
-          {items.map((item, index) => (
-            <div className={invalidRecordsStyle.invalidItem} key={index}>
-              {item}
-            </div>
-          ))}
+  const InvalidRecordsPopover: React.FC = () => (
+    <div style={invalidRecordsStyle.compactCard}>
+      <div>Invalid Records</div>
+      {markers.invalid.map((item, index) => (
+        <div style={invalidRecordsStyle.invalidItem} key={index}>
+          {item}
         </div>
-      ) : (
-        <div></div>
-      )
-    ),
-    renderData: markers.invalid,
-  };
+      ))}
+    </div>
+  );
 
   return (
     <div id="mainDiv">
       <div id="mapDiv">
         {environmentSettings.loading && loaderComponent}
         {errorDetails.hasError && (
-          <Stack horizontal className={errorStyles.stack}>
-            <FontIcon iconName="StatusErrorFull" className={errorStyles.icon} />
-            <Stack>
-              <Label className={errorStyles.title}>{errorDetails.errorTitle}</Label>
-              <Label className={errorStyles.subtext}>{errorDetails.errorMessage}</Label>
-            </Stack>
-          </Stack>
+          <div style={errorStyles.stack}>
+            <span style={errorStyles.icon}>!</span>
+            <div>
+              <Label style={errorStyles.title}>{errorDetails.errorTitle}</Label>
+              <Label style={errorStyles.subtext}>{errorDetails.errorMessage}</Label>
+            </div>
+          </div>
         )}
         {showMap && (
           <AzureMapsProvider>
@@ -290,9 +294,14 @@ export const AzureMapsGridControl: React.FC<IAzureMapsGridControlProps> = () => 
         <div>Total Records ({(markers.invalid.length + markers.valid.length).toString()})</div>
         <div className="mapInfoDetails">Valid Locations ({markers.valid.length.toString()})</div>
         <div className="mapInfoDetails">Invalid/Empty Locations(</div>
-        <HoverCard type={HoverCardType.plain} plainCardProps={expandingCardProps} className={invalidRecordsStyle.item}>
-          {markers.invalid.length.toString()}
-        </HoverCard>
+        <Popover>
+          <PopoverTrigger>
+            <span style={invalidRecordsStyle.item}>{markers.invalid.length.toString()}</span>
+          </PopoverTrigger>
+          <PopoverSurface>
+            <InvalidRecordsPopover />
+          </PopoverSurface>
+        </Popover>
         <div>)</div>
       </div>
     </div>
