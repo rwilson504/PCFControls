@@ -28,7 +28,7 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 import * as atlas from 'azure-maps-control';
 import { usePcfContext } from '../services/pcfContext';
 import { useMapKeys, useMarkers, useEnvironmentSettings } from '../hooks';
-import { IAzureMapsGridControlProps, PopupDetails } from '../types';
+import { IAzureMapsGridControlProps, MapKeys, PopupDetails } from '../types';
 import {
   isAzureGoverment,
   generateBoundingBox,
