@@ -5,12 +5,8 @@ import {AzureMap, AzureMapsProvider, IAzureMapOptions, IAzureMapControls,
     AzureMapDataSourceProvider, AzureMapPopup, AzureMapLayerProvider, IAzureDataSourceChildren, AzureMapFeature} from 'react-azure-maps'
 import {data, MapMouseEvent, MapErrorEvent, ControlPosition, 
 	ControlOptions, CameraBoundsOptions, PopupOptions} from 'azure-maps-control'
-import { Stack} from 'office-ui-fabric-react/lib/Stack';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
-import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
-import { mergeStyleSets, getTheme, FontWeights } from 'office-ui-fabric-react/lib/Styling';
-import { HoverCard, HoverCardType, IPlainCardProps } from 'office-ui-fabric-react/lib/HoverCard';
-import { Label } from 'office-ui-fabric-react/lib/Label';
+import { Spinner, Label, Tooltip } from '@fluentui/react-components';
+import { ErrorCircle24Filled } from '@fluentui/react-icons';
 import * as lcid from 'lcid';
 import atlas = require('azure-maps-control');
 
@@ -38,62 +34,59 @@ const azureMapsControls: IAzureMapControls[] = [
     }
 ];
 
-const loaderComponent = <Spinner styles={{root: {height: '100%'}}} size={SpinnerSize.large} label="Loading..."  />;
+const loaderComponent = (
+    <Spinner style={{ height: '100%' }} size="large" label="Loading..." />
+);
 
-const theme = getTheme();
+const errorStyles = {
+        stack: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%'
+        } as React.CSSProperties,
+        icon: {
+                fontSize: 50,
+                height: 50,
+                width: 50,
+                margin: '0 25px',
+                color: 'red'
+        } as React.CSSProperties,
+        title: {
+                margin: 0,
+                fontWeight: 400,
+                fontSize: '20px'
+        } as React.CSSProperties,
+        subtext: {
+                margin: 0,
+                fontWeight: 400,
+                fontSize: '12px'
+        } as React.CSSProperties
+};
 
-const errorStyles = mergeStyleSets({
-	stack: [{
-		justifyContent: "center",
-		alignItems: "center",
-		height: '100%'
-	}],
-	icon: [{
-		fontSize: 50,
-		height: 50,
-		width: 50,
-		margin: '0 25px',
-		color: 'red'
-	}],
-	title: [
-		theme.fonts.xLarge,
-		{
-		  margin: 0,
-		  fontWeight: FontWeights.semilight
-		}
-	  ],
-	  subtext: [
-		theme.fonts.small,
-		{
-		  margin: 0,
-		  fontWeight: FontWeights.semilight
-		}
-	  ]	  
-});
-
-const invalidRecordsStyle = mergeStyleSets({
-	compactCard: {
-		display: 'flex',
-		cursor: 'text',		
-		flexDirection: 'column',
-		padding: '10px',
-		height: '100%',		
-	  },
-	  item: {
-		textDecoration: 'underline',
-		cursor: 'default',
-  		color: '#3b79b7'
-	  },
-	  invalidItem: {
-		color: '#333',
-		textDecoration: 'none',
-	  },
-	  title: {
-		color: '#333',
-		textDecoration: 'none',
-		fontWeight: FontWeights.bold	
-	  }
-});
+const invalidRecordsStyle = {
+        compactCard: {
+                display: 'flex',
+                cursor: 'text',
+                flexDirection: 'column',
+                padding: '10px',
+                height: '100%',
+          },
+          item: {
+                textDecoration: 'underline',
+                cursor: 'default',
+                color: '#3b79b7'
+          },
+          invalidItem: {
+                color: '#333',
+                textDecoration: 'none',
+          },
+          title: {
+                color: '#333',
+                textDecoration: 'none',
+                fontWeight: 700
+          }
+} as const;
 
 export const AzureMapsGridControl: React.FC<IProps> = (props) => {	
 	const baseMapOptions: IAzureMapOptions = {    
@@ -325,34 +318,27 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
         [markers]
 	);
 
-	const onRenderPlainCard = (items: string[]): JSX.Element => {
-		return (
-		items.length > 0 ?	
-		  <div className={invalidRecordsStyle.compactCard}>
-			<div>{props.pcfContext.resources.getString('AzureMapsGridControl_Label_InvalidEmptyLocations')}</div>
-			{items.map((item, index) => <div className={invalidRecordsStyle.invalidItem} key={index}>{item}</div>)}
-		  </div>
-		  : <div></div>
-		);
-	  };
-	
-	const _expandingCardProps: IPlainCardProps = {
-		onRenderPlainCard: onRenderPlainCard,
-		renderData: markers.invalid
-	};
+        const renderInvalidItems = (items: string[]): JSX.Element => (
+                <div style={invalidRecordsStyle.compactCard as React.CSSProperties}>
+                        <div>{props.pcfContext.resources.getString('AzureMapsGridControl_Label_InvalidEmptyLocations')}</div>
+                        {items.map((item, index) => (
+                                <div style={invalidRecordsStyle.invalidItem as React.CSSProperties} key={index}>{item}</div>
+                        ))}
+                </div>
+        );
 	
     return(	
     <div id="mainDiv">		
         <div id="mapDiv">
 			{environmentSettings.loading && loaderComponent}
-			{errorDetails.hasError && 
-				<Stack horizontal className={errorStyles.stack}>
-					<FontIcon iconName="StatusErrorFull" className={errorStyles.icon} />
-					<Stack>
-						<Label className={errorStyles.title}>{errorDetails.errorTitle}</Label>
-						<Label className={errorStyles.subtext}>{errorDetails.errorMessage}</Label>
-					</Stack>
-				</Stack>}         			
+                        {errorDetails.hasError &&
+                                <div style={errorStyles.stack}>
+                                        <ErrorCircle24Filled style={errorStyles.icon} />
+                                        <div>
+                                                <Label style={errorStyles.title}>{errorDetails.errorTitle}</Label>
+                                                <Label style={errorStyles.subtext}>{errorDetails.errorMessage}</Label>
+                                        </div>
+                                </div>}
             {showMap && <AzureMapsProvider>
 				<AzureMap 
 						options={azureMapOptions}						
@@ -419,7 +405,9 @@ export const AzureMapsGridControl: React.FC<IProps> = (props) => {
 			<div> {props.pcfContext.resources.getString('AzureMapsGridControl_Label_TotalRecords')} ({(markers.invalid.length + markers.valid.length).toString()})</div>
 			<div className="mapInfoDetails">{props.pcfContext.resources.getString('AzureMapsGridControl_Label_ValidLocations')} ({markers.valid.length.toString()})</div>
 			<div className="mapInfoDetails">{props.pcfContext.resources.getString('AzureMapsGridControl_Label_InvalidEmptyLocations')} (</div>
-			<HoverCard type={HoverCardType.plain} plainCardProps={_expandingCardProps} className={invalidRecordsStyle.item}>{markers.invalid.length.toString()}</HoverCard>
+                        <Tooltip content={renderInvalidItems(markers.invalid)}>
+                                <span style={invalidRecordsStyle.item as React.CSSProperties}>{markers.invalid.length.toString()}</span>
+                        </Tooltip>
 			<div>)</div>
         </div>
     </div>

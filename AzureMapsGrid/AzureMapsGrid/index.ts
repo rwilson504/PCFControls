@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom';
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import {AzureMapsGridControl} from "./AzureMapsGridControl"
-import {Spinner} from 'spin.js'
 import atlas = require("azure-maps-control");
 import { IProps } from "./AzureMapsGridControl";
 import * as React from 'react';
@@ -26,11 +25,10 @@ export class AzureMapsGrid implements ComponentFramework.StandardControl<IInputs
 	//private _bMapOptions: atlas.Map.options//.Maps.IViewOptions;
 	private _aMapPushpinDefaultColor: string;
 	private _aMapPopup: atlas.Popup;
-	private _aMapPopupInvalidRecords: atlas.Popup;
-	private _aMapPopupTemplate: string;
-	private _loadingSpinner: Spinner;
+        private _aMapPopupInvalidRecords: atlas.Popup;
+        private _aMapPopupTemplate: string;
 
-	private props: IProps;
+        private props: IProps;
 
 	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
 	private _notifyOutputChanged: () => void;
