@@ -9,10 +9,10 @@ import {
   AzureMapPopup,
   AzureMapLayerProvider,
   IAzureDataSourceChildren,
+  AuthenticationType,
   AzureMapFeature,
 } from 'react-azure-maps';
 import {
-  data,
   MapMouseEvent,
   MapErrorEvent,
   ControlPosition,
@@ -32,11 +32,8 @@ import { useMapKeys, useMarkers, useEnvironmentSettings } from '../hooks';
 import { IAzureMapsGridControlProps, MapKeys, PopupDetails } from '../types';
 import {
   isAzureGoverment,
-  generateBoundingBox,
   getPopupOptions,
   getPopupProperties,
-  checkLatitude,
-  checkLongitude,
 } from '../utils/helpers';
 
 const baseMapOptions: IAzureMapOptions = {
@@ -159,7 +156,7 @@ export const AzureMapsGridControl: React.FC<IAzureMapsGridControlProps> = () => 
     switch (authType) {
       case 699720001:
         authOptions = {
-          authType: atlas.AuthenticationType.aad,
+          authType: AuthenticationType.aad,
           clientId: settings?.raw_clientid || '',
           aadAppId: settings?.raw_aadappid || '',
           aadTenant: settings?.raw_aadtenant || '',
@@ -168,7 +165,7 @@ export const AzureMapsGridControl: React.FC<IAzureMapsGridControlProps> = () => 
         break;
       case 699720002:
         authOptions = {
-          authType: atlas.AuthenticationType.anonymous,
+          authType: AuthenticationType.anonymous,
           clientId: settings.raw_clientid || '',
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           getToken: function (resolve: any, reject: any, map: any) {
@@ -188,7 +185,7 @@ export const AzureMapsGridControl: React.FC<IAzureMapsGridControlProps> = () => 
         break;
       default:
         authOptions = {
-          authType: atlas.AuthenticationType.subscriptionKey,
+          authType: AuthenticationType.subscriptionKey,
           subscriptionKey: settings.raw_subscriptionkey,
         };
         break;
