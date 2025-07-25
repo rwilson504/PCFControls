@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
 import { Event, SchedulerAction } from "../types/schedulerTypes";
 import { parseDateOnly } from "../utils/formattingHelpers";
-import { PcfContextService } from "../services/pcfContextService";
+import { PcfContextService } from "pcf-context-service";
 
 export function useSchedulerDate(
     pcfContext: PcfContextService,
