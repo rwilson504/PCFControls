@@ -3,7 +3,7 @@ import { SCHEDULER_VIEWS } from "../types/schedulerViews";
 import { getLocalizedViewName } from "../utils/localization";
 import { DEFAULT_VIEW_NAMES } from "../utils/constants";
 import { SchedulerData } from "react-big-schedule";
-import { PcfContextService } from "../services/pcfContextService";
+import { PcfContextService } from "pcf-context-service";
 import { SchedulerAction } from "../types";
 
 export function useAvailableViews(

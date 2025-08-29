@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PcfContextProvider } from "./services/pcfContext";
-import { PcfContextService } from "./services/pcfContextService";
+import { PcfContextProvider } from "pcf-context-service";
+import { PcfContextService } from "pcf-context-service";
 import ImageCropControl from "./components/imageCropControl";
 import { IImageCropControlProps } from "./types/imageCropTypes";
 
