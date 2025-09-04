@@ -25,7 +25,12 @@ export class AnnotationService {
       </entity>
     </fetch>`;
 
-    const url = `/_api/annotations?fetchXml=${encodeURIComponent(fetchXmlQuery)}`;
+    const xmlCompact = fetchXmlQuery
+      .replace(/(\r\n|\n|\r)/g, '')   // remove line breaks
+      .replace(/>\s+</g, '><')        // collapse spaces between tags
+      .trim();
+    const params = new URLSearchParams({ fetchXml: xmlCompact });
+    const url = `/_api/annotations?${params.toString()}`;
     const response = await httpClient.get<IAnnotationsResponse>(url);
     return response.value || [];
   }
