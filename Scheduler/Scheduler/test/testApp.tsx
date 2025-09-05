@@ -2,12 +2,12 @@ import * as React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SchedulerControl from "../components/scheduler";
-import { PcfContextProvider } from "../services/pcfContext";
-import { PcfContextService } from "../services/pcfContextService";
-import { MockPCFContext } from "../mocks/MockPCFContext";
-import { MockPCFParameters } from "../mocks/MockPCFParameters";
-import { MockPCFMode } from "../mocks/MockPCFMode";
-import { MockPCFDataSet } from "../mocks/MockPCFDataSet";
+import { PcfContextProvider } from "pcf-context-service";
+import { PcfContextService } from "pcf-context-service";
+import { MockPCFContext } from "pcf-mocks";
+import { MockPCFParameters } from "pcf-mocks";
+import { MockPCFMode } from "pcf-mocks";
+import { MockPCFDataSet } from "pcf-mocks";
 import { ISchedulerControlProps } from "../types";
 
 // Use the new mock context for testing

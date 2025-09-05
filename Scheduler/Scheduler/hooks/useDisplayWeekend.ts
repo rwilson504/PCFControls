@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SchedulerData } from "react-big-schedule";
-import { PcfContextService } from "../services/pcfContextService";
+import { PcfContextService } from "pcf-context-service";
 import { SchedulerAction } from "../types";
 
 /**

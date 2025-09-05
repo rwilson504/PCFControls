@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SchedulerData } from "react-big-schedule";
 import { Event, SchedulerAction } from "../types/schedulerTypes";
-import { PcfContextService } from "../services/pcfContextService";
+import { PcfContextService } from "pcf-context-service";
 
 /**
  * Returns an array of day numbers representing the work week range,
