@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { PcfContextService } from 'pcf-context-service'
+import { PcfContextService } from './pcfContextService'
 // Provides a React context for sharing the PCF context service across the component tree.
 
 // Props for the PcfContextProvider component
