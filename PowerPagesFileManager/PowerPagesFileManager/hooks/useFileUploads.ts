@@ -3,6 +3,7 @@ import { IAnnotation } from "../types";
 import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
 import { trackOperation } from "../services/PageNotifier";
+import { withDetail } from "../utils/errorText";
 
 export function useFileUploads(
   setAnnotations: React.Dispatch<React.SetStateAction<IAnnotation[]>>,
@@ -44,7 +45,7 @@ export function useFileUploads(
           return;
         }
       } catch (error) {
-        setError("Error checking existing files. Please try again.");
+        setError(withDetail("Error checking existing files. Please try again.", error));
         return;
       }
     }
@@ -109,7 +110,7 @@ export function useFileUploads(
       if (abortController.signal.aborted) {
         console.log(`Upload of ${file.name} was canceled`);
       } else {
-        appendError(`Failed to upload file: ${file.name}`);
+        appendError(withDetail(`Failed to upload file: ${file.name}`, error));
       }
       
       // Clean up UI state
@@ -128,13 +129,13 @@ export function useFileUploads(
     if (annotationId && !deletedAnnotationsRef.current.has(annotationId)) {
       deletedAnnotationsRef.current.add(annotationId);
       annotationService.deleteAnnotation(annotationId).catch((error: Error) => {
-        console.log(`Failed to delete annotation ${annotationId}:`, error);
+        console.warn(`Failed to delete annotation ${annotationId}, it may be orphaned:`, error);
       });
     } else if (idMapping[tempId] && !deletedAnnotationsRef.current.has(idMapping[tempId])) {
       const mappedId = idMapping[tempId];
       deletedAnnotationsRef.current.add(mappedId);
       annotationService.deleteAnnotation(mappedId).catch((error: Error) => {
-        console.log(`Failed to delete annotation ${mappedId}:`, error);
+        console.warn(`Failed to delete annotation ${mappedId}, it may be orphaned:`, error);
       });
     }
     
@@ -173,7 +174,7 @@ export function useFileUploads(
       if (annotationId && !deletedAnnotationsRef.current.has(annotationId)) {
         deletedAnnotationsRef.current.add(annotationId);
         annotationService.deleteAnnotation(annotationId).catch((error: Error) => {
-          console.log(`Failed to delete annotation ${annotationId}:`, error);
+          console.warn(`Failed to delete annotation ${annotationId}, it may be orphaned:`, error);
         });
       }
     });

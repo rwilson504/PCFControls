@@ -89,7 +89,19 @@ export class HttpClient {
 
           let errorMessage = 'Request failed';
           if (axios.isAxiosError(error)) {
-            errorMessage = error.response?.data?.ErrorMessage || error.message;
+            // The file API returns { ErrorCode, Message }; other portal endpoints use ErrorMessage.
+            const data = error.response?.data;
+            const body = (data && typeof data === 'object' ? data : {}) as {
+              ErrorCode?: string;
+              Message?: string;
+              ErrorMessage?: string;
+            };
+            const detail = body.Message || body.ErrorMessage;
+            if (body.ErrorCode && detail) {
+              errorMessage = `${body.ErrorCode}: ${detail}`;
+            } else {
+              errorMessage = detail || error.message;
+            }
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }

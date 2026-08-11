@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { IAnnotation } from "../types";
 import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
+import { withDetail } from "../utils/errorText";
 
 export function useAnnotations() {
   const pcfContext = usePcfContext();
@@ -22,7 +23,7 @@ export function useAnnotations() {
         setAnnotations(updatedAnnotations);
         return updatedAnnotations;
       })
-      .catch(() => setError("Failed to load files"));
+      .catch((error: unknown) => setError(withDetail("Failed to load files", error)));
   }, []);
 
   useEffect(() => {
