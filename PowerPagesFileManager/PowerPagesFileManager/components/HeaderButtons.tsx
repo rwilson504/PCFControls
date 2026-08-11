@@ -5,6 +5,7 @@ import { getTranslation, LanguageCode, Message } from "../utils/localization";
 export interface IHeaderButtonsProps {
   selectedCount: number;
   uploadingCount: number;
+  busy: boolean;
   onDelete: () => void;
   onCancel: () => void;
   onToggleCollapse: () => void;
@@ -16,7 +17,7 @@ export const HeaderButtons = (props: IHeaderButtonsProps): JSX.Element => {
     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
       <Button
         appearance="primary"
-        disabled={props.selectedCount === 0}
+        disabled={props.selectedCount === 0 || props.busy}
         onClick={props.onDelete}
         aria-label={getTranslation(Message.DeleteSelected, props.language)}
       >

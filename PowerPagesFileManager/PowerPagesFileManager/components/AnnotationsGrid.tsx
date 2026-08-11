@@ -19,6 +19,8 @@ import { ArrowDownloadRegular, DeleteRegular, DismissRegular } from "@fluentui/r
 import { useWindowSize } from "../hooks/useWindowSize";
 import { FileOverwriteDialog } from "./FileOverwriteDialog";
 import { useFileUploads } from "../hooks/useFileUploads";
+import { useFileOperationState } from "../hooks/useFileOperationState";
+import { withDetail } from "../utils/errorText";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import HeaderButtons from "./HeaderButtons";
 import { getTranslation, LanguageCode, Message } from "../utils/localization";
@@ -154,6 +156,18 @@ export const AnnotationsGrid = (): JSX.Element => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isCollapsed, setIsCollapsed] = React.useState<boolean>(false);
   const gridLoading = uploadingIds.length > 0 || isProcessing;
+
+  // One source of truth for busy state. isProcessing covers the duplicate-cleanup deletes that
+  // run before an overwrite, which are deletes as far as the user is concerned.
+  const fileOps = useFileOperationState();
+  const busy = fileOps.busy || isProcessing;
+  const deleting = fileOps.deletes > 0 || isProcessing;
+
+  // Adding files during an upload is fine; doing it during a delete races the list.
+  const openFilePicker = () => {
+    if (deleting) return;
+    fileInputRef.current?.click();
+  };
   const [isDragOver, setIsDragOver] = React.useState<boolean>(false);
   const pcfLanguage = pcfcontext.language as LanguageCode; // language from context
 
@@ -243,8 +257,8 @@ export const AnnotationsGrid = (): JSX.Element => {
         setSelectedIds([]);
         return null;
       })
-      .catch(() =>
-        setError(getTranslation(Message.DeleteFileFailed, pcfLanguage))
+      .catch((error: unknown) =>
+        setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error))
       )
       .finally(() => setIsProcessing(false));
   };
@@ -266,6 +280,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                 <input
                   type="checkbox"
                   checked={selectedIds.includes(annotation.annotationid)}
+                  disabled={busy}
                   onChange={() => toggleSelect(annotation.annotationid)}
                 />
               )}
@@ -345,6 +360,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                   title={getTranslation(Message.DeleteButton, pcfLanguage)}
                   aria-label={getTranslation(Message.DeleteButton, pcfLanguage)}
                   style={{ padding: "2px", minWidth: "auto" }}
+                  disabled={busy}
                   onClick={() => {
                     setPendingDeleteAnnotation(annotation);
                     setShowDeleteDialog(true);
@@ -378,6 +394,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                   title={getTranslation(Message.DeleteButton, pcfLanguage)}
                   aria-label={getTranslation(Message.DeleteButton, pcfLanguage)}
                   appearance="subtle"
+                  disabled={busy}
                   onClick={() => {
                     setPendingDeleteAnnotation(annotation);
                     setShowDeleteDialog(true);
@@ -402,12 +419,14 @@ export const AnnotationsGrid = (): JSX.Element => {
     selectedIds,
     isMobile,
     isDisabled,
+    busy,
   ]);
 
   const singleFileAnnotation = annotations.find(annotation => annotation.display !== false);
 
   // New helper to process files with identical validation logic as in handleDrop.
   const processFiles = (files: File[]) => {
+    if (deleting) return;
     const errors: string[] = [];
     // If maxNumberOfFiles is defined (> 0), check total count.
     const allowedTotal = pcfcontext.maxNumberOfFiles;
@@ -550,9 +569,12 @@ export const AnnotationsGrid = (): JSX.Element => {
         );
         return undefined;
       })
-      .catch(() =>
+      .catch((error: unknown) =>
         setError(
-          getTranslation(Message.DeleteDuplicateAnnotationsFailed, pcfLanguage)
+          withDetail(
+            getTranslation(Message.DeleteDuplicateAnnotationsFailed, pcfLanguage),
+            error
+          )
         )
       );
   };
@@ -574,8 +596,8 @@ export const AnnotationsGrid = (): JSX.Element => {
           );
           return undefined;
         })
-        .catch(() =>
-          setError(getTranslation(Message.DeleteFileFailed, pcfLanguage))
+        .catch((error: unknown) =>
+          setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error))
         )
         .finally(() => {
           setPendingDeleteAnnotation(null);
@@ -640,7 +662,7 @@ export const AnnotationsGrid = (): JSX.Element => {
             onKeyDown={(ev) => {
               if (ev.key === "Enter" || ev.key === " ") {
                 ev.preventDefault();
-                fileInputRef.current?.click();
+                openFilePicker();
               }
             }}
             role="region"
@@ -664,7 +686,8 @@ export const AnnotationsGrid = (): JSX.Element => {
             <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>or</Text>
             <Button
               appearance="primary"
-              onClick={() => fileInputRef.current?.click()}
+              disabled={deleting}
+              onClick={openFilePicker}
               aria-label={getTranslation(Message.SelectFiles, pcfLanguage)}
             >
               {getTranslation(Message.SelectFile, pcfLanguage)}
@@ -794,14 +817,18 @@ export const AnnotationsGrid = (): JSX.Element => {
               {!isDisabled && (
                 <Button
                   appearance="subtle"
+                  disabled={busy}
                   onClick={() => {
                     // Delete the single file and clear annotations so drop zone reappears.
                     annotationService
                       .deleteAnnotation(singleFileAnnotation.annotationid)
                       .then(() => setAnnotations([]))
-                      .catch(() =>
+                      .catch((error: unknown) =>
                         setError(
-                          getTranslation(Message.DeleteFileFailed, pcfLanguage)
+                          withDetail(
+                            getTranslation(Message.DeleteFileFailed, pcfLanguage),
+                            error
+                          )
                         )
                       );
                   }}
@@ -843,7 +870,7 @@ export const AnnotationsGrid = (): JSX.Element => {
               onKeyDown={(ev) => {
                 if (ev.key === "Enter" || ev.key === " ") {
                   ev.preventDefault();
-                  fileInputRef.current?.click();
+                  openFilePicker();
                 }
               }}
               role="region"
@@ -868,7 +895,8 @@ export const AnnotationsGrid = (): JSX.Element => {
               </Text>
               <Button
                 appearance="primary"
-                onClick={() => fileInputRef.current?.click()}
+                disabled={deleting}
+                onClick={openFilePicker}
                 aria-label={getTranslation("SelectFiles", pcfLanguage)}
               >
                 {getTranslation("SelectFiles", pcfLanguage)}
@@ -927,6 +955,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                   <HeaderButtons
                     selectedCount={selectedIds.length}
                     uploadingCount={uploadingIds.length}
+                    busy={busy}
                     onDelete={() => setShowDeleteDialog(true)}
                     onCancel={cancelUploads}
                     onToggleCollapse={() => setIsCollapsed(true)}
@@ -972,6 +1001,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                                   .every((a) =>
                                     selectedIds.includes(a.annotationid)
                                   )}
+                                disabled={busy}
                                 onChange={toggleSelectAll}
                               />
                             </TableCell>
@@ -1142,9 +1172,12 @@ export const AnnotationsGrid = (): JSX.Element => {
                 setPendingFiles([]);
                 return undefined;
               })
-              .catch(() => {
+              .catch((error: unknown) => {
                 setError(
-                  getTranslation(Message.DeleteAnnotationFailed, pcfLanguage)
+                  withDetail(
+                    getTranslation(Message.DeleteAnnotationFailed, pcfLanguage),
+                    error
+                  )
                 );
                 setPendingFiles([]);
               })
@@ -1167,11 +1200,14 @@ export const AnnotationsGrid = (): JSX.Element => {
                 setPendingFiles([]);
                 return undefined;
               })
-              .catch(() => {
+              .catch((error: unknown) => {
                 setError(
-                  getTranslation(
-                    Message.DeleteDuplicateAnnotationsFailed,
-                    pcfLanguage
+                  withDetail(
+                    getTranslation(
+                      Message.DeleteDuplicateAnnotationsFailed,
+                      pcfLanguage
+                    ),
+                    error
                   )
                 );
                 setPendingFiles([]);
