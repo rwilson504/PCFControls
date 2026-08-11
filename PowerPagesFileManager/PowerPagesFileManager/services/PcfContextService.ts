@@ -2,6 +2,7 @@ import { Theme } from "@fluentui/react-components";
 import { IInputs } from "../generated/ManifestTypes";
 import { getLayout, Layout } from "../utils/layouts";
 import { generateLightTheme, generateDarkTheme } from "../utils/themeGenerator";
+import { resolveThemeSettings } from "../utils/urlThemeOverrides";
 
 export interface IPcfContextServiceProps {
   context: ComponentFramework.Context<IInputs>;
@@ -22,14 +23,19 @@ export class PcfContextService {
   maxNumberOfFiles: number;
   maxGridHeight: number;
   displayAllFiles: boolean;
+  showDownloadButton: boolean;
   updatePrimaryProperty: (value: string | undefined) => void;
 
   constructor(props: IPcfContextServiceProps) {
     this.instanceid = props.instanceid;
     this.context = props.context;
-    const themeColor = props.context.parameters.themeColor?.raw ?? "#0F6CBD";
-    const themeMode = props.context.parameters.themeDarkMode?.raw ?? false;
-    this.theme = themeMode === true ? generateDarkTheme(themeColor) : generateLightTheme(themeColor);
+    const themeSettings = resolveThemeSettings(
+      props.context.parameters.themeColor?.raw,
+      props.context.parameters.themeDarkMode?.raw
+    );
+    this.theme = themeSettings.darkMode
+      ? generateDarkTheme(themeSettings.color)
+      : generateLightTheme(themeSettings.color);
     this.language = props.context.parameters.language?.raw ?? "en";
     this.allowMultipleFiles =
       props.context.parameters.allowMultipleFiles?.raw ?? true;
@@ -44,6 +50,7 @@ export class PcfContextService {
       : 1;
     this.maxGridHeight = props.context.parameters.maxGridHeight?.raw ?? 0;
     this.displayAllFiles = props.context.parameters.displayAllFiles?.raw ?? true;
+    this.showDownloadButton = props.context.parameters.showDownloadButton?.raw ?? true;
     this.layout = getLayout(props.context.parameters?.layout.raw ?? "Vertical");
     this.updatePrimaryProperty = props.updatePrimaryProperty;
   }

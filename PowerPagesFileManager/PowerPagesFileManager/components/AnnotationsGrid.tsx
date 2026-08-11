@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
   Button,
-  Label,
+  Text,
   tokens,
   makeStyles
 } from "@fluentui/react-components";
@@ -23,6 +23,13 @@ import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import HeaderButtons from "./HeaderButtons";
 import { getTranslation, LanguageCode, Message } from "../utils/localization";
 import * as Constants from "../utils/constants";
+import {
+  buildAcceptAttribute,
+  isExtensionAllowed,
+  isMimeTypeAllowed,
+  parseFileExtensions,
+  parseMimeTypes,
+} from "../utils/fileTypes";
 import { annotationService } from "../services/AnnotationService";
 
 type SortColumn = "filename" | "createdon" | null;
@@ -87,9 +94,18 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: "10px",
   },
   errorText: {
-    color: "#000"
+    color: "#000",
+    // A flex item defaults to min-width auto, which lets a long unbroken filename
+    // stretch the banner instead of wrapping.
+    minWidth: 0,
+    flexGrow: 1,
+    overflowWrap: "anywhere",
+  },
+  errorDismiss: {
+    flexShrink: 0,
   }
 });
 
@@ -101,7 +117,14 @@ export const AnnotationsGrid = (): JSX.Element => {
 
   const allowMultiple = pcfcontext.allowMultipleFiles;
   const isDisabled = pcfcontext.context.mode.isControlDisabled;
+  const showDownloadButton = pcfcontext.showDownloadButton;
   const { annotations, error, setAnnotations, setError } = useAnnotations();
+
+  // Picker hint only. processFiles still validates every file, so this cannot widen what is accepted.
+  const fileAccept = buildAcceptAttribute(
+    pcfcontext.allowedFileTypes,
+    pcfcontext.allowedMimeTypes
+  );
 
   const { uploadProgress, uploadingIds, handleFileUpload, cancelUploads } =
     useFileUploads(setAnnotations, setError);
@@ -298,23 +321,25 @@ export const AnnotationsGrid = (): JSX.Element => {
           >
             {isMobile ? (
               <>
-                <Button
-                  appearance="subtle"
-                  title={getTranslation(Message.DownloadButton, pcfLanguage)}
-                  aria-label={getTranslation(
-                    Message.DownloadButton,
-                    pcfLanguage
-                  )}
-                  style={{ padding: "2px", minWidth: "auto" }}
-                  onClick={() =>
-                    window.open(
-                      annotationService.getDownloadUrl(annotation.annotationid),
-                      "_blank"
-                    )
-                  }
-                >
-                  <ArrowDownloadRegular style={{ fontSize: "32px" }} />
-                </Button>
+                {showDownloadButton && (
+                  <Button
+                    appearance="subtle"
+                    title={getTranslation(Message.DownloadButton, pcfLanguage)}
+                    aria-label={getTranslation(
+                      Message.DownloadButton,
+                      pcfLanguage
+                    )}
+                    style={{ padding: "2px", minWidth: "auto" }}
+                    onClick={() =>
+                      window.open(
+                        annotationService.getDownloadUrl(annotation.annotationid),
+                        "_blank"
+                      )
+                    }
+                  >
+                    <ArrowDownloadRegular style={{ fontSize: "32px" }} />
+                  </Button>
+                )}
                 <Button
                   appearance="subtle"
                   title={getTranslation(Message.DeleteButton, pcfLanguage)}
@@ -330,23 +355,25 @@ export const AnnotationsGrid = (): JSX.Element => {
               </>
             ) : (
               <>
-                <Button
-                  appearance="subtle"
-                  aria-label={getTranslation(
-                    Message.DownloadButton,
-                    pcfLanguage
-                  )}
-                  title={getTranslation(Message.DownloadButton, pcfLanguage)}
-                  onClick={() =>
-                    window.open(
-                      annotationService.getDownloadUrl(annotation.annotationid),
-                      "_blank"
-                    )
-                  }
-                  className={classes.actionButton}
-                >
-                  {getTranslation(Message.DownloadButton, pcfLanguage)}
-                </Button>
+                {showDownloadButton && (
+                  <Button
+                    appearance="subtle"
+                    aria-label={getTranslation(
+                      Message.DownloadButton,
+                      pcfLanguage
+                    )}
+                    title={getTranslation(Message.DownloadButton, pcfLanguage)}
+                    onClick={() =>
+                      window.open(
+                        annotationService.getDownloadUrl(annotation.annotationid),
+                        "_blank"
+                      )
+                    }
+                    className={classes.actionButton}
+                  >
+                    {getTranslation(Message.DownloadButton, pcfLanguage)}
+                  </Button>
+                )}
                 <Button
                   title={getTranslation(Message.DeleteButton, pcfLanguage)}
                   aria-label={getTranslation(Message.DeleteButton, pcfLanguage)}
@@ -417,24 +444,14 @@ export const AnnotationsGrid = (): JSX.Element => {
     }
 
     // Check allowed file types and mime types.
-    const allowedFileTypesList = pcfcontext.allowedFileTypes
-      ? pcfcontext.allowedFileTypes
-          .split(",")
-          .map((s) => s.trim().toLowerCase())
-      : [];
-    const allowedMimeTypesList = pcfcontext.allowedMimeTypes
-      ? pcfcontext.allowedMimeTypes
-          .split(",")
-          .map((s) => s.trim().toLowerCase())
-      : [];
+    const allowedFileTypesList = parseFileExtensions(pcfcontext.allowedFileTypes);
+    const allowedMimeTypesList = parseMimeTypes(pcfcontext.allowedMimeTypes);
     const disallowedFiles = files.filter((file) => {
-      const ext = file.name.split(".").pop()?.toLowerCase() || "";
-      const mime = file.type.toLowerCase();
-      const typeNotAllowed =
-        allowedFileTypesList.length && !allowedFileTypesList.includes(ext);
-      const mimeNotAllowed =
-        allowedMimeTypesList.length && !allowedMimeTypesList.includes(mime);
-      return typeNotAllowed || mimeNotAllowed;
+      const ext = file.name.split(".").pop() ?? "";
+      return (
+        !isExtensionAllowed(ext, allowedFileTypesList) ||
+        !isMimeTypeAllowed(file.type, allowedMimeTypesList)
+      );
     });
     if (disallowedFiles.length > 0) {
       errors.push(
@@ -585,9 +602,15 @@ export const AnnotationsGrid = (): JSX.Element => {
           aria-live="assertive"
           className={classes.errorMessage}
         >
-          <span>{error}</span>
+          <span className={classes.errorText}>
+            {/* Several files can fail at once, so each message gets its own line. */}
+            {error.split("\n").map((line, index) => (
+              <div key={`${line}-${index}`}>{line}</div>
+            ))}
+          </span>
           <Button
             appearance="secondary"
+            className={classes.errorDismiss}
             onClick={() => setError("")}
             aria-label={getTranslation(Message.DismissError, pcfLanguage)}
           >
@@ -599,7 +622,8 @@ export const AnnotationsGrid = (): JSX.Element => {
       {/* Conditional rendering based on allowMultiple */}
       {!allowMultiple ? (
         !singleFileAnnotation ? (
-          // Show drop zone if no file has been uploaded yet.
+          // Hidden while disabled, so a read only form cannot take a file.
+          !isDisabled && (
           <div
             onDrop={(ev) => {
               handleDrop(ev);
@@ -612,6 +636,12 @@ export const AnnotationsGrid = (): JSX.Element => {
             onDragLeave={(ev) => {
               ev.preventDefault();
               setIsDragOver(false);
+            }}
+            onKeyDown={(ev) => {
+              if (ev.key === "Enter" || ev.key === " ") {
+                ev.preventDefault();
+                fileInputRef.current?.click();
+              }
             }}
             role="region"
             tabIndex={0}
@@ -627,10 +657,11 @@ export const AnnotationsGrid = (): JSX.Element => {
                 : {}),
             }}
           >
-            <Label style={{ marginBottom: "5px", fontSize: "18px" }}>
+            {/* Text, not Label: the portal theme styles `.crmEntityFormView label` and would override the control theme. */}
+            <Text weight="semibold" style={{ display: "inline-block", marginBottom: "5px", fontSize: "18px" }}>
               {getTranslation(Message.DragAndDropFile, pcfLanguage)}
-            </Label>
-            <Label style={{ display: "block", marginBottom: "5px" }}>or</Label>
+            </Text>
+            <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>or</Text>
             <Button
               appearance="primary"
               onClick={() => fileInputRef.current?.click()}
@@ -643,6 +674,7 @@ export const AnnotationsGrid = (): JSX.Element => {
               ref={fileInputRef}
               hidden
               onChange={handleFileSelect}
+              accept={fileAccept}
               // For allowMultiple false, we only permit one
               multiple={false}
               aria-label={getTranslation(Message.SelectFile, pcfLanguage)}
@@ -672,6 +704,7 @@ export const AnnotationsGrid = (): JSX.Element => {
               </span>
             </div>
           </div>
+          )
         ) : (
           // Show single file card when a file is present.
           <div
@@ -740,41 +773,45 @@ export const AnnotationsGrid = (): JSX.Element => {
                   <DismissRegular style={{ fontSize: "24px" }} />
                 </Button>
               )}
-              <Button
-                appearance="subtle"
-                onClick={() =>
-                  window.open(
-                    annotationService.getDownloadUrl(
-                      singleFileAnnotation.annotationid
-                    ),
-                    "_blank"
-                  )
-                }
-                title={getTranslation(Message.DownloadButton, pcfLanguage)}
-                aria-label={getTranslation(Message.DownloadButton, pcfLanguage)}
-                className={classes.actionButton}
-              >
-                <ArrowDownloadRegular style={{ fontSize: "24px" }} />
-              </Button>
-              <Button
-                appearance="subtle"
-                onClick={() => {
-                  // Delete the single file and clear annotations so drop zone reappears.
-                  annotationService
-                    .deleteAnnotation(singleFileAnnotation.annotationid)
-                    .then(() => setAnnotations([]))
-                    .catch(() =>
-                      setError(
-                        getTranslation(Message.DeleteFileFailed, pcfLanguage)
-                      )
-                    );
-                }}
-                title={getTranslation(Message.DeleteFile, pcfLanguage)}
-                aria-label={getTranslation(Message.DeleteFile, pcfLanguage)}
-                className={classes.actionButton}
-              >
-                <DeleteRegular style={{ fontSize: "24px" }} />
-              </Button>              
+              {showDownloadButton && (
+                <Button
+                  appearance="subtle"
+                  onClick={() =>
+                    window.open(
+                      annotationService.getDownloadUrl(
+                        singleFileAnnotation.annotationid
+                      ),
+                      "_blank"
+                    )
+                  }
+                  title={getTranslation(Message.DownloadButton, pcfLanguage)}
+                  aria-label={getTranslation(Message.DownloadButton, pcfLanguage)}
+                  className={classes.actionButton}
+                >
+                  <ArrowDownloadRegular style={{ fontSize: "24px" }} />
+                </Button>
+              )}
+              {!isDisabled && (
+                <Button
+                  appearance="subtle"
+                  onClick={() => {
+                    // Delete the single file and clear annotations so drop zone reappears.
+                    annotationService
+                      .deleteAnnotation(singleFileAnnotation.annotationid)
+                      .then(() => setAnnotations([]))
+                      .catch(() =>
+                        setError(
+                          getTranslation(Message.DeleteFileFailed, pcfLanguage)
+                        )
+                      );
+                  }}
+                  title={getTranslation(Message.DeleteFile, pcfLanguage)}
+                  aria-label={getTranslation(Message.DeleteFile, pcfLanguage)}
+                  className={classes.actionButton}
+                >
+                  <DeleteRegular style={{ fontSize: "24px" }} />
+                </Button>
+              )}
             </div>
           </div>
         )
@@ -803,6 +840,12 @@ export const AnnotationsGrid = (): JSX.Element => {
                 ev.preventDefault();
                 setIsDragOver(false);
               }}
+              onKeyDown={(ev) => {
+                if (ev.key === "Enter" || ev.key === " ") {
+                  ev.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
               role="region"
               tabIndex={0}
               aria-label={
@@ -817,12 +860,12 @@ export const AnnotationsGrid = (): JSX.Element => {
                   : {}),
               }}
             >
-              <Label style={{ marginBottom: "5px", fontSize: "18px" }}>
+              <Text weight="semibold" style={{ display: "inline-block", marginBottom: "5px", fontSize: "18px" }}>
                 {getTranslation("DragAndDrop", pcfLanguage)}
-              </Label>
-              <Label style={{ display: "block", marginBottom: "5px" }}>
+              </Text>
+              <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>
                 or
-              </Label>
+              </Text>
               <Button
                 appearance="primary"
                 onClick={() => fileInputRef.current?.click()}
@@ -835,6 +878,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                 ref={fileInputRef}
                 hidden
                 onChange={handleFileSelect}
+                accept={fileAccept}
                 multiple
                 aria-label={getTranslation("SelectFiles", pcfLanguage)}
               />

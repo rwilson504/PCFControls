@@ -28,16 +28,16 @@ The techniques and methods used in this PCF component were inspired by the artic
 - **Progress Indicators:** Displays real-time upload progress with progress bars and percentage updates.
 - **Error Handling:** Clear modal alerts and error messages for issues like unsupported file types and file size limits.
 - **Security Compliance:** This control uses the Power Page file API to ensure that all requests conform to Power Pages web role security.
-- **Theming Support:** Uses a primary color property to set the theme and a dark mode property to adjust the color palette accordingly for a dynamic look and feel.
+- **Theming Support:** Light and dark Fluent UI themes generated from a single brand colour, configurable per form or per link.
+- **Host Page Notifications:** Publishes upload and delete activity to the page so it can show an overlay or block submit. See below.
+- **Transfer Protection:** A file dropped outside the drop zone cannot navigate the browser away from the form, and closing the tab mid transfer prompts first.
 - **Dynamic Grid & Sorting:** Detailed grid view with sorting, selection, and a footer showing total and selected file counts.
 - **Multi-Language Support:** Provides translations for English (en), Spanish (es), French (fr), German (de), Chinese (zh), Japanese (ja), Korean (ko), Italian (it), Dutch (nl), and Portuguese (pt).
-- **Accessible Interaction:** Supports drag and drop along with a file selection button that includes proper aria labels for 508 compliance.
+- **Accessible Interaction:** Drag and drop, a file selection button, and full keyboard operation of the drop zone, with aria labels throughout.
 
 ## Installation
 
 To install the PCF component, follow these steps using the **Maker Portal**:
-
-[Download Latest](https://github.com/rwilson504/PCFControls/releases/latest/download/PowerPagesFileManagerSolution_managed.zip)
 
 - Open **Power Apps Maker Portal** (`https://make.powerapps.com`).
 - Navigate to **Solutions** in the left-hand menu.
@@ -49,7 +49,13 @@ To install the PCF component, follow these steps using the **Maker Portal**:
 
 Ensure that you have the appropriate **permissions** to install solutions and manage components within your Power Apps environment.
 
-(Provide details on how to install the PCF component, including prerequisites, dependencies, and installation steps.)
+> **Import the managed solution unless you are actively developing the control.** If a managed
+> version of this control is already installed in an environment, do **not** import an
+> unmanaged build over it. Doing so creates an unmanaged layer on the control that deleting
+> the solution does not remove, that importing an older version cannot roll back, and that
+> re-importing the managed solution does not displace. Recovering from it has required
+> restoring the environment from backup. `pac pcf push` has the same effect, because it also
+> imports unmanaged.
 
 ## Portal Setup
 
@@ -88,8 +94,8 @@ Before you can use the Power Pages Azure File API, you have to enable the requir
 | Site/FileManagement/EnableWebAPI                 | true                        | Enables the file management Web API  | Yes       |
 | Site/FileManagement/BlobStorageAccountName       | *Your Storage Account Name* | Storage Account Name                 | Yes       |
 | Site/FileManagement/BlobStorageContainerName     | *Your Container Name*       | Container Name                       | Yes       |
-| Site/FileManagement/SupportedFileType            | \*                          | Comma-separated file types           | Yes       |
-| Site/FileManagement/SupportedMimeType            | *\*/\**                     | Semicolon-separated MIME types       | Yes       |
+| Site/FileManagement/SupportedFileType            | \*                          | Comma separated file types, each with a leading dot, for example `.jpeg,.jpg` | Yes       |
+| Site/FileManagement/SupportedMimeType            | *\*/\**                     | **Semicolon** separated MIME types    | Yes       |
 | Site/FileManagement/MaxFileSize                  | 1048576 (1 GB)              | Max file size in KB. Maximum is 10485760 (10 GB)                  | No        |
 | Site/FileManagement/DownloadViaSASUri            | True                        | Whether to use SAS URI for downloads | No        |
 | Site/FileManagement/DownloadSASUriExpiryTimeSpan | 00:10:00                    | SAS URI expiry time span             | No        |
@@ -143,7 +149,7 @@ To allow users to use the Azure File API feature, configure permissions for web 
 3. Select **Access Control (IAM) > Add > Add Role Assignment**.
 4. Choose the **Reader Role** and click **Next**.
 5. Select **User, Group, or Service Principal**, then **+ Select Members**.
-6. Search for your Power Pages site name and select it.
+6. Search for your Power Pages site name and select it. The application is named `Portals-<site name>`.
 7. Click **Select**, then **Review + Assign**.
 8. Repeat the process for **Storage Blob Data Contributor** role.
 
@@ -173,7 +179,6 @@ To use the PCF component on a form, the entity must have **Attachments enabled**
 - Click **OK**.
 - Save and publish the page.
 - When previewing the site, the PCF component should now be visible on the form.
-  (Describe the steps for adding the PCF component to a Power Apps form.)
 
 ## PCF Settings
 
@@ -184,8 +189,8 @@ The following settings configure the PCF component's behavior. Keep in mind that
 | Property             | Description                                                                                                                                                       | Type              | Default Value       |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------- |
 | `allowMultipleFiles` | Allows users to upload multiple files.                                                                                                                            | `TwoOptions`      | `true`              |
-| `allowedFileTypes`   | Enter file types separated by a comma (e.g., `.png, .jpg, .pdf`). By default, all file types are allowed unless specific ones are listed here.                    | `SingleLine.Text` | *All types allowed* |
-| `allowedMimeTypes`   | Enter MIME types separated by a comma (e.g., `image/png, audio/*, application/pdf`). By default, all MIME types are allowed unless specific ones are listed here. | `SingleLine.Text` | *All types allowed* |
+| `allowedFileTypes`   | File extensions separated by a comma. A leading dot is optional, so `png, jpg` and `.png, .jpg` behave identically. Case insensitive. All types allowed if left empty. | `SingleLine.Text` | *All types allowed* |
+| `allowedMimeTypes`   | MIME types separated by a comma (for example `image/png, application/pdf`). Wildcards are supported, so `image/*` matches any image and `*/*` matches everything. All types allowed if left empty. | `SingleLine.Text` | *All types allowed* |
 | `displayAllFiles`    | Display all files in the grid.                                                                                                                                    | `TwoOptions`      | `true`              |
 | `uploadSizeLimitKB`  | Maximum upload size per file in KB. (Max: `10485760` KB or `10 GB`)                                                                                               | `Whole.None`      | `10485760` KB       |
 | `maxNumberOfFiles`   | Enter the maximum number of files a user can upload.                                                                                                              | `Whole.None`      | `0`                 |
@@ -196,11 +201,361 @@ The following settings configure the PCF component's behavior. Keep in mind that
 | `layout`             | Component layout option. Options: Horizontal, Vertical.                                                                                                           | `Enum`            | `Vertical`          |
 
 
+### What the bound field contains
+
+The control is bound to a single line text field and writes the **number of files** currently
+attached to the record into it, clearing it when there are none.
+
+That makes the bound field useful for validation. Mark it **required** on the form and the
+user cannot submit until at least one file is attached, with no custom script.
+
+The value is a count. It is not a file name or an id, so do not parse it as one.
+
+### Overriding the theme from the URL
+
+`themeColor` and `themeDarkMode` can also be set with a query string parameter, which is
+useful when one page needs a different theme from the form default and you do not want to
+edit and publish the form to get it.
+
+| Parameter        | Accepts                                   | Example                 |
+| ---------------- | ----------------------------------------- | ----------------------- |
+| `themeColor`     | A hex colour, 3 or 6 digits, `#` optional | `themeColor=%23107C10`  |
+| `themeDarkMode`  | `true`, `false`, `1`, `0`                 | `themeDarkMode=true`    |
+
+```
+https://<your-site>/<your-page>/?themeDarkMode=true&themeColor=E3008C
+```
+
+Precedence is the URL parameter first, then the property configured on the form, then the
+default.
+
+Remember to URL encode the `#` as `%23` if you include it. `themeColor=E3008C` without the
+`#` works too.
+
+**Only a plain hex colour is accepted.** Named colours such as `red`, and any functional
+syntax such as `rgb(...)`, are rejected, because the value ends up in generated CSS and the
+parameter is something anyone can put in a link. A value that fails validation is ignored and
+the control falls back to the configured property, so a bad link renders the default theme
+rather than breaking the control.
+
+The theme is applied when the control loads, so changing the parameter needs a page reload.
+
 ### Behavior Considerations
 
+- Both lists must pass. If you set `allowedFileTypes` **and** `allowedMimeTypes`, a file has
+  to satisfy both. A file whose MIME type the browser cannot determine reports an empty type
+  and will therefore fail a configured MIME list, so prefer extensions alone for formats such
+  as `.bin`.
 - If the **site settings** for file size, allowed file types, or MIME types are **more restrictive** than the PCF settings, uploads will **fail** due to site-level restrictions.
 - Ensure the entity where this PCF is applied has **Attachments enabled** to support file uploads.
 - The component should be added to a **Single Line Text field** in Power Apps for proper integration.
-  (Explain configurable properties and how to customize the PCF component.)
+- The `language` property does **not** follow the browser or the signed in user's language. It
+  is whatever the form is configured with, defaulting to `en`.
+
+## Troubleshooting
+
+| What you see | Likely cause |
+| ------------ | ------------ |
+| "This record hasn't been created yet. To enable file upload, create this record" | The control is on a **Create** form. The Azure File API can only attach to a record that already exists, so place it on an Edit form or a later step of a multi step form. |
+| "Enable custom component to see this field in preview" | The Custom Component option is not enabled for that field on that page. See [Configuring the Form Component on a Webpage](#configuring-the-form-component-on-a-webpage). |
+| The control renders but never lists any files | Table permissions for the Note (annotation) table are missing, or the web role is not assigned to the signed in contact. |
+| Uploads rejected before any network call | This is the control's own `allowedFileTypes`, `allowedMimeTypes`, `uploadSizeLimitKB` or `maxNumberOfFiles` validation. The message names which limit was hit. |
+| Upload fails with **400**, code `FU00004`, `FU00016` or `FU00021` | The **site settings** rejected the type. `Site/FileManagement/SupportedFileType` and `SupportedMimeType` are enforced separately from the control's properties, and are frequently stricter. |
+| Upload fails with **400**, code `FU00007` or `FU00022` | `BlobStorageAccountName` or `BlobStorageContainerName` is wrong or missing. |
+| Upload fails with **403**, code `FU00003` | A Power Pages table permission problem, not an Azure one. |
+| Upload fails with **403**, code `FU00018` | The Entra application is missing the **Storage Blob Data Contributor** role on the storage account. |
+| Upload fails with **403**, code `FU00011` | IP restrictions are enabled on the storage account. |
+| Files upload but downloads fail | Check `Site/FileManagement/DownloadViaSASUri` and the **Reader** role assignment on the resource group. |
+| The control renders light on a dark site | The theme is not auto detected. Set `themeDarkMode` on the form, or append `themeDarkMode=true` to the page URL. |
+
+The full list of Azure File API error codes is in the Microsoft Learn article linked in the
+[Introduction](#introduction).
+
+## Built-in Transfer Protection
+
+Two protections are always on. Nothing needs configuring, and they are inert unless a file
+drag or a live transfer is present.
+
+- **A stray drop cannot navigate the page away.** Dropping a file anywhere outside the drop
+  zone would normally make the browser leave the page to open that file, which on a multi
+  step form loses everything the user has entered. Files dropped outside the zone are now
+  ignored instead. Drags that do not carry files are untouched, so other drop targets on the
+  page still work.
+- **Closing the tab during a transfer prompts first.** The browser shows its own confirmation
+  while any upload or delete is running, and stays silent otherwise.
+
+Because of the second one, the `beforeunload` snippets further down are **optional**. They
+are kept for reference and are harmless if you add them anyway.
+
+## Notifying the Page During File Operations
+
+The control tells the host page whenever an upload or delete is in flight, so the page can
+show an overlay, disable a submit button, or warn before navigation. Nothing needs to be
+enabled: the notifications are always published, and a page that ignores them is unaffected.
+
+"Busy" is reference counted across every concurrent upload and delete, and across multiple
+instances of the control on the same page. It only reports idle once **all** of them finish.
+
+### Three ways to consume it
+
+| Channel | Use it when |
+| ------- | ----------- |
+| `data-raw-file-busy` attribute on `<body>` | You want an overlay with **no JavaScript at all** |
+| `window` events | You want to react the moment state changes |
+| `window.RAWFileManagerInfo` | Your script may load *after* an operation already started |
+
+### CSS only, no JavaScript
+
+The control sets `data-raw-file-busy="true"` on `<body>` while any operation runs and
+removes it when everything finishes.
+
+```css
+body[data-raw-file-busy] .file-busy-overlay {
+  display: block;
+}
+
+body[data-raw-file-busy] input[type="submit"],
+body[data-raw-file-busy] button[type="submit"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+```
+
+### Events
+
+```js
+window.addEventListener("raw-filemanager:busy", function (e) {
+  console.log("file work started", e.detail); // { busy, uploads, deletes, total }
+});
+
+window.addEventListener("raw-filemanager:idle", function () {
+  console.log("all file work finished");
+});
+
+// Fires on every transition, with the same detail payload.
+window.addEventListener("raw-filemanager:change", function (e) {
+  document.getElementById("my-overlay").hidden = !e.detail.busy;
+});
+```
+
+### Reading the current state
+
+Events are missed by any listener that binds after they fire, and script load order on a
+Power Pages site is not guaranteed. Read the current state once on load, then rely on
+events from there:
+
+```js
+var info = window.RAWFileManagerInfo;
+
+if (info && info.isBusy()) {
+  // An upload was already running before this script loaded.
+  showOverlay();
+}
+
+// subscribe() returns an unsubscribe function.
+var stop = info.subscribe(function (state) {
+  state.busy ? showOverlay() : hideOverlay();
+});
+```
+
+`window.RAWFileManagerInfo` exposes:
+
+| Member | Returns | Notes |
+| ------ | ------- | ----- |
+| `isBusy()` | `boolean` | true while any upload or delete is running |
+| `getState()` | `{ busy, uploads, deletes, total }` | counts of in-flight operations |
+| `subscribe(fn)` | unsubscribe function | called on every transition |
+| `reset()` | `void` | escape hatch, see below |
+
+### Blocking form submit properly
+
+CSS `pointer-events: none` stops a mouse click but **not** the Enter key and **not** a
+scripted `form.submit()`. If a record genuinely must not save mid-upload, also block the
+submit event:
+
+```js
+$(document).on("submit", "form", function (e) {
+  if (window.RAWFileManagerInfo && window.RAWFileManagerInfo.isBusy()) {
+    e.preventDefault();
+    alert("Please wait for file uploads to finish.");
+  }
+});
+```
+
+To warn on navigation as well. **The control already does this**, so this snippet is only
+needed if you want your own wording or extra handling:
+
+```js
+window.addEventListener("beforeunload", function (e) {
+  if (window.RAWFileManagerInfo && window.RAWFileManagerInfo.isBusy()) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+```
+
+### Locking the whole page during an operation
+
+This recipe disables every control on the page while a file operation runs, then restores
+them. It has been verified against a live Power Pages site. Paste it into the page's
+**Custom JavaScript** in Power Pages design studio.
+
+**Set `controlContainer` to `#<fieldLogicalName>_Container`.** For a control bound to a
+field named `new_uploadcomponent` that is `#new_uploadcomponent_Container`. Do **not** use
+`#new_uploadcomponent` on its own: that is the bound `<input>` element, it contains nothing,
+and the exclusion below would silently do nothing.
+
+```js
+(function () {
+  "use strict";
+
+  var CONFIG = {
+    // Everything inside this container stays enabled so uploads can still be cancelled.
+    controlContainer: "#new_uploadcomponent_Container",
+    showOverlay: true,
+    blockSubmit: true,
+    // The control already warns on navigation, so this is belt and braces.
+    warnOnLeave: true
+  };
+
+  // Marks only the elements this script disabled, so nothing that was already
+  // disabled for its own reasons gets switched on when the operation finishes.
+  var MARK = "data-raw-locked";
+  var overlay = null;
+
+  function controlRoot() {
+    var el = document.querySelector(CONFIG.controlContainer);
+    if (el) { return el; }
+    var input = document.querySelector('input[type="file"]');
+    return input ? input.closest("td, .form-group, .control") : null;
+  }
+
+  function lockable() {
+    var root = controlRoot();
+    var all = document.querySelectorAll("input, select, textarea, button, a[href]");
+    var out = [];
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (root && root.contains(el)) { continue; }
+      if (el.disabled) { continue; }
+      if (el.getAttribute("aria-disabled") === "true") { continue; }
+      out.push(el);
+    }
+    return out;
+  }
+
+  function ensureOverlay() {
+    if (overlay || !CONFIG.showOverlay) { return; }
+    overlay = document.createElement("div");
+    overlay.id = "raw-busy-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.style.cssText = "position:fixed;inset:0;background:rgba(255,255,255,0.5);z-index:9998;display:none;cursor:progress";
+    document.body.appendChild(overlay);
+  }
+
+  function lock() {
+    var items = lockable();
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      el.setAttribute(MARK, "true");
+      if (el.tagName === "A") {
+        el.setAttribute("aria-disabled", "true");
+        el.style.pointerEvents = "none";
+        el.style.opacity = "0.5";
+      } else {
+        el.disabled = true;
+      }
+    }
+    document.body.setAttribute("aria-busy", "true");
+    if (overlay) { overlay.style.display = "block"; }
+  }
+
+  function unlock() {
+    var items = document.querySelectorAll("[" + MARK + "]");
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      if (el.tagName === "A") {
+        el.removeAttribute("aria-disabled");
+        el.style.pointerEvents = "";
+        el.style.opacity = "";
+      } else {
+        el.disabled = false;
+      }
+      el.removeAttribute(MARK);
+    }
+    document.body.removeAttribute("aria-busy");
+    if (overlay) { overlay.style.display = "none"; }
+  }
+
+  function isBusy() {
+    return !!(window.RAWFileManagerInfo && window.RAWFileManagerInfo.isBusy());
+  }
+
+  function start() {
+    ensureOverlay();
+
+    // The control may already be mid-operation before this script runs, so read the
+    // current state once rather than relying on an event that may already have fired.
+    isBusy() ? lock() : unlock();
+
+    window.addEventListener("raw-filemanager:change", function (e) {
+      e.detail.busy ? lock() : unlock();
+    });
+
+    if (CONFIG.blockSubmit) {
+      // Disabling a button does not stop the Enter key or a scripted form.submit().
+      document.addEventListener("submit", function (e) {
+        if (isBusy()) {
+          e.preventDefault();
+          e.stopPropagation();
+          alert("Please wait for the file operation to finish.");
+        }
+      }, true);
+    }
+
+    if (CONFIG.warnOnLeave) {
+      window.addEventListener("beforeunload", function (e) {
+        if (isBusy()) { e.preventDefault(); e.returnValue = ""; }
+      });
+    }
+  }
+
+  // The control registers its global during PCF init, which can run after this script.
+  if (window.RAWFileManagerInfo) {
+    start();
+  } else {
+    var tries = 0;
+    var timer = setInterval(function () {
+      if (window.RAWFileManagerInfo || ++tries > 40) { clearInterval(timer); start(); }
+    }, 250);
+  }
+})();
+```
+
+**Why each defensive piece is there.** All four were confirmed to matter during testing:
+
+| Piece | Without it |
+| ----- | ---------- |
+| Excluding `controlContainer` | The control's own **Cancel Upload** button gets disabled, so a user cannot stop an upload in progress |
+| The `MARK` attribute | Buttons that were already disabled, such as **Delete Selected** and **Cancel Upload**, get switched on when the operation ends |
+| The capture-phase `submit` handler | The form still submits by Enter key or `form.submit()`, because those ignore a disabled button |
+| Polling for the global | A page script that runs before the control finishes `init` never binds at all |
+
+**Consider whether a full page lock is what you want.** It stops a user filling in the rest
+of the form while a large upload runs. Disabling only the submit button, plus an indicator,
+is often the better trade. To do that, narrow `lockable()` to the submit controls.
+
+### Notes
+
+- **Idle is announced about 250 ms after the last operation finishes.** This stops the
+  overlay flickering off and on between two back-to-back operations. Busy is announced
+  immediately.
+- **There is no automatic timeout.** A large file can legitimately upload for many minutes,
+  and a timeout would unlock the page mid-transfer. If a page ever gets stuck, call
+  `window.RAWFileManagerInfo.reset()`.
+- **Failures still release the page.** Every operation decrements in a `finally` block, so
+  a network error or a cancelled upload cannot leave the overlay stuck on.
+- Event names, the attribute name, and the global name are a public contract. They are
+  defined in `PowerPagesFileManager/utils/constants.ts`.
 
 

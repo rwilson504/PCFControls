@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="RAW" constructor="PowerPagesFileManager" version="0.0.30" display-name-key="Control_Name" description-key="Control_Description" control-type="standard">
+  <control namespace="RAW" constructor="PowerPagesFileManager" version="0.0.31" display-name-key="Control_Name" description-key="Control_Description" control-type="standard">
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -48,6 +48,7 @@
       <value name="Horizontal" display-name-key="layout_Horizontal_DisplayName">Horizontal</value>
       <value name="Vertical" display-name-key="layout_Vertical_DisplayName">Vertical</value>
     </property>
+    <property name="showDownloadButton" display-name-key="showDownloadButton_Name" description-key="showDownloadButton_Description" of-type="TwoOptions" default-value="true" usage="input" />
     <!--
       Property node's of-type attribute can be of-type-group attribute.
       Example:
@@ -64,6 +65,7 @@
       <!-- Added resource entries for localization -->
       <resx path="resources/PortalFiles.1033.resx" version="1.0.0" />
       <resx path="resources/PortalFiles.3082.resx" version="1.0.0" />
+      <resx path="resources/PortalFiles.1034.resx" version="1.0.0" />
       <resx path="resources/PortalFiles.1036.resx" version="1.0.0" />
       <resx path="resources/PortalFiles.1031.resx" version="1.0.0" />
       <resx path="resources/PortalFiles.2052.resx" version="1.0.0" />

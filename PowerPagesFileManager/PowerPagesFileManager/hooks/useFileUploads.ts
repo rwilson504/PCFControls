@@ -2,10 +2,11 @@ import * as React from "react";
 import { IAnnotation } from "../types";
 import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
+import { trackOperation } from "../services/PageNotifier";
 
 export function useFileUploads(
   setAnnotations: React.Dispatch<React.SetStateAction<IAnnotation[]>>,
-  setError: (error: string) => void
+  setError: React.Dispatch<React.SetStateAction<string>>
 ) {
   const pcfcontext = usePcfContext();
   const [uploadProgress, setUploadProgress] = React.useState<Record<string, number>>({});
@@ -16,6 +17,13 @@ export function useFileUploads(
   const abortControllersRef = React.useRef<Record<string, AbortController>>({});
   const deletedAnnotationsRef = React.useRef<Set<string>>(new Set());
 
+  // Uploads run concurrently, so a plain setError would leave only the last failure visible.
+  const appendError = (message: string) =>
+    setError((previous) => {
+      if (!previous) return message;
+      return previous.split("\n").includes(message) ? previous : `${previous}\n${message}`;
+    });
+
   React.useEffect(() => {
     // Clean up abort controllers on unmount
     return () => {
@@ -25,7 +33,7 @@ export function useFileUploads(
     };
   }, []);
 
-  const handleFileUpload = async (file: File): Promise<void> => {
+  const uploadFile = async (file: File): Promise<void> => {
     // Check file count limits
     if (pcfcontext.maxNumberOfFiles > 0) {
       try {
@@ -101,13 +109,18 @@ export function useFileUploads(
       if (abortController.signal.aborted) {
         console.log(`Upload of ${file.name} was canceled`);
       } else {
-        setError(`Failed to upload file: ${file.name}`);
+        appendError(`Failed to upload file: ${file.name}`);
       }
       
       // Clean up UI state
       cleanupUploadState(tempId);
     }
   };
+
+  // Tracked as a single operation so the host page does not see a false idle in the gap
+  // between InitializeUpload and the chunk uploads.
+  const handleFileUpload = (file: File): Promise<void> =>
+    trackOperation("upload", () => uploadFile(file));
 
   // Helper to clean up UI state and delete annotations if needed
   const cleanupUploadState = (tempId: string, annotationId?: string) => {

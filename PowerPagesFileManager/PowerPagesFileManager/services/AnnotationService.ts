@@ -1,6 +1,7 @@
 import { httpClient } from './HttpClient';
 import { IAnnotation, IAnnotationsResponse, FileUploadOptions } from '../types';
 import * as Constants from "../utils/constants";
+import { trackOperation } from './PageNotifier';
 
 export class AnnotationService {
   /**
@@ -120,11 +121,15 @@ export class AnnotationService {
   }
 
   /**
-   * Deletes an annotation
+   * Deletes an annotation. Tracked here rather than at the call sites because deletes are
+   * triggered from several places in the grid, and one of them previously reported no
+   * busy state at all.
    */
   async deleteAnnotation(annotationId: string): Promise<void> {
-    const url = `/_api/file/delete/annotation(${annotationId})/blob/$value`;
-    await httpClient.delete(url);
+    return trackOperation('delete', async () => {
+      const url = `/_api/file/delete/annotation(${annotationId})/blob/$value`;
+      await httpClient.delete(url);
+    });
   }
 
   /**

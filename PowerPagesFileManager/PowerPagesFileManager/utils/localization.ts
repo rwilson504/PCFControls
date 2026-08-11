@@ -349,7 +349,7 @@ const translations: Translations = {
     pt: "Você só pode ter um total de {allowedTotal} arquivo(s). Você já tem {currentCount}, então só pode adicionar {remaining} a mais。"
   },
   OversizeFileError: {
-    en: "The file \"{fileName}\" exceeds the maximum size of {maxSize} KB。",
+    en: "The file \"{fileName}\" exceeds the maximum size of {maxSize} KB.",
     es: "El archivo \"{fileName}\" excede el tamaño máximo de {maxSize} KB。",
     fr: "Le fichier \"{fileName}\" dépasse la taille maximale de {maxSize} KB。",
     de: "Die Datei \"{fileName}\" überschreitet die maximale Größe von {maxSize} KB。",
@@ -361,7 +361,7 @@ const translations: Translations = {
     pt: "O arquivo \"{fileName}\" excede o tamanho máximo de {maxSize} KB。"
   },
   OversizeFilesError: {
-    en: "{count} files exceed the maximum size of {maxSize} KB。",
+    en: "{count} files exceed the maximum size of {maxSize} KB.",
     es: "{count} archivos exceden el tamaño máximo de {maxSize} KB。",
     fr: "{count} fichiers dépassent la taille maximale de {maxSize} KB。",
     de: "{count} Dateien überschreiten die maximale Größe von {maxSize} KB。",
@@ -373,7 +373,7 @@ const translations: Translations = {
     pt: "{count} arquivos excedem o tamanho máximo de {maxSize} KB。"
   },
   DisallowedFileError: {
-    en: "You are attempting to upload {count} file(s) with disallowed file types/mime types. Please upload only allowed types。",
+    en: "You are attempting to upload {count} file(s) with disallowed file types/mime types. Please upload only allowed types.",
     es: "Estás intentando cargar {count} archivo(s) con tipos/mime no permitidos. Por favor, carga solo los tipos permitidos。",
     fr: "Vous tentez de télécharger {count} fichier(s) avec des types/mime non autorisés. Veuillez télécharger uniquement les types autorisés。",
     de: "Sie versuchen, {count} Datei(en) mit nicht erlaubten Dateitypen/MIME-Typen hochzuladen. Bitte laden Sie nur erlaubte Typen hoch。",

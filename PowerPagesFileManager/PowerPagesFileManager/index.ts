@@ -4,6 +4,8 @@ import { createRoot, Root } from "react-dom/client";
 import { v4 as uuidv4 } from "uuid";
 import { IPcfContextServiceProps } from "./services/PcfContextService";
 import { PortalFilesApp } from "./PortalFilesApp";
+import { installPageNotifier } from "./services/PageNotifier";
+import { installPageGuards } from "./services/PageGuards";
 
 export class PowerPagesFileManager
   implements ComponentFramework.StandardControl<IInputs, IOutputs>
@@ -39,6 +41,9 @@ export class PowerPagesFileManager
     this._container = container;
     this._reactRoot = createRoot(this._container);
     this._notifyOutputChanged = notifyOutputChanged;
+
+    installPageNotifier();
+    installPageGuards();
 
     this._props = {
       context: context,
