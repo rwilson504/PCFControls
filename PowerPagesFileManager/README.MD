@@ -422,6 +422,9 @@ and the exclusion below would silently do nothing.
   // disabled for its own reasons gets switched on when the operation finishes.
   var MARK = "data-raw-locked";
   var overlay = null;
+  var raised = null;
+  var savedPosition = "";
+  var savedZIndex = "";
 
   function controlRoot() {
     var el = document.querySelector(CONFIG.controlContainer);
@@ -437,6 +440,9 @@ and the exclusion below would silently do nothing.
     for (var i = 0; i < all.length; i++) {
       var el = all[i];
       if (root && root.contains(el)) { continue; }
+      // An open dialog is the thing the user has to answer. Disabling its buttons traps them,
+      // and the control's confirmations are portalled to <body>, outside controlContainer.
+      if (el.closest('[role="dialog"], [role="alertdialog"]')) { continue; }
       if (el.disabled) { continue; }
       if (el.getAttribute("aria-disabled") === "true") { continue; }
       out.push(el);
@@ -453,6 +459,24 @@ and the exclusion below would silently do nothing.
     document.body.appendChild(overlay);
   }
 
+  // The overlay is full screen, so without this it also covers the control and Cancel Upload
+  // becomes unclickable, which defeats the point of excluding controlContainer above.
+  function raiseControl(on) {
+    var root = controlRoot();
+    if (!root) { return; }
+    if (on) {
+      raised = root;
+      savedPosition = root.style.position;
+      savedZIndex = root.style.zIndex;
+      if (getComputedStyle(root).position === "static") { root.style.position = "relative"; }
+      root.style.zIndex = "9999";
+    } else if (raised) {
+      raised.style.position = savedPosition;
+      raised.style.zIndex = savedZIndex;
+      raised = null;
+    }
+  }
+
   function lock() {
     var items = lockable();
     for (var i = 0; i < items.length; i++) {
@@ -467,6 +491,7 @@ and the exclusion below would silently do nothing.
       }
     }
     document.body.setAttribute("aria-busy", "true");
+    raiseControl(true);
     if (overlay) { overlay.style.display = "block"; }
   }
 
@@ -485,6 +510,7 @@ and the exclusion below would silently do nothing.
     }
     document.body.removeAttribute("aria-busy");
     if (overlay) { overlay.style.display = "none"; }
+    raiseControl(false);
   }
 
   function isBusy() {
@@ -532,18 +558,33 @@ and the exclusion below would silently do nothing.
 })();
 ```
 
-**Why each defensive piece is there.** All four were confirmed to matter during testing:
+**Why each defensive piece is there.** All six were confirmed to matter during testing:
 
 | Piece | Without it |
 | ----- | ---------- |
 | Excluding `controlContainer` | The control's own **Cancel Upload** button gets disabled, so a user cannot stop an upload in progress |
+| `raiseControl()` | The full-screen overlay covers the control too, so **Cancel Upload is unclickable even though it is enabled**, which silently undoes the exclusion above |
+| Skipping open dialogs | The control portals its confirmations to `<body>`, outside `controlContainer`, so their buttons get disabled and the user cannot answer the prompt |
 | The `MARK` attribute | Buttons that were already disabled, such as **Delete Selected** and **Cancel Upload**, get switched on when the operation ends |
 | The capture-phase `submit` handler | The form still submits by Enter key or `form.submit()`, because those ignore a disabled button |
 | Polling for the global | A page script that runs before the control finishes `init` never binds at all |
 
+The overlay one is worth stressing, because it looks fine in review. `Cancel Upload` reports
+as enabled the whole time; it is only when you hit-test the button's centre with
+`document.elementFromPoint` that you find the overlay on top of it.
+
 **Consider whether a full page lock is what you want.** It stops a user filling in the rest
-of the form while a large upload runs. Disabling only the submit button, plus an indicator,
-is often the better trade. To do that, narrow `lockable()` to the submit controls.
+of the form while a large upload runs. Disabling only the submit button and any status
+field, plus an indicator, is often the better trade, and it avoids the overlay problem
+entirely because there is no overlay. To do that, drop `lockable()` and the overlay and act
+on a fixed list of selectors:
+
+```js
+var SELECTORS = "#NextButton, #PreviousButton, #my_statusfield";
+```
+
+Keep the capture-phase `submit` handler either way: disabling the submit button does not
+stop the Enter key.
 
 ### Notes
 
