@@ -163,22 +163,22 @@ const translations: Translations = {
     de: "Das Hochladen von Ordnern ist nicht erlaubt. Bitte wählen Sie nur Dateien aus.",
     zh: "不允许上传文件夹。请选择文件。",
     ja: "フォルダーのアップロードは禁止されています。ファイルのみを選択してください。",
-    ko: "폴더 업로드는 허용되지 않습니다. 파일만 선택하십시오。",
+    ko: "폴더 업로드는 허용되지 않습니다. 파일만 선택하십시오.",
     it: "Non è possibile caricare cartelle. Seleziona solo file.",
     nl: "Het uploaden van mappen is niet toegestaan. Selecteer alleen bestanden.",
-    pt: "O upload de pastas não é permitido. Por favor, selecione apenas arquivos。"
+    pt: "O upload de pastas não é permitido. Por favor, selecione apenas arquivos."
   },
   DeleteAnnotationFailed: {
     en: "Failed to delete annotation.",
-    es: "No se pudo eliminar la anotación。",
-    fr: "La suppression de l'annotation a échoué。",
-    de: "Löschen der Annotation fehlgeschlagen。",
+    es: "No se pudo eliminar la anotación.",
+    fr: "La suppression de l'annotation a échoué.",
+    de: "Löschen der Annotation fehlgeschlagen.",
     zh: "删除批注失败。",
     ja: "注釈の削除に失敗しました。",
-    ko: "주석 삭제에 실패했습니다。",
-    it: "Impossibile eliminare l'annotazione。",
-    nl: "Het verwijderen van de annotatie is mislukt。",
-    pt: "Falha ao excluir a anotação。"
+    ko: "주석 삭제에 실패했습니다.",
+    it: "Impossibile eliminare l'annotazione.",
+    nl: "Het verwijderen van de annotatie is mislukt.",
+    pt: "Falha ao excluir a anotação."
   },
   DeleteFile: {
     en: "Delete file",
@@ -194,27 +194,27 @@ const translations: Translations = {
   },
   DeleteFileFailed: {
     en: "Failed to delete file.",
-    es: "No se pudo eliminar el archivo。",
-    fr: "La suppression du fichier a échoué。",
-    de: "Löschen der Datei fehlgeschlagen。",
+    es: "No se pudo eliminar el archivo.",
+    fr: "La suppression du fichier a échoué.",
+    de: "Löschen der Datei fehlgeschlagen.",
     zh: "删除文件失败。",
     ja: "ファイルの削除に失敗しました。",
-    ko: "파일 삭제에 실패했습니다。",
-    it: "Impossibile eliminare il file。",
-    nl: "Het verwijderen van het bestand is mislukt。",
-    pt: "Falha ao excluir o arquivo。"
+    ko: "파일 삭제에 실패했습니다.",
+    it: "Impossibile eliminare il file.",
+    nl: "Het verwijderen van het bestand is mislukt.",
+    pt: "Falha ao excluir o arquivo."
   },
   DeleteDuplicateAnnotationsFailed: {
     en: "Failed to delete duplicate annotations.",
-    es: "No se pudieron eliminar las anotaciones duplicadas。",
-    fr: "La suppression des annotations dupliquées a échoué。",
-    de: "Löschen der doppelten Annotationen fehlgeschlagen。",
+    es: "No se pudieron eliminar las anotaciones duplicadas.",
+    fr: "La suppression des annotations dupliquées a échoué.",
+    de: "Löschen der doppelten Annotationen fehlgeschlagen.",
     zh: "删除重复批注失败。",
     ja: "重複する注釈の削除に失敗しました。",
-    ko: "중복된 주석 삭제에 실패했습니다。",
-    it: "Impossibile eliminare le annotazioni duplicate。",
-    nl: "Het verwijderen van dubbele annotaties is mislukt。",
-    pt: "Falha ao excluir anotações duplicadas。"
+    ko: "중복된 주석 삭제에 실패했습니다.",
+    it: "Impossibile eliminare le annotazioni duplicate.",
+    nl: "Het verwijderen van dubbele annotaties is mislukt.",
+    pt: "Falha ao excluir anotações duplicadas."
   },
   LoadingAnnotations: {
     en: "Loading annotations...",
@@ -338,51 +338,51 @@ const translations: Translations = {
   },
   MaxFilesExceeded: {
     en: "You can only have a total of {allowedTotal} file(s). You already have {currentCount}, so you can only add {remaining} more.",
-    es: "Solo puedes tener un total de {allowedTotal} archivo(s). Ya tienes {currentCount}, por lo que solo puedes agregar {remaining} más。",
-    fr: "Vous ne pouvez avoir qu'un total de {allowedTotal} fichier(s). Vous en avez déjà {currentCount}, il ne vous reste que {remaining} à ajouter。",
-    de: "Sie können insgesamt nur {allowedTotal} Datei(en) haben. Sie haben bereits {currentCount}, also können Sie nur noch {remaining} hinzufügen。",
+    es: "Solo puedes tener un total de {allowedTotal} archivo(s). Ya tienes {currentCount}, por lo que solo puedes agregar {remaining} más.",
+    fr: "Vous ne pouvez avoir qu'un total de {allowedTotal} fichier(s). Vous en avez déjà {currentCount}, il ne vous reste que {remaining} à ajouter.",
+    de: "Sie können insgesamt nur {allowedTotal} Datei(en) haben. Sie haben bereits {currentCount}, also können Sie nur noch {remaining} hinzufügen.",
     zh: "您最多只能有 {allowedTotal} 个文件。您已拥有 {currentCount} 个，因此只能再添加 {remaining} 个。",
     ja: "{allowedTotal} 個のファイルしか持てません。すでに {currentCount} 個あるので、あと {remaining} 個しか追加できません。",
-    ko: "{allowedTotal} 개의 파일만 허용됩니다. 이미 {currentCount} 개가 있으므로, {remaining} 개만 추가할 수 있습니다。",
-    it: "Puoi avere al massimo {allowedTotal} file. Ne hai già {currentCount}, quindi puoi aggiungerne solo altri {remaining}。",
-    nl: "U kunt in totaal slechts {allowedTotal} bestand(en) hebben. U heeft er al {currentCount}, dus u kunt nog maar {remaining} toevoegen。",
-    pt: "Você só pode ter um total de {allowedTotal} arquivo(s). Você já tem {currentCount}, então só pode adicionar {remaining} a mais。"
+    ko: "{allowedTotal} 개의 파일만 허용됩니다. 이미 {currentCount} 개가 있으므로, {remaining} 개만 추가할 수 있습니다.",
+    it: "Puoi avere al massimo {allowedTotal} file. Ne hai già {currentCount}, quindi puoi aggiungerne solo altri {remaining}.",
+    nl: "U kunt in totaal slechts {allowedTotal} bestand(en) hebben. U heeft er al {currentCount}, dus u kunt nog maar {remaining} toevoegen.",
+    pt: "Você só pode ter um total de {allowedTotal} arquivo(s). Você já tem {currentCount}, então só pode adicionar {remaining} a mais."
   },
   OversizeFileError: {
     en: "The file \"{fileName}\" exceeds the maximum size of {maxSize} KB.",
-    es: "El archivo \"{fileName}\" excede el tamaño máximo de {maxSize} KB。",
-    fr: "Le fichier \"{fileName}\" dépasse la taille maximale de {maxSize} KB。",
-    de: "Die Datei \"{fileName}\" überschreitet die maximale Größe von {maxSize} KB。",
+    es: "El archivo \"{fileName}\" excede el tamaño máximo de {maxSize} KB.",
+    fr: "Le fichier \"{fileName}\" dépasse la taille maximale de {maxSize} KB.",
+    de: "Die Datei \"{fileName}\" überschreitet die maximale Größe von {maxSize} KB.",
     zh: "文件 \"{fileName}\" 超过了 {maxSize} KB 的最大尺寸。",
     ja: "ファイル \"{fileName}\" は最大サイズ {maxSize} KB を超えています。",
-    ko: "파일 \"{fileName}\" 가 최대 크기 {maxSize} KB를 초과합니다。",
-    it: "Il file \"{fileName}\" supera la dimensione massima di {maxSize} KB。",
-    nl: "Het bestand \"{fileName}\" overschrijdt de maximale grootte van {maxSize} KB。",
-    pt: "O arquivo \"{fileName}\" excede o tamanho máximo de {maxSize} KB。"
+    ko: "파일 \"{fileName}\" 가 최대 크기 {maxSize} KB를 초과합니다.",
+    it: "Il file \"{fileName}\" supera la dimensione massima di {maxSize} KB.",
+    nl: "Het bestand \"{fileName}\" overschrijdt de maximale grootte van {maxSize} KB.",
+    pt: "O arquivo \"{fileName}\" excede o tamanho máximo de {maxSize} KB."
   },
   OversizeFilesError: {
     en: "{count} files exceed the maximum size of {maxSize} KB.",
-    es: "{count} archivos exceden el tamaño máximo de {maxSize} KB。",
-    fr: "{count} fichiers dépassent la taille maximale de {maxSize} KB。",
-    de: "{count} Dateien überschreiten die maximale Größe von {maxSize} KB。",
+    es: "{count} archivos exceden el tamaño máximo de {maxSize} KB.",
+    fr: "{count} fichiers dépassent la taille maximale de {maxSize} KB.",
+    de: "{count} Dateien überschreiten die maximale Größe von {maxSize} KB.",
     zh: "{count} 个文件超过了 {maxSize} KB 的最大尺寸。",
     ja: "{count} 個のファイルが最大サイズ {maxSize} KB を超えています。",
-    ko: "{count} 개의 파일이 최대 크기 {maxSize} KB를 초과합니다。",
-    it: "{count} file superano la dimensione massima di {maxSize} KB。",
-    nl: "{count} bestanden overschrijden de maximale grootte van {maxSize} KB。",
-    pt: "{count} arquivos excedem o tamanho máximo de {maxSize} KB。"
+    ko: "{count} 개의 파일이 최대 크기 {maxSize} KB를 초과합니다.",
+    it: "{count} file superano la dimensione massima di {maxSize} KB.",
+    nl: "{count} bestanden overschrijden de maximale grootte van {maxSize} KB.",
+    pt: "{count} arquivos excedem o tamanho máximo de {maxSize} KB."
   },
   DisallowedFileError: {
     en: "You are attempting to upload {count} file(s) with disallowed file types/mime types. Please upload only allowed types.",
-    es: "Estás intentando cargar {count} archivo(s) con tipos/mime no permitidos. Por favor, carga solo los tipos permitidos。",
-    fr: "Vous tentez de télécharger {count} fichier(s) avec des types/mime non autorisés. Veuillez télécharger uniquement les types autorisés。",
-    de: "Sie versuchen, {count} Datei(en) mit nicht erlaubten Dateitypen/MIME-Typen hochzuladen. Bitte laden Sie nur erlaubte Typen hoch。",
+    es: "Estás intentando cargar {count} archivo(s) con tipos/mime no permitidos. Por favor, carga solo los tipos permitidos.",
+    fr: "Vous tentez de télécharger {count} fichier(s) avec des types/mime non autorisés. Veuillez télécharger uniquement les types autorisés.",
+    de: "Sie versuchen, {count} Datei(en) mit nicht erlaubten Dateitypen/MIME-Typen hochzuladen. Bitte laden Sie nur erlaubte Typen hoch.",
     zh: "您正在尝试上传 {count} 个不允许的文件类型/MIME 类型的文件。请仅上传允许的类型。",
     ja: "{count} 個の許可されていないファイルタイプ/MIMEタイプのファイルをアップロードしようとしています。許可されたタイプのみアップロードしてください。",
-    ko: "{count} 개의 허용되지 않는 파일 유형/MIME 유형의 파일을 업로드하려고 합니다。 허용된 유형만 업로드하십시오。",
-    it: "Stai tentando di caricare {count} file con tipi/MIME non consentiti。 Carica solo i tipi permessi。",
-    nl: "U probeert {count} bestand(en) met niet-toegestane bestandstypen/MIME-types te uploaden。 Upload alleen toegestane types。",
-    pt: "Você está tentando enviar {count} arquivo(s) com tipos/MIME não permitidos。 Envie apenas os tipos permitidos。"
+    ko: "{count} 개의 허용되지 않는 파일 유형/MIME 유형의 파일을 업로드하려고 합니다. 허용된 유형만 업로드하십시오.",
+    it: "Stai tentando di caricare {count} file con tipi/MIME non consentiti. Carica solo i tipi permessi.",
+    nl: "U probeert {count} bestand(en) met niet-toegestane bestandstypen/MIME-types te uploaden. Upload alleen toegestane types.",
+    pt: "Você está tentando enviar {count} arquivo(s) com tipos/MIME não permitidos. Envie apenas os tipos permitidos."
   },
   DeleteSelected: {
     en: "Delete Selected",
@@ -637,7 +637,7 @@ const translations: Translations = {
     pt: "Número máximo de arquivos permitidos: {count}"
   },
   MaxFileSizeAllowed: {
-    en: "Maxium file size allowed per file is {size}",
+    en: "Maximum file size allowed per file is {size}",
     es: "El tamaño máximo de archivo permitido por archivo es {size}",
     fr: "La taille maximale de fichier autorisée par fichier est {size}",
     de: "Die maximale Dateigröße pro Datei beträgt {size}",
