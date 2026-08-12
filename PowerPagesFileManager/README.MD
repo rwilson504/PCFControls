@@ -325,18 +325,22 @@ body[data-raw-file-busy] button[type="submit"] {
 
 ```js
 window.addEventListener("raw-filemanager:busy", function (e) {
-  console.log("file work started", e.detail); // { busy, uploads, deletes, total }
+  console.log("file work started", e.detail); // { busy, uploads, deletes, total, files }
 });
 
 window.addEventListener("raw-filemanager:idle", function () {
   console.log("all file work finished");
 });
 
-// Fires on every transition, with the same detail payload.
+// Fires on every transition, and whenever the file count changes.
 window.addEventListener("raw-filemanager:change", function (e) {
   document.getElementById("my-overlay").hidden = !e.detail.busy;
 });
 ```
+
+`change` also fires when the number of files changes, which is how a page keeps a
+"require at least one file" rule up to date. `busy` and `idle` fire only on operation
+transitions, so a file count change never emits a false idle.
 
 ### Reading the current state
 
@@ -363,9 +367,80 @@ var stop = info.subscribe(function (state) {
 | Member | Returns | Notes |
 | ------ | ------- | ----- |
 | `isBusy()` | `boolean` | true while any upload or delete is running |
-| `getState()` | `{ busy, uploads, deletes, total }` | counts of in-flight operations |
+| `getState()` | `{ busy, uploads, deletes, total, files }` | counts of in-flight operations, plus the file count |
+| `getFileCount()` | `number` | committed files, see below |
 | `subscribe(fn)` | unsubscribe function | called on every transition |
 | `reset()` | `void` | escape hatch, see below |
+
+### Requiring at least one file before submit
+
+`getFileCount()` reports how many files the control is currently showing, so a page can stop
+a user submitting an empty request.
+
+**It counts committed files only.** A file still uploading is not included, because nothing
+is saved yet and the upload may still fail. That means the count only rises once an upload
+actually succeeds, which is the behaviour you want when gating submit. Note this differs
+from the control's own "Total files" label, which shows in-flight rows too so the user can
+see something is happening.
+
+The count is published through the same `change` event as busy state, so one handler can do
+both. Disable while busy **or** while empty:
+
+```js
+(function () {
+  "use strict";
+
+  // The submit and status controls this page wants gated.
+  var SELECTORS = "#NextButton, #PreviousButton, #my_statusfield";
+  var MARK = "data-raw-locked";
+
+  function info() { return window.RAWFileManagerInfo; }
+  function isBusy() { return !!(info() && info().isBusy()); }
+  function isEmpty() { return !info() || info().getFileCount() === 0; }
+  function shouldBlock() { return isBusy() || isEmpty(); }
+
+  function apply() {
+    var block = shouldBlock();
+    var items = document.querySelectorAll(SELECTORS);
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      if (block) {
+        if (el.disabled) { continue; }   // already disabled for its own reasons
+        el.setAttribute(MARK, "1");
+        el.disabled = true;
+      } else if (el.hasAttribute(MARK)) {
+        el.disabled = false;
+        el.removeAttribute(MARK);
+      }
+    }
+  }
+
+  // Disabling a button does not stop the Enter key, and the page may have several forms.
+  document.addEventListener("submit", function (e) {
+    if (shouldBlock()) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+
+  function start() {
+    apply();
+    info().subscribe(apply);
+  }
+
+  var tries = 0;
+  (function wait() {
+    if (info()) { start(); return; }
+    if (++tries > 40) return;
+    setTimeout(wait, 250);
+  })();
+})();
+```
+
+Two things worth knowing:
+
+- **Tell the user why the button is disabled.** A disabled Submit with no explanation reads
+  as a broken page. Show a message near the control when `getFileCount()` is `0`.
+- **This is a convenience, not a validation rule.** Anything enforced only in the browser can
+  be bypassed. If an empty request must never be accepted, enforce it server side as well,
+  with a Dataverse business rule, a plug-in, or validation in the form's own logic.
 
 ### Blocking form submit properly
 
