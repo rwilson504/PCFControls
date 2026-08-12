@@ -1,4 +1,12 @@
-export type LanguageCode = 'en' | 'es' | 'fr' | 'de' | 'zh' | 'ja' | 'ko' | 'it' | 'nl' | 'pt';
+// The runtime list is the source of truth and the type is derived from it, so a language
+// can never be added to one and missed in the other.
+export const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'ko', 'it', 'nl', 'pt'] as const;
+
+export type LanguageCode = typeof SUPPORTED_LANGUAGES[number];
+
+export function isLanguageCode(value: unknown): value is LanguageCode {
+  return typeof value === 'string' && (SUPPORTED_LANGUAGES as readonly string[]).includes(value);
+}
 
 // Define a mapping of translation keys to the type of parameters needed
 interface TranslationParams {
@@ -61,6 +69,7 @@ interface TranslationParams {
   LoadFilesFailed: undefined;
   CheckExistingFilesFailed: undefined;
   UploadFileFailed: { fileName: string };
+  Or: undefined;
   // Add additional keys and their parameters here as needed.
 }
 
@@ -126,7 +135,8 @@ export enum Message {
   FileErrorUnexpected = "FileErrorUnexpected",
   LoadFilesFailed = "LoadFilesFailed",
   CheckExistingFilesFailed = "CheckExistingFilesFailed",
-  UploadFileFailed = "UploadFileFailed"
+  UploadFileFailed = "UploadFileFailed",
+  Or = "Or"
 }
 
 type Translations = Record<string, Record<LanguageCode, string>>;
@@ -803,6 +813,18 @@ const translations: Translations = {
     it: "Impossibile caricare {fileName}.",
     nl: "{fileName} kon niet worden geüpload.",
     pt: "Não foi possível carregar {fileName}."
+  },
+  Or: {
+    en: "or",
+    es: "o",
+    fr: "ou",
+    de: "oder",
+    zh: "或",
+    ja: "または",
+    ko: "또는",
+    it: "o",
+    nl: "of",
+    pt: "ou"
   }
 };
 

@@ -4,14 +4,14 @@ import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
 import { trackOperation } from "../services/PageNotifier";
 import { withDetail } from "../utils/errorText";
-import { getTranslation, LanguageCode, Message } from "../utils/localization";
+import { getTranslation, Message } from "../utils/localization";
 
 export function useFileUploads(
   setAnnotations: React.Dispatch<React.SetStateAction<IAnnotation[]>>,
   setError: React.Dispatch<React.SetStateAction<string>>
 ) {
   const pcfcontext = usePcfContext();
-  const language = pcfcontext.language as LanguageCode;
+  const language = pcfcontext.language;
   const [uploadProgress, setUploadProgress] = React.useState<Record<string, number>>({});
   const [uploadingIds, setUploadingIds] = React.useState<string[]>([]);
   const [idMapping, setIdMapping] = React.useState<Record<string, string>>({});

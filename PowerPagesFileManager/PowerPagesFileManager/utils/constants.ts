@@ -12,9 +12,12 @@ export const EVENT_IDLE = "raw-filemanager:idle";
 // host page overlay off and on between them.
 export const IDLE_SETTLE_MS = 250;
 
-// Optional query string overrides for the theme input properties, so a Power Pages page can
-// pick a theme without editing the form. Public API, same as the notification contract above.
+// Optional query string overrides for input properties, so a Power Pages page can pick a
+// theme or a language without editing the form. Public API, same as the notification
+// contract above.
 export const URL_PARAM_THEME_COLOR = "themeColor";
 export const URL_PARAM_THEME_DARK_MODE = "themeDarkMode";
+export const URL_PARAM_LANGUAGE = "language";
 
 export const DEFAULT_THEME_COLOR = "#0F6CBD";
+export const DEFAULT_LANGUAGE = "en";

@@ -2,7 +2,8 @@ import { Theme } from "@fluentui/react-components";
 import { IInputs } from "../generated/ManifestTypes";
 import { getLayout, Layout } from "../utils/layouts";
 import { generateLightTheme, generateDarkTheme } from "../utils/themeGenerator";
-import { resolveThemeSettings } from "../utils/urlThemeOverrides";
+import { resolveLanguage, resolveThemeSettings } from "../utils/urlOverrides";
+import { LanguageCode } from "../utils/localization";
 
 export interface IPcfContextServiceProps {
   context: ComponentFramework.Context<IInputs>;
@@ -15,7 +16,7 @@ export class PcfContextService {
   context: ComponentFramework.Context<IInputs>;
   theme: Theme;
   layout: Layout;
-  language: string;
+  language: LanguageCode;
   allowMultipleFiles: boolean;
   allowedFileTypes: string;
   allowedMimeTypes: string;
@@ -36,7 +37,7 @@ export class PcfContextService {
     this.theme = themeSettings.darkMode
       ? generateDarkTheme(themeSettings.color)
       : generateLightTheme(themeSettings.color);
-    this.language = props.context.parameters.language?.raw ?? "en";
+    this.language = resolveLanguage(props.context.parameters.language?.raw);
     this.allowMultipleFiles =
       props.context.parameters.allowMultipleFiles?.raw ?? true;
     this.allowedFileTypes =

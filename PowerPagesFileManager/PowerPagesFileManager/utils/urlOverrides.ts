@@ -1,8 +1,11 @@
 import {
+  DEFAULT_LANGUAGE,
   DEFAULT_THEME_COLOR,
+  URL_PARAM_LANGUAGE,
   URL_PARAM_THEME_COLOR,
   URL_PARAM_THEME_DARK_MODE,
 } from "./constants";
+import { isLanguageCode, LanguageCode } from "./localization";
 
 export interface ThemeSettings {
   color: string;
@@ -59,4 +62,25 @@ export const resolveThemeSettings = (
       configuredDarkMode ??
       false,
   };
+};
+
+/**
+ * Resolves the language, preferring a query string override over the configured input
+ * property. Anything outside the supported set is discarded, so a bad value falls back to
+ * English rather than rendering raw translation keys.
+ */
+export const resolveLanguage = (
+  configuredLanguage: string | null | undefined,
+  search: string = window.location.search
+): LanguageCode => {
+  const params = new URLSearchParams(search);
+  const fromUrl = params.get(URL_PARAM_LANGUAGE)?.trim().toLowerCase();
+  if (isLanguageCode(fromUrl)) {
+    return fromUrl;
+  }
+  const configured = configuredLanguage?.trim().toLowerCase();
+  if (isLanguageCode(configured)) {
+    return configured;
+  }
+  return DEFAULT_LANGUAGE;
 };

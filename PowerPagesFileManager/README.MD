@@ -211,23 +211,24 @@ user cannot submit until at least one file is attached, with no custom script.
 
 The value is a count. It is not a file name or an id, so do not parse it as one.
 
-### Overriding the theme from the URL
+### Overriding the theme and language from the URL
 
-`themeColor` and `themeDarkMode` can also be set with a query string parameter, which is
-useful when one page needs a different theme from the form default and you do not want to
-edit and publish the form to get it.
+`themeColor`, `themeDarkMode` and `language` can also be set with a query string parameter,
+which is useful when one page needs a different setting from the form default and you do not
+want to edit and publish the form to get it.
 
-| Parameter        | Accepts                                   | Example                 |
-| ---------------- | ----------------------------------------- | ----------------------- |
-| `themeColor`     | A hex colour, 3 or 6 digits, `#` optional | `themeColor=%23107C10`  |
-| `themeDarkMode`  | `true`, `false`, `1`, `0`                 | `themeDarkMode=true`    |
+| Parameter        | Accepts                                          | Example                 |
+| ---------------- | ------------------------------------------------ | ----------------------- |
+| `themeColor`     | A hex colour, 3 or 6 digits, `#` optional        | `themeColor=%23107C10`  |
+| `themeDarkMode`  | `true`, `false`, `1`, `0`                        | `themeDarkMode=true`    |
+| `language`       | One of the ten supported codes, case insensitive | `language=fr`           |
 
 ```
-https://<your-site>/<your-page>/?themeDarkMode=true&themeColor=E3008C
+https://<your-site>/<your-page>/?themeDarkMode=true&themeColor=E3008C&language=es
 ```
 
-Precedence is the URL parameter first, then the property configured on the form, then the
-default.
+Precedence for all three is the URL parameter first, then the property configured on the
+form, then the default.
 
 Remember to URL encode the `#` as `%23` if you include it. `themeColor=E3008C` without the
 `#` works too.
@@ -238,7 +239,14 @@ parameter is something anyone can put in a link. A value that fails validation i
 the control falls back to the configured property, so a bad link renders the default theme
 rather than breaking the control.
 
-The theme is applied when the control loads, so changing the parameter needs a page reload.
+**Only the ten supported language codes are accepted**: `en`, `es`, `fr`, `de`, `zh`, `ja`,
+`ko`, `it`, `nl`, `pt`. Anything else is ignored and the control falls back to the form
+property, then to `en`, so it never renders raw translation keys. Note that `language` is a
+generic name: if your page already uses a `language` parameter for something else, the
+control will read it. A value it does not recognise is discarded, but a value that happens to
+be one of the ten will be honoured.
+
+Both settings are applied when the control loads, so changing a parameter needs a page reload.
 
 ### Behavior Considerations
 

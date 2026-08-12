@@ -23,7 +23,7 @@ import { useFileOperationState } from "../hooks/useFileOperationState";
 import { setFileCount } from "../services/PageNotifier";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import HeaderButtons from "./HeaderButtons";
-import { getTranslation, LanguageCode, Message } from "../utils/localization";
+import { getTranslation, Message } from "../utils/localization";
 import { withDetail } from "../utils/errorText";
 import * as Constants from "../utils/constants";
 import {
@@ -179,7 +179,7 @@ export const AnnotationsGrid = (): JSX.Element => {
     setFileCount(committedFileCount);
   }, [committedFileCount]);
   const [isDragOver, setIsDragOver] = React.useState<boolean>(false);
-  const pcfLanguage = pcfcontext.language as LanguageCode; // language from context
+  const pcfLanguage = pcfcontext.language;
 
   const handleSort = (col: "filename" | "createdon") => {
     if (sortColumn === col) {
@@ -647,7 +647,7 @@ export const AnnotationsGrid = (): JSX.Element => {
             onClick={() => setError("")}
             aria-label={getTranslation(Message.DismissError, pcfLanguage)}
           >
-            Dismiss
+            {getTranslation(Message.DismissError, pcfLanguage)}
           </Button>
         </div>
       )}
@@ -694,7 +694,7 @@ export const AnnotationsGrid = (): JSX.Element => {
             <Text weight="semibold" style={{ display: "inline-block", marginBottom: "5px", fontSize: "18px" }}>
               {getTranslation(Message.DragAndDropFile, pcfLanguage)}
             </Text>
-            <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>or</Text>
+            <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>{getTranslation(Message.Or, pcfLanguage)}</Text>
             <Button
               appearance="primary"
               disabled={deleting}
@@ -903,7 +903,7 @@ export const AnnotationsGrid = (): JSX.Element => {
                 {getTranslation("DragAndDrop", pcfLanguage)}
               </Text>
               <Text weight="semibold" style={{ display: "block", marginBottom: "5px", textAlign: "center" }}>
-                or
+                {getTranslation(Message.Or, pcfLanguage)}
               </Text>
               <Button
                 appearance="primary"
