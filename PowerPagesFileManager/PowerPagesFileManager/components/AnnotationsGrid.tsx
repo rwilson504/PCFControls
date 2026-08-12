@@ -20,6 +20,7 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import { FileOverwriteDialog } from "./FileOverwriteDialog";
 import { useFileUploads } from "../hooks/useFileUploads";
 import { useFileOperationState } from "../hooks/useFileOperationState";
+import { setFileCount } from "../services/PageNotifier";
 import { withDetail } from "../utils/errorText";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import HeaderButtons from "./HeaderButtons";
@@ -168,6 +169,15 @@ export const AnnotationsGrid = (): JSX.Element => {
     if (deleting) return;
     fileInputRef.current?.click();
   };
+
+  // Reported to the host page so it can require at least one file before allowing submit.
+  // Placeholders for in-flight uploads are excluded because nothing is saved yet.
+  const committedFileCount = annotations.filter(
+    (a) => !a.annotationid.startsWith("temp_")
+  ).length;
+  React.useEffect(() => {
+    setFileCount(committedFileCount);
+  }, [committedFileCount]);
   const [isDragOver, setIsDragOver] = React.useState<boolean>(false);
   const pcfLanguage = pcfcontext.language as LanguageCode; // language from context
 

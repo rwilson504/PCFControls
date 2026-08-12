@@ -7,6 +7,8 @@ export interface IFileOperationState {
   uploads: number;
   deletes: number;
   total: number;
+  /** Committed files. Excludes uploads still in flight, which are not saved yet. */
+  files: number;
 }
 
 type Listener = (state: IFileOperationState) => void;
@@ -17,6 +19,7 @@ declare global {
       __namespace: true;
       isBusy: () => boolean;
       getState: () => IFileOperationState;
+      getFileCount: () => number;
       subscribe: (listener: Listener) => () => void;
       reset: () => void;
     };
@@ -29,10 +32,39 @@ const listeners = new Set<Listener>();
 
 let publishedBusy = false;
 let settleTimer: ReturnType<typeof setTimeout> | undefined;
+let fileCount = 0;
 
 function buildState(): IFileOperationState {
   const total = counts.upload + counts.delete;
-  return { busy: total > 0, uploads: counts.upload, deletes: counts.delete, total };
+  return {
+    busy: total > 0,
+    uploads: counts.upload,
+    deletes: counts.delete,
+    total,
+    files: fileCount,
+  };
+}
+
+/**
+ * The busy value the host has actually been told, which differs from the raw one during the
+ * idle settle window. Anything published outside a busy transition must use this, or a file
+ * count change landing mid-settle would report idle early and unlock the page too soon.
+ */
+function publishedState(): IFileOperationState {
+  return { ...buildState(), busy: publishedBusy };
+}
+
+function dispatchChange(state: IFileOperationState): void {
+  listeners.forEach((listener) => {
+    try {
+      listener(state);
+    } catch {
+      // A subscriber that throws must not stop the remaining subscribers or strand the page.
+    }
+  });
+
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(EVENT_CHANGE, { detail: state }));
 }
 
 function emit(state: IFileOperationState): void {
@@ -44,16 +76,9 @@ function emit(state: IFileOperationState): void {
     }
   }
 
-  listeners.forEach((listener) => {
-    try {
-      listener(state);
-    } catch {
-      // A subscriber that throws must not stop the remaining subscribers or strand the page.
-    }
-  });
+  dispatchChange(state);
 
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(EVENT_CHANGE, { detail: state }));
   window.dispatchEvent(new CustomEvent(state.busy ? EVENT_BUSY : EVENT_IDLE, { detail: state }));
 }
 
@@ -110,14 +135,29 @@ export function getFileOperationState(): IFileOperationState {
   return buildState();
 }
 
+/**
+ * Reports how many committed files the control is showing, so a host page can require at
+ * least one file before it allows submit. Publishes a change event but never a busy or idle
+ * event, because the number of files is not an operation.
+ */
+export function setFileCount(count: number): void {
+  const next = Math.max(0, Math.floor(count));
+  if (next === fileCount) return;
+  fileCount = next;
+  dispatchChange(publishedState());
+}
+
 export function subscribeToFileOperations(listener: Listener): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
 }
 
 /**
- * Clears all counters. Called on unmount, and exposed on the global as the manual escape
- * hatch if a host page ever finds itself stuck.
+ * Clears the operation counters. Exposed on the global as the manual escape hatch if a host
+ * page ever finds itself stuck. Nothing calls it automatically.
+ *
+ * The file count is deliberately left alone: a page clearing a stuck busy flag should not
+ * then be told there are zero files and disable its own submit button.
  */
 export function resetFileOperations(): void {
   counts.upload = 0;
@@ -144,6 +184,7 @@ export function installPageNotifier(): void {
     __namespace: true,
     isBusy: () => buildState().busy,
     getState: getFileOperationState,
+    getFileCount: () => fileCount,
     subscribe: subscribeToFileOperations,
     reset: resetFileOperations,
   };
