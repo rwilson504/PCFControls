@@ -396,7 +396,15 @@ both. Disable while busy **or** while empty:
 
   function info() { return window.RAWFileManagerInfo; }
   function isBusy() { return !!(info() && info().isBusy()); }
-  function isEmpty() { return !info() || info().getFileCount() === 0; }
+
+  // Older builds have no file count. Treat that as "cannot tell", not as "empty",
+  // so a page loaded against an older bundle keeps working and gates on busy only.
+  function isEmpty() {
+    var i = info();
+    if (!i || typeof i.getFileCount !== "function") { return false; }
+    return i.getFileCount() === 0;
+  }
+
   function shouldBlock() { return isBusy() || isEmpty(); }
 
   function apply() {
@@ -434,7 +442,15 @@ both. Disable while busy **or** while empty:
 })();
 ```
 
-Two things worth knowing:
+Things worth knowing:
+
+- **The controls start disabled on load and enable once the file list arrives.** The control
+  fetches its files after it initialises, so the count is `0` for a moment even on a record
+  that has files. That is the safe direction to fail, but do not mistake the brief flicker
+  for a bug.
+- **Feature detect `getFileCount`.** It does not exist on builds before the release that
+  added it. Calling it unguarded throws, and the exception kills the rest of the script
+  including the busy lock, so the page ends up less protected than before.
 
 - **Tell the user why the button is disabled.** A disabled Submit with no explanation reads
   as a broken page. Show a message near the control when `getFileCount()` is `0`.
