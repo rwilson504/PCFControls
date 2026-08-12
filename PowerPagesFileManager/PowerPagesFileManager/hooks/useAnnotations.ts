@@ -3,6 +3,7 @@ import { IAnnotation } from "../types";
 import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
 import { withDetail } from "../utils/errorText";
+import { getTranslation, LanguageCode, Message } from "../utils/localization";
 
 export function useAnnotations() {
   const pcfContext = usePcfContext();
@@ -23,7 +24,10 @@ export function useAnnotations() {
         setAnnotations(updatedAnnotations);
         return updatedAnnotations;
       })
-      .catch((error: unknown) => setError(withDetail("Failed to load files", error)));
+      .catch((error: unknown) => {
+        const language = pcfContext.language as LanguageCode;
+        setError(withDetail(getTranslation(Message.LoadFilesFailed, language), error, language));
+      });
   }, []);
 
   useEffect(() => {

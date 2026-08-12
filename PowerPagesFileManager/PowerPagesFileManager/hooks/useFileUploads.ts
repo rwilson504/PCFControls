@@ -4,12 +4,14 @@ import { usePcfContext } from "../services/PcfContext";
 import { annotationService } from "../services/AnnotationService";
 import { trackOperation } from "../services/PageNotifier";
 import { withDetail } from "../utils/errorText";
+import { getTranslation, LanguageCode, Message } from "../utils/localization";
 
 export function useFileUploads(
   setAnnotations: React.Dispatch<React.SetStateAction<IAnnotation[]>>,
   setError: React.Dispatch<React.SetStateAction<string>>
 ) {
   const pcfcontext = usePcfContext();
+  const language = pcfcontext.language as LanguageCode;
   const [uploadProgress, setUploadProgress] = React.useState<Record<string, number>>({});
   const [uploadingIds, setUploadingIds] = React.useState<string[]>([]);
   const [idMapping, setIdMapping] = React.useState<Record<string, string>>({});
@@ -45,7 +47,7 @@ export function useFileUploads(
           return;
         }
       } catch (error) {
-        setError(withDetail("Error checking existing files. Please try again.", error));
+        setError(withDetail(getTranslation(Message.CheckExistingFilesFailed, language), error, language));
         return;
       }
     }
@@ -110,7 +112,13 @@ export function useFileUploads(
       if (abortController.signal.aborted) {
         console.log(`Upload of ${file.name} was canceled`);
       } else {
-        appendError(withDetail(`Failed to upload file: ${file.name}`, error));
+        appendError(
+          withDetail(
+            getTranslation(Message.UploadFileFailed, language, { fileName: file.name }),
+            error,
+            language
+          )
+        );
       }
       
       // Clean up UI state
@@ -125,7 +133,9 @@ export function useFileUploads(
 
   // Helper to clean up UI state and delete annotations if needed
   const cleanupUploadState = (tempId: string, annotationId?: string) => {
-    // Delete the annotation if we have an ID and it hasn't been deleted yet
+    // Rollback deletes are not surfaced to the user: the operation they started has already
+    // failed or been cancelled and been reported. A failure here leaves an orphaned annotation,
+    // so it is warned rather than silently logged.
     if (annotationId && !deletedAnnotationsRef.current.has(annotationId)) {
       deletedAnnotationsRef.current.add(annotationId);
       annotationService.deleteAnnotation(annotationId).catch((error: Error) => {

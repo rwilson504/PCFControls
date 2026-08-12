@@ -48,6 +48,19 @@ interface TranslationParams {
   Cancel: undefined;
   DismissError: undefined;
   GridFooter: { total: number; selected: string };  // Pass selected as an empty string when none.
+  // File API failures. Deliberately fewer entries than the server has codes, see
+  // utils/fileApiErrors.ts.
+  FileErrorEmptyFile: undefined;
+  FileErrorRecordNotFound: undefined;
+  FileErrorNoPermission: undefined;
+  FileErrorTypeNotAllowed: undefined;
+  FileErrorTooLarge: undefined;
+  FileErrorFileUnavailable: undefined;
+  FileErrorNotConfigured: undefined;
+  FileErrorUnexpected: undefined;
+  LoadFilesFailed: undefined;
+  CheckExistingFilesFailed: undefined;
+  UploadFileFailed: { fileName: string };
   // Add additional keys and their parameters here as needed.
 }
 
@@ -102,7 +115,18 @@ export enum Message {
   DismissError = "DismissError",
   GridFooter = "GridFooter",
   MaxFilesAllowed = "MaxFilesAllowed",
-  MaxFileSizeAllowed = "MaxFileSizeAllowed"
+  MaxFileSizeAllowed = "MaxFileSizeAllowed",
+  FileErrorEmptyFile = "FileErrorEmptyFile",
+  FileErrorRecordNotFound = "FileErrorRecordNotFound",
+  FileErrorNoPermission = "FileErrorNoPermission",
+  FileErrorTypeNotAllowed = "FileErrorTypeNotAllowed",
+  FileErrorTooLarge = "FileErrorTooLarge",
+  FileErrorFileUnavailable = "FileErrorFileUnavailable",
+  FileErrorNotConfigured = "FileErrorNotConfigured",
+  FileErrorUnexpected = "FileErrorUnexpected",
+  LoadFilesFailed = "LoadFilesFailed",
+  CheckExistingFilesFailed = "CheckExistingFilesFailed",
+  UploadFileFailed = "UploadFileFailed"
 }
 
 type Translations = Record<string, Record<LanguageCode, string>>;
@@ -647,6 +671,138 @@ const translations: Translations = {
     it: "La dimensione massima del file consentita per file è {size}",
     nl: "De maximale bestandsgrootte per bestand is {size}",
     pt: "O tamanho máximo de arquivo permitido por arquivo é {size}"
+  },
+  FileErrorEmptyFile: {
+    en: "This file is empty and cannot be uploaded.",
+    es: "Este archivo está vacío y no se puede cargar.",
+    fr: "Ce fichier est vide et ne peut pas être chargé.",
+    de: "Diese Datei ist leer und kann nicht hochgeladen werden.",
+    zh: "此文件为空，无法上传。",
+    ja: "このファイルは空のためアップロードできません。",
+    ko: "이 파일은 비어 있어 업로드할 수 없습니다.",
+    it: "Questo file è vuoto e non può essere caricato.",
+    nl: "Dit bestand is leeg en kan niet worden geüpload.",
+    pt: "Este arquivo está vazio e não pode ser carregado."
+  },
+  FileErrorRecordNotFound: {
+    en: "The record these files belong to could not be found. It may have been deleted.",
+    es: "No se encontró el registro al que pertenecen estos archivos. Es posible que se haya eliminado.",
+    fr: "L'enregistrement auquel ces fichiers appartiennent est introuvable. Il a peut-être été supprimé.",
+    de: "Der Datensatz, zu dem diese Dateien gehören, wurde nicht gefunden. Möglicherweise wurde er gelöscht.",
+    zh: "找不到这些文件所属的记录，它可能已被删除。",
+    ja: "これらのファイルが属するレコードが見つかりません。削除された可能性があります。",
+    ko: "이 파일이 속한 레코드를 찾을 수 없습니다. 삭제되었을 수 있습니다.",
+    it: "Impossibile trovare il record a cui appartengono questi file. Potrebbe essere stato eliminato.",
+    nl: "De record waartoe deze bestanden behoren is niet gevonden. Mogelijk is deze verwijderd.",
+    pt: "Não foi possível encontrar o registro ao qual estes arquivos pertencem. Ele pode ter sido excluído."
+  },
+  FileErrorNoPermission: {
+    en: "You do not have permission to do this. Contact your administrator if you need access.",
+    es: "No tiene permiso para hacer esto. Póngase en contacto con su administrador si necesita acceso.",
+    fr: "Vous n'avez pas l'autorisation d'effectuer cette action. Contactez votre administrateur si vous avez besoin d'un accès.",
+    de: "Sie haben keine Berechtigung für diese Aktion. Wenden Sie sich an Ihren Administrator, wenn Sie Zugriff benötigen.",
+    zh: "您没有执行此操作的权限。如需访问权限，请联系管理员。",
+    ja: "この操作を行う権限がありません。アクセスが必要な場合は管理者にお問い合わせください。",
+    ko: "이 작업을 수행할 권한이 없습니다. 액세스가 필요하면 관리자에게 문의하세요.",
+    it: "Non si dispone dell'autorizzazione per eseguire questa operazione. Contattare l'amministratore se serve l'accesso.",
+    nl: "U hebt geen toestemming om dit te doen. Neem contact op met uw beheerder als u toegang nodig hebt.",
+    pt: "Você não tem permissão para fazer isso. Entre em contato com o administrador se precisar de acesso."
+  },
+  FileErrorTypeNotAllowed: {
+    en: "This file type is not allowed.",
+    es: "Este tipo de archivo no está permitido.",
+    fr: "Ce type de fichier n'est pas autorisé.",
+    de: "Dieser Dateityp ist nicht zulässig.",
+    zh: "不允许此文件类型。",
+    ja: "このファイル形式は許可されていません。",
+    ko: "이 파일 형식은 허용되지 않습니다.",
+    it: "Questo tipo di file non è consentito.",
+    nl: "Dit bestandstype is niet toegestaan.",
+    pt: "Este tipo de arquivo não é permitido."
+  },
+  FileErrorTooLarge: {
+    en: "This file is too large to upload.",
+    es: "Este archivo es demasiado grande para cargarlo.",
+    fr: "Ce fichier est trop volumineux pour être chargé.",
+    de: "Diese Datei ist zu groß zum Hochladen.",
+    zh: "此文件过大，无法上传。",
+    ja: "このファイルはサイズが大きすぎるためアップロードできません。",
+    ko: "이 파일은 너무 커서 업로드할 수 없습니다.",
+    it: "Questo file è troppo grande per essere caricato.",
+    nl: "Dit bestand is te groot om te uploaden.",
+    pt: "Este arquivo é grande demais para ser carregado."
+  },
+  FileErrorFileUnavailable: {
+    en: "This file is no longer available. It may have already been deleted.",
+    es: "Este archivo ya no está disponible. Es posible que ya se haya eliminado.",
+    fr: "Ce fichier n'est plus disponible. Il a peut-être déjà été supprimé.",
+    de: "Diese Datei ist nicht mehr verfügbar. Möglicherweise wurde sie bereits gelöscht.",
+    zh: "此文件已不可用，可能已被删除。",
+    ja: "このファイルは利用できません。既に削除された可能性があります。",
+    ko: "이 파일은 더 이상 사용할 수 없습니다. 이미 삭제되었을 수 있습니다.",
+    it: "Questo file non è più disponibile. Potrebbe essere già stato eliminato.",
+    nl: "Dit bestand is niet meer beschikbaar. Mogelijk is het al verwijderd.",
+    pt: "Este arquivo não está mais disponível. Ele pode já ter sido excluído."
+  },
+  FileErrorNotConfigured: {
+    en: "File storage is not set up correctly for this site. Contact your administrator.",
+    es: "El almacenamiento de archivos no está configurado correctamente para este sitio. Póngase en contacto con su administrador.",
+    fr: "Le stockage de fichiers n'est pas configuré correctement pour ce site. Contactez votre administrateur.",
+    de: "Der Dateispeicher ist für diese Website nicht richtig eingerichtet. Wenden Sie sich an Ihren Administrator.",
+    zh: "此站点的文件存储配置不正确。请联系管理员。",
+    ja: "このサイトのファイルストレージが正しく設定されていません。管理者にお問い合わせください。",
+    ko: "이 사이트의 파일 저장소가 올바르게 설정되지 않았습니다. 관리자에게 문의하세요.",
+    it: "L'archiviazione dei file non è configurata correttamente per questo sito. Contattare l'amministratore.",
+    nl: "Bestandsopslag is niet juist ingesteld voor deze site. Neem contact op met uw beheerder.",
+    pt: "O armazenamento de arquivos não está configurado corretamente para este site. Entre em contato com o administrador."
+  },
+  FileErrorUnexpected: {
+    en: "Something went wrong while processing this file. Try again, and contact your administrator if it keeps happening.",
+    es: "Algo salió mal al procesar este archivo. Vuelva a intentarlo y póngase en contacto con su administrador si el problema continúa.",
+    fr: "Une erreur s'est produite lors du traitement de ce fichier. Réessayez et contactez votre administrateur si le problème persiste.",
+    de: "Bei der Verarbeitung dieser Datei ist ein Fehler aufgetreten. Versuchen Sie es erneut und wenden Sie sich an Ihren Administrator, wenn das Problem weiterhin besteht.",
+    zh: "处理此文件时出错。请重试，如果问题持续存在，请联系管理员。",
+    ja: "このファイルの処理中に問題が発生しました。もう一度お試しください。解決しない場合は管理者にお問い合わせください。",
+    ko: "이 파일을 처리하는 중 문제가 발생했습니다. 다시 시도하고 문제가 계속되면 관리자에게 문의하세요.",
+    it: "Si è verificato un problema durante l'elaborazione di questo file. Riprovare e contattare l'amministratore se il problema persiste.",
+    nl: "Er is iets misgegaan bij het verwerken van dit bestand. Probeer het opnieuw en neem contact op met uw beheerder als het probleem aanhoudt.",
+    pt: "Ocorreu um problema ao processar este arquivo. Tente novamente e entre em contato com o administrador se o problema continuar."
+  },
+  LoadFilesFailed: {
+    en: "The files could not be loaded.",
+    es: "No se pudieron cargar los archivos.",
+    fr: "Impossible de charger les fichiers.",
+    de: "Die Dateien konnten nicht geladen werden.",
+    zh: "无法加载文件。",
+    ja: "ファイルを読み込めませんでした。",
+    ko: "파일을 불러올 수 없습니다.",
+    it: "Impossibile caricare i file.",
+    nl: "De bestanden konden niet worden geladen.",
+    pt: "Não foi possível carregar os arquivos."
+  },
+  CheckExistingFilesFailed: {
+    en: "The existing files could not be checked.",
+    es: "No se pudieron comprobar los archivos existentes.",
+    fr: "Impossible de vérifier les fichiers existants.",
+    de: "Die vorhandenen Dateien konnten nicht überprüft werden.",
+    zh: "无法检查现有文件。",
+    ja: "既存のファイルを確認できませんでした。",
+    ko: "기존 파일을 확인할 수 없습니다.",
+    it: "Impossibile controllare i file esistenti.",
+    nl: "De bestaande bestanden konden niet worden gecontroleerd.",
+    pt: "Não foi possível verificar os arquivos existentes."
+  },
+  UploadFileFailed: {
+    en: "{fileName} could not be uploaded.",
+    es: "No se pudo cargar {fileName}.",
+    fr: "Impossible de charger {fileName}.",
+    de: "{fileName} konnte nicht hochgeladen werden.",
+    zh: "无法上传 {fileName}。",
+    ja: "{fileName} をアップロードできませんでした。",
+    ko: "{fileName}을(를) 업로드할 수 없습니다.",
+    it: "Impossibile caricare {fileName}.",
+    nl: "{fileName} kon niet worden geüpload.",
+    pt: "Não foi possível carregar {fileName}."
   }
 };
 

@@ -254,6 +254,17 @@ The theme is applied when the control loads, so changing the parameter needs a p
 
 ## Troubleshooting
 
+**Where the error codes are.** The control shows the user a short, translated description of
+what went wrong, not the `FU000xx` code and not the server's own English wording. The code is
+written to the **browser console** instead, as:
+
+```
+[PowerPagesFileManager] file API error FU00018: Microsoft Entra application doesn't have permissions to perform this operation
+```
+
+So when a user reports a failure, ask for the console output rather than a screenshot of the
+message. The table below is keyed on those console codes.
+
 | What you see | Likely cause |
 | ------------ | ------------ |
 | "This record hasn't been created yet. To enable file upload, create this record" | The control is on a **Create** form. The Azure File API can only attach to a record that already exists, so place it on an Edit form or a later step of a multi step form. |
@@ -269,7 +280,18 @@ The theme is applied when the control loads, so changing the parameter needs a p
 | The control renders light on a dark site | The theme is not auto detected. Set `themeDarkMode` on the form, or append `themeDarkMode=true` to the page URL. |
 
 The full list of Azure File API error codes is in the Microsoft Learn article linked in the
-[Introduction](#introduction).
+[Introduction](#introduction). The control maps all of them onto eight user-facing messages,
+translated into every language it supports. Two groupings are deliberate and worth knowing:
+
+- **`FU00018` is reported as a configuration problem, not a permission problem.** It means the
+  site's Entra application is missing a role assignment, so telling the user they lack
+  permission would send them to ask for access they already have.
+- **`FU00008`, `FU00013` and `FU00014` are reported as a generic failure**, because they mean
+  the control sent a malformed request. No user can act on them. The console line is the
+  useful record.
+
+An unrecognised code degrades to the generic message and is still logged in full, so a future
+addition to the API will not break the control.
 
 ## Built-in Transfer Protection
 

@@ -21,10 +21,10 @@ import { FileOverwriteDialog } from "./FileOverwriteDialog";
 import { useFileUploads } from "../hooks/useFileUploads";
 import { useFileOperationState } from "../hooks/useFileOperationState";
 import { setFileCount } from "../services/PageNotifier";
-import { withDetail } from "../utils/errorText";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import HeaderButtons from "./HeaderButtons";
 import { getTranslation, LanguageCode, Message } from "../utils/localization";
+import { withDetail } from "../utils/errorText";
 import * as Constants from "../utils/constants";
 import {
   buildAcceptAttribute,
@@ -268,7 +268,7 @@ export const AnnotationsGrid = (): JSX.Element => {
         return null;
       })
       .catch((error: unknown) =>
-        setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error))
+        setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error, pcfLanguage))
       )
       .finally(() => setIsProcessing(false));
   };
@@ -583,7 +583,8 @@ export const AnnotationsGrid = (): JSX.Element => {
         setError(
           withDetail(
             getTranslation(Message.DeleteDuplicateAnnotationsFailed, pcfLanguage),
-            error
+            error,
+            pcfLanguage
           )
         )
       );
@@ -607,7 +608,7 @@ export const AnnotationsGrid = (): JSX.Element => {
           return undefined;
         })
         .catch((error: unknown) =>
-          setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error))
+          setError(withDetail(getTranslation(Message.DeleteFileFailed, pcfLanguage), error, pcfLanguage))
         )
         .finally(() => {
           setPendingDeleteAnnotation(null);
@@ -837,7 +838,8 @@ export const AnnotationsGrid = (): JSX.Element => {
                         setError(
                           withDetail(
                             getTranslation(Message.DeleteFileFailed, pcfLanguage),
-                            error
+                            error,
+                            pcfLanguage
                           )
                         )
                       );
@@ -1186,7 +1188,8 @@ export const AnnotationsGrid = (): JSX.Element => {
                 setError(
                   withDetail(
                     getTranslation(Message.DeleteAnnotationFailed, pcfLanguage),
-                    error
+                    error,
+                    pcfLanguage
                   )
                 );
                 setPendingFiles([]);
@@ -1217,7 +1220,8 @@ export const AnnotationsGrid = (): JSX.Element => {
                       Message.DeleteDuplicateAnnotationsFailed,
                       pcfLanguage
                     ),
-                    error
+                    error,
+                    pcfLanguage
                   )
                 );
                 setPendingFiles([]);

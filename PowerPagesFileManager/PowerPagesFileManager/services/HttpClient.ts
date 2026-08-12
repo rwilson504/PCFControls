@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance, AxiosError } from 'axios';
+import { FileApiError } from '../utils/fileApiErrors';
 
 // Types for the portal-specific globals
 declare global {
@@ -88,6 +89,8 @@ export class HttpClient {
           }
 
           let errorMessage = 'Request failed';
+          let errorCode: string | undefined;
+          let serverMessage: string | undefined;
           if (axios.isAxiosError(error)) {
             // The file API returns { ErrorCode, Message }; other portal endpoints use ErrorMessage.
             const data = error.response?.data;
@@ -96,17 +99,22 @@ export class HttpClient {
               Message?: string;
               ErrorMessage?: string;
             };
-            const detail = body.Message || body.ErrorMessage;
-            if (body.ErrorCode && detail) {
-              errorMessage = `${body.ErrorCode}: ${detail}`;
-            } else {
-              errorMessage = detail || error.message;
-            }
+            errorCode = body.ErrorCode;
+            serverMessage = body.Message || body.ErrorMessage;
+            errorMessage = serverMessage || error.message;
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
 
-          reject(new Error(errorMessage));
+          // The user is shown a translated description instead, so this is the only place the
+          // code and the server's own wording survive. Do not remove it, support needs it.
+          if (errorCode || serverMessage) {
+            console.warn(
+              `[PowerPagesFileManager] file API error ${errorCode || '(no code)'}: ${serverMessage || '(no message)'}`
+            );
+          }
+
+          reject(new FileApiError(errorMessage, errorCode, serverMessage));
         });
     });
   }
