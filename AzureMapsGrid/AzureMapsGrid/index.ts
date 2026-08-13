@@ -1,4 +1,5 @@
 import * as ReactDOM from 'react-dom';
+import 'azure-maps-control/dist/atlas.min.css';
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { AzureMapsGridControl } from "./AzureMapsGridControl"

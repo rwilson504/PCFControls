@@ -14,24 +14,25 @@
     "data": "python ./data/generate.py"
   },
   "dependencies": {
-    "@types/node": "^10.17.24",
-    "@types/powerapps-component-framework": "^1.3",
-    "azure-maps-control": "^2.0.25",
-    "office-ui-fabric-react": "^7.117.4",
-    "react": "^16.13.1",
-    "react-azure-maps": "0.0.6",
-    "spin.js": "^4.1.0"
+    "@types/node": "^10.17.60",
+    "@types/powerapps-component-framework": "^1.3.18",
+    "azure-maps-control": "^3.7.4",
+    "office-ui-fabric-react": "^7.204.1",
+    "react": "^17.0.2",
+    "react-azure-maps": "^1.0.3",
+    "react-dom": "^17.0.2",
+    "spin.js": "^4.1.2"
   },
   "devDependencies": {
     "@microsoft/eslint-plugin-power-apps": "^0.2.51",
-    "@typescript-eslint/eslint-plugin": "^8.18.0",
-    "@typescript-eslint/parser": "^8.18.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-import": "^2.31.0",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
+    "@typescript-eslint/parser": "^8.66.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^7.1.0",
-    "pcf-scripts": "^1",
-    "pcf-start": "^1",
-    "typescript": "^4.9.5"
+    "eslint-plugin-promise": "^7.3.0",
+    "pcf-scripts": "^1.51.1",
+    "pcf-start": "^1.51.1",
+    "typescript": "^5.9.3"
   }
 }
